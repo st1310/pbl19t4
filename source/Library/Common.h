@@ -12,6 +12,7 @@
 #include <d3d11_1.h>
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
+#include "dinput.h"
 
 #define DeleteObject(object) if((object) != NULL) { delete object; object = NULL; }
 #define DeleteObjects(objects) if((objects) != NULL) {delete[] objects; objects = NULL; }

@@ -6,6 +6,7 @@
 #include "GameClock.h"
 #include "GameTime.h"
 #include "GameComponent.h"
+#include "ServiceContainer.h"
 
 namespace Library
 {
@@ -33,6 +34,7 @@ namespace Library
 		const D3D11_VIEWPORT& Viewport() const;
 
 		const std::vector<GameComponent*>& Components() const;
+		const ServiceContainer& Services() const;
 
 		virtual void Run();
 		virtual void Exit();
@@ -64,6 +66,7 @@ namespace Library
 		GameClock mGameClock;
 		GameTime mGameTime;
 		std::vector<GameComponent*> mComponents;
+		ServiceContainer mServices;
 
 		D3D_FEATURE_LEVEL mFeatureLevel;
 		ID3D11Device1* mDirect3DDevice;
