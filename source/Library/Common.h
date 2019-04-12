@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef DIRECTINPUT_VERSION
+#define DIRECTINPUT_VERSION 0x0800
+#endif
+
 #include <Windows.h>
 #include <exception>
 #include <cassert>
@@ -10,6 +14,7 @@
 #include "RTTI.h"
 
 #include <d3d11_1.h>
+#include <d3dx11effect.h>
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
 #include "dinput.h"
