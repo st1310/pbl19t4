@@ -82,22 +82,22 @@ namespace Library
 		XMFLOAT2 movementAmount = Vector2Helper::Zero;
 		if (mKeyboard != nullptr)
 		{
-			if (mKeyboard->IsKeyDown(DIK_W))
+			if (mKeyboard->IsKeyDown(DIK_W) || mKeyboard->IsKeyDown(DIK_UPARROW))
 			{
 				movementAmount.y = 1.0f;
 			}
 
-			if (mKeyboard->IsKeyDown(DIK_S))
+			if (mKeyboard->IsKeyDown(DIK_S) || mKeyboard->IsKeyDown(DIK_DOWNARROW))
 			{
 				movementAmount.y = -1.0f;
 			}
 
-			if (mKeyboard->IsKeyDown(DIK_A))
+			if (mKeyboard->IsKeyDown(DIK_A) || mKeyboard->IsKeyDown(DIK_LEFTARROW))
 			{
 				movementAmount.x = -1.0f;
 			}
 
-			if (mKeyboard->IsKeyDown(DIK_D))
+			if (mKeyboard->IsKeyDown(DIK_D) || mKeyboard->IsKeyDown(DIK_RIGHTARROW))
 			{
 				movementAmount.x = 1.0f;
 			}
