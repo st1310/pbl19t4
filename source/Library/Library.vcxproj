@@ -105,6 +105,13 @@ mkdir "$(SolutionDir)..\content\"
 IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(SolutionDir)..\content\"
 IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)..\content\"</Command>
     </PostBuildEvent>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <ObjectFileOutput>$(OutDir)Content\Effects\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -145,6 +152,13 @@ mkdir "$(SolutionDir)..\content\"
 IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(SolutionDir)..\content\"
 IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)..\content\"</Command>
     </PostBuildEvent>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <ObjectFileOutput>$(OutDir)Content\Effects\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -168,6 +182,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="ColorHelper.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="DrawableGameComponent.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="FpsComponent.h" />
     <ClInclude Include="Game.h" />
@@ -176,23 +191,28 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="GameException.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="KeyboardComponent.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="MatrixHelper.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelMaterial.h" />
     <ClInclude Include="MouseComponent.h" />
+    <ClInclude Include="Pass.h" />
     <ClInclude Include="RenderStateHelper.h" />
     <ClInclude Include="RTTI.h" />
     <ClInclude Include="ServiceContainer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Technique.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="Variable.h" />
     <ClInclude Include="VectorHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColorHelper.cpp" />
     <ClCompile Include="DrawableGameComponent.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
     <ClCompile Include="FpsComponent.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -201,11 +221,13 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="GameException.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="KeyboardComponent.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="MatrixHelper.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelMaterial.cpp" />
     <ClCompile Include="MouseComponent.cpp" />
+    <ClCompile Include="Pass.cpp" />
     <ClCompile Include="RenderStateHelper.cpp" />
     <ClCompile Include="ServiceContainer.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -214,11 +236,18 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Technique.cpp" />
     <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="Variable.cpp" />
     <ClCompile Include="VectorHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Content\Effects\BasicEffect.fx" />
+    <FxCompile Include="Content\Effects\Skybox.fx" />
+    <FxCompile Include="Content\Effects\TextureMapping.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
