@@ -16,10 +16,14 @@ namespace Library
 	class FpsComponent;
 	class KeyboardComponent;
 	class MouseComponent;
+	class FirstPersonCamera;
+	class RenderStateHelper;
 }
 
 namespace Rendering
 {
+	class TexturedModelDemo;
+
 	class RenderingGame : public Game
 	{
 	public:
@@ -39,10 +43,15 @@ namespace Rendering
 		LPDIRECTINPUT8 mDirectInput;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
+		FirstPersonCamera* mCamera;
 		FpsComponent* mFpsComponent;
+
+		RenderStateHelper* mRenderStateHelper;
 
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mMouseTextPosition;
+
+		TexturedModelDemo* mTMDemo;
 	};
 }

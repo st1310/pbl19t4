@@ -71,6 +71,11 @@ namespace Library
 		return mDirect3DDeviceContext;
 	}
 
+	bool Game::DepthBufferEnabled() const
+	{
+		return mDepthStencilBufferEnabled; //
+	}
+
 	float Game::AspectRatio() const
 	{
 		return static_cast<float>(mScreenWidth) / mScreenHeight;
@@ -89,6 +94,16 @@ namespace Library
 	const D3D11_VIEWPORT& Game::Viewport() const
 	{
 		return mViewport;
+	}
+
+	const std::vector<GameComponent*>& Game::Components() const
+	{
+		return mComponents;
+	}
+
+	const ServiceContainer& Game::Services() const
+	{
+		return mServices;
 	}
 
 	void Game::Run()

@@ -6,18 +6,22 @@
 #include "KeyboardComponent.h"
 #include "MouseComponent.h"
 #include "FpsComponent.h"
+#include "FirstPersonCamera.h"
+#include "ColorHelper.h"
+#include "RenderStateHelper.h"
+#include "TexturedModelDemo.h"
 #include "Utility.h"
 
 namespace Rendering
 {
-	const XMVECTORF32 RenderingGame::BackgroundColor = { 0.392f, 0.584f, 0.929f, 1.0f };
-
+	const XMVECTORF32 RenderingGame::BackgroundColor = ColorHelper::CornflowerBlue;
 	
 	RenderingGame::RenderingGame(HINSTANCE instance, const std::wstring & windowClass, const std::wstring & windowTitle, int showCommand)
 		: Game(instance, windowClass, windowTitle, showCommand),
 		mFpsComponent(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr),
-		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f)
+		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
+		mTMDemo(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -42,8 +46,17 @@ namespace Rendering
 		mComponents.push_back(mMouse);
 		mServices.AddService(MouseComponent::TypeIdClass(), mMouse);
 
-		mFpsComponent = new FpsComponent(*this);
+		mCamera = new FirstPersonCamera(*this);
+		mComponents.push_back(mCamera);
+		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
+
+		mTMDemo = new TexturedModelDemo(*this, *mCamera);
+		mComponents.push_back(mTMDemo);
+
+		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
+
+		mRenderStateHelper = new RenderStateHelper(*this);
 
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
@@ -51,15 +64,19 @@ namespace Rendering
 		mSpriteFont = new SpriteFont(mDirect3DDevice, L"Content\\Fonts\\Arial_14_Regular.spritefont");
 
 		Game::Initialize();
+
+		mCamera->SetPosition(0.0f, 0.0f, 10.0f);
 	}
 
 	void RenderingGame::Shutdown()
 	{
+		DeleteObject(mTMDemo);
 		DeleteObject(mKeyboard);
 		DeleteObject(mMouse);
 		DeleteObject(mFpsComponent);
 		DeleteObject(mSpriteBatch);
 		DeleteObject(mSpriteFont);
+		DeleteObject(mCamera);
 
 		ReleaseObject(mDirectInput);
 
@@ -85,6 +102,7 @@ namespace Rendering
 
 		Game::Draw(gameTime);
 
+		mRenderStateHelper->SaveAll();
 		mSpriteBatch->Begin();
 
 		std::wostringstream mouseLabel;
@@ -93,6 +111,7 @@ namespace Rendering
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition);
 
 		mSpriteBatch->End();
+		mRenderStateHelper->RestoreAll();
 
 		HRESULT hr = mSwapChain->Present(0, 0);
 		if (FAILED(hr))
