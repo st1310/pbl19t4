@@ -4,6 +4,10 @@
 #define DIRECTINPUT_VERSION 0x0800
 #endif
 
+#define NOMINMAX // This define fixes assimp std::min/max error
+//#define UNICODE
+//#define STRICT
+
 #include <Windows.h>
 #include <exception>
 #include <cassert>
@@ -11,6 +15,7 @@
 #include <vector>
 #include <map>
 #include <memory>
+//#include <utility>
 #include "RTTI.h"
 
 #include <d3d11_1.h>
