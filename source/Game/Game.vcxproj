@@ -171,23 +171,13 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CubeDemo.cpp" />
-    <ClCompile Include="MaterialDemo.cpp" />
-    <ClCompile Include="ModelDemo.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="RenderingGame.cpp" />
     <ClCompile Include="TexturedModelDemo.cpp" />
-    <ClCompile Include="TexturedModelMaterialDemo.cpp" />
-    <ClCompile Include="TriangleDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CubeDemo.h" />
-    <ClInclude Include="MaterialDemo.h" />
-    <ClInclude Include="ModelDemo.h" />
     <ClInclude Include="RenderingGame.h" />
     <ClInclude Include="TexturedModelDemo.h" />
-    <ClInclude Include="TexturedModelMaterialDemo.h" />
-    <ClInclude Include="TriangleDemo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
