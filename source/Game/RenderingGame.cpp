@@ -7,9 +7,11 @@
 #include "MouseComponent.h"
 #include "FpsComponent.h"
 #include "FirstPersonCamera.h"
+#include "SkyboxComponent.h"
 #include "ColorHelper.h"
 #include "RenderStateHelper.h"
 #include "TexturedModelDemo.h"
+#include "TexturedModelMaterialDemo.h"
 #include "Utility.h"
 
 namespace Rendering
@@ -18,10 +20,10 @@ namespace Rendering
 	
 	RenderingGame::RenderingGame(HINSTANCE instance, const std::wstring & windowClass, const std::wstring & windowTitle, int showCommand)
 		: Game(instance, windowClass, windowTitle, showCommand),
-		mFpsComponent(nullptr),
+		mFpsComponent(nullptr), mSkybox(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mTMDemo(nullptr)
+		mTMDemo(nullptr), mTMMDemo(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -50,8 +52,15 @@ namespace Rendering
 		mComponents.push_back(mCamera);
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
 
-		mTMDemo = new TexturedModelDemo(*this, *mCamera);
-		mComponents.push_back(mTMDemo);
+		mSkybox = new SkyboxComponent(*this, *mCamera, L"Content\\Textures\\Maskonaive2_1024.dds", 100.0f);
+		mComponents.push_back(mSkybox);
+		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
+
+		/*mTMDemo = new TexturedModelDemo(*this, *mCamera);
+		mComponents.push_back(mTMDemo);*/
+
+		mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
+		mComponents.push_back(mTMMDemo);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
@@ -65,15 +74,17 @@ namespace Rendering
 
 		Game::Initialize();
 
-		mCamera->SetPosition(0.0f, 0.0f, 10.0f);
+		mCamera->SetPosition(0.0f, 0.0f, 20.0f);
 	}
 
 	void RenderingGame::Shutdown()
 	{
 		DeleteObject(mTMDemo);
+		DeleteObject(mTMMDemo);
 		DeleteObject(mKeyboard);
 		DeleteObject(mMouse);
 		DeleteObject(mFpsComponent);
+		DeleteObject(mSkybox);
 		DeleteObject(mSpriteBatch);
 		DeleteObject(mSpriteFont);
 		DeleteObject(mCamera);
@@ -89,6 +100,16 @@ namespace Rendering
 		{
 			Exit();
 		}
+
+		/*if (mKeyboard->WasKeyPressedThisFrame(DIK_F))
+		{
+			mMDemo->SetVisible(!mMDemo->Visible());
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_G))
+		{
+			mMDemo->SetEnabled(!mMDemo->Enabled());
+		}*/
 
 		Game::Update(gameTime);
 	}

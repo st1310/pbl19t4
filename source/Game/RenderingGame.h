@@ -18,11 +18,13 @@ namespace Library
 	class MouseComponent;
 	class FirstPersonCamera;
 	class RenderStateHelper;
+	class SkyboxComponent;
 }
 
 namespace Rendering
 {
 	class TexturedModelDemo;
+	class TexturedModelMaterialDemo;
 
 	class RenderingGame : public Game
 	{
@@ -45,6 +47,7 @@ namespace Rendering
 		MouseComponent* mMouse;
 		FirstPersonCamera* mCamera;
 		FpsComponent* mFpsComponent;
+		SkyboxComponent* mSkybox;
 
 		RenderStateHelper* mRenderStateHelper;
 
@@ -53,5 +56,6 @@ namespace Rendering
 		XMFLOAT2 mMouseTextPosition;
 
 		TexturedModelDemo* mTMDemo;
+		TexturedModelMaterialDemo* mTMMDemo;
 	};
 }
