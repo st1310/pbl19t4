@@ -15,21 +15,27 @@ namespace Library
 
 	FirstPersonCamera::FirstPersonCamera(Game& game)
 		: Camera(game), mKeyboard(nullptr), mMouse(nullptr),
-		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate)
+		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate), mCollider(),
+		collidableWalls()
 	{
+		collidableWalls = game.ColliderList();
 	}
 
 	FirstPersonCamera::FirstPersonCamera(Game& game, float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
 		: Camera(game, fieldOfView, aspectRatio, nearPlaneDistance, farPlaneDistance), mKeyboard(nullptr), mMouse(nullptr),
-		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate)
+		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate), mCollider(),
+		collidableWalls()
 
 	{
+		collidableWalls = game.ColliderList();
 	}
 
 	FirstPersonCamera::~FirstPersonCamera()
 	{
 		mKeyboard = nullptr;
 		mMouse = nullptr;
+		mCollider = nullptr;
+		collidableWalls.clear();
 	}
 
 	const KeyboardComponent& FirstPersonCamera::GetKeyboard() const
@@ -50,6 +56,22 @@ namespace Library
 	void FirstPersonCamera::SetMouse(MouseComponent& mouse)
 	{
 		mMouse = &mouse;
+	}
+
+	const Colliders* FirstPersonCamera::GetColliders() const
+	{
+		return mCollider;
+	}
+
+	void FirstPersonCamera::SetCollider(Colliders* collider)
+	{
+		mCollider = collider;
+		if (mCollider->IsEmpty())
+		{
+			BoundingBox* bbox;
+			bbox = new BoundingBox(mPosition, mPosition);
+			mCollider->PushNewBoundingBox(*bbox);
+		}
 	}
 
 	float&FirstPersonCamera::MouseSensitivity()
@@ -84,7 +106,13 @@ namespace Library
 		{
 			if (mKeyboard->IsKeyDown(DIK_W) || mKeyboard->IsKeyDown(DIK_UPARROW))
 			{
-				movementAmount.y = 1.0f;
+				bool allowed = true;
+				if (mCollider != nullptr)
+					if (mCollider->CheckCollision(collidableWalls))
+						allowed = false;
+
+				if(allowed)
+					movementAmount.y = 1.0f;
 			}
 
 			if (mKeyboard->IsKeyDown(DIK_S) || mKeyboard->IsKeyDown(DIK_DOWNARROW))
@@ -128,6 +156,8 @@ namespace Library
 
 		XMVECTOR forward = XMLoadFloat3(&mDirection) * XMVectorGetY(movement);
 		position += forward;
+
+		mCollider->Move(position);
 
 		XMStoreFloat3(&mPosition, position);
 

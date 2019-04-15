@@ -53,6 +53,7 @@ namespace Rendering
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mMouseTextPosition;
 
+		Colliders* mCollC;
 		Colliders* mCollTM;
 		TexturedModelDemo* mTMDemo;
 	};

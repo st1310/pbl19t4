@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Camera.h"
+#include "Colliders.h"
 
 namespace Library
 {
@@ -24,6 +25,9 @@ namespace Library
 		const MouseComponent& GetMouse() const;
 		void SetMouse(MouseComponent& mouse);
 
+		const Colliders* GetColliders() const;
+		void SetCollider(Colliders* collider);
+
 		float& MouseSensitivity();
 		float& RotationRate();
 		float& MovementRate();
@@ -40,6 +44,8 @@ namespace Library
 		float mRotationRate;
 		float mMovementRate;
 
+		std::vector<Colliders*> collidableWalls;
+		Colliders* mCollider;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
 

@@ -19,13 +19,15 @@ namespace Library
 		const XMFLOAT3& BottomRect() const;
 		const XMFLOAT3& TopRect() const;
 
-		
+		bool HasDeclaredPoints();
 		bool Intersects(BoundingBox targetedBox);
 		void Move(XMVECTOR destination);
 
 	protected:
 		bool isTrigger;
 		XMFLOAT3 bottomRectanglePoint;
+		XMFLOAT3 originalBottomPos;
 		XMFLOAT3 topRectanglePoint;
+		XMFLOAT3 originalTopPos;
 	};
 }

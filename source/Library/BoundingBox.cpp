@@ -3,14 +3,16 @@
 namespace Library
 {
 	BoundingBox::BoundingBox() :
-		isTrigger(false), bottomRectanglePoint(nullptr), topRectanglePoint(nullptr)
+		isTrigger(false), bottomRectanglePoint(), topRectanglePoint()
 	{}
 
 	BoundingBox::BoundingBox(XMFLOAT3 bottom, XMFLOAT3 top):
-		isTrigger(false), bottomRectanglePoint(nullptr), topRectanglePoint(nullptr)
+		isTrigger(false), bottomRectanglePoint(), topRectanglePoint()
 	{
 		bottomRectanglePoint = bottom;
+		originalBottomPos = bottomRectanglePoint;
 		topRectanglePoint = top;
+		originalTopPos = topRectanglePoint;
 	}
 
 	BoundingBox::~BoundingBox()
@@ -29,11 +31,13 @@ namespace Library
 	void BoundingBox::SetBottomRect(XMFLOAT3 newBottom)
 	{
 		bottomRectanglePoint = newBottom;
+		originalBottomPos = bottomRectanglePoint;
 	}
 
 	void BoundingBox::SetTopRect(XMFLOAT3 newTop)
 	{
 		topRectanglePoint = newTop;
+		originalTopPos = topRectanglePoint;
 	}
 
 	void BoundingBox::ChangeTriggerableStatus()
@@ -44,6 +48,12 @@ namespace Library
 	bool BoundingBox::IsThisTrigger()
 	{
 		return isTrigger;
+	}
+
+	bool BoundingBox::HasDeclaredPoints()
+	{
+		return (bottomRectanglePoint.x && bottomRectanglePoint.y && bottomRectanglePoint.z
+			&& topRectanglePoint.x && topRectanglePoint.y && topRectanglePoint.z);
 	}
 
 	//Implies that both have set positions
@@ -62,12 +72,12 @@ namespace Library
 		XMFLOAT3 directionFl;
 		XMStoreFloat3(&directionFl, destination);
 
-		bottomRectanglePoint.x += directionFl.x;
-		bottomRectanglePoint.y += directionFl.y;
-		bottomRectanglePoint.z += directionFl.z;
+		bottomRectanglePoint.x = originalBottomPos.x + directionFl.x;
+		bottomRectanglePoint.y = originalBottomPos.y + directionFl.y;
+		bottomRectanglePoint.z = originalBottomPos.z + directionFl.z;
 
-		topRectanglePoint.x += directionFl.x;
-		topRectanglePoint.y += directionFl.y;
-		topRectanglePoint.z += directionFl.z;
+		topRectanglePoint.x = originalTopPos.x + directionFl.x;
+		topRectanglePoint.y = originalTopPos.y + directionFl.y;
+		topRectanglePoint.z = originalTopPos.z + directionFl.z;
 	}
 }

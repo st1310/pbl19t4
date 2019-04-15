@@ -20,40 +20,48 @@ namespace Library
 		TriggerBoxes.clear();
 	}
 
+	void Colliders::PushNewBoundingBox(BoundingBox bbox)
+	{
+		BoundingBoxes.push_back(bbox);
+	}
+
 	
-	void Colliders::BuildBoundingBox(std::vector<Mesh>& meshes, XMMATRIX matrix)
+	BoundingBox Colliders::BuildBoundingBox(Mesh* meshes)
 	{
 		XMFLOAT3 minVec;
 		XMFLOAT3 maxVec;
 
-		minVec = meshes.at(0).Vertices().at(0);
-		maxVec = meshes.at(0).Vertices().at(0);
+		minVec = meshes->Vertices().at(0);
+		maxVec = meshes->Vertices().at(0);
 
-		for (std::vector<Mesh>::iterator mesh = meshes.begin(); mesh != meshes.end(); ++mesh)
+		for (XMFLOAT3 meshPart : meshes->Vertices())
 		{
-			for (XMFLOAT3 meshPart : mesh->Vertices())
-			{
-				if (minVec.x > meshPart.x)
-					minVec.x = meshPart.x;
-				if (minVec.y > meshPart.y)
-					minVec.y = meshPart.y;
-				if (minVec.z > meshPart.z)
-					minVec.z = meshPart.z;
+			if (minVec.x > meshPart.x)
+				minVec.x = meshPart.x;
+			if (minVec.y > meshPart.y)
+				minVec.y = meshPart.y;
+			if (minVec.z > meshPart.z)
+				minVec.z = meshPart.z;
 
-				if (maxVec.x < meshPart.x)
-					maxVec.x = meshPart.x;
-				if (maxVec.y < meshPart.y)
-					maxVec.y = meshPart.y;
-				if (maxVec.z < meshPart.z)
-					maxVec.z = meshPart.z;
-			}
+			if (maxVec.x < meshPart.x)
+				maxVec.x = meshPart.x;
+			if (maxVec.y < meshPart.y)
+				maxVec.y = meshPart.y;
+			if (maxVec.z < meshPart.z)
+				maxVec.z = meshPart.z;
 		}
-
-		BoundingBox newBox = BoundingBox(minVec, maxVec);
+		BoundingBox* newBox;
+		newBox = new BoundingBox(minVec, maxVec);
 		//Check how it will create such collider - if needed, will write moving to model position
-		BoundingBoxes.push_back(newBox);
+		return *newBox;
 	}
 	
+	bool Colliders::IsEmpty()
+	{
+		if (BoundingBoxes.empty() && TriggerBoxes.empty())
+			return true;
+		else return false;
+	}
 
 	void Colliders::Move(XMVECTOR destination)
 	{
@@ -114,20 +122,24 @@ namespace Library
 		}
 	}
 
-	bool Colliders::CheckCollision(std::vector<Colliders>& CollidableObjects)
+	bool Colliders::CheckCollision(std::vector<Colliders*>& CollidableObjects)
 	{
-		bool colidable;
-		if (BoundingBoxes.empty())
+		bool colidable = false;
+		if (BoundingBoxes.empty() || CollidableObjects.empty())
 			return false;
 
-		for (std::vector<Colliders>::iterator coll = CollidableObjects.begin(); coll != CollidableObjects.end(); ++coll)
+		for (Colliders* coll : CollidableObjects)
 		{
-			for (BoundingBox bbox : BoundingBoxes)
+			if (this != coll)
 			{
-				for (BoundingBox tbbox : coll->BoundingBoxes)
+				for (BoundingBox bbox : BoundingBoxes)
 				{
-					if (bbox.Intersects(tbbox))
-						colidable = true;
+					for (BoundingBox tbbox : coll->BoundingBoxes)
+					{
+						if(tbbox.HasDeclaredPoints() && tbbox.HasDeclaredPoints())
+							if (bbox.Intersects(tbbox))
+								colidable = true;
+					}
 				}
 			}
 		}

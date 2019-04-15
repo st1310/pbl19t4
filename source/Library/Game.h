@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <string>
+#include "Colliders.h"
 #include "Common.h"
 #include "GameClock.h"
 #include "GameTime.h"
@@ -35,6 +36,7 @@ namespace Library
 
 		const std::vector<GameComponent*>& Components() const;
 		const ServiceContainer& Services() const;
+		const std::vector<Colliders*>& ColliderList() const;
 
 		virtual void Run();
 		virtual void Exit();
@@ -67,6 +69,7 @@ namespace Library
 		GameTime mGameTime;
 		std::vector<GameComponent*> mComponents;
 		ServiceContainer mServices;
+		std::vector<Colliders*> mColliders;
 
 		D3D_FEATURE_LEVEL mFeatureLevel;
 		ID3D11Device1* mDirect3DDevice;

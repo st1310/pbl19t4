@@ -46,13 +46,17 @@ namespace Rendering
 		mComponents.push_back(mMouse);
 		mServices.AddService(MouseComponent::TypeIdClass(), mMouse);
 
+		mCollC = new Colliders();
 		mCamera = new FirstPersonCamera(*this);
+		mCamera->SetCollider(mCollC);
 		mComponents.push_back(mCamera);
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
+		mColliders.push_back(mCollC);
 
 		mCollTM = new Colliders();
 		mTMDemo = new TexturedModelDemo(*this, *mCamera, *mCollTM);
 		mComponents.push_back(mTMDemo);
+		mColliders.push_back(mCollTM);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);

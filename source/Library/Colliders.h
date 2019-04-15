@@ -13,11 +13,13 @@ namespace Library
 		Colliders(BoundingBox colliderBox);
 		~Colliders();
 
-		void BuildBoundingBox(std::vector<Mesh>& meshes, XMMATRIX matrix);
+		BoundingBox BuildBoundingBox(Mesh* meshes);
 
+		bool IsEmpty();
 		void Move(XMVECTOR destination);
 		void Rotate(CXMMATRIX direction);
-		bool CheckCollision(std::vector<Colliders>& CollidableObjects);
+		void PushNewBoundingBox(BoundingBox bbox);
+		bool CheckCollision(std::vector<Colliders*>& CollidableObjects);
 		bool CheckTriggerCollision(Colliders& TriggerCollider);
 		void DebuggingMode();
 	private:

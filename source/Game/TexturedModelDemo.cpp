@@ -24,7 +24,10 @@ namespace Rendering
 		mVertexBuffer(nullptr), mIndexBuffer(nullptr), mIndexCount(0),
 		mMouse(nullptr)
 	{
-		mColliders = &colliders;
+		if (!colliders.IsEmpty())
+		{
+			mColliders = &colliders;
+		}
 	}
 
 	TexturedModelDemo::~TexturedModelDemo()
@@ -136,12 +139,16 @@ namespace Rendering
 		mesh->CreateIndexBuffer(&mIndexBuffer);
 		mIndexCount = mesh->Indices().size();
 
+
+
 		// Load the texture
 		std::wstring textureName = L"Content\\Textures\\EarthComposite.jpg";
 		if (FAILED(hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.c_str(), nullptr, &mTextureShaderResourceView)))
 		{
 			throw GameException("CreateWICTextureFromFile() failed.", hr);
 		}
+
+		mColliders->BuildBoundingBox(mesh);
 	}
 
 	void TexturedModelDemo::Update(const GameTime& gameTime)
