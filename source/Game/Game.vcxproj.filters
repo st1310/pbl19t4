@@ -27,9 +27,6 @@
     <ClCompile Include="TexturedModelDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MaterialDemo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TexturedModelMaterialDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,9 +36,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TexturedModelDemo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MaterialDemo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TexturedModelMaterialDemo.h">
