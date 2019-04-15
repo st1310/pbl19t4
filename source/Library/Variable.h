@@ -10,7 +10,6 @@ namespace Library
 	{
 	public:
 		Variable(Effect& effect, ID3DX11EffectVariable* variable);
-		virtual ~Variable();
 
 		Effect& GetEffect();
 		ID3DX11EffectVariable* GetVariable() const;

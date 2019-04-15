@@ -11,7 +11,6 @@ namespace Library
 	{
 	public:
 		Pass(Game& game, Technique& technique, ID3DX11EffectPass* pass);
-		virtual ~Pass();
 
 		Technique& GetTechnique();
 		ID3DX11EffectPass* GetPass() const;
