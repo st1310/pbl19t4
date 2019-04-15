@@ -49,6 +49,7 @@ namespace Rendering
 		FpsComponent* mFpsComponent;
 		SkyboxComponent* mSkybox;
 
+		// TODO: Add to Services and change components to use this one
 		RenderStateHelper* mRenderStateHelper;
 
 		SpriteBatch* mSpriteBatch;

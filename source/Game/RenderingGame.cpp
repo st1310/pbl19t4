@@ -21,7 +21,8 @@ namespace Rendering
 	RenderingGame::RenderingGame(HINSTANCE instance, const std::wstring & windowClass, const std::wstring & windowTitle, int showCommand)
 		: Game(instance, windowClass, windowTitle, showCommand),
 		mFpsComponent(nullptr), mSkybox(nullptr),
-		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr),
+		mRenderStateHelper(nullptr),
+		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
 		mTMDemo(nullptr), mTMMDemo(nullptr)
 	{
@@ -88,6 +89,7 @@ namespace Rendering
 		DeleteObject(mSpriteBatch);
 		DeleteObject(mSpriteFont);
 		DeleteObject(mCamera);
+		DeleteObject(mRenderStateHelper);
 
 		ReleaseObject(mDirectInput);
 
