@@ -2,6 +2,7 @@
 
 #include "Common.h"
 #include "Game.h"
+#include "Colliders.h"
 
 using namespace Library;
 
@@ -52,6 +53,7 @@ namespace Rendering
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mMouseTextPosition;
 
+		Colliders* mCollTM;
 		TexturedModelDemo* mTMDemo;
 	};
 }

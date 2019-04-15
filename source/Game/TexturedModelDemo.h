@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DrawableGameComponent.h"
+#include "Colliders.h"
 
 using namespace Library;
 
@@ -18,7 +19,7 @@ namespace Rendering
 		RTTI_DECLARATIONS(TexturedModelDemo, DrawableGameComponent)
 
 	public:
-		TexturedModelDemo(Game& game, Camera& camera);
+		TexturedModelDemo(Game& game, Camera& camera, Colliders& colliders);
 		~TexturedModelDemo();
 
 		virtual void Initialize() override;
@@ -59,5 +60,6 @@ namespace Rendering
 		XMFLOAT4X4 mWorldMatrix;
 
 		MouseComponent* mMouse;
+		Colliders* mColliders;
 	};
 }

@@ -50,7 +50,8 @@ namespace Rendering
 		mComponents.push_back(mCamera);
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
 
-		mTMDemo = new TexturedModelDemo(*this, *mCamera);
+		mCollTM = new Colliders();
+		mTMDemo = new TexturedModelDemo(*this, *mCamera, *mCollTM);
 		mComponents.push_back(mTMDemo);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last

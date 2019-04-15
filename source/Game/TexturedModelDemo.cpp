@@ -16,7 +16,7 @@ namespace Rendering
 {
 	RTTI_DEFINITIONS(TexturedModelDemo)
 
-		TexturedModelDemo::TexturedModelDemo(Game& game, Camera& camera) :
+		TexturedModelDemo::TexturedModelDemo(Game& game, Camera& camera, Colliders& colliders) :
 		DrawableGameComponent(game, camera),
 		mEffect(nullptr), mTechnique(nullptr), mPass(nullptr), mWvpVariable(nullptr),
 		mTextureShaderResourceView(nullptr), mColorTextureVariable(nullptr),
@@ -24,7 +24,7 @@ namespace Rendering
 		mVertexBuffer(nullptr), mIndexBuffer(nullptr), mIndexCount(0),
 		mMouse(nullptr)
 	{
-
+		mColliders = &colliders;
 	}
 
 	TexturedModelDemo::~TexturedModelDemo()
