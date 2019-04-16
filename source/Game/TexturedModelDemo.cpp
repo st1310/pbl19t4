@@ -148,7 +148,7 @@ namespace Rendering
 			throw GameException("CreateWICTextureFromFile() failed.", hr);
 		}
 
-		mColliders->BuildBoundingBox(mesh);
+		mColliders->PushNewBoundingBox(mColliders->BuildBoundingBox(mesh));
 	}
 
 	void TexturedModelDemo::Update(const GameTime& gameTime)

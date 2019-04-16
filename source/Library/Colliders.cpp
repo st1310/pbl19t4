@@ -8,10 +8,10 @@ namespace Library
 	{
 	}
 
-	Colliders::Colliders(BoundingBox colliderBox) :
+	Colliders::Colliders(BoundingBox* colliderBox) :
 		BoundingBoxes(), TriggerBoxes()
 	{
-		BoundingBoxes.push_back(colliderBox);
+		BoundingBoxes.push_back(*colliderBox);
 	}
 
 	Colliders::~Colliders()
@@ -20,13 +20,13 @@ namespace Library
 		TriggerBoxes.clear();
 	}
 
-	void Colliders::PushNewBoundingBox(BoundingBox bbox)
+	void Colliders::PushNewBoundingBox(BoundingBox* bbox)
 	{
-		BoundingBoxes.push_back(bbox);
+		BoundingBoxes.push_back(*bbox);
 	}
 
 	
-	BoundingBox Colliders::BuildBoundingBox(Mesh* meshes)
+	BoundingBox* Colliders::BuildBoundingBox(Mesh* meshes)
 	{
 		XMFLOAT3 minVec;
 		XMFLOAT3 maxVec;
@@ -53,7 +53,7 @@ namespace Library
 		BoundingBox* newBox;
 		newBox = new BoundingBox(minVec, maxVec);
 		//Check how it will create such collider - if needed, will write moving to model position
-		return *newBox;
+		return newBox;
 	}
 	
 	bool Colliders::IsEmpty()
@@ -65,7 +65,7 @@ namespace Library
 
 	void Colliders::Move(XMVECTOR destination)
 	{
-		for (BoundingBox bbox : BoundingBoxes)
+		for (BoundingBox& bbox : BoundingBoxes)
 		{
 			bbox.Move(destination);
 		}

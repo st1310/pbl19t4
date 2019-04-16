@@ -73,7 +73,7 @@ namespace Library
 
 	bool Game::DepthBufferEnabled() const
 	{
-		return mDepthStencilBufferEnabled; //
+		return mDepthStencilBufferEnabled; 
 	}
 
 	float Game::AspectRatio() const

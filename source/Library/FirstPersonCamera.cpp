@@ -68,10 +68,13 @@ namespace Library
 		mCollider = collider;
 		if (mCollider->IsEmpty())
 		{
-			BoundingBox* bbox;
-			bbox = new BoundingBox(mPosition, mPosition);
-			mCollider->PushNewBoundingBox(*bbox);
+			mCollider->PushNewBoundingBox(new BoundingBox({ mPosition.x - 0.1f, mPosition.y + 0.1f, mPosition.z - 0.1f }, { mPosition.x + 0.1f, mPosition.y - 0.1f, mPosition.z + 0.1f }));
 		}
+	}
+
+	void FirstPersonCamera::SendColliderList(std::vector<Colliders*> collList)
+	{
+		collidableWalls = collList;
 	}
 
 	float&FirstPersonCamera::MouseSensitivity()
@@ -106,13 +109,7 @@ namespace Library
 		{
 			if (mKeyboard->IsKeyDown(DIK_W) || mKeyboard->IsKeyDown(DIK_UPARROW))
 			{
-				bool allowed = true;
-				if (mCollider != nullptr)
-					if (mCollider->CheckCollision(collidableWalls))
-						allowed = false;
-
-				if(allowed)
-					movementAmount.y = 1.0f;
+				movementAmount.y = 1.0f;
 			}
 
 			if (mKeyboard->IsKeyDown(DIK_S) || mKeyboard->IsKeyDown(DIK_DOWNARROW))
@@ -158,8 +155,9 @@ namespace Library
 		position += forward;
 
 		mCollider->Move(position);
-
-		XMStoreFloat3(&mPosition, position);
+		if(!mCollider->CheckCollision(collidableWalls))
+			XMStoreFloat3(&mPosition, position);
+		else mCollider->Move(XMLoadFloat3(&mPosition));
 
 		Camera::Update(gameTime);
 	}

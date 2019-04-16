@@ -53,7 +53,7 @@ namespace Rendering
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
 		mColliders.push_back(mCollC);
 
-		mCollTM = new Colliders();
+		mCollTM = new Colliders(new BoundingBox({ -500.f , 20.f, -500.f }, { 500.f , 15.f, 500.f }));
 		mTMDemo = new TexturedModelDemo(*this, *mCamera, *mCollTM);
 		mComponents.push_back(mTMDemo);
 		mColliders.push_back(mCollTM);
@@ -95,6 +95,7 @@ namespace Rendering
 			Exit();
 		}
 
+		mCamera->SendColliderList(mColliders);
 		Game::Update(gameTime);
 	}
 

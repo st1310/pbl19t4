@@ -10,15 +10,15 @@ namespace Library
 	{
 	public:
 		Colliders();
-		Colliders(BoundingBox colliderBox);
+		Colliders(BoundingBox* colliderBox);
 		~Colliders();
 
-		BoundingBox BuildBoundingBox(Mesh* meshes);
+		BoundingBox* BuildBoundingBox(Mesh* meshes);
 
 		bool IsEmpty();
 		void Move(XMVECTOR destination);
 		void Rotate(CXMMATRIX direction);
-		void PushNewBoundingBox(BoundingBox bbox);
+		void PushNewBoundingBox(BoundingBox* bbox);
 		bool CheckCollision(std::vector<Colliders*>& CollidableObjects);
 		bool CheckTriggerCollision(Colliders& TriggerCollider);
 		void DebuggingMode();

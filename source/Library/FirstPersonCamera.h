@@ -28,6 +28,8 @@ namespace Library
 		const Colliders* GetColliders() const;
 		void SetCollider(Colliders* collider);
 
+		void SendColliderList(std::vector<Colliders*> collList);
+
 		float& MouseSensitivity();
 		float& RotationRate();
 		float& MovementRate();
