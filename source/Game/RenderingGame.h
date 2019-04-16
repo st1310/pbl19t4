@@ -25,6 +25,7 @@ namespace Rendering
 {
 	class TexturedModelDemo;
 	class TexturedModelMaterialDemo;
+	class AnimationDemo;
 
 	class RenderingGame : public Game
 	{
@@ -58,5 +59,6 @@ namespace Rendering
 
 		TexturedModelDemo* mTMDemo;
 		TexturedModelMaterialDemo* mTMMDemo;
+		AnimationDemo* mADemo;
 	};
 }

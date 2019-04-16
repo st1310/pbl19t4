@@ -14,7 +14,7 @@ namespace Library
 		SceneNode(const std::string& name, const XMFLOAT4X4& transform);
 
 		const std::string& Name() const;
-		SceneNode* Parent();
+		SceneNode* ParentNode();
 		std::vector<SceneNode*>& Children();
 		const XMFLOAT4X4& Transform() const;
 		XMMATRIX TransformMatrix() const;

@@ -20,7 +20,7 @@ namespace Library
 		return mName;
 	}
 
-	SceneNode * SceneNode::Parent()
+	SceneNode * SceneNode::ParentNode()
 	{
 		return mParent;
 	}

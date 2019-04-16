@@ -178,7 +178,12 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationClip.h" />
+    <ClInclude Include="AnimationPlayer.h" />
     <ClInclude Include="BasicMaterial.h" />
+    <ClInclude Include="Bone.h" />
+    <ClInclude Include="BoneAnimation.h" />
+    <ClInclude Include="BoneVertexWeights.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColorHelper.h" />
     <ClInclude Include="Common.h" />
@@ -192,6 +197,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="GameException.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="KeyboardComponent.h" />
+    <ClInclude Include="Keyframe.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MatrixHelper.h" />
     <ClInclude Include="Mesh.h" />
@@ -201,7 +207,9 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="Pass.h" />
     <ClInclude Include="RenderStateHelper.h" />
     <ClInclude Include="RTTI.h" />
+    <ClInclude Include="SceneNode.h" />
     <ClInclude Include="ServiceContainer.h" />
+    <ClInclude Include="SkinnedModelMaterial.h" />
     <ClInclude Include="SkyboxComponent.h" />
     <ClInclude Include="SkyboxMaterial.h" />
     <ClInclude Include="stdafx.h" />
@@ -213,7 +221,12 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="VectorHelper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationClip.cpp" />
+    <ClCompile Include="AnimationPlayer.cpp" />
     <ClCompile Include="BasicMaterial.cpp" />
+    <ClCompile Include="Bone.cpp" />
+    <ClCompile Include="BoneAnimation.cpp" />
+    <ClCompile Include="BoneVertexWeights.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColorHelper.cpp" />
     <ClCompile Include="DrawableGameComponent.cpp" />
@@ -226,6 +239,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="GameException.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="KeyboardComponent.cpp" />
+    <ClCompile Include="Keyframe.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MatrixHelper.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -234,7 +248,9 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="MouseComponent.cpp" />
     <ClCompile Include="Pass.cpp" />
     <ClCompile Include="RenderStateHelper.cpp" />
+    <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="ServiceContainer.cpp" />
+    <ClCompile Include="SkinnedModelMaterial.cpp" />
     <ClCompile Include="SkyboxComponent.cpp" />
     <ClCompile Include="SkyboxMaterial.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -254,6 +270,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Content\Effects\BasicEffect.fx" />
+    <FxCompile Include="Content\Effects\SkinnedModel.fx" />
     <FxCompile Include="Content\Effects\Skybox.fx" />
     <FxCompile Include="Content\Effects\TextureMapping.fx" />
   </ItemGroup>

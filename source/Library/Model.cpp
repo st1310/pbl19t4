@@ -3,7 +3,7 @@
 #include "GameException.h"
 #include "Mesh.h"
 #include "ModelMaterial.h"
-
+#include "AnimationClip.h"
 #include "Bone.h"
 #include "BoneVertexWeights.h"
 #include "MatrixHelper.h"

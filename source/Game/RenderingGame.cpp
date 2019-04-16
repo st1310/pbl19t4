@@ -12,6 +12,7 @@
 #include "RenderStateHelper.h"
 #include "TexturedModelDemo.h"
 #include "TexturedModelMaterialDemo.h"
+#include "AnimationDemo.h"
 #include "Utility.h"
 
 namespace Rendering
@@ -24,7 +25,7 @@ namespace Rendering
 		mRenderStateHelper(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mTMDemo(nullptr), mTMMDemo(nullptr)
+		mTMDemo(nullptr), mTMMDemo(nullptr), mADemo(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -60,8 +61,11 @@ namespace Rendering
 		/*mTMDemo = new TexturedModelDemo(*this, *mCamera);
 		mComponents.push_back(mTMDemo);*/
 
-		mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
-		mComponents.push_back(mTMMDemo);
+		/*mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
+		mComponents.push_back(mTMMDemo);*/
+
+		mADemo = new AnimationDemo(*this, *mCamera);
+		mComponents.push_back(mADemo);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
@@ -82,6 +86,7 @@ namespace Rendering
 	{
 		DeleteObject(mTMDemo);
 		DeleteObject(mTMMDemo);
+		DeleteObject(mADemo);
 		DeleteObject(mKeyboard);
 		DeleteObject(mMouse);
 		DeleteObject(mFpsComponent);
