@@ -9,6 +9,7 @@ namespace Library
 	class Model; // Idk why, but it doesn't compile without this. Friend class should be enough
 	//class Material;
 	class ModelMaterial;
+	class BoneVertexWeights;
 
 	class Mesh
 	{
@@ -30,6 +31,7 @@ namespace Library
 		const std::vector<std::vector<XMFLOAT4>*>& VertexColors() const;
 		UINT FaceCount() const;
 		const std::vector<UINT>& Indices() const;
+		const std::vector<BoneVertexWeights>& BoneWeights() const;
 
 		void CreateIndexBuffer(ID3D11Buffer** indexBuffer);
 
@@ -49,5 +51,6 @@ namespace Library
 		std::vector<std::vector<XMFLOAT4>*> mVertexColors;
 		UINT mFaceCount;
 		std::vector<UINT> mIndices;
+		std::vector<BoneVertexWeights> mBoneWeights;
 	};
 }
