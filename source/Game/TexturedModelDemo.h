@@ -18,7 +18,7 @@ namespace Rendering
 		RTTI_DECLARATIONS(TexturedModelDemo, DrawableGameComponent)
 
 	public:
-		TexturedModelDemo(Game& game, Camera& camera);
+		TexturedModelDemo(Game& game, Camera& camera, std::string modelName, std::wstring textureName, LPCWSTR shaderName);
 		~TexturedModelDemo();
 
 		virtual void Initialize() override;
@@ -59,5 +59,10 @@ namespace Rendering
 		XMFLOAT4X4 mWorldMatrix;
 
 		MouseComponent* mMouse;
+
+		std::string modelName;
+		std::wstring textureName;
+		LPCWSTR shaderName;
+
 	};
 }

@@ -14,6 +14,12 @@
 #include "TexturedModelMaterialDemo.h"
 #include "Utility.h"
 
+// Assets
+#include "Earth.h"
+#include "PassengerTrain.h"
+#include "CargoTrain.h"
+#include "Track.h"
+
 namespace Rendering
 {
 	const XMVECTORF32 RenderingGame::BackgroundColor = ColorHelper::CornflowerBlue;
@@ -59,8 +65,11 @@ namespace Rendering
 		/*mTMDemo = new TexturedModelDemo(*this, *mCamera);
 		mComponents.push_back(mTMDemo);*/
 
-		mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
-		mComponents.push_back(mTMMDemo);
+		mTMDemo = new Earth(*this, *mCamera);
+		mComponents.push_back(mTMDemo);
+
+		//mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
+		//mComponents.push_back(mTMMDemo);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);

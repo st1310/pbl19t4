@@ -16,7 +16,7 @@ namespace Rendering
 {
 	RTTI_DEFINITIONS(TexturedModelDemo)
 
-		TexturedModelDemo::TexturedModelDemo(Game& game, Camera& camera) :
+		TexturedModelDemo::TexturedModelDemo(Game& game, Camera& camera, std::string modelName, std::wstring textureName, LPCWSTR shaderName) :
 		DrawableGameComponent(game, camera),
 		mEffect(nullptr), mTechnique(nullptr), mPass(nullptr), mWvpVariable(nullptr),
 		mTextureShaderResourceView(nullptr), mColorTextureVariable(nullptr),
@@ -24,7 +24,9 @@ namespace Rendering
 		mVertexBuffer(nullptr), mIndexBuffer(nullptr), mIndexCount(0),
 		mMouse(nullptr)
 	{
-
+		this->modelName = modelName;
+		this->textureName = textureName;
+		this->shaderName = shaderName;
 	}
 
 	TexturedModelDemo::~TexturedModelDemo()
@@ -56,7 +58,7 @@ namespace Rendering
 
 		ID3D10Blob* compiledShader = nullptr;
 		ID3D10Blob* errorMessages = nullptr;
-		HRESULT hr = D3DCompileFromFile(L"Content\\Effects\\TextureMapping.fx", nullptr, nullptr, nullptr, "fx_5_0", shaderFlags, 0, &compiledShader, &errorMessages);
+		HRESULT hr = D3DCompileFromFile(shaderName, nullptr, nullptr, nullptr, "fx_5_0", shaderFlags, 0, &compiledShader, &errorMessages);
 		if (FAILED(hr))
 		{
 			const char* errorMessage = (errorMessages != nullptr ? (char*)errorMessages->GetBufferPointer() : "D3DX11CompileFromFile() failed");
@@ -128,7 +130,7 @@ namespace Rendering
 		}
 
 		// Load the model
-		std::unique_ptr<Model> model(new Model(*mGame, "Content\\Models\\Sphere.obj", true));
+		std::unique_ptr<Model> model(new Model(*mGame, modelName, true));
 
 		// Create the vertex and index buffers
 		Mesh* mesh = model->Meshes().at(0);
@@ -137,7 +139,6 @@ namespace Rendering
 		mIndexCount = mesh->Indices().size();
 
 		// Load the texture
-		std::wstring textureName = L"Content\\Textures\\EarthComposite.jpg";
 		if (FAILED(hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.c_str(), nullptr, &mTextureShaderResourceView)))
 		{
 			throw GameException("CreateWICTextureFromFile() failed.", hr);
