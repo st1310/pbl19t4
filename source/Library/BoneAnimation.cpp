@@ -5,14 +5,30 @@
 #include "Model.h"
 #include "VectorHelper.h"
 #include <assimp/scene.h>
+#include <functional>
 
 namespace Library
 {
 	BoneAnimation::BoneAnimation(Model& model, aiNodeAnim& nodeAnim) :
 		mModel(&model), mBone(nullptr), mKeyframes()
 	{
-		UINT boneIndex = model.BoneIndexMapping().at(nodeAnim.mNodeName.C_Str());
-		mBone = model.Bones().at(boneIndex);
+		//std::function<SceneNode*(SceneNode*, std::string)> findByName;
+		//findByName = [&findByName](SceneNode* sceneNode, std::string name)->SceneNode* {
+		//	if (!sceneNode->Name().compare(name))
+		//		return sceneNode;
+
+		//	for (SceneNode* child : sceneNode->Children())
+		//		findByName(child, name);
+		//	
+		//	//throw GameException("nodeAnim.mNodeName does not exist in the model hierarchy!");
+		//};
+
+		//mBone = findByName(model.RootNode(), nodeAnim.mNodeName.C_Str());
+
+		mBone = model.SceneNodeByName().at(nodeAnim.mNodeName.C_Str());
+
+		//UINT boneIndex = model.BoneIndexMapping().at(nodeAnim.mNodeName.C_Str());
+		//mBone = model.Bones().at(boneIndex);
 
 		assert(nodeAnim.mNumPositionKeys == nodeAnim.mNumRotationKeys);
 		assert(nodeAnim.mNumPositionKeys == nodeAnim.mNumScalingKeys);
@@ -40,7 +56,7 @@ namespace Library
 		}
 	}
 
-	Bone& BoneAnimation::GetBone()
+	SceneNode& BoneAnimation::GetBone()
 	{
 		return *mBone;
 	}

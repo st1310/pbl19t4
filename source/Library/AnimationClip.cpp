@@ -64,7 +64,7 @@ namespace Library
 		return mBoneAnimations;
 	}
 
-	const std::map<Bone*, BoneAnimation*> & AnimationClip::BoneAnimationsByBone() const
+	const std::map<SceneNode*, BoneAnimation*> & AnimationClip::BoneAnimationsByBone() const
 	{
 		return mBoneAnimationsByBone;
 	}
@@ -92,7 +92,9 @@ namespace Library
 	{
 		for (BoneAnimation* boneAnimation : mBoneAnimations)
 		{
-			boneAnimation->GetTransform(time, boneTransforms[boneAnimation->GetBone().Index()]);
+			Bone* bone = boneAnimation->GetBone().As<Bone>();
+			boneAnimation->GetTransform(time, boneTransforms[bone->Index()]);
+			//boneAnimation->GetTransform(time, boneTransforms[boneAnimation->GetBone().Index()]);
 		}
 	}
 
@@ -113,7 +115,9 @@ namespace Library
 	{
 		for (BoneAnimation* boneAnimation : mBoneAnimations)
 		{
-			boneAnimation->GetTransformAtKeyframe(keyframe, boneTransforms[boneAnimation->GetBone().Index()]);
+			Bone* bone = boneAnimation->GetBone().As<Bone>();
+			boneAnimation->GetTransformAtKeyframe(keyframe, boneTransforms[bone->Index()]);
+			//boneAnimation->GetTransform(keyframe, boneTransforms[boneAnimation->GetBone().Index()]);
 		}
 	}
 
@@ -134,7 +138,9 @@ namespace Library
 	{
 		for (BoneAnimation* boneAnimation : mBoneAnimations)
 		{
-			boneAnimation->GetInteropolatedTransform(time, boneTransforms[boneAnimation->GetBone().Index()]);
+			Bone* bone = boneAnimation->GetBone().As<Bone>();
+			boneAnimation->GetInteropolatedTransform(time, boneTransforms[bone->Index()]);
+			//boneAnimation->GetTransform(time, boneTransforms[boneAnimation->GetBone().Index()]);
 		}
 	}
 }

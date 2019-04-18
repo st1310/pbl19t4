@@ -9,6 +9,7 @@ namespace Library
 	class Model;
 	class Bone;
 	class BoneAnimation;
+	class SceneNode;
 
 	class AnimationClip
 	{
@@ -21,7 +22,7 @@ namespace Library
 		float Duration() const;
 		float TicksPerSecond() const;
 		const std::vector<BoneAnimation*>& BoneAnimations() const;
-		const std::map<Bone*, BoneAnimation*>& BoneAnimationsByBone() const;
+		const std::map<SceneNode*, BoneAnimation*>& BoneAnimationsByBone() const;
 		const UINT KeyframeCount() const;
 
 		UINT GetTransform(float time, Bone& bone, XMFLOAT4X4& transform) const;
@@ -44,7 +45,7 @@ namespace Library
 		float mDuration;
 		float mTicksPerSecond;
 		std::vector<BoneAnimation*> mBoneAnimations;
-		std::map<Bone*, BoneAnimation*> mBoneAnimationsByBone;
+		std::map<SceneNode*, BoneAnimation*> mBoneAnimationsByBone;
 		UINT mKeyframeCount;
 	};
 }

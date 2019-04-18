@@ -64,8 +64,8 @@ namespace Rendering
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
 		// Load the model
-		mSkinnedModel = new Model(*mGame, "Content\\Models\\RunningSoldier.dae", true);
-		//mSkinnedModel = new Model(*mGame, "Content\\Models\\test.fbx", true);
+		//mSkinnedModel = new Model(*mGame, "Content\\Models\\RunningSoldier.dae", true);
+		mSkinnedModel = new Model(*mGame, "Content\\Models\\Monster.dae", true);
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
@@ -102,8 +102,9 @@ namespace Rendering
 
 				std::wostringstream textureName;
 				//textureName << L"Content\\Models\\" << filename.substr(0, filename.length() - 4) << L".png";
-				textureName << L"Content\\Models\\" << "Soldier.png";
-				//textureName << L"Content\\Models\\" << "DefaultMaterial_Base_Color.png";
+				//textureName << L"Content\\Models\\" << "Soldier.png";
+				//textureName << L"Content\\Models\\" << "Monster.jpg";
+				textureName << L"Content\\Models\\" << filename;
 				HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &colorTexture);
 				if (FAILED(hr))
 				{
@@ -123,6 +124,10 @@ namespace Rendering
 
 		mSpriteBatch = new SpriteBatch(mGame->Direct3DDeviceContext());
 		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
+
+		// Initial transform
+		XMMATRIX transform = XMMatrixRotationX(XMConvertToRadians(-90.0f));
+		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transform);
 	}
 
 	void AnimationDemo::Update(const GameTime& gameTime)

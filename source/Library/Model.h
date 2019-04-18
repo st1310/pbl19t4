@@ -33,6 +33,7 @@ namespace Library
 		const std::vector<Bone*> Bones() const;
 		const std::map<std::string, UINT> BoneIndexMapping() const;
 		SceneNode* RootNode();
+		const std::map<std::string, SceneNode*>& SceneNodeByName() const;
 
 	private:
 		Model(const Model& rhs);
@@ -50,5 +51,6 @@ namespace Library
 		std::vector<Bone*> mBones;
 		std::map<std::string, UINT> mBoneIndexMapping;
 		SceneNode* mRootNode;
+		std::map<std::string, SceneNode*> mSceneNodeByName;
 	};
 }

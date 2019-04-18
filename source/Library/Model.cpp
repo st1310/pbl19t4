@@ -14,7 +14,7 @@
 namespace Library
 {
 	Model::Model(Game & game, const std::string & filename, bool flipUVs) :
-		mGame(game), mMeshes(), mMaterials(), mAnimations(), mBones(), mBoneIndexMapping(), mRootNode(nullptr)
+		mGame(game), mMeshes(), mMaterials(), mAnimations(), mBones(), mBoneIndexMapping(), mRootNode(nullptr), mSceneNodeByName()
 	{
 		Assimp::Importer importer;
 
@@ -146,6 +146,11 @@ namespace Library
 		return mRootNode;
 	}
 
+	const std::map<std::string, SceneNode*>& Model::SceneNodeByName() const
+	{
+		return mSceneNodeByName;
+	}
+
 	SceneNode * Model::BuildSkeleton(aiNode & node, SceneNode * parentSceneNode)
 	{
 		SceneNode* sceneNode = nullptr;
@@ -163,6 +168,8 @@ namespace Library
 		XMMATRIX transform = XMLoadFloat4x4(&(XMFLOAT4X4(reinterpret_cast<const float*>(node.mTransformation[0]))));
 		sceneNode->SetTransform(XMMatrixTranspose(transform));
 		sceneNode->SetParent(parentSceneNode);
+
+		mSceneNodeByName[sceneNode->Name()] = sceneNode;
 
 		for (UINT i = 0; i < node.mNumChildren; i++)
 		{

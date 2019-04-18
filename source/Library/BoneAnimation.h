@@ -8,6 +8,7 @@ namespace Library
 {
 	class Model;
 	class Bone;
+	class SceneNode;
 	class Keyframe;
 
 	class BoneAnimation
@@ -17,7 +18,7 @@ namespace Library
 	public:
 		~BoneAnimation();
 
-		Bone& GetBone();
+		SceneNode& GetBone();
 		const std::vector<Keyframe*> Keyframes() const;
 
 		UINT GetTransform(float time, XMFLOAT4X4& transform) const;
@@ -34,7 +35,7 @@ namespace Library
 		UINT FindKeyframeIndex(float time) const;
 
 		Model* mModel;
-		Bone* mBone;
+		SceneNode* mBone;
 		std::vector<Keyframe*> mKeyframes;
 	};
 }

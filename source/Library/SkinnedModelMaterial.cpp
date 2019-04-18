@@ -3,6 +3,8 @@
 #include "Mesh.h"
 #include "Bone.h"
 #include "BoneVertexWeights.h"
+#include <algorithm>
+#include <iterator>
 
 namespace Library
 {
@@ -54,16 +56,41 @@ namespace Library
 			XMFLOAT3 position = sourceVertices.at(i);
 			XMFLOAT3 uv = textureCoordinates->at(i);
 			BoneVertexWeights vertexWeights = boneWeights.at(i);
+			auto vertexWeight = vertexWeights.Weights();
+
+			////
+			while (vertexWeight.size() > 4)
+			{
+				auto min_it = std::min_element(vertexWeight.begin(), vertexWeight.end(),
+					[](BoneVertexWeights::VertexWeight const& v1, BoneVertexWeights::VertexWeight const& v2)
+					{
+						return v1.Weight < v2.Weight;
+					});
+
+				if (min_it->Weight == 0)
+					vertexWeight.erase(min_it);
+				else
+				{
+					float erasedWeight = min_it->Weight * 100;
+					vertexWeight.erase(min_it);
+
+					for (BoneVertexWeights::VertexWeight weight : vertexWeight)
+					{
+						weight.Weight += weight.Weight * erasedWeight;
+					}
+				}
+			}
+			////
 
 			float weights[BoneVertexWeights::MaxBoneWeightsPerVertex];
 			UINT indices[BoneVertexWeights::MaxBoneWeightsPerVertex];
 			ZeroMemory(weights, sizeof(float) * ARRAYSIZE(weights));
 			ZeroMemory(indices, sizeof(UINT) * ARRAYSIZE(indices));
-			for (UINT i = 0; i < vertexWeights.Weights().size(); i++)
+			for (UINT i = 0; i < vertexWeight.size(); i++)
 			{
-				BoneVertexWeights::VertexWeight vertexWeight = vertexWeights.Weights().at(i);
-				weights[i] = vertexWeight.Weight;
-				indices[i] = vertexWeight.BoneIndex;
+				BoneVertexWeights::VertexWeight tmpVertexWeight = vertexWeight.at(i);
+				weights[i] = tmpVertexWeight.Weight;
+				indices[i] = tmpVertexWeight.BoneIndex;
 			}
 
 			vertices.push_back(VertexSkinnedPositionTextureNormal(XMFLOAT4(position.x, position.y, position.z, 1.0f), XMFLOAT2(uv.x, uv.y), XMUINT4(indices), XMFLOAT4(weights)));
