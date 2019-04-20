@@ -25,6 +25,15 @@
     <Filter Include="Assets\Abstract">
       <UniqueIdentifier>{199398f3-a67c-4e9a-b7e5-a43b81390572}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{0a2bebf3-bab5-4cb4-a993-e7cdcf53192f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Header">
+      <UniqueIdentifier>{d0b0e93d-d790-422c-b3b3-bced9e979e74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Source">
+      <UniqueIdentifier>{6c06956c-cc41-4ff8-800f-afca4f4a3d14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -54,6 +63,12 @@
     <ClCompile Include="CargoTrain.cpp">
       <Filter>Assets\Source</Filter>
     </ClCompile>
+    <ClCompile Include="TrainLevel.cpp">
+      <Filter>Scenes\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderingGame.h">
@@ -76,6 +91,12 @@
     </ClInclude>
     <ClInclude Include="CargoTrain.h">
       <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TrainLevel.h">
+      <Filter>Scenes\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

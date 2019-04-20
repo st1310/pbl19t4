@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <list>
 #include "DrawableGameComponent.h"
 namespace Library
 {
@@ -9,10 +7,16 @@ namespace Library
 	class Scene
 	{
 	public:
+		Scene();
 		Scene(int sceneId);
-		~Scene();
+		~Scene();		
+		void Start(Game& game, Camera& camera);
+
 		int SceneId;
-		std::list<DrawableGameComponent> GameObjects;
+		std::vector<DrawableGameComponent*> GameObjects;
+
+	private:
+		
 	};
 }
 

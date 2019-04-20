@@ -62,14 +62,10 @@ namespace Rendering
 		mComponents.push_back(mSkybox);
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
-		/*mTMDemo = new TexturedModelDemo(*this, *mCamera);
-		mComponents.push_back(mTMDemo);*/
 
 		mTMDemo = new Earth(*this, *mCamera);
 		mComponents.push_back(mTMDemo);
 
-		//mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
-		//mComponents.push_back(mTMMDemo);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);

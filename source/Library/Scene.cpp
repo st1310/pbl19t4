@@ -2,6 +2,11 @@
 
 namespace Library{
 
+Scene::Scene()
+{
+
+}
+
 Scene::Scene(int sceneId)
 {
 	this->SceneId = sceneId;
@@ -10,6 +15,11 @@ Scene::Scene(int sceneId)
 
 Scene::~Scene()
 {
+}
+
+void Scene::Start(Game& game, Camera& camera)
+{
+
 }
 
 }
