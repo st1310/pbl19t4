@@ -17,8 +17,13 @@ namespace Library
 		mGame(game), mMeshes(), mMaterials(), mAnimations(), mBones(), mBoneIndexMapping(), mRootNode(nullptr), mSceneNodeByName()
 	{
 		Assimp::Importer importer;
+		//importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
 
-		UINT flags = aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType | aiProcess_FlipWindingOrder;
+#if defined( DEBUG ) || defined( _DEBUG )
+		importer.SetExtraVerbose(true);
+#endif //defined( DEBUG ) || defined( _DEBUG )
+
+		UINT flags = aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType | aiProcess_FlipWindingOrder /*| aiProcess_LimitBoneWeights*/;
 		if (flipUVs)
 		{
 			flags |= aiProcess_FlipUVs;

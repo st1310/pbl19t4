@@ -65,7 +65,7 @@ namespace Rendering
 
 		// Load the model
 		//mSkinnedModel = new Model(*mGame, "Content\\Models\\RunningSoldier.dae", true);
-		mSkinnedModel = new Model(*mGame, "Content\\Models\\Monster.dae", true);
+		mSkinnedModel = new Model(*mGame, "Content\\Models\\Jednostka_green_baked.fbx", true);
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);

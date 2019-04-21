@@ -30,14 +30,69 @@ namespace Library
 		//UINT boneIndex = model.BoneIndexMapping().at(nodeAnim.mNodeName.C_Str());
 		//mBone = model.Bones().at(boneIndex);
 
+		/*aiVectorKey* positionKeys = nodeAnim.mPositionKeys;
+		aiQuatKey* rotationKeys = nodeAnim.mRotationKeys;
+		aiVectorKey* scaleKeys = nodeAnim.mScalingKeys;*/
+
+		UINT maxNumKeys = std::max(nodeAnim.mNumPositionKeys, nodeAnim.mNumRotationKeys);
+		maxNumKeys = std::max(maxNumKeys, nodeAnim.mNumScalingKeys);
+
+		aiVectorKey* positionKeys = new aiVectorKey[maxNumKeys];
+		aiQuatKey* rotationKeys = new aiQuatKey[maxNumKeys];
+		aiVectorKey* scaleKeys = new aiVectorKey[maxNumKeys];
+
+		memcpy(positionKeys, nodeAnim.mPositionKeys, nodeAnim.mNumPositionKeys * sizeof(nodeAnim.mPositionKeys[0]));
+		memcpy(rotationKeys, nodeAnim.mRotationKeys, nodeAnim.mNumRotationKeys * sizeof(nodeAnim.mRotationKeys[0]));
+		memcpy(scaleKeys, nodeAnim.mScalingKeys, nodeAnim.mNumScalingKeys * sizeof(nodeAnim.mScalingKeys[0]));
+
+		if (nodeAnim.mNumPositionKeys != nodeAnim.mNumRotationKeys ||
+			nodeAnim.mNumPositionKeys != nodeAnim.mNumScalingKeys)
+		{
+			if (nodeAnim.mNumPositionKeys > nodeAnim.mNumRotationKeys)
+			{
+				for (UINT i = 0; i < nodeAnim.mNumPositionKeys; i++)
+				{
+					rotationKeys[i] = aiQuatKey(positionKeys[i].mTime, nodeAnim.mRotationKeys[0].mValue);
+					scaleKeys[i] = aiVectorKey(positionKeys[i].mTime, nodeAnim.mScalingKeys[0].mValue);
+				}
+			}
+			else if (nodeAnim.mNumRotationKeys > nodeAnim.mNumScalingKeys)
+			{
+				for (UINT i = 0; i < nodeAnim.mNumRotationKeys; i++)
+				{
+					positionKeys[i] = aiVectorKey(rotationKeys[i].mTime, nodeAnim.mPositionKeys[0].mValue);
+					scaleKeys[i] = aiVectorKey(rotationKeys[i].mTime, nodeAnim.mScalingKeys[0].mValue);
+				}
+			}
+			else if (nodeAnim.mNumScalingKeys > nodeAnim.mNumPositionKeys)
+			{
+				for (UINT i = 0; i < nodeAnim.mNumScalingKeys; i++)
+				{
+					rotationKeys[i] = aiQuatKey(scaleKeys[i].mTime, nodeAnim.mRotationKeys[0].mValue);
+					positionKeys[i] = aiVectorKey(scaleKeys[i].mTime, nodeAnim.mPositionKeys[0].mValue);
+				}
+			}
+//#if defined( DEBUG ) || defined( _DEBUG )
+//			std::wstring s = std::to_wstring(scaleKeys[1].mTime);
+//			OutputDebugString((s + L" Sc ").c_str());
+//#endif //defined( DEBUG ) || defined( _DEBUG )
+		}
+
 		assert(nodeAnim.mNumPositionKeys == nodeAnim.mNumRotationKeys);
 		assert(nodeAnim.mNumPositionKeys == nodeAnim.mNumScalingKeys);
 
 		for (UINT i = 0; i < nodeAnim.mNumPositionKeys; i++)
 		{
-			aiVectorKey positionKey = nodeAnim.mPositionKeys[i];
-			aiQuatKey rotationKey = nodeAnim.mRotationKeys[i];
-			aiVectorKey scaleKey = nodeAnim.mScalingKeys[i];
+			aiVectorKey& positionKey = positionKeys[i];
+			aiQuatKey& rotationKey = rotationKeys[i];
+			aiVectorKey& scaleKey = scaleKeys[i];
+
+//#if defined( DEBUG ) || defined( _DEBUG )
+//			std::wstring s = std::to_wstring(scaleKeys[i].mTime);
+//			OutputDebugString((s + L" ").c_str());
+//			s = std::to_wstring(scaleKey.mTime);
+//			OutputDebugString((s + L" ").c_str());
+//#endif //defined( DEBUG ) || defined( _DEBUG )
 
 			assert(positionKey.mTime == rotationKey.mTime);
 			assert(positionKey.mTime == scaleKey.mTime);
