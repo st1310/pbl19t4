@@ -22,4 +22,10 @@ void Scene::Start(Game& game, Camera& camera)
 
 }
 
+void Scene::Clear()
+{
+	// TODO fix -- Szymon
+	//this->GameObjects.clear();
+}
+
 }

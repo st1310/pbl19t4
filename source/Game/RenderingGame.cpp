@@ -58,10 +58,13 @@ namespace Rendering
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
 		mGameManager = new GameManager(*this, *mCamera);
+		//mGameManager->StartScene(0);
 
-		mComponents.push_back(mGameManager->Scenes[0]->GameObjects[0]);
-		mComponents.push_back(mGameManager->Scenes[0]->GameObjects[1]);
-
+		
+		for(int i =0; i <  mGameManager->GetSizeOfCurrentScene(); i++)
+		{
+			mComponents.push_back(mGameManager->Scenes[mGameManager->currentScene]->GameObjects[i]);
+		}
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);

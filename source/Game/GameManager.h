@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "MenuLevel.h"
 #include "TrainLevel.h"
 using namespace Library;
 
@@ -16,11 +17,12 @@ namespace Rendering
 		~GameManager();
 		void Init();
 		void StartScene(int sceneId);
+		int GetSizeOfCurrentScene();
 
 		std::vector<Scene*> Scenes;
-
-	private:
 		int currentScene;
+	private:
+		
 		Game* game;
 		Camera* camera;
 		GameManager(const GameManager& rhs);

@@ -11,8 +11,10 @@ namespace Library
 		Scene(int sceneId);
 		~Scene();		
 		void Start(Game& game, Camera& camera);
+		void Clear();
 
 		int SceneId;
+		int Size;
 		std::vector<DrawableGameComponent*> GameObjects;
 
 	private:
