@@ -18,7 +18,7 @@ namespace Rendering
 		RTTI_DECLARATIONS(TexturedModelDemo, DrawableGameComponent)
 
 	public:
-		TexturedModelDemo(Game& game, Camera& camera, std::string modelName, std::wstring textureName, LPCWSTR shaderName);
+		TexturedModelDemo(Game& game, Camera& camera, std::string modelName, std::wstring textureName, LPCWSTR shaderName, double x, double y);
 		~TexturedModelDemo();
 
 		virtual void Initialize() override;

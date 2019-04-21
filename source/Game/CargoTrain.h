@@ -10,7 +10,7 @@ class CargoTrain :
 	public TexturedModelDemo
 {
 public:
-	CargoTrain(Game& game, Camera& camera);
+	CargoTrain(Game& game, Camera& camera, double x, double y);
 	~CargoTrain();
 };
 

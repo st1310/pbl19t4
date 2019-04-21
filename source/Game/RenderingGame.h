@@ -25,6 +25,7 @@ namespace Rendering
 {
 	class TexturedModelDemo;
 	class TexturedModelMaterialDemo;
+	class GameManager;
 
 	class RenderingGame : public Game
 	{
@@ -54,6 +55,8 @@ namespace Rendering
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mMouseTextPosition;
+
+		GameManager* mGameManager;
 
 		TexturedModelDemo* mTMDemo;
 		TexturedModelMaterialDemo* mTMMDemo;

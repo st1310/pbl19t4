@@ -10,7 +10,7 @@ class PassengerTrain :
 	public TexturedModelDemo
 {
 public:
-	PassengerTrain(Game& game, Camera& camera);
+	PassengerTrain(Game& game, Camera& camera, double x, double y);
 	~PassengerTrain();
 };
 

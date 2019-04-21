@@ -16,7 +16,7 @@ namespace Rendering
 {
 	RTTI_DEFINITIONS(TexturedModelDemo)
 
-		TexturedModelDemo::TexturedModelDemo(Game& game, Camera& camera, std::string modelName, std::wstring textureName, LPCWSTR shaderName) :
+		TexturedModelDemo::TexturedModelDemo(Game& game, Camera& camera, std::string modelName, std::wstring textureName, LPCWSTR shaderName, double x, double y) :
 		DrawableGameComponent(game, camera),
 		mEffect(nullptr), mTechnique(nullptr), mPass(nullptr), mWvpVariable(nullptr),
 		mTextureShaderResourceView(nullptr), mColorTextureVariable(nullptr),
@@ -147,6 +147,7 @@ namespace Rendering
 
 	void TexturedModelDemo::Update(const GameTime& gameTime)
 	{
+		// TODO Remove this --Szymon
 		XMFLOAT2 rotationAmount = Vector2Helper::Zero;
 		if ((mMouse != nullptr) && (mMouse->IsButtonHeldDown(MouseButtonsRight)))
 		{

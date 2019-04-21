@@ -3,12 +3,14 @@
 
 namespace Rendering
 {
+	RTTI_DEFINITIONS(GameManager)
+
 	GameManager::GameManager(Game& game, Camera& camera)
 	{
 		this->game = &game;
 		this->camera = &camera;
 		Init();
-		StartScene(2);
+		StartScene(0);
 	}
 
 
@@ -24,7 +26,7 @@ namespace Rendering
 
 	void GameManager::StartScene(int sceneId)
 	{
-		Scenes.at(0)->Start(*game, *camera);
+		Scenes.at(sceneId)->Start(*game, *camera);
 	}
 }
 

@@ -10,7 +10,7 @@ class Earth :
 	public TexturedModelDemo
 {
 public:
-	Earth(Game& game, Camera& camera);
+	Earth(Game& game, Camera& camera, double x, double y);
 	~Earth();
 };
 

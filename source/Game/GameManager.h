@@ -6,8 +6,11 @@ using namespace Library;
 
 namespace Rendering
 {
-	class GameManager
+	class GameManager :
+		public DrawableGameComponent
 	{
+		RTTI_DECLARATIONS(GameManager, DrawableGameComponent)
+
 	public:
 		GameManager(Game& game, Camera& camera);
 		~GameManager();
@@ -20,6 +23,8 @@ namespace Rendering
 		int currentScene;
 		Game* game;
 		Camera* camera;
+		GameManager(const GameManager& rhs);
+		GameManager& operator=(const GameManager& rhs);
 	};
 }
 

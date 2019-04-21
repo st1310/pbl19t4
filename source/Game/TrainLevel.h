@@ -3,6 +3,7 @@
 #include "DrawableGameComponent.h"
 #include "Scene.h"
 #include "Earth.h"
+#include "CargoTrain.h"
 
 using namespace Library;
 

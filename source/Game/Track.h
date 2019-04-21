@@ -10,7 +10,7 @@ class Track :
 	public TexturedModelDemo
 {
 public:
-	Track(Game& game, Camera& camera);
+	Track(Game& game, Camera& camera, double x, double y);
 	~Track();
 };
 

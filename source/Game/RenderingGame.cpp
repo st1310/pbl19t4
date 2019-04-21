@@ -12,6 +12,7 @@
 #include "RenderStateHelper.h"
 #include "TexturedModelDemo.h"
 #include "TexturedModelMaterialDemo.h"
+#include "GameManager.h"
 #include "Utility.h"
 
 // Assets
@@ -29,7 +30,7 @@ namespace Rendering
 		mFpsComponent(nullptr), mSkybox(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mTMDemo(nullptr), mTMMDemo(nullptr)
+		mTMDemo(nullptr), mTMMDemo(nullptr), mGameManager(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -63,8 +64,11 @@ namespace Rendering
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
 
-		mTMDemo = new Earth(*this, *mCamera);
+		mTMDemo = new Earth(*this, *mCamera, 0, 0);
 		mComponents.push_back(mTMDemo);
+
+		mGameManager = new GameManager(*this, *mCamera);
+		mComponents.push_back(mGameManager);
 
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
