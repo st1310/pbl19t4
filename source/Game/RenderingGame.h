@@ -23,8 +23,6 @@ namespace Library
 
 namespace Rendering
 {
-	class TexturedModelDemo;
-	class TexturedModelMaterialDemo;
 	class GameManager;
 
 	class RenderingGame : public Game
@@ -57,8 +55,5 @@ namespace Rendering
 		XMFLOAT2 mMouseTextPosition;
 
 		GameManager* mGameManager;
-
-		TexturedModelDemo* mTMDemo;
-		TexturedModelMaterialDemo* mTMMDemo;
 	};
 }

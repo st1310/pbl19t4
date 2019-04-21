@@ -15,12 +15,6 @@
 #include "GameManager.h"
 #include "Utility.h"
 
-// Assets
-#include "Earth.h"
-#include "PassengerTrain.h"
-#include "CargoTrain.h"
-#include "Track.h"
-
 namespace Rendering
 {
 	const XMVECTORF32 RenderingGame::BackgroundColor = ColorHelper::CornflowerBlue;
@@ -30,7 +24,7 @@ namespace Rendering
 		mFpsComponent(nullptr), mSkybox(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mTMDemo(nullptr), mTMMDemo(nullptr), mGameManager(nullptr)
+		mGameManager(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -63,12 +57,10 @@ namespace Rendering
 		mComponents.push_back(mSkybox);
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
-
-		mTMDemo = new Earth(*this, *mCamera, 0, 0);
-		mComponents.push_back(mTMDemo);
-
 		mGameManager = new GameManager(*this, *mCamera);
-		mComponents.push_back(mGameManager);
+
+		mComponents.push_back(mGameManager->Scenes[0]->GameObjects[0]);
+		mComponents.push_back(mGameManager->Scenes[0]->GameObjects[1]);
 
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
@@ -88,8 +80,7 @@ namespace Rendering
 
 	void RenderingGame::Shutdown()
 	{
-		DeleteObject(mTMDemo);
-		DeleteObject(mTMMDemo);
+		DeleteObject(mGameManager);
 		DeleteObject(mKeyboard);
 		DeleteObject(mMouse);
 		DeleteObject(mFpsComponent);

@@ -4,6 +4,8 @@
 #include "Scene.h"
 #include "Earth.h"
 #include "CargoTrain.h"
+#include "PassengerTrain.h"
+#include "Track.h"
 
 using namespace Library;
 
