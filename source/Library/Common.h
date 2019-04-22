@@ -2,6 +2,10 @@
 
 #ifndef DIRECTINPUT_VERSION
 #define DIRECTINPUT_VERSION 0x0800
+#define MENU_LEVEL 0
+#define DAY_LEVEL 1
+#define TRAIN_LEVEL 2
+#define CITY_LEVEL 3
 #endif
 
 #define NOMINMAX // This define fixes assimp std::min/max error

@@ -6,11 +6,15 @@
 using namespace Library;
 using namespace Rendering;
 
-class Earth :
-	public TexturedModelDemo
+namespace Rendering
 {
-public:
-	Earth(Game& game, Camera& camera, double x, double y);
-	~Earth();
-};
+	class Earth :
+		public TexturedModelDemo
+	{
+	public:
+		Earth(Game& game, Camera& camera, double x, double y);
+		~Earth();
+	};
+}
+
 

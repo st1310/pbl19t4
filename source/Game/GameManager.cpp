@@ -9,7 +9,7 @@ namespace Rendering
 	{
 		this->game = &game;
 		this->camera = &camera;
-		Init();
+		Initialize();
 
 		// Start MenuLevel
 		StartScene(0);
@@ -20,11 +20,15 @@ namespace Rendering
 	{
 	}
 
-	void GameManager::Init()
+	void GameManager::Initialize()
 	{
 		// Adding all scenes aka levels to Scenes
 		MenuLevel* menuLevel = new MenuLevel(*game, *camera);
 		Scenes.push_back(menuLevel);
+
+		// Only for tests HARD TODO TODO --Szymon
+		TrainLevel* dayLevel = new TrainLevel(*game, *camera);
+		Scenes.push_back(dayLevel);
 
 		TrainLevel* trainLevel = new TrainLevel(*game, *camera);
 		Scenes.push_back(trainLevel);

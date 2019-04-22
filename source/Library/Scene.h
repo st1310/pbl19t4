@@ -15,7 +15,7 @@ namespace Library
 
 		int SceneId;
 		int Size;
-		std::vector<DrawableGameComponent*> GameObjects;
+		std::vector<GameComponent*> GameObjects;
 
 	private:
 		

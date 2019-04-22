@@ -1,8 +1,5 @@
 #include "MenuLevel.h"
 
-const int MENU_LEVEL = 0;
-
-
 namespace Rendering
 {
 	MenuLevel::MenuLevel(Game& game, Camera& camera)

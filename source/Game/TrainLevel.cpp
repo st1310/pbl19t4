@@ -1,6 +1,5 @@
 #include "TrainLevel.h"
 
-const int TRAIN_LEVEL = 1;
 
 namespace Rendering
 {

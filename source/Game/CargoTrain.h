@@ -6,11 +6,16 @@
 using namespace Library;
 using namespace Rendering;
 
-class CargoTrain :
-	public TexturedModelDemo
+namespace Rendering
 {
-public:
-	CargoTrain(Game& game, Camera& camera, double x, double y);
-	~CargoTrain();
-};
+	class CargoTrain :
+		public TexturedModelDemo
+	{
+	public:
+		CargoTrain(Game& game, Camera& camera, double x, double y);
+		~CargoTrain();
+	};
+}
+
+
 

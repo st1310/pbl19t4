@@ -15,7 +15,7 @@ namespace Rendering
 	public:
 		GameManager(Game& game, Camera& camera);
 		~GameManager();
-		void Init();
+		void Initialize();
 		void StartScene(int sceneId);
 		int GetSizeOfCurrentScene();
 

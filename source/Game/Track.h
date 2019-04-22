@@ -6,11 +6,14 @@
 using namespace Library;
 using namespace Rendering;
 
-class Track :
-	public TexturedModelDemo
+namespace Rendering
 {
-public:
-	Track(Game& game, Camera& camera, double x, double y);
-	~Track();
-};
+	class Track :
+		public TexturedModelDemo
+	{
+	public:
+		Track(Game& game, Camera& camera, double x, double y);
+		~Track();
+	};
+}
 

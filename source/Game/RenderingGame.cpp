@@ -58,7 +58,7 @@ namespace Rendering
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
 		mGameManager = new GameManager(*this, *mCamera);
-		//mGameManager->StartScene(0);
+		mGameManager->StartScene(TRAIN_LEVEL);
 
 		
 		for(int i =0; i <  mGameManager->GetSizeOfCurrentScene(); i++)
