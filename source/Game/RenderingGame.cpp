@@ -26,7 +26,7 @@ namespace Rendering
 		mRenderStateHelper(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mGameManager(nullptr)
+		mGameManager(nullptr),
 		mTMDemo(nullptr), mTMMDemo(nullptr), mADemo(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
