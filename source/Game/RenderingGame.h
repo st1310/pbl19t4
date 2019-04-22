@@ -24,6 +24,9 @@ namespace Library
 namespace Rendering
 {
 	class GameManager;
+	class TexturedModelDemo;
+	class TexturedModelMaterialDemo;
+	class AnimationDemo;
 
 	class RenderingGame : public Game
 	{
@@ -48,6 +51,7 @@ namespace Rendering
 		FpsComponent* mFpsComponent;
 		SkyboxComponent* mSkybox;
 
+		// TODO: Add to Services and change components to use this one
 		RenderStateHelper* mRenderStateHelper;
 
 		SpriteBatch* mSpriteBatch;
@@ -55,5 +59,8 @@ namespace Rendering
 		XMFLOAT2 mMouseTextPosition;
 
 		GameManager* mGameManager;
+		TexturedModelDemo* mTMDemo;
+		TexturedModelMaterialDemo* mTMMDemo;
+		AnimationDemo* mADemo;
 	};
 }

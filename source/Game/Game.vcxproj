@@ -176,10 +176,15 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="MenuLevel.cpp" />
     <ClCompile Include="PassengerTrain.cpp" />
+    <ClCompile Include="AnimationDemo.cpp" />
+    <ClCompile Include="CubeDemo.cpp" />
+    <ClCompile Include="MaterialDemo.cpp" />
+    <ClCompile Include="ModelDemo.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="RenderingGame.cpp" />
     <ClCompile Include="TexturedModelDemo.cpp" />
     <ClCompile Include="TexturedModelMaterialDemo.cpp" />
+    <ClCompile Include="TriangleDemo.cpp" />
     <ClCompile Include="Track.cpp" />
     <ClCompile Include="TrainLevel.cpp" />
   </ItemGroup>
@@ -189,11 +194,16 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="MenuLevel.h" />
     <ClInclude Include="PassengerTrain.h" />
+    <ClInclude Include="AnimationDemo.h" />
+    <ClInclude Include="CubeDemo.h" />
+    <ClInclude Include="MaterialDemo.h" />
+    <ClInclude Include="ModelDemo.h" />
     <ClInclude Include="RenderingGame.h" />
     <ClInclude Include="TexturedModelDemo.h" />
     <ClInclude Include="TexturedModelMaterialDemo.h" />
     <ClInclude Include="Track.h" />
     <ClInclude Include="TrainLevel.h" />
+    <ClInclude Include="TriangleDemo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

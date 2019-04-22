@@ -38,7 +38,7 @@ namespace Library
 
 #define RTTI_DECLARATIONS(Type, ParentType)                                                                  \
         public:                                                                                              \
-            typedef ParentType Parent;                                                                       \
+			typedef ParentType Parent;																		 \
             static std::string TypeName() { return std::string(#Type); }                                     \
             virtual const unsigned int& TypeIdInstance() const { return Type::TypeIdClass(); }               \
             static  const unsigned int& TypeIdClass() { return sRunTimeTypeId; }                             \

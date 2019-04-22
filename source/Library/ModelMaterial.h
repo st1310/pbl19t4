@@ -32,7 +32,7 @@ namespace Library
 
 		Model& GetModel();
 		const std::string& Name() const;
-		const std::map<TextureType, std::vector<std::wstring>*> Textures() const;
+		const std::map<TextureType, std::vector<std::wstring>*>& Textures() const;
 
 	private:
 		static void InitializeTextureTypeMappings();
