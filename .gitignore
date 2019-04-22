@@ -381,3 +381,32 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.gitignore.io/api/c++,visualstudio
+
+# Content folder is created by pre-build
+/[Cc]ontent/
+
+### External libraries ###
+# Assimp
+/external/assimp-4.1.0/CMakeFiles/
+/external/assimp-4.1.0/cmake-modules/
+/external/assimp-4.1.0/code/
+/external/assimp-4.1.0/contrib/
+/external/assimp-4.1.0/doc/
+/external/assimp-4.1.0/packaging/
+/external/assimp-4.1.0/port/
+/external/assimp-4.1.0/samples/
+/external/assimp-4.1.0/scripts/
+/external/assimp-4.1.0/test/
+/external/assimp-4.1.0/tools/
+
+/external/assimp-4.1.0/.editorconfig
+/external/assimp-4.1.0/*.vcxproj
+/external/assimp-4.1.0/*.filters
+/external/assimp-4.1.0/*.pc
+/external/assimp-4.1.0/*.in
+/external/assimp-4.1.0/*.sln
+/external/assimp-4.1.0/*.cmake
+/external/assimp-4.1.0/*.txt
+/external/assimp-4.1.0/*.md
+/external/assimp-4.1.0/*.tcl
+/external/assimp-4.1.0/*.h
