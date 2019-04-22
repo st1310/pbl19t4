@@ -17,8 +17,7 @@ namespace Library
 		mFeatureLevel(D3D_FEATURE_LEVEL_9_1), mDirect3DDevice(nullptr), mDirect3DDeviceContext(nullptr),
 		mFrameRate(DefaultFrameRate), mIsFullScreen(false),
 		mDepthStencilBufferEnabled(false), mMultiSamplingEnabled(false), mMultiSamplingCount(DefaultMultiSamplingCount),
-		mDepthStencilBuffer(nullptr), mRenderTargetView(nullptr), mDepthStencilView(nullptr), mViewport(),
-		mComponents(), mServices()
+		mDepthStencilBuffer(nullptr), mRenderTargetView(nullptr), mDepthStencilView(nullptr), mViewport()
 	{
 	}
 
@@ -71,11 +70,6 @@ namespace Library
 		return mDirect3DDeviceContext;
 	}
 
-	bool Game::DepthBufferEnabled() const
-	{
-		return mDepthStencilBufferEnabled; //
-	}
-
 	float Game::AspectRatio() const
 	{
 		return static_cast<float>(mScreenWidth) / mScreenHeight;
@@ -94,16 +88,6 @@ namespace Library
 	const D3D11_VIEWPORT& Game::Viewport() const
 	{
 		return mViewport;
-	}
-
-	const std::vector<GameComponent*>& Game::Components() const
-	{
-		return mComponents;
-	}
-
-	const ServiceContainer& Game::Services() const
-	{
-		return mServices;
 	}
 
 	void Game::Run()

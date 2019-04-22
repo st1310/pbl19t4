@@ -4,7 +4,6 @@
 #include <SpriteBatch.h>
 #include <SpriteFont.h>
 #include "Game.h"
-#include "RenderStateHelper.h"
 #include "Utility.h"
 
 namespace Library
@@ -35,8 +34,6 @@ namespace Library
 
 	void FpsComponent::Initialize()
 	{
-		mRenderStateHelper = new RenderStateHelper(*mGame);
-
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 		mSpriteBatch = new SpriteBatch(mGame->Direct3DDeviceContext());
 		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
@@ -56,7 +53,6 @@ namespace Library
 
 	void FpsComponent::Draw(const GameTime & gameTime)
 	{
-		mRenderStateHelper->SaveAll();
 		mSpriteBatch->Begin();
 
 		std::wostringstream fpsLabel;
@@ -65,7 +61,6 @@ namespace Library
 		mSpriteFont->DrawString(mSpriteBatch, fpsLabel.str().c_str(), mTextPosition);
 
 		mSpriteBatch->End();
-		mRenderStateHelper->RestoreAll();
 	}
 
 }

@@ -10,8 +10,6 @@ namespace DirectX
 
 namespace Library
 {
-	class RenderStateHelper;
-
 	class FpsComponent : public DrawableGameComponent
 	{
 		RTTI_DECLARATIONS(FpsComponent, DrawableGameComponent)
@@ -35,8 +33,6 @@ namespace Library
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mTextPosition;
-
-		RenderStateHelper* mRenderStateHelper;
 
 		int mFrameCount;
 		int mFrameRate;

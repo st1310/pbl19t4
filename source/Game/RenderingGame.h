@@ -14,17 +14,10 @@ namespace DirectX
 namespace Library
 {
 	class FpsComponent;
-	class KeyboardComponent;
-	class MouseComponent;
-	class FirstPersonCamera;
-	class RenderStateHelper;
-	class SkyboxComponent;
 }
 
 namespace Rendering
 {
-	class GameManager;
-
 	class RenderingGame : public Game
 	{
 	public:
@@ -41,19 +34,9 @@ namespace Rendering
 	private:
 		static const XMVECTORF32 BackgroundColor;
 
-		LPDIRECTINPUT8 mDirectInput;
-		KeyboardComponent* mKeyboard;
-		MouseComponent* mMouse;
-		FirstPersonCamera* mCamera;
 		FpsComponent* mFpsComponent;
-		SkyboxComponent* mSkybox;
-
-		RenderStateHelper* mRenderStateHelper;
 
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
-		XMFLOAT2 mMouseTextPosition;
-
-		GameManager* mGameManager;
 	};
 }
