@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Node.h"
+#include "CollisionNode.h"
 #include "DrawableGameComponent.h"
 //include some sort of entity.h which contains model with collision?
 
@@ -9,7 +9,7 @@ namespace Library
 	class NodeList
 	{
 	public:
-		static Node* MovedToNode(XMFLOAT3 ObjectPosition, std::vector<Node*>& ListOfNode);
+		static CollisionNode* MovedToNode(XMFLOAT3 ObjectPosition, std::vector<CollisionNode*>& ListOfNode);
 	private:
 		NodeList();
 	};

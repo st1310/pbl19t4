@@ -2,9 +2,9 @@
 
 namespace Library
 {
-	Node* NodeList::MovedToNode(XMFLOAT3 ObjectPosition, std::vector<Node*>& ListOfNode)
+	CollisionNode* NodeList::MovedToNode(XMFLOAT3 ObjectPosition, std::vector<CollisionNode*>& ListOfNode)
 	{
-		for (Node* nod : ListOfNode)
+		for (CollisionNode* nod : ListOfNode)
 		{
 			if (nod->IsInsideThisNode(ObjectPosition))
 			{

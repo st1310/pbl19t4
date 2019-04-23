@@ -22,7 +22,7 @@ namespace Library
 		bool CheckCollision(std::vector<Colliders*>& CollidableObjects);
 		bool CheckTriggerCollision(Colliders& TriggerCollider);
 	private:
-		std::vector<BoundingBox> BoundingBoxes;
-		std::vector<BoundingBox> TriggerBoxes;
+		std::vector<BoundingBox*> BoundingBoxes;
+		std::vector<BoundingBox*> TriggerBoxes;
 	};
 }

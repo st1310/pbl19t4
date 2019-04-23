@@ -74,12 +74,12 @@ namespace Library
 		}
 	}
 
-	void FirstPersonCamera::SetNode(Node* node)
+	void FirstPersonCamera::SetCollisionNode(CollisionNode* node)
 	{
 		mNode = node;
 	}
 
-	void FirstPersonCamera::SendColliderList(std::vector<Node*> newNodeList)
+	void FirstPersonCamera::SendColliderList(std::vector<CollisionNode*> newNodeList)
 	{
 		mNodeList = newNodeList;
 	}
@@ -170,25 +170,25 @@ namespace Library
 		{
 			if (this->mNode->IsInsideThisNode(checkPos))
 			{
-				if (!this->mNode->CheckCollisionInNode(*mCollider))
+				if (!this->mNode->CheckCollisionInNode(mCollider))
 					XMStoreFloat3(&mPosition, position);
 				else mCollider->Move(XMLoadFloat3(&mPosition));
 			}
 			else
 			{
-				Node* newNode = NodeList::MovedToNode(checkPos, mNodeList);
+				CollisionNode* newNode = NodeList::MovedToNode(checkPos, mNodeList);
 				if (newNode != nullptr)
 				{
-					if (!newNode->CheckCollisionWhenEntering(*mCollider))
+					if (!newNode->CheckCollisionWhenEntering(mCollider))
 					{
 						XMStoreFloat3(&mPosition, position);
-						this->SetNode(newNode);
+						this->SetCollisionNode(newNode);
 					}
 					else mCollider->Move(XMLoadFloat3(&mPosition));
 				}
 				else
 				{
-					this->SetNode(nullptr);
+					this->SetCollisionNode(nullptr);
 					XMStoreFloat3(&mPosition, position);
 				}
 			}

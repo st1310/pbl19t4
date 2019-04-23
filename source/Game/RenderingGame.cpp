@@ -11,7 +11,7 @@
 #include "RenderStateHelper.h"
 #include "TexturedModelDemo.h"
 #include "Utility.h"
-#include "Node.h"
+#include "CollisionNode.h"
 
 namespace Rendering
 {
@@ -49,13 +49,14 @@ namespace Rendering
 
 		mCollC = new Colliders();
 		mCamera = new FirstPersonCamera(*this);
-		Node* newNode = new Node({500.f, -500.f, 0.f}, {-500.f, 500.f, 0.f});
+		CollisionNode* newNode = new CollisionNode({500.f, -500.f, 0.f}, {-500.f, 500.f, 0.f});
 
 		mCamera->SetCollider(mCollC);
 		mComponents.push_back(mCamera);
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
 
-		mCollTM = new Colliders(new BoundingBox({ -500.f , 20.f, -500.f }, { 500.f , 15.f, 500.f }));
+		Library::BoundingBox* mDemoBox = new Library::BoundingBox({ -500.f , 20.0f, -500.f }, { 500.f , 15.f, 500.f });
+		mCollTM = new Colliders(mDemoBox);
 		mTMDemo = new TexturedModelDemo(*this, *mCamera, *mCollTM);
 		mComponents.push_back(mTMDemo);
 
@@ -75,7 +76,7 @@ namespace Rendering
 		newNode->AddStaticCollider(mCollTM);
 		mNode.push_back(newNode);
 
-		mCamera->SetNode(newNode);
+		mCamera->SetCollisionNode(newNode);
 		mCamera->SetPosition(0.0f, 0.0f, 10.0f);
 	}
 

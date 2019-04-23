@@ -106,7 +106,7 @@ namespace Library
 		return mServices;
 	}
 
-	const std::vector<Node*>& Game::NodeList() const
+	const std::vector<CollisionNode*>& Game::NodeList() const
 	{
 		return mNode;
 	}

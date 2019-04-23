@@ -2,7 +2,7 @@
 
 #include "Camera.h"
 #include "Colliders.h"
-#include "Node.h"
+#include "CollisionNode.h"
 
 namespace Library
 {
@@ -28,9 +28,9 @@ namespace Library
 
 		const Colliders* GetColliders() const;
 		void SetCollider(Colliders* collider);
-		void SetNode(Node* node);
+		void SetCollisionNode(CollisionNode* node);
 
-		void SendColliderList(std::vector<Node*> newNodeList);
+		void SendColliderList(std::vector<CollisionNode*> newNodeList);
 
 		float& MouseSensitivity();
 		float& RotationRate();
@@ -49,8 +49,8 @@ namespace Library
 		float mMovementRate;
 
 		Colliders* mCollider;
-		std::vector<Node*> mNodeList;
-		Node* mNode;
+		std::vector<CollisionNode*> mNodeList;
+		CollisionNode* mNode;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
 

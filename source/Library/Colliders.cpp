@@ -11,7 +11,7 @@ namespace Library
 	Colliders::Colliders(BoundingBox* colliderBox) :
 		BoundingBoxes(), TriggerBoxes()
 	{
-		BoundingBoxes.push_back(*colliderBox);
+		BoundingBoxes.push_back(colliderBox);
 	}
 
 	Colliders::~Colliders()
@@ -22,7 +22,7 @@ namespace Library
 
 	void Colliders::PushNewBoundingBox(BoundingBox* bbox)
 	{
-		BoundingBoxes.push_back(*bbox);
+		BoundingBoxes.push_back(bbox);
 	}
 
 	
@@ -65,15 +65,15 @@ namespace Library
 
 	void Colliders::Move(XMVECTOR destination)
 	{
-		for (BoundingBox& bbox : BoundingBoxes)
+		for (BoundingBox* bbox : BoundingBoxes)
 		{
-			bbox.Move(destination);
+			bbox->Move(destination);
 		}
 		if (!TriggerBoxes.empty())
 		{ 
-			for (BoundingBox tbox : TriggerBoxes)
+			for (BoundingBox* tbox : TriggerBoxes)
 			{
-				tbox.Move(destination);
+				tbox->Move(destination);
 			}
 		}
 	}
@@ -84,40 +84,40 @@ namespace Library
 		XMVECTOR topDir;
 		XMFLOAT3 rewriter;
 
-		for (BoundingBox bbox : BoundingBoxes)
+		for (BoundingBox* bbox : BoundingBoxes)
 		{
-			botDir = XMLoadFloat3(&bbox.BottomRect());
+			botDir = XMLoadFloat3(&bbox->BottomRect());
 			botDir = XMVector3TransformNormal(botDir, direction);
 			botDir = XMVector3Normalize(botDir);
 
 			XMStoreFloat3(&rewriter, botDir);
-			bbox.SetBottomRect(rewriter);
+			bbox->SetBottomRect(rewriter);
 
-			topDir = XMLoadFloat3(&bbox.TopRect());
+			topDir = XMLoadFloat3(&bbox->TopRect());
 			topDir = XMVector3TransformNormal(topDir, direction);
 			topDir = XMVector3Normalize(topDir);
 
 			XMStoreFloat3(&rewriter, topDir);
-			bbox.SetTopRect(rewriter);
+			bbox->SetTopRect(rewriter);
 		}
 
 		if (!TriggerBoxes.empty())
 		{
-			for (BoundingBox tbox : TriggerBoxes)
+			for (BoundingBox* tbox : TriggerBoxes)
 			{
-				botDir = XMLoadFloat3(&tbox.BottomRect());
+				botDir = XMLoadFloat3(&tbox->BottomRect());
 				botDir = XMVector3TransformNormal(botDir, direction);
 				botDir = XMVector3Normalize(botDir);
 
 				XMStoreFloat3(&rewriter, botDir);
-				tbox.SetBottomRect(rewriter);
+				tbox->SetBottomRect(rewriter);
 
-				topDir = XMLoadFloat3(&tbox.TopRect());
+				topDir = XMLoadFloat3(&tbox->TopRect());
 				topDir = XMVector3TransformNormal(topDir, direction);
 				topDir = XMVector3Normalize(topDir);
 
 				XMStoreFloat3(&rewriter, topDir);
-				tbox.SetTopRect(rewriter);
+				tbox->SetTopRect(rewriter);
 			}
 		}
 	}
@@ -132,12 +132,12 @@ namespace Library
 		{
 			if (this != coll)
 			{
-				for (BoundingBox bbox : BoundingBoxes)
+				for (BoundingBox* bbox : BoundingBoxes)
 				{
-					for (BoundingBox tbbox : coll->BoundingBoxes)
+					for (BoundingBox* tbbox : coll->BoundingBoxes)
 					{
-						if(tbbox.HasDeclaredPoints() && tbbox.HasDeclaredPoints())
-							if (bbox.Intersects(tbbox))
+						if(bbox->HasDeclaredPoints() && tbbox->HasDeclaredPoints())
+							if (bbox->Intersects(*tbbox))
 								colidable = true;
 					}
 				}
@@ -155,10 +155,10 @@ namespace Library
 		if (BoundingBoxes.empty())
 			return false;
 
-		for (BoundingBox bbox : BoundingBoxes)
+		for (BoundingBox* bbox : BoundingBoxes)
 		{
-			for (BoundingBox trigger : TriggerCollider.BoundingBoxes)
-				if (bbox.Intersects(trigger))
+			for (BoundingBox* trigger : TriggerCollider.BoundingBoxes)
+				if (bbox->Intersects(*trigger))
 					colided = true;
 		}
 
