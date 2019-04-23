@@ -21,7 +21,6 @@ namespace Library
 		void PushNewBoundingBox(BoundingBox* bbox);
 		bool CheckCollision(std::vector<Colliders*>& CollidableObjects);
 		bool CheckTriggerCollision(Colliders& TriggerCollider);
-		void DebuggingMode();
 	private:
 		std::vector<BoundingBox> BoundingBoxes;
 		std::vector<BoundingBox> TriggerBoxes;

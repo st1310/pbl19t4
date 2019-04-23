@@ -18,7 +18,7 @@ namespace Library
 		mFrameRate(DefaultFrameRate), mIsFullScreen(false),
 		mDepthStencilBufferEnabled(false), mMultiSamplingEnabled(false), mMultiSamplingCount(DefaultMultiSamplingCount),
 		mDepthStencilBuffer(nullptr), mRenderTargetView(nullptr), mDepthStencilView(nullptr), mViewport(),
-		mComponents(), mServices(), mColliders()
+		mComponents(), mServices(), mNode()
 	{
 	}
 
@@ -106,9 +106,9 @@ namespace Library
 		return mServices;
 	}
 
-	const std::vector<Colliders*>& Game::ColliderList() const
+	const std::vector<Node*>& Game::NodeList() const
 	{
-		return  mColliders;
+		return mNode;
 	}
 
 	void Game::Run()

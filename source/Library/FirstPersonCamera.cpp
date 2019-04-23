@@ -4,6 +4,7 @@
 #include "KeyboardComponent.h"
 #include "MouseComponent.h"
 #include "VectorHelper.h"
+#include "NodeList.h"
 
 namespace Library
 {
@@ -16,18 +17,18 @@ namespace Library
 	FirstPersonCamera::FirstPersonCamera(Game& game)
 		: Camera(game), mKeyboard(nullptr), mMouse(nullptr),
 		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate), mCollider(),
-		collidableWalls()
+		mNodeList(), mNode(nullptr)
 	{
-		collidableWalls = game.ColliderList();
+		mNodeList = game.NodeList();
 	}
 
 	FirstPersonCamera::FirstPersonCamera(Game& game, float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
 		: Camera(game, fieldOfView, aspectRatio, nearPlaneDistance, farPlaneDistance), mKeyboard(nullptr), mMouse(nullptr),
 		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate), mCollider(),
-		collidableWalls()
+		mNodeList(), mNode(nullptr)
 
 	{
-		collidableWalls = game.ColliderList();
+		mNodeList = game.NodeList();
 	}
 
 	FirstPersonCamera::~FirstPersonCamera()
@@ -35,7 +36,8 @@ namespace Library
 		mKeyboard = nullptr;
 		mMouse = nullptr;
 		mCollider = nullptr;
-		collidableWalls.clear();
+		mNode = nullptr;
+		mNodeList.clear();
 	}
 
 	const KeyboardComponent& FirstPersonCamera::GetKeyboard() const
@@ -72,9 +74,14 @@ namespace Library
 		}
 	}
 
-	void FirstPersonCamera::SendColliderList(std::vector<Colliders*> collList)
+	void FirstPersonCamera::SetNode(Node* node)
 	{
-		collidableWalls = collList;
+		mNode = node;
+	}
+
+	void FirstPersonCamera::SendColliderList(std::vector<Node*> newNodeList)
+	{
+		mNodeList = newNodeList;
 	}
 
 	float&FirstPersonCamera::MouseSensitivity()
@@ -154,10 +161,42 @@ namespace Library
 		XMVECTOR forward = XMLoadFloat3(&mDirection) * XMVectorGetY(movement);
 		position += forward;
 
+		XMFLOAT3 checkPos;
+		XMStoreFloat3(&checkPos, position);
+
 		mCollider->Move(position);
-		if(!mCollider->CheckCollision(collidableWalls))
+
+		if (this->mNode != nullptr)
+		{
+			if (this->mNode->IsInsideThisNode(checkPos))
+			{
+				if (!this->mNode->CheckCollisionInNode(*mCollider))
+					XMStoreFloat3(&mPosition, position);
+				else mCollider->Move(XMLoadFloat3(&mPosition));
+			}
+			else
+			{
+				Node* newNode = NodeList::MovedToNode(checkPos, mNodeList);
+				if (newNode != nullptr)
+				{
+					if (!newNode->CheckCollisionWhenEntering(*mCollider))
+					{
+						XMStoreFloat3(&mPosition, position);
+						this->SetNode(newNode);
+					}
+					else mCollider->Move(XMLoadFloat3(&mPosition));
+				}
+				else
+				{
+					this->SetNode(nullptr);
+					XMStoreFloat3(&mPosition, position);
+				}
+			}
+		}
+		else
+		{
 			XMStoreFloat3(&mPosition, position);
-		else mCollider->Move(XMLoadFloat3(&mPosition));
+		}
 
 		Camera::Update(gameTime);
 	}

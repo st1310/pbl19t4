@@ -183,6 +183,8 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelMaterial.h" />
     <ClInclude Include="MouseComponent.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="NodeList.h" />
     <ClInclude Include="RenderStateHelper.h" />
     <ClInclude Include="RTTI.h" />
     <ClInclude Include="ServiceContainer.h" />
@@ -210,6 +212,8 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelMaterial.cpp" />
     <ClCompile Include="MouseComponent.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="NodeList.cpp" />
     <ClCompile Include="RenderStateHelper.cpp" />
     <ClCompile Include="ServiceContainer.cpp" />
     <ClCompile Include="stdafx.cpp">

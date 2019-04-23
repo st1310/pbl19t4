@@ -11,6 +11,7 @@
 #include "RenderStateHelper.h"
 #include "TexturedModelDemo.h"
 #include "Utility.h"
+#include "Node.h"
 
 namespace Rendering
 {
@@ -48,15 +49,15 @@ namespace Rendering
 
 		mCollC = new Colliders();
 		mCamera = new FirstPersonCamera(*this);
+		Node* newNode = new Node({500.f, -500.f, 0.f}, {-500.f, 500.f, 0.f});
+
 		mCamera->SetCollider(mCollC);
 		mComponents.push_back(mCamera);
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
-		mColliders.push_back(mCollC);
 
 		mCollTM = new Colliders(new BoundingBox({ -500.f , 20.f, -500.f }, { 500.f , 15.f, 500.f }));
 		mTMDemo = new TexturedModelDemo(*this, *mCamera, *mCollTM);
 		mComponents.push_back(mTMDemo);
-		mColliders.push_back(mCollTM);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
@@ -70,6 +71,11 @@ namespace Rendering
 
 		Game::Initialize();
 
+		newNode->AddDynamicCollider(mCollC);
+		newNode->AddStaticCollider(mCollTM);
+		mNode.push_back(newNode);
+
+		mCamera->SetNode(newNode);
 		mCamera->SetPosition(0.0f, 0.0f, 10.0f);
 	}
 
@@ -95,7 +101,7 @@ namespace Rendering
 			Exit();
 		}
 
-		mCamera->SendColliderList(mColliders);
+		//mCamera->SendColliderList(mColliders);
 		Game::Update(gameTime);
 	}
 

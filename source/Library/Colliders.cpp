@@ -164,44 +164,4 @@ namespace Library
 
 		return colided;
 	}
-
-	//used for drawing ColliderBoxes in Debug Mode
-	void Colliders::DebuggingMode()
-	{
-		XMFLOAT3 minBotPos;
-		XMFLOAT3 maxTopPos;
-
-		if (BoundingBoxes.empty())
-			return;
-
-		minBotPos = BoundingBoxes[0].BottomRect();
-		maxTopPos = BoundingBoxes[0].TopRect();
-
-		for (BoundingBox bbox : BoundingBoxes)
-		{
-			if (minBotPos.x > bbox.BottomRect().x)
-				minBotPos.x = bbox.BottomRect().x;
-			if (minBotPos.x > bbox.TopRect().x)
-				minBotPos.x = bbox.TopRect().x;
-			if (minBotPos.y > bbox.BottomRect().y)
-				minBotPos.y = bbox.BottomRect().y;
-			if (minBotPos.z < bbox.BottomRect().z)
-				minBotPos.z = bbox.BottomRect().z;
-			if (minBotPos.z < bbox.TopRect().z)
-				minBotPos.z = bbox.TopRect().z;
-
-			if (maxTopPos.x < bbox.TopRect().x)
-				maxTopPos.x = bbox.TopRect().x;
-			if (maxTopPos.x < bbox.BottomRect().x)
-				maxTopPos.x = bbox.BottomRect().x;
-			if (maxTopPos.y < bbox.TopRect().y)
-				maxTopPos.y = bbox.TopRect().y;
-			if (maxTopPos.z > bbox.TopRect().z)
-				maxTopPos.z = bbox.TopRect().z;
-			if (maxTopPos.z > bbox.BottomRect().z)
-				maxTopPos.z = bbox.BottomRect().z;
-		}
-
-		//TODO: draw collider box using this two points if Debugging is on
-	}
 }

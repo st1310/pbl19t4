@@ -8,6 +8,7 @@
 #include "GameTime.h"
 #include "GameComponent.h"
 #include "ServiceContainer.h"
+#include "Node.h"
 
 namespace Library
 {
@@ -36,7 +37,7 @@ namespace Library
 
 		const std::vector<GameComponent*>& Components() const;
 		const ServiceContainer& Services() const;
-		const std::vector<Colliders*>& ColliderList() const;
+		const std::vector<Node*>& NodeList() const;
 
 		virtual void Run();
 		virtual void Exit();
@@ -69,7 +70,7 @@ namespace Library
 		GameTime mGameTime;
 		std::vector<GameComponent*> mComponents;
 		ServiceContainer mServices;
-		std::vector<Colliders*> mColliders;
+		std::vector<Node*> mNode;
 
 		D3D_FEATURE_LEVEL mFeatureLevel;
 		ID3D11Device1* mDirect3DDevice;
