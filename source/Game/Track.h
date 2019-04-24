@@ -12,7 +12,7 @@ namespace Rendering
 		public GameObject
 	{
 	public:
-		Track(Game& game, Camera& camera, XMFLOAT4 position);
+		Track(Game& game, Camera& camera, XMFLOAT3 position);
 		~Track();
 	};
 }

@@ -27,7 +27,7 @@ namespace Rendering
 		RTTI_DECLARATIONS(GameObject, DrawableGameComponent)
 
 	public:
-		GameObject(Game& game, Camera& camera, const std::string modelName, const std::wstring shaderName, XMFLOAT4 position);
+		GameObject(Game& game, Camera& camera, const char *modelName, LPCWSTR shaderName, XMFLOAT3 position);
 		~GameObject();
 		
 		virtual void Initialize() override;
@@ -36,10 +36,15 @@ namespace Rendering
 
 		// Transformations etc
 		void Scale(float x, float y, float z);
+		void Scale(XMFLOAT3 scale);
+
 		void Rotate(float x, float y, float z);
 		void Rotate(float angle, int axis);
+		void Rotate(XMFLOAT3 rotation);
+
 		void Translate(float x, float y, float z);
 		void Translate(float value, int axis);
+		void Translate(XMFLOAT3 translation);
 
 	private:
 		GameObject();
@@ -50,8 +55,9 @@ namespace Rendering
 
 		Effect* mEffect;
 		SkinnedModelMaterial* mMaterial;
-		const std::string mModelName;
-		const std::wstring mShaderName;
+		const char *mModelName;
+		LPCWSTR mShaderName;
+		XMFLOAT3 mStartPosition;
 
 		KeyboardComponent* mKeyboard;
 		XMFLOAT4X4 mWorldMatrix;

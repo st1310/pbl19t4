@@ -2,7 +2,7 @@
 
 namespace Rendering
 {
-	Earth::Earth(Game& game, Camera& camera, XMFLOAT4 position)
+	Earth::Earth(Game& game, Camera& camera, XMFLOAT3 position)
 		: GameObject(game, camera,
 			"Content\\Models\\Sphere.obj",
 			L"Content\\Effects\\SkinnedModel.cso",

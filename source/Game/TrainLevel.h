@@ -6,6 +6,7 @@
 #include "CargoTrain.h"
 #include "PassengerTrain.h"
 #include "Track.h"
+#include "GreenSoldier.h"
 
 using namespace Library;
 

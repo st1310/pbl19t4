@@ -12,7 +12,7 @@ namespace Rendering
 		public GameObject
 	{
 	public:
-		GreenSoldier(Game& game, Camera& camera, XMFLOAT4 position);
+		GreenSoldier(Game& game, Camera& camera, XMFLOAT3 position);
 		~GreenSoldier();
 	};
 }

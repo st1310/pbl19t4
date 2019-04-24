@@ -12,7 +12,7 @@ namespace Rendering
 		public GameObject
 	{
 	public:
-		Earth(Game& game, Camera& camera, XMFLOAT4 position);
+		Earth(Game& game, Camera& camera, XMFLOAT3 position);
 		~Earth();
 	};
 }

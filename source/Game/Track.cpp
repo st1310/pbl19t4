@@ -2,7 +2,7 @@
 
 namespace Rendering
 {
-	Track::Track(Game& game, Camera& camera, XMFLOAT4 position)
+	Track::Track(Game& game, Camera& camera, XMFLOAT3 position)
 		: GameObject(game, camera,
 			"Content\\Models\\Track.fbx",
 			L"Content\\Effects\\SkinnedModel.cso",

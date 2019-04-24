@@ -16,7 +16,7 @@ namespace Rendering
 
 	void MenuLevel::Start(Game& game, Camera& camera)
 	{
-		GreenSoldier* greenSoldier = new GreenSoldier(game, camera, XMFLOAT4());
+		GreenSoldier* greenSoldier = new GreenSoldier(game, camera, XMFLOAT3());
 		this->GameObjects.push_back(greenSoldier);
 
 	}

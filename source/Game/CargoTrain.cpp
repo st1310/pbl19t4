@@ -2,7 +2,7 @@
 
 namespace Rendering
 {
-	CargoTrain::CargoTrain(Game& game, Camera& camera, XMFLOAT4 position)
+	CargoTrain::CargoTrain(Game& game, Camera& camera, XMFLOAT3 position)
 		: GameObject(game, camera,
 			"Content\\Models\\CargoTrain.fbx",
 			L"Content\\Effects\\SkinnedModel.cso",

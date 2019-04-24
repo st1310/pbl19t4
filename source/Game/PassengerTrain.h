@@ -12,7 +12,7 @@ namespace Rendering
 		public GameObject
 	{
 	public:
-		PassengerTrain(Game& game, Camera& camera, XMFLOAT4 position);
+		PassengerTrain(Game& game, Camera& camera, XMFLOAT3 position);
 		~PassengerTrain();
 	};
 }
