@@ -10,7 +10,6 @@
 #include "SkyboxComponent.h"
 #include "ColorHelper.h"
 #include "RenderStateHelper.h"
-#include "TexturedModelDemo.h"
 #include "TexturedModelMaterialDemo.h"
 #include "GameManager.h"
 #include "GameObject.h"

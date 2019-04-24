@@ -45,9 +45,6 @@
     <ClCompile Include="RenderingGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TexturedModelDemo.cpp">
-      <Filter>Assets\Abstract</Filter>
-    </ClCompile>
     <ClCompile Include="TexturedModelMaterialDemo.cpp">
       <Filter>Assets\Abstract</Filter>
     </ClCompile>
@@ -78,13 +75,16 @@
     <ClCompile Include="GreenSoldier.cpp">
       <Filter>Assets\Source</Filter>
     </ClCompile>
+    <ClCompile Include="DayLevel.cpp">
+      <Filter>Scenes\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CityLevel.cpp">
+      <Filter>Scenes\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderingGame.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TexturedModelDemo.h">
-      <Filter>Assets\Abstract</Filter>
     </ClInclude>
     <ClInclude Include="TexturedModelMaterialDemo.h">
       <Filter>Assets\Abstract</Filter>
@@ -115,6 +115,15 @@
     </ClInclude>
     <ClInclude Include="GreenSoldier.h">
       <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DayLevel.h">
+      <Filter>Scenes\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetList.h">
+      <Filter>Assets\Abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="CityLevel.h">
+      <Filter>Scenes\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

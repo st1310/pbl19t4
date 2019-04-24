@@ -26,12 +26,14 @@ namespace Rendering
 		MenuLevel* menuLevel = new MenuLevel(*game, *camera);
 		Scenes.push_back(menuLevel);
 
-		// Only for tests HARD TODO TODO --Szymon
-		TrainLevel* dayLevel = new TrainLevel(*game, *camera);
+		DayLevel* dayLevel = new DayLevel(*game, *camera);
 		Scenes.push_back(dayLevel);
 
 		TrainLevel* trainLevel = new TrainLevel(*game, *camera);
 		Scenes.push_back(trainLevel);
+
+		CityLevel* cityLevel= new CityLevel(*game, *camera);
+		Scenes.push_back(cityLevel);
 	}
 
 	void GameManager::StartScene(int sceneId)

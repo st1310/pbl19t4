@@ -1,7 +1,10 @@
 #pragma once
 #include "Scene.h"
 #include "MenuLevel.h"
+#include "DayLevel.h"
 #include "TrainLevel.h"
+#include "CityLevel.h"
+
 using namespace Library;
 
 

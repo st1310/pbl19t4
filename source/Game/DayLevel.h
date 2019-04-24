@@ -6,15 +6,13 @@ using namespace Library;
 
 namespace Rendering
 {
-	class MenuLevel :
+	class DayLevel :
 		public Scene
 	{
 	public:
-		MenuLevel(Game& game, Camera& camera);
-		~MenuLevel();
+		DayLevel(Game& game, Camera& camera);
+		~DayLevel();
 
 		void Start(Game& game, Camera& camera);
 	};
 }
-
-
