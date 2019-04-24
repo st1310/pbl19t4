@@ -8,13 +8,14 @@ using namespace Rendering;
 
 namespace Rendering
 {
-	class PassengerTrain :
+	class GreenSoldier :
 		public GameObject
 	{
 	public:
-		PassengerTrain(Game& game, Camera& camera, XMFLOAT4 position);
-		~PassengerTrain();
+		GreenSoldier(Game& game, Camera& camera, XMFLOAT4 position);
+		~GreenSoldier();
 	};
 }
+
 
 

@@ -59,8 +59,5 @@ namespace Rendering
 		XMFLOAT2 mMouseTextPosition;
 
 		GameManager* mGameManager;
-		TexturedModelDemo* mTMDemo;
-		TexturedModelMaterialDemo* mTMMDemo;
-		AnimationDemo* mADemo;
 	};
 }

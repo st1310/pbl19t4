@@ -6,6 +6,9 @@
 #define DAY_LEVEL 1
 #define TRAIN_LEVEL 2
 #define CITY_LEVEL 3
+#define X_AXIS 1
+#define Y_AXIS 2
+#define Z_AXIS 3
 #endif
 
 #define NOMINMAX // This define fixes assimp std::min/max error

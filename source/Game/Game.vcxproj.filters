@@ -72,8 +72,11 @@
     <ClCompile Include="MenuLevel.cpp">
       <Filter>Scenes\Source</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationDemo.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Assets\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenSoldier.cpp">
+      <Filter>Assets\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,8 +110,11 @@
     <ClInclude Include="MenuLevel.h">
       <Filter>Scenes\Header</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationDemo.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="GameObject.h">
+      <Filter>Assets\Abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenSoldier.h">
+      <Filter>Assets\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

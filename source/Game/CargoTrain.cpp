@@ -2,13 +2,11 @@
 
 namespace Rendering
 {
-	CargoTrain::CargoTrain(Game& game, Camera& camera, double x, double y)
-		: TexturedModelDemo(game, camera,
-			"Content\\Models\\CargoTrain.obj",
-			L"Content\\Textures\\CargoTrain.jpg",
-			L"Content\\Effects\\TextureMapping.fx",
-			x,
-			y)
+	CargoTrain::CargoTrain(Game& game, Camera& camera, XMFLOAT4 position)
+		: GameObject(game, camera,
+			"Content\\Models\\CargoTrain.fbx",
+			L"Content\\Effects\\SkinnedModel.cso",
+			position)
 	{
 	}
 

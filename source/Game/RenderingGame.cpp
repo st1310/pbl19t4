@@ -13,7 +13,7 @@
 #include "TexturedModelDemo.h"
 #include "TexturedModelMaterialDemo.h"
 #include "GameManager.h"
-#include "AnimationDemo.h"
+#include "GameObject.h"
 #include "Utility.h"
 
 namespace Rendering
@@ -26,8 +26,7 @@ namespace Rendering
 		mRenderStateHelper(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mGameManager(nullptr),
-		mTMDemo(nullptr), mTMMDemo(nullptr), mADemo(nullptr)
+		mGameManager(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -65,9 +64,6 @@ namespace Rendering
 
 		/*mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
 		mComponents.push_back(mTMMDemo);*/
-
-		mADemo = new AnimationDemo(*this, *mCamera);
-		mComponents.push_back(mADemo);
 		
 		for(int i =0; i <  mGameManager->GetSizeOfCurrentScene(); i++)
 		{
@@ -91,9 +87,6 @@ namespace Rendering
 
 	void RenderingGame::Shutdown()
 	{
-		DeleteObject(mTMDemo);
-		DeleteObject(mTMMDemo);
-		DeleteObject(mADemo);
 		DeleteObject(mGameManager);
 		DeleteObject(mKeyboard);
 		DeleteObject(mMouse);

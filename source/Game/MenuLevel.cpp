@@ -16,8 +16,8 @@ namespace Rendering
 
 	void MenuLevel::Start(Game& game, Camera& camera)
 	{
-		Earth* earth1 = new Earth(game, camera, 0, 0);
-		this->GameObjects.push_back(earth1);
+		GreenSoldier* greenSoldier = new GreenSoldier(game, camera, XMFLOAT4());
+		this->GameObjects.push_back(greenSoldier);
 
 	}
 }

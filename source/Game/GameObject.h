@@ -22,27 +22,36 @@ namespace DirectX
 
 namespace Rendering
 {
-	class AnimationDemo : public DrawableGameComponent
+	class GameObject : public DrawableGameComponent
 	{
-		RTTI_DECLARATIONS(AnimationDemo, DrawableGameComponent)
+		RTTI_DECLARATIONS(GameObject, DrawableGameComponent)
 
 	public:
-		AnimationDemo(Game& game, Camera& camera);
-		~AnimationDemo();
-
+		GameObject(Game& game, Camera& camera, const std::string modelName, const std::wstring shaderName, XMFLOAT4 position);
+		~GameObject();
+		
 		virtual void Initialize() override;
 		virtual void Update(const GameTime& gameTime) override;
 		virtual void Draw(const GameTime& gameTime) override;
 
+		// Transformations etc
+		void Scale(float x, float y, float z);
+		void Rotate(float x, float y, float z);
+		void Rotate(float angle, int axis);
+		void Translate(float x, float y, float z);
+		void Translate(float value, int axis);
+
 	private:
-		AnimationDemo();
-		AnimationDemo(const AnimationDemo& rhs);
-		AnimationDemo& operator=(const AnimationDemo& rhs);
+		GameObject();
+		GameObject(const GameObject& rhs);
+		GameObject& operator=(const GameObject& rhs);
 
 		void UpdateOptions();
 
 		Effect* mEffect;
 		SkinnedModelMaterial* mMaterial;
+		const std::string mModelName;
+		const std::wstring mShaderName;
 
 		KeyboardComponent* mKeyboard;
 		XMFLOAT4X4 mWorldMatrix;

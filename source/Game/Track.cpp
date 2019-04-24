@@ -2,13 +2,11 @@
 
 namespace Rendering
 {
-	Track::Track(Game& game, Camera& camera, double x, double y)
-		: TexturedModelDemo(game, camera,
-			"Content\\Models\\Track.obj",
-			L"Content\\Textures\\Track.jpg",
-			L"Content\\Effects\\TextureMapping.fx",
-			x,
-			y)
+	Track::Track(Game& game, Camera& camera, XMFLOAT4 position)
+		: GameObject(game, camera,
+			"Content\\Models\\Track.fbx",
+			L"Content\\Effects\\SkinnedModel.cso",
+			position)
 	{
 	}
 

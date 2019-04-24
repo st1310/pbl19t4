@@ -1,4 +1,4 @@
-﻿#include "AnimationDemo.h"
+﻿#include "GameObject.h"
 #include "Game.h"
 #include "GameException.h"
 #include "MatrixHelper.h"
@@ -22,19 +22,20 @@
 
 namespace Rendering
 {
-	RTTI_DEFINITIONS(AnimationDemo)
+	RTTI_DEFINITIONS(GameObject)
 
-	AnimationDemo::AnimationDemo(Game& game, Camera& camera)
+		GameObject::GameObject(Game& game, Camera& camera, const std::string modelName, const std::wstring shaderName, XMFLOAT4 position)
 		: DrawableGameComponent(game, camera),
 		mMaterial(nullptr), mEffect(nullptr), mWorldMatrix(MatrixHelper::Identity),
 		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(),
 		mKeyboard(nullptr),
+		mShaderName(shaderName), mModelName(modelName),
 		mSkinnedModel(nullptr), mAnimationPlayer(nullptr),
 		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false)
 	{
 	}
 
-	AnimationDemo::~AnimationDemo()
+	GameObject::~GameObject()
 	{
 		for (ID3D11Buffer* vertexBuffer : mVertexBuffers)
 		{
@@ -59,17 +60,20 @@ namespace Rendering
 		DeleteObject(mEffect);
 	}
 
-	void AnimationDemo::Initialize()
+	void GameObject::Initialize()
 	{
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
 		// Load the model
-		//mSkinnedModel = new Model(*mGame, "Content\\Models\\RunningSoldier.dae", true);
+		//mSkinnedModel = new Model(*mGame, "Content\\Models\\RunningSoldier.dae", true);		
 		mSkinnedModel = new Model(*mGame, "Content\\Models\\Jednostka_green_baked.fbx", true);
+		//mSkinnedModel = new Model(*mGame, mModelName, true);
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
-		mEffect->LoadCompiledEffect(L"Content\\Effects\\SkinnedModel.cso");
+		mEffect->LoadCompiledEffect(L"Content\\Effects\\SkinnedModel.cso");	
+		//mEffect->LoadCompiledEffect(mShaderName.c_str());
+
 		mMaterial = new SkinnedModelMaterial();
 		mMaterial->Initialize(mEffect);
 
@@ -114,7 +118,7 @@ namespace Rendering
 			mColorTextures[i] = colorTexture;
 		}
 
-		XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(0.05f, 0.05f, 0.05f));
+		GameObject::Scale(0.05f, 0.05f, 0.05f);
 
 		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
 		assert(mKeyboard != nullptr);
@@ -126,11 +130,10 @@ namespace Rendering
 		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
 
 		// Initial transform
-		XMMATRIX transform = XMMatrixRotationX(XMConvertToRadians(-90.0f));
-		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transform);
+		GameObject::Rotate(-90.0f, X_AXIS);
 	}
 
-	void AnimationDemo::Update(const GameTime& gameTime)
+	void GameObject::Update(const GameTime& gameTime)
 	{
 		UpdateOptions();
 
@@ -138,9 +141,11 @@ namespace Rendering
 		{
 			mAnimationPlayer->Update(gameTime);
 		}
+		//GameObject::Rotate(-0.5f, Y_AXIS);
+		//GameObject::Translate(0, 0, -0.005f);
 	}
 
-	void AnimationDemo::Draw(const GameTime& gameTime)
+	void GameObject::Draw(const GameTime& gameTime)
 	{
 		ID3D11DeviceContext* direct3DDeviceContext = mGame->Direct3DDeviceContext();
 		direct3DDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -196,7 +201,90 @@ namespace Rendering
 		mRenderStateHelper.RestoreAll();
 	}
 
-	void AnimationDemo::UpdateOptions()
+	// Transformation
+
+	void GameObject::Scale(float x, float y, float z)
+	{
+		XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(x, y, z));
+	}
+
+	void GameObject::Rotate(float x, float y, float z)
+	{
+		XMMATRIX transformX = XMMatrixRotationX(XMConvertToRadians(x));
+		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformX);
+
+		XMMATRIX transformY = XMMatrixRotationY(XMConvertToRadians(y));
+		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformY);
+
+		XMMATRIX transformZ = XMMatrixRotationZ(XMConvertToRadians(z));
+		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformZ);
+	}
+
+	void GameObject::Rotate(float angle, int axis)
+	{
+		switch (axis)
+		{
+		case X_AXIS:
+		{
+			XMMATRIX transformX = XMMatrixRotationX(XMConvertToRadians(angle));
+			XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformX);
+			return;
+		}
+		case Y_AXIS:
+		{
+			XMMATRIX transformY = XMMatrixRotationY(XMConvertToRadians(angle));
+			XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformY);
+			return;
+		}
+		case Z_AXIS:
+		{
+			XMMATRIX transformZ = XMMatrixRotationZ(XMConvertToRadians(angle));
+			XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformZ);
+			return;
+		}
+		default:
+		{
+			return;
+		}
+		}
+	}
+
+	void GameObject::Translate(float x, float y, float z)
+	{
+		XMMATRIX translate = XMMatrixTranslation(x, y, z);	
+		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
+	}
+
+	void GameObject::Translate(float value, int axis)
+	{
+		switch (axis)
+		{
+		case X_AXIS:
+		{
+			XMMATRIX translate = XMMatrixTranslation(value, 0, 0);
+			XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
+			return;
+		}
+		case Y_AXIS:
+		{
+			XMMATRIX translate = XMMatrixTranslation(0, value, 0);
+			XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
+			return;
+		}
+		case Z_AXIS:
+		{
+			XMMATRIX translate = XMMatrixTranslation(0, 0, value);
+			XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
+			return;
+		}
+		default:
+		{
+			return;
+		}
+		}
+	}
+
+	void GameObject::UpdateOptions()
 	{
 		if (mKeyboard != nullptr)
 		{
@@ -245,4 +333,6 @@ namespace Rendering
 			}
 		}
 	}
+
+
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DrawableGameComponent.h"
-#include "TexturedModelDemo.h"
+#include "GameObject.h"
 
 using namespace Library;
 using namespace Rendering;
@@ -9,10 +9,10 @@ using namespace Rendering;
 namespace Rendering
 {
 	class Earth :
-		public TexturedModelDemo
+		public GameObject
 	{
 	public:
-		Earth(Game& game, Camera& camera, double x, double y);
+		Earth(Game& game, Camera& camera, XMFLOAT4 position);
 		~Earth();
 	};
 }

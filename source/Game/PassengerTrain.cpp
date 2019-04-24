@@ -2,13 +2,11 @@
 
 namespace Rendering
 {
-	PassengerTrain::PassengerTrain(Game& game, Camera& camera, double x, double y)
-		: TexturedModelDemo(game, camera,
-			"Content\\Models\\PassengerTrain.obj",
-			L"Content\\Textures\\PassengerTrain.jpg",
-			L"Content\\Effects\\TextureMapping.fx",
-			x,
-			y)
+	PassengerTrain::PassengerTrain(Game& game, Camera& camera, XMFLOAT4 position)
+		: GameObject(game, camera,
+			"Content\\Models\\PassengerTrain.fbx",
+			L"Content\\Effects\\SkinnedModel.cso",
+			position)
 	{
 	}
 
