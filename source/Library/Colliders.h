@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BoundingBox.h"
+#include "Common.h"
 #include "Mesh.h"
 #include "DrawableGameComponent.h"
 
@@ -18,6 +18,7 @@ namespace Library
 		bool IsEmpty();
 		void Move(XMVECTOR destination);
 		void Rotate(CXMMATRIX direction);
+		void Transform(CXMMATRIX rotation, XMVECTOR destination);
 		void PushNewBoundingBox(BoundingBox* bbox);
 		bool CheckCollision(std::vector<Colliders*>& CollidableObjects);
 		bool CheckTriggerCollision(Colliders& TriggerCollider);

@@ -164,7 +164,7 @@ namespace Library
 		XMFLOAT3 checkPos;
 		XMStoreFloat3(&checkPos, position);
 
-		mCollider->Move(position);
+		mCollider->Transform(XMMatrixMultiply(pitchMatrix, yawMatrix), position);
 
 		if (this->mNode != nullptr)
 		{
@@ -172,7 +172,7 @@ namespace Library
 			{
 				if (!this->mNode->CheckCollisionInNode(mCollider))
 					XMStoreFloat3(&mPosition, position);
-				else mCollider->Move(XMLoadFloat3(&mPosition));
+				else mCollider->Transform(-XMMatrixMultiply(pitchMatrix, yawMatrix), XMLoadFloat3(&mPosition));
 			}
 			else
 			{
@@ -184,7 +184,7 @@ namespace Library
 						XMStoreFloat3(&mPosition, position);
 						this->SetCollisionNode(newNode);
 					}
-					else mCollider->Move(XMLoadFloat3(&mPosition));
+					else mCollider->Transform(-XMMatrixMultiply(pitchMatrix, yawMatrix), XMLoadFloat3(&mPosition));
 				}
 				else
 				{

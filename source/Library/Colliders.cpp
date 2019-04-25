@@ -51,7 +51,16 @@ namespace Library
 				maxVec.z = meshPart.z;
 		}
 		BoundingBox* newBox;
-		newBox = new BoundingBox(minVec, maxVec);
+		XMFLOAT3 center, rad;
+		center.x = (maxVec.x + minVec.x) / 2;
+		center.y = (maxVec.y + minVec.y) / 2;
+		center.z = (maxVec.z + minVec.z) / 2;
+
+		rad.x = abs(maxVec.x - center.x);
+		rad.y = abs(maxVec.y - center.y);
+		rad.z = abs(maxVec.z - center.z);
+		
+		newBox = new BoundingBox(center, rad);
 		//Check how it will create such collider - if needed, will write moving to model position
 		return newBox;
 	}
@@ -63,61 +72,30 @@ namespace Library
 		else return false;
 	}
 
-	void Colliders::Move(XMVECTOR destination)
+	void Colliders::Transform(CXMMATRIX rotation, XMVECTOR destination)
 	{
-		for (BoundingBox* bbox : BoundingBoxes)
-		{
-			bbox->Move(destination);
-		}
-		if (!TriggerBoxes.empty())
-		{ 
-			for (BoundingBox* tbox : TriggerBoxes)
-			{
-				tbox->Move(destination);
-			}
-		}
-	}
-
-	void Colliders::Rotate(CXMMATRIX direction)
-	{
-		XMVECTOR botDir;
-		XMVECTOR topDir;
-		XMFLOAT3 rewriter;
+		XMVECTOR rotDir;
 
 		for (BoundingBox* bbox : BoundingBoxes)
 		{
-			botDir = XMLoadFloat3(&bbox->BottomRect());
-			botDir = XMVector3TransformNormal(botDir, direction);
-			botDir = XMVector3Normalize(botDir);
+			rotDir = XMLoadFloat3(&bbox->Center);
+			rotDir = XMVector3TransformNormal(rotDir, rotation);
+			rotDir = XMVector3Normalize(rotDir);
 
-			XMStoreFloat3(&rewriter, botDir);
-			bbox->SetBottomRect(rewriter);
+			FXMVECTOR xmv = rotDir;
 
-			topDir = XMLoadFloat3(&bbox->TopRect());
-			topDir = XMVector3TransformNormal(topDir, direction);
-			topDir = XMVector3Normalize(topDir);
-
-			XMStoreFloat3(&rewriter, topDir);
-			bbox->SetTopRect(rewriter);
+			bbox->Transform(*bbox, 1.0f, rotDir, destination);
 		}
 
 		if (!TriggerBoxes.empty())
 		{
 			for (BoundingBox* tbox : TriggerBoxes)
 			{
-				botDir = XMLoadFloat3(&tbox->BottomRect());
-				botDir = XMVector3TransformNormal(botDir, direction);
-				botDir = XMVector3Normalize(botDir);
+				rotDir = XMLoadFloat3(&tbox->Center);
+				rotDir = XMVector3TransformNormal(rotDir, rotation);
+				rotDir = XMVector3Normalize(rotDir);
 
-				XMStoreFloat3(&rewriter, botDir);
-				tbox->SetBottomRect(rewriter);
-
-				topDir = XMLoadFloat3(&tbox->TopRect());
-				topDir = XMVector3TransformNormal(topDir, direction);
-				topDir = XMVector3Normalize(topDir);
-
-				XMStoreFloat3(&rewriter, topDir);
-				tbox->SetTopRect(rewriter);
+				tbox->Transform(*tbox, 1.0f, rotDir, destination);
 			}
 		}
 	}
@@ -136,7 +114,6 @@ namespace Library
 				{
 					for (BoundingBox* tbbox : coll->BoundingBoxes)
 					{
-						if(bbox->HasDeclaredPoints() && tbbox->HasDeclaredPoints())
 							if (bbox->Intersects(*tbbox))
 								colidable = true;
 					}

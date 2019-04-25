@@ -55,7 +55,7 @@ namespace Rendering
 		mComponents.push_back(mCamera);
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
 
-		Library::BoundingBox* mDemoBox = new Library::BoundingBox({ -500.f , 20.0f, -500.f }, { 500.f , 15.f, 500.f });
+		BoundingBox* mDemoBox = new BoundingBox();
 		mCollTM = new Colliders(mDemoBox);
 		mTMDemo = new TexturedModelDemo(*this, *mCamera, *mCollTM);
 		mComponents.push_back(mTMDemo);

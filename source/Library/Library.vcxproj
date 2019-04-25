@@ -164,7 +164,6 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Colliders.h" />
     <ClInclude Include="ColorHelper.h" />
@@ -194,7 +193,6 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="VectorHelper.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Colliders.cpp" />
     <ClCompile Include="ColorHelper.cpp" />
