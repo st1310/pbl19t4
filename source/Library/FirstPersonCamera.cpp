@@ -70,7 +70,7 @@ namespace Library
 		mCollider = collider;
 		if (mCollider->IsEmpty())
 		{
-			mCollider->PushNewBoundingBox(new BoundingBox({ mPosition.x - 0.1f, mPosition.y + 0.1f, mPosition.z - 0.1f }, { mPosition.x + 0.1f, mPosition.y - 0.1f, mPosition.z + 0.1f }));
+			mCollider->PushNewBoundingBox(new BoundingBox( mPosition, {0.1f, 0.1f, 0.1f}));
 		}
 	}
 

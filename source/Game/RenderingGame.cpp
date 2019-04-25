@@ -51,7 +51,6 @@ namespace Rendering
 		mCamera = new FirstPersonCamera(*this);
 		CollisionNode* newNode = new CollisionNode({500.f, -500.f, 0.f}, {-500.f, 500.f, 0.f});
 
-		mCamera->SetCollider(mCollC);
 		mComponents.push_back(mCamera);
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
 
@@ -72,12 +71,14 @@ namespace Rendering
 
 		Game::Initialize();
 
+		mCamera->SetPosition(0.0f, 0.0f, 10.0f);
+		mCamera->SetCollider(mCollC);
+		mCamera->SetCollisionNode(newNode);
+		
+
 		newNode->AddDynamicCollider(mCollC);
 		newNode->AddStaticCollider(mCollTM);
 		mNode.push_back(newNode);
-
-		mCamera->SetCollisionNode(newNode);
-		mCamera->SetPosition(0.0f, 0.0f, 10.0f);
 	}
 
 	void RenderingGame::Shutdown()

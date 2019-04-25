@@ -74,28 +74,28 @@ namespace Library
 
 	void Colliders::Transform(CXMMATRIX rotation, XMVECTOR destination)
 	{
-		XMVECTOR rotDir;
+		XMMATRIX trMatr = XMMATRIX({1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1});
+		XMFLOAT3 movm;
 
 		for (BoundingBox* bbox : BoundingBoxes)
 		{
-			rotDir = XMLoadFloat3(&bbox->Center);
-			rotDir = XMVector3TransformNormal(rotDir, rotation);
-			rotDir = XMVector3Normalize(rotDir);
+			XMStoreFloat3(&movm, destination);
+			movm.x = movm.x - bbox->Center.x;
+			movm.y = movm.y - bbox->Center.y;
+			movm.z = movm.z - bbox->Center.z;
 
-			FXMVECTOR xmv = rotDir;
+			trMatr.r[3] = XMLoadFloat3(&movm);
+			trMatr.r[3].m128_f32[3] = 1.0f;
+			//trMatr = XMMatrixMultiply(rotation, trMatr);
 
-			bbox->Transform(*bbox, 1.0f, rotDir, destination);
+			bbox->Transform(*bbox, trMatr);
 		}
 
 		if (!TriggerBoxes.empty())
 		{
 			for (BoundingBox* tbox : TriggerBoxes)
 			{
-				rotDir = XMLoadFloat3(&tbox->Center);
-				rotDir = XMVector3TransformNormal(rotDir, rotation);
-				rotDir = XMVector3Normalize(rotDir);
-
-				tbox->Transform(*tbox, 1.0f, rotDir, destination);
+				tbox->Transform(*tbox, trMatr);
 			}
 		}
 	}
