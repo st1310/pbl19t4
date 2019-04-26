@@ -8,6 +8,7 @@ namespace Rendering
 			L"Content\\Effects\\SkinnedModel.cso",
 			position)
 	{
+		this->SetVisible(true);
 	}
 
 

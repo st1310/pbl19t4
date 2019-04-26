@@ -166,6 +166,7 @@ namespace Library
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
 			{
+				
 				drawableGameComponent->Draw(gameTime);
 			}
 		}

@@ -18,6 +18,9 @@ namespace Library
 		bool Visible() const;
 		void SetVisible(bool visible);
 
+		bool RemovalComponent() const;
+		void SetRemovalComponent(bool visible);
+
 		Camera* GetCamera();
 		void SetCamera(Camera* camera);
 
@@ -25,6 +28,7 @@ namespace Library
 
 	protected:
 		bool mVisible;
+		bool mRemoval;
 		Camera* mCamera;
 
 	private:

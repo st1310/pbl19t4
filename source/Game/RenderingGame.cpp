@@ -25,7 +25,7 @@ namespace Rendering
 		mRenderStateHelper(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mGameManager(nullptr)
+		mGameManager(nullptr), buttonClicked(false)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -59,7 +59,7 @@ namespace Rendering
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
 		mGameManager = new GameManager(*this, *mCamera);
-		mGameManager->StartScene(TRAIN_LEVEL);
+		mGameManager->StartScene(MENU_LEVEL);
 
 		/*mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
 		mComponents.push_back(mTMMDemo);*/
@@ -108,6 +108,31 @@ namespace Rendering
 			Exit();
 		}
 
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_1))
+		{
+			if (!buttonClicked) 
+			{
+				buttonClicked = true;
+				for (GameComponent* component : mComponents) {
+					DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
+					if (drawableGameComponent != nullptr && drawableGameComponent->RemovalComponent()) {
+						drawableGameComponent->SetVisible(false);
+					}
+				}
+			}
+			else
+			{
+				buttonClicked = false;
+				for (GameComponent* component : mComponents) {
+					DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
+					if (drawableGameComponent != nullptr && drawableGameComponent->RemovalComponent()) {
+						drawableGameComponent->SetVisible(true);
+					}
+				}
+			}
+			
+		}
+
 		/*if (mKeyboard->WasKeyPressedThisFrame(DIK_F))
 		{
 			mMDemo->SetVisible(!mMDemo->Visible());
@@ -128,8 +153,10 @@ namespace Rendering
 		mDirect3DDeviceContext->ClearDepthStencilView(mDepthStencilView,
 			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
+		
 		Game::Draw(gameTime);
 
+		
 		mRenderStateHelper->SaveAll();
 		mSpriteBatch->Begin();
 

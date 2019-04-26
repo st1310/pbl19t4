@@ -5,17 +5,17 @@ namespace Library
 	RTTI_DEFINITIONS(DrawableGameComponent)
 
 	DrawableGameComponent::DrawableGameComponent()
-	: GameComponent(), mVisible(true), mCamera(nullptr)
+	: GameComponent(), mVisible(true), mCamera(nullptr), mRemoval(false)
 	{
 	}
 
 	DrawableGameComponent::DrawableGameComponent(Game& game)
-		: GameComponent(game), mVisible(true), mCamera(nullptr)
+		: GameComponent(game), mVisible(true), mCamera(nullptr), mRemoval(false)
 	{
 	}
 
 	DrawableGameComponent::DrawableGameComponent(Game& game, Camera& camera)
-		: GameComponent(game), mVisible(true), mCamera(&camera)
+		: GameComponent(game), mVisible(true), mCamera(&camera), mRemoval(false)
 	{
 	}
 
@@ -28,9 +28,19 @@ namespace Library
 		return mVisible;
 	}
 
+	bool DrawableGameComponent::RemovalComponent() const
+	{
+		return mRemoval;
+	}
+
 	void DrawableGameComponent::SetVisible(bool visible)
 	{
 		mVisible = visible;
+	}
+
+	void DrawableGameComponent::SetRemovalComponent(bool removal)
+	{
+		mRemoval = removal;
 	}
 
 	Camera * DrawableGameComponent::GetCamera()

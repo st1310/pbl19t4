@@ -12,7 +12,7 @@ namespace Rendering
 		Initialize();
 
 		// Start MenuLevel
-		StartScene(0);
+		StartScene(3);
 	}
 
 

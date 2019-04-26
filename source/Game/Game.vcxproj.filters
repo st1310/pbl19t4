@@ -81,6 +81,9 @@
     <ClCompile Include="CityLevel.cpp">
       <Filter>Scenes\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderingGame.h">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="CityLevel.h">
       <Filter>Scenes\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Assets\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

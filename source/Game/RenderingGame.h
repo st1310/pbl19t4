@@ -42,8 +42,11 @@ namespace Rendering
 		virtual void Shutdown() override;
 
 	private:
+
+
 		static const XMVECTORF32 BackgroundColor;
 
+		bool buttonClicked;
 		LPDIRECTINPUT8 mDirectInput;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;

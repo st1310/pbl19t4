@@ -311,6 +311,11 @@ namespace Rendering
 	{
 		if (mKeyboard != nullptr)
 		{
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_U))
+			{
+				//
+			}
+
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_P))
 			{
 				if (mAnimationPlayer->IsPlayingClip())
