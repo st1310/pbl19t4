@@ -4,6 +4,7 @@ namespace Library
 {
 	//A - top left, C - down right
 	CollisionNode::CollisionNode(XMFLOAT3 positionA, XMFLOAT3 positionC)
+		: mStaticObjects(), mDynamicObjects(), mTriggers(), mChilds(), mParent(nullptr)
 	{
 		mPositionA = positionA;
 		mPositionC = positionC;
@@ -13,6 +14,9 @@ namespace Library
 	{
 		mStaticObjects.clear();
 		mDynamicObjects.clear();
+		mTriggers.clear();
+		mChilds.clear();
+		mParent = nullptr;
 	}
 
 	void CollisionNode::AddStaticCollider(Colliders* staticCollider)
@@ -28,6 +32,36 @@ namespace Library
 	void CollisionNode::AddTriggerCollider(Colliders* trigercCollider)
 	{
 		mTriggers.push_back(trigercCollider);
+	}
+
+	void CollisionNode::SetParent(CollisionNode* newParent)
+	{
+		mParent = newParent;
+	}
+
+	void CollisionNode::AddNewChild(CollisionNode* newChild)
+	{
+		mChilds.push_back(newChild);
+	}
+
+	void CollisionNode::SetNewChildList(std::vector<CollisionNode*> newChilds)
+	{
+		mChilds = newChilds;
+	}
+
+	CollisionNode* CollisionNode::GetParent()
+	{
+		return mParent;
+	}
+
+	std::vector<CollisionNode*> CollisionNode::GetChilds()
+	{
+		return mChilds;
+	}
+
+	bool CollisionNode::IsThisNodeEmpty()
+	{
+		return (mStaticObjects.empty() && mDynamicObjects.empty() && mTriggers.empty());
 	}
 
 	bool CollisionNode::IsInsideThisNode(XMFLOAT3 position)
@@ -95,5 +129,17 @@ namespace Library
 		}
 
 		return collided;
+	}
+
+	bool CollisionNode::IsCatchedByFrustum(BoundingFrustum* bFrst)
+	{
+		BoundingBox bbox;
+
+		bbox.CreateFromPoints(bbox, XMLoadFloat3(&mPositionA), XMLoadFloat3(&mPositionC));
+
+		//If Node is CONTAINED or INTERSECTS with Frustrum - return true;
+		if (bFrst->Contains(bbox) != DISJOINT)
+			return true;
+		else return false;
 	}
 }

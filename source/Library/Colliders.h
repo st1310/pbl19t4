@@ -2,7 +2,6 @@
 
 #include "Common.h"
 #include "Mesh.h"
-#include "DrawableGameComponent.h"
 
 namespace Library
 {

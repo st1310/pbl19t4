@@ -86,7 +86,7 @@ namespace Library
 
 			trMatr.r[3] = XMLoadFloat3(&movm);
 			trMatr.r[3].m128_f32[3] = 1.0f;
-			//trMatr = XMMatrixMultiply(rotation, trMatr);
+			trMatr = XMMatrixMultiply(rotation, trMatr);
 
 			bbox->Transform(*bbox, trMatr);
 		}
@@ -137,6 +137,7 @@ namespace Library
 			for (BoundingBox* trigger : TriggerCollider.BoundingBoxes)
 				if (bbox->Intersects(*trigger))
 					colided = true;
+			
 		}
 
 		return colided;

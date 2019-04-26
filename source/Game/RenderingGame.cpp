@@ -11,7 +11,7 @@
 #include "RenderStateHelper.h"
 #include "TexturedModelDemo.h"
 #include "Utility.h"
-#include "CollisionNode.h"
+#include "NodeList.h"
 
 namespace Rendering
 {
@@ -49,7 +49,7 @@ namespace Rendering
 
 		mCollC = new Colliders();
 		mCamera = new FirstPersonCamera(*this);
-		CollisionNode* newNode = new CollisionNode({500.f, -500.f, 0.f}, {-500.f, 500.f, 0.f});
+		CollisionNode* newNode = new CollisionNode({-5.f, -20.f, 0.f}, { 5.f, 20.f, 30.f });
 
 		mComponents.push_back(mCamera);
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
@@ -58,9 +58,11 @@ namespace Rendering
 		mCollTM = new Colliders(mDemoBox);
 		mTMDemo = new TexturedModelDemo(*this, *mCamera, *mCollTM);
 		mComponents.push_back(mTMDemo);
+		mTMDemo->SetNode(newNode);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
+		mFpsComponent->SetAlwaysDrawn(true);
 
 		mRenderStateHelper = new RenderStateHelper(*this);
 
@@ -72,13 +74,13 @@ namespace Rendering
 		Game::Initialize();
 
 		mCamera->SetPosition(0.0f, 0.0f, 10.0f);
-		mCamera->SetCollider(mCollC);
-		mCamera->SetCollisionNode(newNode);
-		
 
+		CollisionNode* additionalCheckNode = new CollisionNode({ -1000.f, -200.f, 0.f }, { 900.f, 190.f, 20.f });
 		newNode->AddDynamicCollider(mCollC);
 		newNode->AddStaticCollider(mCollTM);
 		mNode.push_back(newNode);
+		mNode.push_back(additionalCheckNode);
+		
 	}
 
 	void RenderingGame::Shutdown()

@@ -16,19 +16,17 @@ namespace Library
 
 	FirstPersonCamera::FirstPersonCamera(Game& game)
 		: Camera(game), mKeyboard(nullptr), mMouse(nullptr),
-		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate), mCollider(),
-		mNodeList(), mNode(nullptr)
+		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate), mCollider(nullptr),
+		mNode(nullptr)
 	{
-		mNodeList = game.NodeList();
 	}
 
 	FirstPersonCamera::FirstPersonCamera(Game& game, float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
 		: Camera(game, fieldOfView, aspectRatio, nearPlaneDistance, farPlaneDistance), mKeyboard(nullptr), mMouse(nullptr),
 		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate), mCollider(),
-		mNodeList(), mNode(nullptr)
+		mNode(nullptr)
 
 	{
-		mNodeList = game.NodeList();
 	}
 
 	FirstPersonCamera::~FirstPersonCamera()
@@ -37,7 +35,6 @@ namespace Library
 		mMouse = nullptr;
 		mCollider = nullptr;
 		mNode = nullptr;
-		mNodeList.clear();
 	}
 
 	const KeyboardComponent& FirstPersonCamera::GetKeyboard() const
@@ -60,18 +57,17 @@ namespace Library
 		mMouse = &mouse;
 	}
 
-	const Colliders* FirstPersonCamera::GetColliders() const
+	BoundingFrustum* FirstPersonCamera::GetFrustrum()
 	{
 		return mCollider;
 	}
 
-	void FirstPersonCamera::SetCollider(Colliders* collider)
+	void FirstPersonCamera::SetFrustrum(BoundingFrustum* collider)
 	{
-		mCollider = collider;
-		if (mCollider->IsEmpty())
-		{
-			mCollider->PushNewBoundingBox(new BoundingBox( mPosition, {0.1f, 0.1f, 0.1f}));
-		}
+		if (collider != nullptr)
+			mCollider = collider;
+		else
+			mCollider = new BoundingFrustum(ViewProjectionMatrix());
 	}
 
 	void FirstPersonCamera::SetCollisionNode(CollisionNode* node)
@@ -79,10 +75,6 @@ namespace Library
 		mNode = node;
 	}
 
-	void FirstPersonCamera::SendColliderList(std::vector<CollisionNode*> newNodeList)
-	{
-		mNodeList = newNodeList;
-	}
 
 	float&FirstPersonCamera::MouseSensitivity()
 	{
@@ -111,27 +103,32 @@ namespace Library
 
 	void FirstPersonCamera::Update(const GameTime& gameTime)
 	{
+		bool moved = false;
 		XMFLOAT2 movementAmount = Vector2Helper::Zero;
 		if (mKeyboard != nullptr)
 		{
 			if (mKeyboard->IsKeyDown(DIK_W) || mKeyboard->IsKeyDown(DIK_UPARROW))
 			{
 				movementAmount.y = 1.0f;
+				moved = true;
 			}
 
 			if (mKeyboard->IsKeyDown(DIK_S) || mKeyboard->IsKeyDown(DIK_DOWNARROW))
 			{
 				movementAmount.y = -1.0f;
+				moved = true;
 			}
 
 			if (mKeyboard->IsKeyDown(DIK_A) || mKeyboard->IsKeyDown(DIK_LEFTARROW))
 			{
 				movementAmount.x = -1.0f;
+				moved = true;
 			}
 
 			if (mKeyboard->IsKeyDown(DIK_D) || mKeyboard->IsKeyDown(DIK_RIGHTARROW))
 			{
 				movementAmount.x = 1.0f;
+				moved = true;
 			}
 		}
 
@@ -141,6 +138,7 @@ namespace Library
 			LPDIMOUSESTATE mouseState = mMouse->CurrentState();
 			rotationAmount.x = -mouseState->lX * mMouseSensitivity;
 			rotationAmount.y = -mouseState->lY * mMouseSensitivity;
+			moved = true;
 		}
 
 		float elapsedTime = (float)gameTime.ElapsedGameTime();
@@ -164,40 +162,18 @@ namespace Library
 		XMFLOAT3 checkPos;
 		XMStoreFloat3(&checkPos, position);
 
-		mCollider->Transform(XMMatrixMultiply(pitchMatrix, yawMatrix), position);
+		//mCollider->Transform(mCollider, );
 
-		if (this->mNode != nullptr)
-		{
-			if (this->mNode->IsInsideThisNode(checkPos))
-			{
-				if (!this->mNode->CheckCollisionInNode(mCollider))
-					XMStoreFloat3(&mPosition, position);
-				else mCollider->Transform(-XMMatrixMultiply(pitchMatrix, yawMatrix), XMLoadFloat3(&mPosition));
-			}
-			else
-			{
-				CollisionNode* newNode = NodeList::MovedToNode(checkPos, mNodeList);
-				if (newNode != nullptr)
-				{
-					if (!newNode->CheckCollisionWhenEntering(mCollider))
-					{
-						XMStoreFloat3(&mPosition, position);
-						this->SetCollisionNode(newNode);
-					}
-					else mCollider->Transform(-XMMatrixMultiply(pitchMatrix, yawMatrix), XMLoadFloat3(&mPosition));
-				}
-				else
-				{
-					this->SetCollisionNode(nullptr);
-					XMStoreFloat3(&mPosition, position);
-				}
-			}
-		}
-		else
-		{
-			XMStoreFloat3(&mPosition, position);
-		}
-
+  		XMStoreFloat3(&mPosition, position);
 		Camera::Update(gameTime);
+
+		if (moved || mCollider == nullptr)
+		{
+				XMFLOAT4 dr = { Direction().x,  Direction().y, Direction().z, 1.0f };
+				mCollider = new BoundingFrustum(mPosition, dr, mPosition.x + 2.5f, mPosition.x - 2.5f,
+					mPosition.y + 10.0f, mPosition.y - 10.f, mPosition.z - 0.5f, mPosition.z - 10.f);
+				mGame->SetNodesInFructum(NodeList::CheckNodesInsideCamera(mCollider, mGame->NodeList()));
+		}
+
 	}
 }

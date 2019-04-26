@@ -18,7 +18,7 @@ namespace Library
 		mFrameRate(DefaultFrameRate), mIsFullScreen(false),
 		mDepthStencilBufferEnabled(false), mMultiSamplingEnabled(false), mMultiSamplingCount(DefaultMultiSamplingCount),
 		mDepthStencilBuffer(nullptr), mRenderTargetView(nullptr), mDepthStencilView(nullptr), mViewport(),
-		mComponents(), mServices(), mNode()
+		mComponents(), mServices(), mNode(), mNodesInFructum()
 	{
 	}
 
@@ -111,6 +111,16 @@ namespace Library
 		return mNode;
 	}
 
+	void Game::SetNodesInFructum(std::vector<CollisionNode*> NodesInFructum)
+	{
+		mNodesInFructum = NodesInFructum;
+	}
+
+	const std::vector<CollisionNode*>& Game::GetNodesInFructum() const
+	{
+		return mNodesInFructum;
+	}
+
 	void Game::Run()
 	{
 		InitializeWindow();
@@ -171,7 +181,10 @@ namespace Library
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
 			{
-				drawableGameComponent->Draw(gameTime);
+				if (drawableGameComponent->IsThisMustBeAlwaysDrawn())
+					drawableGameComponent->Draw(gameTime);
+				else if (std::find(mNodesInFructum.begin(), mNodesInFructum.end(), drawableGameComponent->GetNode()) != mNodesInFructum.end() )
+					drawableGameComponent->Draw(gameTime);
 			}
 		}
 	}

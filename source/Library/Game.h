@@ -39,6 +39,9 @@ namespace Library
 		const ServiceContainer& Services() const;
 		const std::vector<CollisionNode*>& NodeList() const;
 
+		void SetNodesInFructum(std::vector<CollisionNode*> NodesInFructum);
+		const std::vector<CollisionNode*>& GetNodesInFructum() const;
+
 		virtual void Run();
 		virtual void Exit();
 		virtual void Initialize();
@@ -71,6 +74,7 @@ namespace Library
 		std::vector<GameComponent*> mComponents;
 		ServiceContainer mServices;
 		std::vector<CollisionNode*> mNode;
+		std::vector<CollisionNode*> mNodesInFructum;
 
 		D3D_FEATURE_LEVEL mFeatureLevel;
 		ID3D11Device1* mDirect3DDevice;

@@ -10,17 +10,28 @@ namespace Library
 	public:
 		CollisionNode(XMFLOAT3 positionA, XMFLOAT3 positionC);
 		~CollisionNode();
-		
+
 		void AddStaticCollider(Colliders* staticCollider);
 		void AddDynamicCollider(Colliders* dynamicCollider);
 		void AddTriggerCollider(Colliders* trigercCollider);
 
+		void SetParent(CollisionNode* newParent);
+		void AddNewChild(CollisionNode* newChild);
+		void SetNewChildList(std::vector<CollisionNode*> newChilds);
+
+		CollisionNode* GetParent();
+		std::vector<CollisionNode*> GetChilds();
+
+		bool IsThisNodeEmpty();
 		bool IsInsideThisNode(XMFLOAT3 position);
 
 		bool CheckCollisionInNode(Colliders* movingCollider);
 		bool CheckCollisionWhenEntering(Colliders* movingCollider);
 
+		bool IsCatchedByFrustum(BoundingFrustum* bFrst);
 	private:
+		CollisionNode* mParent;
+		std::vector<CollisionNode*> mChilds;
 		XMFLOAT3 mPositionA;
 		XMFLOAT3 mPositionC;
 		std::vector<Colliders*> mStaticObjects;

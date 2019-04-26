@@ -26,8 +26,9 @@ namespace Library
 		const MouseComponent& GetMouse() const;
 		void SetMouse(MouseComponent& mouse);
 
-		const Colliders* GetColliders() const;
-		void SetCollider(Colliders* collider);
+		
+		void SetFrustrum(BoundingFrustum* collider);
+		BoundingFrustum* GetFrustrum();
 		void SetCollisionNode(CollisionNode* node);
 
 		void SendColliderList(std::vector<CollisionNode*> newNodeList);
@@ -48,8 +49,7 @@ namespace Library
 		float mRotationRate;
 		float mMovementRate;
 
-		Colliders* mCollider;
-		std::vector<CollisionNode*> mNodeList;
+		BoundingFrustum* mCollider;
 		CollisionNode* mNode;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
