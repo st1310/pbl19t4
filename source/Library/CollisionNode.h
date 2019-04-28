@@ -28,6 +28,7 @@ namespace Library
 		bool CheckCollisionInNode(Colliders* movingCollider);
 		bool CheckCollisionWhenEntering(Colliders* movingCollider);
 
+		ContainmentType ContainedRightHanded(BoundingFrustum* bFrst, BoundingBox bbox);
 		bool IsCatchedByFrustum(BoundingFrustum* bFrst);
 	private:
 		CollisionNode* mParent;

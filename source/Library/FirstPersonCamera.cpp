@@ -169,10 +169,15 @@ namespace Library
 
 		if (moved || mCollider == nullptr)
 		{
-				XMFLOAT4 dr = { Direction().x,  Direction().y, Direction().z, 1.0f };
-				mCollider = new BoundingFrustum(mPosition, dr, mPosition.x + 2.5f, mPosition.x - 2.5f,
-					mPosition.y + 10.0f, mPosition.y - 10.f, mPosition.z - 0.5f, mPosition.z - 10.f);
-				mGame->SetNodesInFructum(NodeList::CheckNodesInsideCamera(mCollider, mGame->NodeList()));
+				XMFLOAT4 dr;
+				XMStoreFloat4(&dr, DirectionVector());
+				if (dr.z >= 0)
+					mCollider = new BoundingFrustum(mPosition, dr, mPosition.x + 10.f, mPosition.x - 10.f,
+						mPosition.y + 10.5f, mPosition.y - 10.5f, mPosition.z + mNearPlaneDistance, mPosition.z + mFarPlaneDistance);
+				else mCollider = new BoundingFrustum(mPosition, dr, mPosition.x + 10.f, mPosition.x - 10.f,
+					mPosition.y + 10.5f, mPosition.y - 10.5f, -(mPosition.z - mNearPlaneDistance), mPosition.z - mFarPlaneDistance);
+
+			mGame->SetNodesInFructum(NodeList::CheckNodesInsideCamera(mCollider, mGame->NodeList()));
 		}
 
 	}

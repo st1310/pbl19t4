@@ -131,14 +131,51 @@ namespace Library
 		return collided;
 	}
 
+	ContainmentType CollisionNode::ContainedRightHanded(BoundingFrustum* bFrst, BoundingBox bbox)
+	{
+		XMVECTOR vOrigin = XMLoadFloat3(&bFrst->Origin);
+		XMVECTOR vOrientation = XMLoadFloat4(&bFrst->Orientation);
+
+		// Create 6 planes
+		XMVECTOR NearPlane = XMVectorSet(0.0f, 0.0f, 1.0f, -bFrst->Near);
+		NearPlane = DirectX::Internal::XMPlaneTransform(NearPlane, vOrientation, vOrigin);
+		NearPlane = XMPlaneNormalize(NearPlane);
+
+		XMVECTOR FarPlane = XMVectorSet(0.0f, 0.0f, -1.0f, bFrst->Far);
+		FarPlane = DirectX::Internal::XMPlaneTransform(FarPlane, vOrientation, vOrigin);
+		FarPlane = XMPlaneNormalize(FarPlane);
+
+		XMVECTOR RightPlane = XMVectorSet(1.0f, 0.0f, -(bFrst->RightSlope), 0.0f);
+		RightPlane = DirectX::Internal::XMPlaneTransform(RightPlane, vOrientation, vOrigin);
+		RightPlane = XMPlaneNormalize(RightPlane);
+
+		XMVECTOR LeftPlane = XMVectorSet(-1.0f, 0.0f, bFrst->LeftSlope, 0.0f);
+		LeftPlane = DirectX::Internal::XMPlaneTransform(LeftPlane, vOrientation, vOrigin);
+		LeftPlane = XMPlaneNormalize(LeftPlane);
+
+		XMVECTOR TopPlane = XMVectorSet(0.0f, 1.0f, -bFrst->TopSlope, 0.0f);
+		TopPlane = DirectX::Internal::XMPlaneTransform(TopPlane, vOrientation, vOrigin);
+		TopPlane = XMPlaneNormalize(TopPlane);
+
+		XMVECTOR BottomPlane = XMVectorSet(0.0f, -1.0f, bFrst->BottomSlope, 0.0f);
+		BottomPlane = DirectX::Internal::XMPlaneTransform(BottomPlane, vOrientation, vOrigin);
+		BottomPlane = XMPlaneNormalize(BottomPlane);
+
+		return bbox.ContainedBy(NearPlane, FarPlane, RightPlane, LeftPlane, TopPlane, BottomPlane);
+	}
+
 	bool CollisionNode::IsCatchedByFrustum(BoundingFrustum* bFrst)
 	{
 		BoundingBox bbox;
-
+		ContainmentType TypeOfCatch;
 		bbox.CreateFromPoints(bbox, XMLoadFloat3(&mPositionA), XMLoadFloat3(&mPositionC));
 
+		if (bFrst->Orientation.z >= 0)
+			TypeOfCatch = bFrst->Contains(bbox);
+		else TypeOfCatch = ContainedRightHanded(bFrst, bbox);
+
 		//If Node is CONTAINED or INTERSECTS with Frustrum - return true;
-		if (bFrst->Contains(bbox) != DISJOINT)
+		if (TypeOfCatch != DISJOINT)
 			return true;
 		else return false;
 	}

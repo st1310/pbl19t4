@@ -49,7 +49,7 @@ namespace Rendering
 
 		mCollC = new Colliders();
 		mCamera = new FirstPersonCamera(*this);
-		CollisionNode* newNode = new CollisionNode({-5.f, -20.f, 0.f}, { 5.f, 20.f, 30.f });
+		CollisionNode* newNode = new CollisionNode({-5.f, -20.f, 0.f}, { 5.f, 20.f, 50.f });
 
 		mComponents.push_back(mCamera);
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
@@ -78,7 +78,7 @@ namespace Rendering
 		CollisionNode* additionalCheckNode = new CollisionNode({ -1000.f, -200.f, 0.f }, { 900.f, 190.f, 20.f });
 		newNode->AddDynamicCollider(mCollC);
 		newNode->AddStaticCollider(mCollTM);
-		mNode.push_back(newNode);
+		additionalCheckNode->AddNewChild(newNode);
 		mNode.push_back(additionalCheckNode);
 		
 	}
