@@ -27,7 +27,7 @@ namespace Rendering
 		RTTI_DECLARATIONS(GameObject, DrawableGameComponent)
 
 	public:
-		GameObject(Game& game, Camera& camera, const char *modelName, LPCWSTR shaderName, XMFLOAT3 position);
+		GameObject(Game& game, Camera& camera, const char *modelName, LPCWSTR shaderName, XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
 		~GameObject();
 		
 		virtual void Initialize() override;
@@ -57,7 +57,10 @@ namespace Rendering
 		SkinnedModelMaterial* mMaterial;
 		const char *mModelName;
 		LPCWSTR mShaderName;
+
 		XMFLOAT3 mStartPosition;
+		XMFLOAT3 mStartRotation;
+		XMFLOAT3 mScale;
 
 		KeyboardComponent* mKeyboard;
 		XMFLOAT4X4 mWorldMatrix;

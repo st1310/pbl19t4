@@ -24,12 +24,13 @@ namespace Rendering
 {
 	RTTI_DEFINITIONS(GameObject)
 
-		GameObject::GameObject(Game& game, Camera& camera, const char *modelName, LPCWSTR shaderName, XMFLOAT3 position)
+		GameObject::GameObject(Game& game, Camera& camera, const char *modelName, LPCWSTR shaderName, XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
 		: DrawableGameComponent(game, camera),
 		mMaterial(nullptr), mEffect(nullptr), mWorldMatrix(MatrixHelper::Identity),
 		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(),
 		mKeyboard(nullptr),
-		mShaderName(shaderName), mModelName(modelName), mStartPosition(position),
+		mShaderName(shaderName), mModelName(modelName), 
+		mStartPosition(startPosition), mStartRotation(startRotation), mScale(startScale),
 		mSkinnedModel(nullptr), mAnimationPlayer(nullptr),
 		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false)
 	{		
@@ -117,8 +118,6 @@ namespace Rendering
 			mColorTextures[i] = colorTexture;
 		}
 
-		GameObject::Scale(0.05f, 0.05f, 0.05f);
-
 		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
 		assert(mKeyboard != nullptr);
 
@@ -129,8 +128,11 @@ namespace Rendering
 		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
 
 		// Initial transform
-		GameObject::Rotate(-90.0f, X_AXIS);
+		
+		GameObject::Scale(mScale);
+		GameObject::Rotate(mStartRotation);
 		GameObject::Translate(mStartPosition);
+		
 	}
 
 	void GameObject::Update(const GameTime& gameTime)
@@ -205,12 +207,24 @@ namespace Rendering
 
 	void GameObject::Scale(float x, float y, float z)
 	{
-		XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(x, y, z));
+		XMFLOAT3 newScale = XMFLOAT3(
+			mScale.x * x,
+			mScale.y * y,
+			mScale.z * z
+		);
+		mScale = newScale;
+		XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(mScale.x, mScale.y, mScale.z));
 	}
 
-	void GameObject::Scale(XMFLOAT3 translation)
+	void GameObject::Scale(XMFLOAT3 scale)
 	{
-		XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(translation.x, translation.y, translation.z));
+		XMFLOAT3 newScale = XMFLOAT3(
+			mScale.x * scale.x,
+			mScale.y * scale.y,
+			mScale.z * scale.z
+			);
+		mScale = newScale;
+		XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(mScale.x, mScale.y, mScale.z));
 	}
 
 	void GameObject::Rotate(float x, float y, float z)

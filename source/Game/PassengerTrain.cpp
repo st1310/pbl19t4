@@ -2,11 +2,16 @@
 
 namespace Rendering
 {
-	PassengerTrain::PassengerTrain(Game& game, Camera& camera, XMFLOAT3 position)
+	PassengerTrain::PassengerTrain(Game& game, Camera& camera,
+		XMFLOAT3 startPosition,
+		XMFLOAT3 startRotation,
+		XMFLOAT3 startScale)
 		: GameObject(game, camera,
 			"Content\\Models\\PassengerTrain.fbx",
 			L"Content\\Effects\\SkinnedModel.cso",
-			position)
+			startPosition,
+			startRotation,
+			startScale)
 	{
 	}
 

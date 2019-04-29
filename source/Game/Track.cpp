@@ -2,11 +2,16 @@
 
 namespace Rendering
 {
-	Track::Track(Game& game, Camera& camera, XMFLOAT3 position)
+	Track::Track(Game& game, Camera& camera, 
+		XMFLOAT3 startPosition,
+		XMFLOAT3 startRotation , 
+		XMFLOAT3 startScale)
 		: GameObject(game, camera,
 			"Content\\Models\\Track.fbx",
 			L"Content\\Effects\\SkinnedModel.cso",
-			position)
+			startPosition,
+			startRotation,
+			startScale)
 	{
 	}
 
