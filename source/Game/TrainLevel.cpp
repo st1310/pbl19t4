@@ -4,9 +4,8 @@
 namespace Rendering
 {
 	TrainLevel::TrainLevel(Game& game, Camera& camera)
-		:Scene(TRAIN_LEVEL)
+		:Scene(TRAIN_LEVEL, "train.txt")
 	{
-		Size = 2;
 		Start(game, camera);
 	}
 

@@ -49,7 +49,7 @@ namespace Rendering
 
 	int GameManager::GetSizeOfCurrentScene()
 	{
-		return Scenes.at(currentScene)->Size;
+		return Scenes.at(currentScene)->GameObjects.size();
 	}
 }
 

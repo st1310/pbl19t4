@@ -1,24 +1,25 @@
 #pragma once
 
 #include "DrawableGameComponent.h"
+#include <fstream>
 namespace Library
 {
 
 	class Scene
 	{
 	public:
-		Scene();
-		Scene(int sceneId);
+		Scene(int sceneId, std::string filePath);
 		~Scene();		
 		void Start(Game& game, Camera& camera);
 		void Clear();
 
 		int SceneId;
-		int Size;
 		std::vector<GameComponent*> GameObjects;
+		void Serialize();
+		void LoadFromFile();
 
 	private:
-		
+		std::string mFilePath;
 	};
 }
 

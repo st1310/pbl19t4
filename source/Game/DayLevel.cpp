@@ -3,9 +3,8 @@
 namespace Rendering
 {
 	DayLevel::DayLevel(Game& game, Camera& camera)
-		:Scene(DAY_LEVEL)
+		:Scene(DAY_LEVEL, "day.txt")
 	{
-		Size = 2;
 		Start(game, camera);
 	}
 

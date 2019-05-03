@@ -4,9 +4,8 @@
 namespace Rendering
 {
 	MenuLevel::MenuLevel(Game& game, Camera& camera)
-		:Scene(MENU_LEVEL)
+		:Scene(MENU_LEVEL, "menu.txt")
 	{
-		Size = 1;
 		Start(game, camera);
 	}
 

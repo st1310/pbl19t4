@@ -3,9 +3,8 @@
 namespace Rendering
 {
 	CityLevel::CityLevel(Game& game, Camera& camera)
-		:Scene(CITY_LEVEL)
+		:Scene(CITY_LEVEL, "city.txt")
 	{
-		Size = 2;
 		Start(game, camera);
 	}
 
