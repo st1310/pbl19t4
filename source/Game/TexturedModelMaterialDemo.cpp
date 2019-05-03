@@ -39,7 +39,6 @@ namespace Rendering
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
 		std::unique_ptr<Model> model(new Model(*mGame, "Content\\Models\\Sphere.obj", true));
-		//std::unique_ptr<Model> model(new Model(*mGame, "Content\\Models\\NVDemon.3DS", true));
 
 		mEffect = new Effect(*mGame);
 		mEffect->LoadCompiledEffect(L"Content\\Effects\\TextureMapping.cso");
@@ -104,4 +103,6 @@ namespace Rendering
 
 		direct3DDeviceContext->DrawIndexed(mIndexCount, 0, 0);
 	}
+
+
 }

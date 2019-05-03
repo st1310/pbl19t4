@@ -27,7 +27,7 @@ namespace Rendering
 		RTTI_DECLARATIONS(GameObject, DrawableGameComponent)
 
 	public:
-		GameObject(Game& game, Camera& camera, const char *modelName, LPCWSTR shaderName, XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
+		GameObject(Game& game, Camera& camera, const char *className, const char *modelName, LPCWSTR shaderName, XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
 		~GameObject();
 		
 		virtual void Initialize() override;
@@ -36,15 +36,17 @@ namespace Rendering
 
 		// Transformations etc
 		void Scale(float x, float y, float z);
+		void Scale(float value);
 		void Scale(XMFLOAT3 scale);
 
 		void Rotate(float x, float y, float z);
-		void Rotate(float angle, int axis);
 		void Rotate(XMFLOAT3 rotation);
+		void FirstRotation();
 
 		void Translate(float x, float y, float z);
-		void Translate(float value, int axis);
 		void Translate(XMFLOAT3 translation);
+
+		std::vector<std::string> Serialize();
 
 	private:
 		GameObject();
@@ -58,9 +60,9 @@ namespace Rendering
 		const char *mModelName;
 		LPCWSTR mShaderName;
 
-		XMFLOAT3 mStartPosition;
-		XMFLOAT3 mStartRotation;
-		XMFLOAT3 mScale;
+		XMFLOAT3 mPosition;
+		XMFLOAT3 mRotation;
+		XMFLOAT3 mScale;	
 
 		KeyboardComponent* mKeyboard;
 		XMFLOAT4X4 mWorldMatrix;
@@ -78,5 +80,24 @@ namespace Rendering
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mTextPosition;
 		bool mManualAdvanceMode;
+
+		bool mIsSelected = true;
+
+		// Creation Kit
+		bool mIsEdited = true;
+		std::string mEditMode = POSITION;
+		std::string mEditAxis = X_AXIS;
+		float mEditFactor = 0.5;
+		int mAxisNumber = X_AXIS_NUMBER;
+		boolean mPrecisionMode = false;
+		const char *mClassName;
+
+		void EditModel();
+		void ChangeEditMode();
+		void ChangeEditAxis();
+		void ChangeEditFactor();
+		void SetPosition();
+		void SetRotation();
+		void SetScale();
 	};
 }

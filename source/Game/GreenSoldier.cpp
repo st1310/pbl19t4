@@ -6,7 +6,7 @@ namespace Rendering
 		XMFLOAT3 startPosition,
 		XMFLOAT3 startRotation,
 		XMFLOAT3 startScale)
-		: GameObject(game, camera,
+		: GameObject(game, camera, SOLDIER,
 			"Content\\Models\\Jednostka_green_baked.fbx",
 			L"Content\\Effects\\SkinnedModel.cso",
 			startPosition,

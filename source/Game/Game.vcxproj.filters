@@ -19,9 +19,6 @@
     <Filter Include="Assets\Source">
       <UniqueIdentifier>{e76d213d-9318-49ba-aad8-f88aa3750e34}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Header">
-      <UniqueIdentifier>{470fd8bd-5ef4-44fa-9edb-75acc387a429}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Abstract">
       <UniqueIdentifier>{199398f3-a67c-4e9a-b7e5-a43b81390572}</UniqueIdentifier>
     </Filter>
@@ -33,6 +30,9 @@
     </Filter>
     <Filter Include="Scenes\Source">
       <UniqueIdentifier>{6c06956c-cc41-4ff8-800f-afca4f4a3d14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Header">
+      <UniqueIdentifier>{470fd8bd-5ef4-44fa-9edb-75acc387a429}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -93,16 +93,16 @@
       <Filter>Assets\Abstract</Filter>
     </ClInclude>
     <ClInclude Include="Earth.h">
-      <Filter>Assets\Header</Filter>
+      <Filter>Resource Files\Header</Filter>
     </ClInclude>
     <ClInclude Include="PassengerTrain.h">
-      <Filter>Assets\Header</Filter>
+      <Filter>Resource Files\Header</Filter>
     </ClInclude>
     <ClInclude Include="Track.h">
-      <Filter>Assets\Header</Filter>
+      <Filter>Resource Files\Header</Filter>
     </ClInclude>
     <ClInclude Include="CargoTrain.h">
-      <Filter>Assets\Header</Filter>
+      <Filter>Resource Files\Header</Filter>
     </ClInclude>
     <ClInclude Include="TrainLevel.h">
       <Filter>Scenes\Header</Filter>
@@ -117,7 +117,7 @@
       <Filter>Assets\Abstract</Filter>
     </ClInclude>
     <ClInclude Include="GreenSoldier.h">
-      <Filter>Assets\Header</Filter>
+      <Filter>Resource Files\Header</Filter>
     </ClInclude>
     <ClInclude Include="DayLevel.h">
       <Filter>Scenes\Header</Filter>
@@ -129,7 +129,7 @@
       <Filter>Scenes\Header</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>Assets\Header</Filter>
+      <Filter>Resource Files\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

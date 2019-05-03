@@ -133,16 +133,6 @@ namespace Rendering
 			
 		}
 
-		/*if (mKeyboard->WasKeyPressedThisFrame(DIK_F))
-		{
-			mMDemo->SetVisible(!mMDemo->Visible());
-		}
-
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_G))
-		{
-			mMDemo->SetEnabled(!mMDemo->Enabled());
-		}*/
-
 		Game::Update(gameTime);
 	}
 

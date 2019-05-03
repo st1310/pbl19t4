@@ -6,7 +6,7 @@ namespace Rendering
 		XMFLOAT3 startPosition,
 		XMFLOAT3 startRotation,
 		XMFLOAT3 startScale)
-		: GameObject(game, camera,
+		: GameObject(game, camera, PASSENGER_TRAIN,
 			"Content\\Models\\PassengerTrain.fbx",
 			L"Content\\Effects\\SkinnedModel.cso",
 			startPosition,
