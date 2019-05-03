@@ -13,6 +13,7 @@ namespace Rendering
 
 		// Start MenuLevel
 		StartScene(3);
+		Scenes.at(3)->Serialize();
 	}
 
 

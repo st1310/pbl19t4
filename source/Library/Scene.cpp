@@ -25,20 +25,16 @@ void Scene::Clear()
 
 void Scene::Serialize()
 {
-	std::fstream file;
-	file.open(mFilePath, std::ios::in | std::ios::out);
+	std::ofstream file(mFilePath);
 	if (file.good() == true)
-	{
-		int size = GameObjects.size();
-		/*
-		int size = GameObjects.size;
-		for (int i = 0; i < size; i++)
+	{	
+		for (int i = 0; i < GameObjects.size(); i++)
 		{
 			std::vector<std::string> lines = GameObjects.at(i)->Serialize();
-			for (int j = 0; j < lines.size; j++)
-				file << lines.at(j);
+			for (int j = 0; j < lines.size(); j++)
+				file << lines.at(j) << "\n";
 		}
-		*/
+		
 		file.close();
 	}
 }

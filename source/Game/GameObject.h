@@ -36,7 +36,6 @@ namespace Rendering
 
 		// Transformations etc
 		void Scale(float x, float y, float z);
-		void Scale(float value);
 		void Scale(XMFLOAT3 scale);
 
 		void Rotate(float x, float y, float z);
@@ -46,7 +45,7 @@ namespace Rendering
 		void Translate(float x, float y, float z);
 		void Translate(XMFLOAT3 translation);
 
-		std::vector<std::string> Serialize();
+		virtual std::vector<std::string> Serialize() override;
 
 	private:
 		GameObject();

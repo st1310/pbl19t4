@@ -45,4 +45,10 @@ namespace Library
 	{
 	}
 
+	std::vector<std::string> GameComponent::Serialize()
+	{
+		std::vector<std::string> result;
+		return result;
+	}
+
 }
