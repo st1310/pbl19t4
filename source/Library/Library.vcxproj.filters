@@ -63,9 +63,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VectorHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MatrixHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -94,6 +91,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CollisionNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

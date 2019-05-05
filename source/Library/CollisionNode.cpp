@@ -4,7 +4,7 @@ namespace Library
 {
 	//A - top left, C - down right
 	CollisionNode::CollisionNode(XMFLOAT3 positionA, XMFLOAT3 positionC)
-		: mStaticObjects(), mDynamicObjects(), mTriggers(), mChilds(), mParent(nullptr)
+		: mStaticObjects(), mDynamicObjects(), mTriggers(), mChildList(), mParent(nullptr)
 	{
 		mPositionA = positionA;
 		mPositionC = positionC;
@@ -15,7 +15,7 @@ namespace Library
 		mStaticObjects.clear();
 		mDynamicObjects.clear();
 		mTriggers.clear();
-		mChilds.clear();
+		mChildList.clear();
 		mParent = nullptr;
 	}
 
@@ -29,9 +29,19 @@ namespace Library
 		mDynamicObjects.push_back(dynamicCollider);
 	}
 
+	void CollisionNode::RemoveDynamicCollider(Colliders* dynamicCollider)
+	{
+		mDynamicObjects.erase(remove(mDynamicObjects.begin(), mDynamicObjects.end(), dynamicCollider), mDynamicObjects.end());
+	}
+
 	void CollisionNode::AddTriggerCollider(Colliders* trigercCollider)
 	{
 		mTriggers.push_back(trigercCollider);
+	}
+
+	void CollisionNode::RemoveTriggerCollider(Colliders* trigercCollider)
+	{
+		mTriggers.erase(remove(mTriggers.begin(), mTriggers.end(), trigercCollider), mTriggers.end());
 	}
 
 	void CollisionNode::SetParent(CollisionNode* newParent)
@@ -41,12 +51,12 @@ namespace Library
 
 	void CollisionNode::AddNewChild(CollisionNode* newChild)
 	{
-		mChilds.push_back(newChild);
+		mChildList.push_back(newChild);
 	}
 
 	void CollisionNode::SetNewChildList(std::vector<CollisionNode*> newChilds)
 	{
-		mChilds = newChilds;
+		mChildList = newChilds;
 	}
 
 	CollisionNode* CollisionNode::GetParent()
@@ -54,9 +64,9 @@ namespace Library
 		return mParent;
 	}
 
-	std::vector<CollisionNode*> CollisionNode::GetChilds()
+	std::vector<CollisionNode*> CollisionNode::GetChild()
 	{
-		return mChilds;
+		return mChildList;
 	}
 
 	bool CollisionNode::IsThisNodeEmpty()
@@ -74,12 +84,12 @@ namespace Library
 	//So, if there is no movable objects or object doesn't belong here - return false
 	bool CollisionNode::CheckCollisionInNode(Colliders* movingCollider)
 	{
-		bool collided = false;
-
 		if (mDynamicObjects.empty())
 			return false;
 
+		bool collided = false;
 		std::vector<Colliders*> vct;
+
 		for (unsigned int i = 0; i < mDynamicObjects.size(); i++)
 			vct.push_back(mDynamicObjects[i]);
 
@@ -93,6 +103,8 @@ namespace Library
 			vct.push_back(mStaticObjects[i]);
 		collided = movingCollider->CheckCollision(vct);
 
+		vct.clear();
+
 		return collided;
 	}
 
@@ -101,11 +113,11 @@ namespace Library
 	//If yes - only then check collision. In succes - change object node to this.
 	bool CollisionNode::CheckCollisionWhenEntering(Colliders* movingCollider)
 	{
-		bool collided = false;
-		std::vector<Colliders*> vct;
-
 		if (mDynamicObjects.empty() && mStaticObjects.empty())
 			return false;
+
+		bool collided = false;
+		std::vector<Colliders*> vct;
 
 		if (!mDynamicObjects.empty())
 		{

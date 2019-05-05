@@ -13,14 +13,16 @@ namespace Library
 
 		void AddStaticCollider(Colliders* staticCollider);
 		void AddDynamicCollider(Colliders* dynamicCollider);
+		void RemoveDynamicCollider(Colliders* dynamicCollider);
 		void AddTriggerCollider(Colliders* trigercCollider);
+		void RemoveTriggerCollider(Colliders* trigercCollider);
 
 		void SetParent(CollisionNode* newParent);
 		void AddNewChild(CollisionNode* newChild);
 		void SetNewChildList(std::vector<CollisionNode*> newChilds);
 
 		CollisionNode* GetParent();
-		std::vector<CollisionNode*> GetChilds();
+		std::vector<CollisionNode*> GetChild();
 
 		bool IsThisNodeEmpty();
 		bool IsInsideThisNode(XMFLOAT3 position);
@@ -32,7 +34,7 @@ namespace Library
 		bool IsCatchedByFrustum(BoundingFrustum* bFrst);
 	private:
 		CollisionNode* mParent;
-		std::vector<CollisionNode*> mChilds;
+		std::vector<CollisionNode*> mChildList;
 		XMFLOAT3 mPositionA;
 		XMFLOAT3 mPositionC;
 		std::vector<Colliders*> mStaticObjects;
