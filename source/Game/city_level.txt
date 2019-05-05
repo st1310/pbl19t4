@@ -1,4 +1,4 @@
-Soldier
+GreenSoldier
 0.000000
 0.000000
 0.000000
@@ -8,7 +8,7 @@ Soldier
 0.050000
 0.050000
 0.050000
-Soldier
+GreenSoldier
 10.000000
 0.000000
 0.000000

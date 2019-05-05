@@ -3,7 +3,7 @@
 namespace Rendering
 {
 	DayLevel::DayLevel(Game& game, Camera& camera)
-		:Scene(DAY_LEVEL, "day.txt")
+		:Scene(DAY_LEVEL, "day_level.txt")
 	{
 		Start(game, camera);
 	}
@@ -15,12 +15,11 @@ namespace Rendering
 
 	void DayLevel::Start(Game& game, Camera& camera)
 	{
-		GreenSoldier* greenSoldier1 = new GreenSoldier(game, camera, XMFLOAT3());
-		XMFLOAT3 greenSoldier2Translate = XMFLOAT3(10, 0, 0);
-		GreenSoldier* greenSoldier2 = new GreenSoldier(game, camera, greenSoldier2Translate);
-		//PassengerTrain* passegnerTrain1 = new PassengerTrain(game, camera, XMFLOAT3());
-		this->GameObjects.push_back(greenSoldier1);
-		this->GameObjects.push_back(greenSoldier2);
+		GameObjectPusher pusher = GameObjectPusher();
+		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile());
+
+		for (int i = 0; i < gameObjects.size(); i++)
+			this->GameObjects.push_back(gameObjects.at(i));
 
 	}
 }

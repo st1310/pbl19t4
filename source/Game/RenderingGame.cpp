@@ -108,6 +108,11 @@ namespace Rendering
 			Exit();
 		}
 
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_M))
+		{
+			mGameManager->Scenes[mGameManager->currentScene]->Serialize();
+		}
+
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_1))
 		{
 			if (!buttonClicked) 

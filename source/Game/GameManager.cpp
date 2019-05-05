@@ -12,8 +12,8 @@ namespace Rendering
 		Initialize();
 
 		// Start MenuLevel
-		StartScene(3);
-		Scenes.at(3)->Serialize();
+		//StartScene(3);
+		//Scenes.at(3)->Serialize();
 	}
 
 

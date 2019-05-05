@@ -1,6 +1,8 @@
 #pragma once
 
 #include "DrawableGameComponent.h"
+#include "SerializableGameObject.h"
+#include <iomanip> 
 #include <fstream>
 namespace Library
 {
@@ -16,7 +18,7 @@ namespace Library
 		int SceneId;
 		std::vector<GameComponent*> GameObjects;
 		void Serialize();
-		void LoadFromFile();
+		std::vector<SerializableGameObject> LoadFromFile();
 
 	private:
 		std::string mFilePath;

@@ -84,6 +84,9 @@
     <ClCompile Include="Button.cpp">
       <Filter>Assets\Source</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjectPusher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderingGame.h">
@@ -130,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Resource Files\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectPusher.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
