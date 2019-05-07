@@ -14,7 +14,7 @@ namespace Rendering
 		TrainLevel(Game& game, Camera& camera);
 		~TrainLevel();
 		
-		void Start(Game& game, Camera& camera);
+		virtual void Start(Game& game, Camera& camera) override;
 
 	private:
 		

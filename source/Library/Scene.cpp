@@ -2,8 +2,8 @@
 
 namespace Library{
 
-Scene::Scene(int sceneId, std::string filePath)
-	:mFilePath(filePath), SceneId(sceneId)
+Scene::Scene(int sceneId, std::string fileName)
+	:mFileName(fileName), SceneId(sceneId)
 {
 
 }
@@ -19,13 +19,13 @@ void Scene::Start(Game& game, Camera& camera)
 
 void Scene::Clear()
 {
-	// TODO fix -- Szymon
-	//this->GameObjects.clear();
+	this->GameObjects.clear();
 }
 
 void Scene::Serialize()
 {
-	std::ofstream file(mFilePath);
+	std::ofstream file(mRepositoryPath + mFilePath + mFileName);
+
 	if (file.good() == true)
 	{	
 		for (int i = 0; i < GameObjects.size(); i++)
@@ -37,10 +37,10 @@ void Scene::Serialize()
 			{
 
 				if(i == (GameObjects.size() - 1) && j == (lines.size() - 1))
-					file << printf("%.2f", lines.at(j));
+					file << lines.at(j);
 
 				else
-					file << printf("%.2f", lines.at(j)) << "\n";
+					file << lines.at(j) << "\n";
 			}			
 		}
 		
@@ -50,12 +50,13 @@ void Scene::Serialize()
 
 std::vector<SerializableGameObject> Scene::LoadFromFile()
 {
-	std::fstream file;
-	file.open(mFilePath, std::ios::in | std::ios::out);
-	if (file.good() == true)
-	{	
-		std::vector<SerializableGameObject> deserializableGameObjects = std::vector<SerializableGameObject>();
+	std::vector<SerializableGameObject> deserializableGameObjects = std::vector<SerializableGameObject>();
 
+	std::fstream file;
+	file.open(mRepositoryPath + mFilePath + mFileName, std::ios::in | std::ios::out);
+
+	if (file.good() == true)
+	{		
 		while (!file.eof()) {
 
 			std::vector<std::string> deserialisabledValues = std::vector<std::string>();
@@ -72,10 +73,10 @@ std::vector<SerializableGameObject> Scene::LoadFromFile()
 			deserializableGameObjects.push_back(serializableGameObject);
 		}
 
-		file.close();
-
-		return deserializableGameObjects;
+		file.close();		
 	}
+
+	return deserializableGameObjects;
 }
 
 }

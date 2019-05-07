@@ -5,7 +5,7 @@ namespace Rendering
 	CityLevel::CityLevel(Game& game, Camera& camera)
 		:Scene(CITY_LEVEL, "city_level.txt")
 	{
-		Start(game, camera);
+		Start(game, camera); 
 	}
 
 

@@ -13,7 +13,7 @@ namespace Rendering
 		MenuLevel(Game& game, Camera& camera);
 		~MenuLevel();
 
-		void Start(Game& game, Camera& camera);
+		virtual void Start(Game& game, Camera& camera) override;
 	};
 }
 

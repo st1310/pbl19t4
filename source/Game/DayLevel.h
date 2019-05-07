@@ -13,6 +13,6 @@ namespace Rendering
 		DayLevel(Game& game, Camera& camera);
 		~DayLevel();
 
-		void Start(Game& game, Camera& camera);
+		virtual void Start(Game& game, Camera& camera) override;
 	};
 }

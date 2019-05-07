@@ -59,7 +59,7 @@ namespace Rendering
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
 		mGameManager = new GameManager(*this, *mCamera);
-		mGameManager->StartScene(MENU_LEVEL);
+		//mGameManager->StartScene(CITY_LEVEL);
 
 		/*mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
 		mComponents.push_back(mTMMDemo);*/

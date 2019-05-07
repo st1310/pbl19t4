@@ -13,6 +13,6 @@ namespace Rendering
 		CityLevel(Game& game, Camera& camera);
 		~CityLevel();
 
-		void Start(Game& game, Camera& camera);
+		virtual void Start(Game& game, Camera& camera) override;
 	};
 }

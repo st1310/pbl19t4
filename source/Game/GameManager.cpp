@@ -10,10 +10,9 @@ namespace Rendering
 		this->game = &game;
 		this->camera = &camera;
 		Initialize();
-
-		// Start MenuLevel
-		//StartScene(3);
-		//Scenes.at(3)->Serialize();
+		
+		currentScene = MENU_LEVEL;
+		StartScene(currentScene);
 	}
 
 
@@ -40,7 +39,7 @@ namespace Rendering
 	void GameManager::StartScene(int sceneId)
 	{
 		// Clear old scene
-		//Scenes.at(sceneId)->Clear();
+		Scenes.at(currentScene)->Clear();
 
 		currentScene = sceneId;
 

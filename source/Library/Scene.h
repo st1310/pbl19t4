@@ -12,7 +12,7 @@ namespace Library
 	public:
 		Scene(int sceneId, std::string filePath);
 		~Scene();		
-		void Start(Game& game, Camera& camera);
+		virtual void Start(Game& game, Camera& camera);
 		void Clear();
 
 		int SceneId;
@@ -21,7 +21,9 @@ namespace Library
 		std::vector<SerializableGameObject> LoadFromFile();
 
 	private:
-		std::string mFilePath;
+		std::string mFileName;
+		std::string mFilePath = "Content\\Serializations\\";
+		std::string mRepositoryPath = "C:\\Users\\kedzi\\OneDrive\\Desktop\\studia\\6\\PBL\\silnik\\pbl19t4\\";
 	};
 }
 
