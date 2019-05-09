@@ -61,9 +61,6 @@ namespace Rendering
 
 		BoundingBox* mDemoBox = new BoundingBox();
 		mCollTM = new Colliders(mDemoBox);
-		mTMDemo = new TexturedModelDemo(*this, *mCamera, *mCollTM);
-		mComponents.push_back(mTMDemo);
-		mTMDemo->SetNode(newNode);
 //=======
 		mSkybox = new SkyboxComponent(*this, *mCamera, L"Content\\Textures\\Maskonaive2_1024.dds", 100.0f);
 		mComponents.push_back(mSkybox);
@@ -83,7 +80,7 @@ namespace Rendering
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
-		mFpsComponent->SetAlwaysDrawn(true);
+		//mFpsComponent->SetAlwaysDrawn(true);
 
 		mRenderStateHelper = new RenderStateHelper(*this);
 

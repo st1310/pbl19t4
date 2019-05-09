@@ -7,6 +7,7 @@ namespace Library
 
 		DrawableGameComponent::DrawableGameComponent()
 		: GameComponent(), mVisible(true), mCamera(nullptr)
+	{	
 	}
 
 	DrawableGameComponent::DrawableGameComponent(Game& game)
