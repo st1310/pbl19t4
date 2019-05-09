@@ -20,18 +20,12 @@ namespace Library
 		bool Visible() const;
 		void SetVisible(bool visible);
 
-		void SetAlwaysDrawn(bool ShouldBe);
-		void SetNode(CollisionNode* newNode);
-		CollisionNode* GetNode();
-		bool IsThisMustBeAlwaysDrawn();
-
 		Camera* GetCamera();
 		void SetCamera(Camera* camera);
 
 		virtual void Draw(const GameTime& gameTime);
 
 	protected:
-		bool mShouldBeAlwaysDrawn;
 		CollisionNode* mNode;
 		bool mVisible;
 		Camera* mCamera;

@@ -19,11 +19,15 @@ namespace Library
 	class MouseComponent;
 	class FirstPersonCamera;
 	class RenderStateHelper;
+	class SkyboxComponent;
 }
 
 namespace Rendering
 {
+	class GameManager;
 	class TexturedModelDemo;
+	class TexturedModelMaterialDemo;
+	class AnimationDemo;
 
 	class RenderingGame : public Game
 	{
@@ -39,22 +43,29 @@ namespace Rendering
 		virtual void Shutdown() override;
 
 	private:
+
+
 		static const XMVECTORF32 BackgroundColor;
 
+		bool buttonClicked;
 		LPDIRECTINPUT8 mDirectInput;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
 		FirstPersonCamera* mCamera;
 		FpsComponent* mFpsComponent;
+		SkyboxComponent* mSkybox;
 
+		// TODO: Add to Services and change components to use this one
 		RenderStateHelper* mRenderStateHelper;
 
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mMouseTextPosition;
 
+
 		Colliders* mCollC;
 		Colliders* mCollTM;
 		TexturedModelDemo* mTMDemo;
+		GameManager* mGameManager;
 	};
 }

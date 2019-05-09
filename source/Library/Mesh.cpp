@@ -1,6 +1,8 @@
 #include "Mesh.h"
 #include "Model.h"
 #include "Game.h"
+#include "Bone.h"
+#include "BoneVertexWeights.h"
 #include "GameException.h"
 #include <assimp/scene.h>
 
@@ -9,7 +11,7 @@ namespace Library
 	Mesh::Mesh(Model& model, aiMesh& mesh) :
 		mModel(model), mMaterial(nullptr), mName(mesh.mName.C_Str()),
 		mVertices(), mNormals(), mTangents(), mBiNormals(),
-		mTextureCoordinates(), mVertexColors(), mFaceCount(0), mIndices()
+		mTextureCoordinates(), mVertexColors(), mFaceCount(0), mIndices(), mBoneWeights()
 	{
 		mMaterial = mModel.Materials().at(mesh.mMaterialIndex);
 
@@ -86,6 +88,43 @@ namespace Library
 				}
 			}
 		}
+
+		// Bones
+		if (mesh.HasBones())
+		{
+			mBoneWeights.resize(mesh.mNumVertices);
+
+			for (UINT i = 0; i < mesh.mNumBones; i++)
+			{
+				aiBone* meshBone = mesh.mBones[i];
+
+				// Look up the bone in the model's hierarchy, or add it if not found.
+				UINT boneIndex = 0U;
+				std::string boneName = meshBone->mName.C_Str();
+				auto boneMappingIterator = mModel.mBoneIndexMapping.find(boneName);
+				if (boneMappingIterator != mModel.mBoneIndexMapping.end())
+				{
+					boneIndex = boneMappingIterator->second;
+				}
+				else
+				{
+					boneIndex = mModel.mBones.size();
+					XMMATRIX offsetMatrix = XMLoadFloat4x4(&(XMFLOAT4X4(reinterpret_cast<const float*>(meshBone->mOffsetMatrix[0]))));
+					XMFLOAT4X4 offset;
+					XMStoreFloat4x4(&offset, XMMatrixTranspose(offsetMatrix));
+
+					Bone* modelBone = new Bone(boneName, boneIndex, offset);
+					mModel.mBones.push_back(modelBone);
+					mModel.mBoneIndexMapping[boneName] = boneIndex;
+				}
+
+				for (UINT i = 0; i < meshBone->mNumWeights; i++)
+				{
+					aiVertexWeight vertexWeight = meshBone->mWeights[i];
+					mBoneWeights[vertexWeight.mVertexId].AddWeight(vertexWeight.mWeight, boneIndex);
+				}
+			}
+		}
 	}
 
 	Mesh::~Mesh()
@@ -154,6 +193,11 @@ namespace Library
 	const std::vector<UINT>& Mesh::Indices() const
 	{
 		return mIndices;
+	}
+
+	const std::vector<BoneVertexWeights>& Mesh::BoneWeights() const
+	{
+		return mBoneWeights;
 	}
 
 	void Mesh::CreateIndexBuffer(ID3D11Buffer** indexBuffer)

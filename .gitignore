@@ -410,3 +410,6 @@ MigrationBackup/
 /external/assimp-4.1.0/*.md
 /external/assimp-4.1.0/*.tcl
 /external/assimp-4.1.0/*.h
+
+# Assimp 5.0
+/external/assimp-v.5.0.0.rc1

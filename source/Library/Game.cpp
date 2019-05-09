@@ -180,11 +180,8 @@ namespace Library
 		{
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
-			{
-				if (drawableGameComponent->IsThisMustBeAlwaysDrawn())
-					drawableGameComponent->Draw(gameTime);
-				else if (std::find(mNodesInFructum.begin(), mNodesInFructum.end(), drawableGameComponent->GetNode()) != mNodesInFructum.end() )
-					drawableGameComponent->Draw(gameTime);
+			{				
+				drawableGameComponent->Draw(gameTime);
 			}
 		}
 	}
@@ -218,7 +215,7 @@ namespace Library
 		HRESULT hr;
 		UINT createDeviceFlags = 0;
 
-#if defined(DEBUG) || (_DEBUG)
+#if defined(DEBUG) || defined(_DEBUG)
 		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
@@ -405,6 +402,22 @@ namespace Library
 		}
 
 		ReleaseObject(mDirect3DDeviceContext);
+
+#if defined(DEBUG) || defined(_DEBUG)
+		ID3D11Debug* mD3DDebug = nullptr;
+		HRESULT hr = this->Direct3DDevice()->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&mD3DDebug));
+		if (FAILED(hr))
+		{
+			throw GameException("Failed to create ID3D11Debug");
+		}
+
+		hr = mD3DDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+		if (FAILED(hr))
+		{
+			throw GameException("Failed to ReportLiveDeviceObjects");
+		}
+#endif // defined(DEBUG) || defined(_DEBUG)
+
 		ReleaseObject(mDirect3DDevice);
 
 		UnregisterClass(mWindowClass.c_str(), mWindow.hInstance);

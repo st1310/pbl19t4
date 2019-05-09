@@ -7,9 +7,12 @@
 #include "MouseComponent.h"
 #include "FpsComponent.h"
 #include "FirstPersonCamera.h"
+#include "SkyboxComponent.h"
 #include "ColorHelper.h"
 #include "RenderStateHelper.h"
-#include "TexturedModelDemo.h"
+#include "TexturedModelMaterialDemo.h"
+#include "GameManager.h"
+#include "GameObject.h"
 #include "Utility.h"
 #include "NodeList.h"
 
@@ -19,10 +22,11 @@ namespace Rendering
 	
 	RenderingGame::RenderingGame(HINSTANCE instance, const std::wstring & windowClass, const std::wstring & windowTitle, int showCommand)
 		: Game(instance, windowClass, windowTitle, showCommand),
-		mFpsComponent(nullptr),
-		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr),
+		mFpsComponent(nullptr), mSkybox(nullptr),
+		mRenderStateHelper(nullptr),
+		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mTMDemo(nullptr)
+		mGameManager(nullptr), buttonClicked(false)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -54,11 +58,28 @@ namespace Rendering
 		mComponents.push_back(mCamera);
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
 
+
 		BoundingBox* mDemoBox = new BoundingBox();
 		mCollTM = new Colliders(mDemoBox);
 		mTMDemo = new TexturedModelDemo(*this, *mCamera, *mCollTM);
 		mComponents.push_back(mTMDemo);
 		mTMDemo->SetNode(newNode);
+//=======
+		mSkybox = new SkyboxComponent(*this, *mCamera, L"Content\\Textures\\Maskonaive2_1024.dds", 100.0f);
+		mComponents.push_back(mSkybox);
+		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
+
+		mGameManager = new GameManager(*this, *mCamera);
+		//mGameManager->StartScene(CITY_LEVEL);
+
+		/*mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
+		mComponents.push_back(mTMMDemo);*/
+		
+		for(int i =0; i <  mGameManager->GetSizeOfCurrentScene(); i++)
+		{
+			mComponents.push_back(mGameManager->Scenes[mGameManager->currentScene]->GameObjects[i]);
+		}
+
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
@@ -73,7 +94,8 @@ namespace Rendering
 
 		Game::Initialize();
 
-		mCamera->SetPosition(0.0f, 0.0f, 10.0f);
+
+		mCamera->SetPosition(0.0f, 0.0f, 20.0f);
 
 		CollisionNode* additionalCheckNode = new CollisionNode({ -1000.f, -200.f, 0.f }, { 900.f, 190.f, 20.f });
 		newNode->AddDynamicCollider(mCollC);
@@ -81,17 +103,20 @@ namespace Rendering
 		additionalCheckNode->AddNewChild(newNode);
 		mNode.push_back(additionalCheckNode);
 		
+
 	}
 
 	void RenderingGame::Shutdown()
 	{
-		DeleteObject(mTMDemo);
+		DeleteObject(mGameManager);
 		DeleteObject(mKeyboard);
 		DeleteObject(mMouse);
 		DeleteObject(mFpsComponent);
+		DeleteObject(mSkybox);
 		DeleteObject(mSpriteBatch);
 		DeleteObject(mSpriteFont);
 		DeleteObject(mCamera);
+		DeleteObject(mRenderStateHelper);
 
 		ReleaseObject(mDirectInput);
 
@@ -105,7 +130,36 @@ namespace Rendering
 			Exit();
 		}
 
-		//mCamera->SendColliderList(mColliders);
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_M))
+		{
+			mGameManager->Scenes[mGameManager->currentScene]->Serialize();
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_1))
+		{
+			if (!buttonClicked) 
+			{
+				buttonClicked = true;
+				for (GameComponent* component : mComponents) {
+					DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
+					if (drawableGameComponent != nullptr) {
+						drawableGameComponent->SetVisible(false);
+					}
+				}
+			}
+			else
+			{
+				buttonClicked = false;
+				for (GameComponent* component : mComponents) {
+					DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
+					if (drawableGameComponent != nullptr) {
+						drawableGameComponent->SetVisible(true);
+					}
+				}
+			}
+			
+		}
+
 		Game::Update(gameTime);
 	}
 
@@ -116,8 +170,10 @@ namespace Rendering
 		mDirect3DDeviceContext->ClearDepthStencilView(mDepthStencilView,
 			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
+		
 		Game::Draw(gameTime);
 
+		
 		mRenderStateHelper->SaveAll();
 		mSpriteBatch->Begin();
 

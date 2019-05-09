@@ -2,6 +2,32 @@
 
 #ifndef DIRECTINPUT_VERSION
 #define DIRECTINPUT_VERSION 0x0800
+#define MENU_LEVEL 0
+#define DAY_LEVEL 1
+#define TRAIN_LEVEL 2
+#define CITY_LEVEL 3
+
+
+// For CreationKit
+#define ROTATION "Rotation"
+#define SCALE "Scale"
+#define POSITION "Position"
+
+#define X_AXIS "X"
+#define Y_AXIS "Y"
+#define Z_AXIS "Z"
+#define ALL_AXIS "All"
+
+#define X_AXIS_NUMBER 1
+#define Y_AXIS_NUMBER 2
+#define Z_AXIS_NUMBER 3
+#define ALL_AXIS_NUMBER 4
+
+// Class names in serialization
+#define GREEN_SOLDIER "GreenSoldier"
+#define CARGO_TRAIN "CargoTrain"
+#define PASSENGER_TRAIN "PassengerTrain"
+#define TRACK "Track"
 #endif
 
 #define NOMINMAX // This define fixes assimp std::min/max error

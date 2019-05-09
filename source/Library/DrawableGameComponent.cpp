@@ -4,18 +4,18 @@ namespace Library
 {
 	RTTI_DEFINITIONS(DrawableGameComponent)
 
+
 		DrawableGameComponent::DrawableGameComponent()
-		: GameComponent(), mVisible(true), mCamera(nullptr), mShouldBeAlwaysDrawn(false)
-	{
+		: GameComponent(), mVisible(true), mCamera(nullptr)
 	}
 
 	DrawableGameComponent::DrawableGameComponent(Game& game)
-		: GameComponent(game), mVisible(true), mCamera(nullptr), mShouldBeAlwaysDrawn(false)
+		: GameComponent(game), mVisible(true), mCamera(nullptr)
 	{
 	}
 
 	DrawableGameComponent::DrawableGameComponent(Game& game, Camera& camera)
-		: GameComponent(game), mVisible(true), mCamera(&camera), mShouldBeAlwaysDrawn(false)
+		: GameComponent(game), mVisible(true), mCamera(&camera)
 	{
 	}
 
@@ -28,29 +28,10 @@ namespace Library
 		return mVisible;
 	}
 
+
 	void DrawableGameComponent::SetVisible(bool visible)
 	{
 		mVisible = visible;
-	}
-
-	void DrawableGameComponent::SetAlwaysDrawn(bool ShouldBe)
-	{
-		mShouldBeAlwaysDrawn = ShouldBe;
-	}
-
-	void DrawableGameComponent::SetNode(CollisionNode* newNode)
-	{
-		mNode = newNode;
-	}
-
-	CollisionNode* DrawableGameComponent::GetNode()
-	{
-		return mNode;
-	}
-
-	bool DrawableGameComponent::IsThisMustBeAlwaysDrawn()
-	{
-		return mShouldBeAlwaysDrawn;
 	}
 
 	Camera * DrawableGameComponent::GetCamera()
