@@ -61,7 +61,7 @@ namespace Rendering
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mMouseTextPosition;
-
+	
 
 		Colliders* mCollC;
 		Colliders* mCollTM;

@@ -14,6 +14,12 @@ namespace Library
 		assert(mDirectInput != nullptr);
 		ZeroMemory(&mCurrentState, sizeof(mCurrentState));
 		ZeroMemory(&mLastState, sizeof(mLastState));
+
+		POINT p;
+		GetCursorPos(&p);
+		ScreenToClient(mGame->WindowHandle(), &p);
+		mX = p.x;
+		mY = p.y;
 	}
 
 	MouseComponent::~MouseComponent()
@@ -82,9 +88,11 @@ namespace Library
 
 			// Accumulate positions
 			// TODO: check for mX < 0, mY < 0 and for max mX, mY
-			mX += mCurrentState.lX;
-			mY += mCurrentState.lY;
-			mWheel += mCurrentState.lZ;
+			POINT p;
+			GetCursorPos(&p);
+			ScreenToClient(mGame->WindowHandle(), &p);
+			mX = p.x;
+			mY = p.y;
 		}
 	}
 

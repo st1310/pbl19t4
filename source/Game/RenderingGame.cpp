@@ -122,6 +122,7 @@ namespace Rendering
 
 	void RenderingGame::Update(const GameTime & gameTime)
 	{
+
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_ESCAPE))
 		{
 			Exit();
@@ -178,6 +179,28 @@ namespace Rendering
 		mouseLabel << L"Mouse Position: " << mMouse->X() << ", "
 			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition);
+
+		if (mMouse->Y() > 295.0f && mMouse->Y() < 307.0f && mMouse->X() > 104.0f  && mMouse->X() < 200.0f) {
+			std::wostringstream startGame;
+			startGame << "Start Game";
+			mSpriteFont->DrawString(mSpriteBatch, startGame.str().c_str(), XMFLOAT2(100.0f, 300.0f), Colors::Blue);
+		}
+		else {
+			std::wostringstream startGame;
+			startGame << "Start Game";
+			mSpriteFont->DrawString(mSpriteBatch, startGame.str().c_str(), XMFLOAT2(100.0f, 300.0f), Colors::White);
+		}
+		
+		if (mMouse->Y() > 313.0f && mMouse->Y() < 327.0f && mMouse->X() > 104.0f  && mMouse->X() < 200.0f) {
+			std::wostringstream endGame;
+			endGame << "Quit Game";
+			mSpriteFont->DrawString(mSpriteBatch, endGame.str().c_str(), XMFLOAT2(100.0f, 320.0f), Colors::Blue);
+		}
+		else {
+			std::wostringstream endGame;
+			endGame << "Quit Game";
+			mSpriteFont->DrawString(mSpriteBatch, endGame.str().c_str(), XMFLOAT2(100.0f, 320.0f), Colors::White);
+		}
 
 		mSpriteBatch->End();
 		mRenderStateHelper->RestoreAll();

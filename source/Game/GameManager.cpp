@@ -11,7 +11,7 @@ namespace Rendering
 		this->camera = &camera;
 		Initialize();
 		
-		currentScene = MENU_LEVEL;
+		currentScene = CITY_LEVEL;
 		StartScene(currentScene);
 	}
 
