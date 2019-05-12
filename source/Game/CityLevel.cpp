@@ -20,6 +20,12 @@ namespace Rendering
 		{
 			this->GameObjects.push_back(gameObjects.at(i));
 			GameObjects.at(i)->Initialize();
-		}			
+		}	
+
+		GreenSoldier* soldier = new GreenSoldier(game, camera);
+		//this->GameObjects.push_back(soldier);
+		soldier->Initialize();
+		soldier->mIsEdited = true;
+		soldier->mIsSelected = true;
 	}
 }

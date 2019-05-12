@@ -27,7 +27,9 @@ namespace Rendering
 		RTTI_DECLARATIONS(GameObject, DrawableGameComponent)
 
 	public:
-		GameObject(Game& game, Camera& camera, const char *className, XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
+		GameObject(Game& game, Camera& camera, const char *className,
+			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,
+			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
 		~GameObject();
 
 		virtual void Initialize() override;
@@ -46,6 +48,8 @@ namespace Rendering
 		void Translate(XMFLOAT3 translation);
 
 		virtual std::vector<std::string> Serialize() override;
+		bool mIsSelected = false;
+		bool mIsEdited = false;
 
 	protected:
 		GameObject();
@@ -53,13 +57,15 @@ namespace Rendering
 		GameObject& operator=(const GameObject& rhs);
 
 		Effect* mEffect;
-		SkinnedModelMaterial* mMaterial;
 		const char *mModelName;
 		LPCWSTR mShaderName;
+		std::string mDiffuseMap;
 
 		XMFLOAT3 mPosition;
 		XMFLOAT3 mRotation;
 		XMFLOAT3 mScale;
+
+		KeyboardComponent* mKeyboard;
 
 		XMFLOAT4X4 mWorldMatrix;
 
@@ -75,12 +81,9 @@ namespace Rendering
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mTextPosition;
-		bool mManualAdvanceMode;
+		bool mManualAdvanceMode;	
 
-		bool mIsSelected = true;
-
-		// Creation Kit
-		bool mIsEdited = true;
+		// Creation Kit		
 		std::string mEditMode = POSITION;
 		std::string mEditAxis = X_AXIS;
 		float mEditFactor = 0.5;
@@ -88,12 +91,13 @@ namespace Rendering
 		boolean mPrecisionMode = false;
 		const char *mClassName;
 
-		void EditModel(KeyboardComponent* mKeyboard);
-		void ChangeEditMode(KeyboardComponent* mKeyboard);
-		void ChangeEditAxis(KeyboardComponent* mKeyboard);
-		void ChangeEditFactor(KeyboardComponent* mKeyboard);
-		void SetPosition(KeyboardComponent* mKeyboard);
-		void SetRotation(KeyboardComponent* mKeyboard);
-		void SetScale(KeyboardComponent* mKeyboard);
+		void EditModel();
+		void ChangeEditMode();
+		void ChangeEditAxis();
+		void ChangeEditFactor();
+		void SetPosition();
+		void SetRotation();
+		void SetScale();
+		std::wostringstream GetCreationKitInfo();
 	};
 }

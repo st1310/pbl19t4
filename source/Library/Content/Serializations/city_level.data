@@ -508,3 +508,20 @@
       <z= 0.25/>
    </Scale>
 </Bench>
+<GreenSoldier>
+   <Position>
+      <x= 21.50/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
+   </Scale>
+</GreenSoldier>

@@ -24,95 +24,35 @@ namespace Rendering
 {
 	RTTI_DEFINITIONS(GameObject)
 
-		GameObject::GameObject(Game& game, Camera& camera, const char *className, XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
+		GameObject::GameObject(Game& game, Camera& camera, const char *className,
+			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,
+			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
 		: DrawableGameComponent(game, camera),
-		mMaterial(nullptr), mEffect(nullptr), mWorldMatrix(MatrixHelper::Identity),
+		mEffect(nullptr), mWorldMatrix(MatrixHelper::Identity),
 		mClassName(className),
-		mPosition(startPosition), mRotation(startRotation), mScale(startScale),
+		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(),
+		mShaderName(shaderName), mModelName(modelName), mDiffuseMap(diffuseMap),
 		mSkinnedModel(nullptr), mAnimationPlayer(nullptr),
-		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false)
+		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false),
+		mKeyboard(nullptr),
+		mPosition(startPosition), mRotation(startRotation), mScale(startScale)
 	{
 	}
 
 	GameObject::~GameObject()
 	{
-
 	}
 
 	void GameObject::Initialize()
 	{
-
 	}
 
 	void GameObject::Update(const GameTime& gameTime)
 	{
-
 	}
 
 	void GameObject::Draw(const GameTime& gameTime)
 	{
-		ID3D11DeviceContext* direct3DDeviceContext = mGame->Direct3DDeviceContext();
-		direct3DDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		Pass* pass = mMaterial->CurrentTechnique()->Passes().at(0);
-		ID3D11InputLayout* inputLayout = mMaterial->InputLayouts().at(pass);
-		direct3DDeviceContext->IASetInputLayout(inputLayout);
-
-		XMMATRIX worldMatrix = XMLoadFloat4x4(&mWorldMatrix);
-		XMMATRIX wvp = worldMatrix * mCamera->ViewMatrix() * mCamera->ProjectionMatrix();
-
-		UINT stride = mMaterial->VertexSize();
-		UINT offset = 0;
-
-		for (UINT i = 0; i < mVertexBuffers.size(); i++)
-		{
-			ID3D11Buffer* vertexBuffer = mVertexBuffers[i];
-			ID3D11Buffer* indexBuffer = mIndexBuffers[i];
-			UINT indexCount = mIndexCounts[i];
-			ID3D11ShaderResourceView* colorTexture = mColorTextures[i];
-
-			direct3DDeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-			direct3DDeviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
-			mMaterial->WorldViewProjection() << wvp;
-			mMaterial->ColorTexture() << colorTexture;
-			mMaterial->BoneTransforms() << mAnimationPlayer->BoneTransforms();
-
-			pass->Apply(0, direct3DDeviceContext);
-
-			direct3DDeviceContext->DrawIndexed(indexCount, 0, 0);
-		}
-
-		mRenderStateHelper.SaveAll();
-		mSpriteBatch->Begin();
-
-		std::wostringstream helpLabel;
-
-		helpLabel << std::setprecision(5) << L"\nAnimation Time: " << mAnimationPlayer->CurrentTime()
-			<< "\nFrame Interpolation (I): " << (mAnimationPlayer->InterpolationEnabled() ? "On" : "Off");
-
-		if (mManualAdvanceMode)
-		{
-			helpLabel << "\nCurrent Keyframe (Space): " << mAnimationPlayer->CurrentKeyframe();
-		}
-		else
-		{
-			helpLabel << "\nPause / Resume(P)";
-		}
-		if (mIsSelected && mIsEdited)
-		{
-			helpLabel << "\nMode: " << mEditMode.at(0) << mEditMode.at(1) << mEditMode.at(2) <<
-				" | Axis: " << mEditAxis.at(0) <<
-				" | Edit factor: " << mEditFactor << " | Precision mode: " << mPrecisionMode;
-			helpLabel << "\nPosition: " << mPosition.x << ", " << mPosition.y << ", " << mPosition.z;
-			helpLabel << "\nRotation: " << mRotation.x << ", " << mRotation.y << ", " << mRotation.z;
-			helpLabel << "\nScale: " << mScale.x << ", " << mScale.y << ", " << mScale.z;
-		}
-
-		mSpriteFont->DrawString(mSpriteBatch, helpLabel.str().c_str(), mTextPosition);
-
-		mSpriteBatch->End();
-		mRenderStateHelper.RestoreAll();
 	}
 
 	// Transformation
@@ -221,23 +161,23 @@ namespace Rendering
 		return result;
 	}
 
-	void GameObject::EditModel(KeyboardComponent* mKeyboard)
+	void GameObject::EditModel()
 	{
-		ChangeEditFactor(mKeyboard);
-		ChangeEditMode(mKeyboard);
-		ChangeEditAxis(mKeyboard);
+		ChangeEditFactor();
+		ChangeEditMode();
+		ChangeEditAxis();
 
 		if (mEditMode == POSITION)
-			SetPosition(mKeyboard);
+			SetPosition();
 
 		if (mEditMode == ROTATION)
-			SetRotation(mKeyboard);
+			SetRotation();
 
 		if (mEditMode == SCALE)
-			SetScale(mKeyboard);
+			SetScale();
 	}
 
-	void GameObject::ChangeEditFactor(KeyboardComponent* mKeyboard)
+	void GameObject::ChangeEditFactor()
 	{
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPADPLUS))
 			mEditFactor += 0.05;
@@ -249,7 +189,7 @@ namespace Rendering
 			mEditFactor = 0;
 	}
 
-	void GameObject::SetPosition(KeyboardComponent* mKeyboard)
+	void GameObject::SetPosition()
 	{
 		if (mPrecisionMode)
 		{
@@ -307,7 +247,7 @@ namespace Rendering
 		}
 	}
 
-	void GameObject::SetRotation(KeyboardComponent* mKeyboard)
+	void GameObject::SetRotation()
 	{
 		if (mPrecisionMode)
 		{
@@ -367,7 +307,7 @@ namespace Rendering
 
 	}
 
-	void GameObject::SetScale(KeyboardComponent* mKeyboard)
+	void GameObject::SetScale()
 	{
 		if (mPrecisionMode)
 		{
@@ -450,7 +390,7 @@ namespace Rendering
 		}
 	}
 
-	void GameObject::ChangeEditAxis(KeyboardComponent* mKeyboard)
+	void GameObject::ChangeEditAxis()
 	{
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_LEFTARROW))
 			mAxisNumber--;
@@ -489,7 +429,7 @@ namespace Rendering
 			mEditAxis = ALL_AXIS;
 	}
 
-	void GameObject::ChangeEditMode(KeyboardComponent* mKeyboard)
+	void GameObject::ChangeEditMode()
 	{
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPAD1))
 		{
@@ -514,6 +454,21 @@ namespace Rendering
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPAD4))
 			mPrecisionMode = !mPrecisionMode;
+	}
+
+	std::wostringstream GameObject::GetCreationKitInfo()
+	{
+		std::wostringstream helpLabel;
+		std::string precisionSwitch = (mPrecisionMode == true) ? "On" : "Off";
+
+		helpLabel << "\nMode: " << mEditMode.c_str() <<
+			" | Axis: " << mEditAxis.c_str() <<
+			" | Edit factor: " << mEditFactor << " | Precision mode: " << precisionSwitch.c_str();
+		helpLabel << "\nPosition: " << mPosition.x << ", " << mPosition.y << ", " << mPosition.z;
+		helpLabel << "\nRotation: " << mRotation.x << ", " << mRotation.y << ", " << mRotation.z;
+		helpLabel << "\nScale: " << mScale.x << ", " << mScale.y << ", " << mScale.z;
+
+		return helpLabel;
 	}
 
 }

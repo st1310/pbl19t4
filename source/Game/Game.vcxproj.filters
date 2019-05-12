@@ -120,6 +120,9 @@
     <ClCompile Include="SingleStreetLampPost.cpp">
       <Filter>Assets\Source</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TexturedModelMaterialDemo.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="SingleStreetLampPost.h">
       <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
