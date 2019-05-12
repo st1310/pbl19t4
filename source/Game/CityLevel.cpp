@@ -16,11 +16,6 @@ namespace Rendering
 		GameObjectPusher pusher = GameObjectPusher();
 		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile());
 
-		CargoTrain* g = new CargoTrain(game, camera);
-		g->mIsEdited = true;
-		g->mIsSelected = true;
-		this->GameObjects.push_back(g);
-
 		for (int i = 0; i < gameObjects.size(); i++)
 			this->GameObjects.push_back(gameObjects.at(i));
 	}
