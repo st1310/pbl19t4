@@ -34,6 +34,12 @@
     <Filter Include="Assets\Header">
       <UniqueIdentifier>{470fd8bd-5ef4-44fa-9edb-75acc387a429}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Abstract\Source">
+      <UniqueIdentifier>{963d82e8-cebf-4aea-aeb4-9d008accf860}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Abstract\Header">
+      <UniqueIdentifier>{8c6a6254-9462-4baf-ac45-9a7f2245a9c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -44,9 +50,6 @@
     </ClCompile>
     <ClCompile Include="RenderingGame.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TexturedModelMaterialDemo.cpp">
-      <Filter>Assets\Abstract</Filter>
     </ClCompile>
     <ClCompile Include="PassengerTrain.cpp">
       <Filter>Assets\Source</Filter>
@@ -80,12 +83,6 @@
     </ClCompile>
     <ClCompile Include="GameObjectPusher.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StaticGameObject.cpp">
-      <Filter>Assets\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimatedGameObject.cpp">
-      <Filter>Assets\Abstract</Filter>
     </ClCompile>
     <ClCompile Include="Bench.cpp">
       <Filter>Assets\Source</Filter>
@@ -121,13 +118,19 @@
       <Filter>Assets\Source</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Assets\Abstract\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="TexturedModelMaterialDemo.cpp">
+      <Filter>Assets\Abstract\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticGameObject.cpp">
+      <Filter>Assets\Abstract\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedGameObject.cpp">
+      <Filter>Assets\Abstract\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TexturedModelMaterialDemo.h">
-      <Filter>Assets\Abstract</Filter>
-    </ClInclude>
     <ClInclude Include="PassengerTrain.h">
       <Filter>Assets\Header</Filter>
     </ClInclude>
@@ -163,12 +166,6 @@
     </ClInclude>
     <ClInclude Include="GameObjectPusher.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StaticGameObject.h">
-      <Filter>Assets\Abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimatedGameObject.h">
-      <Filter>Assets\Abstract</Filter>
     </ClInclude>
     <ClInclude Include="Bench.h">
       <Filter>Assets\Header</Filter>
@@ -207,7 +204,16 @@
       <Filter>Assets\Header</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
+      <Filter>Assets\Abstract\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturedModelMaterialDemo.h">
+      <Filter>Assets\Abstract\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticGameObject.h">
+      <Filter>Assets\Abstract\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedGameObject.h">
+      <Filter>Assets\Abstract\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

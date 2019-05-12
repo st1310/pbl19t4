@@ -162,4 +162,98 @@ namespace Rendering
 
 		return assets;
 	}
+
+	GameObject* GameObjectPusher::GetGameObjectByName(Game& game, Camera& camera, std::string className)
+	{
+		if (className == "CargoTrain")
+		{
+			CargoTrain* cargoTrain = new CargoTrain(game, camera);
+			return cargoTrain;
+		}
+
+		if (className == "PassengerTrain")
+		{
+			PassengerTrain* passengerTrain = new PassengerTrain(game, camera);
+			return passengerTrain;
+		}
+
+		if (className == "GreenSoldier")
+		{
+			GreenSoldier* greenSoldier = new GreenSoldier(game, camera);
+			return greenSoldier;
+		}
+
+		if (className == "Policeman")
+		{
+			//Policeman* policeman = new Policeman(game, camera);
+			Bench* policeman = new Bench(game, camera);
+			return policeman;
+		}
+
+		if (className == "Track")
+		{
+			Track* track = new Track(game, camera);
+			return track;
+		}
+
+		if (className == "Bench")
+		{
+			Bench* bench = new Bench(game, camera);
+			return bench;
+		}
+
+		if (className == "ConcreteWall")
+		{
+			ConcreteWall* concreteWall = new ConcreteWall(game, camera);
+			return concreteWall;
+		}
+
+		if (className == "StoneGround")
+		{
+			StoneGround* stoneGround = new StoneGround(game, camera);
+			return stoneGround;
+		}
+
+		if (className == "GrassGround")
+		{
+			GrassGround* grassGround = new GrassGround(game, camera);
+			return grassGround;
+		}
+
+		if (className == "PlatformGround1")
+		{
+			PlatformGround1* platformGround1 = new PlatformGround1(game, camera);
+			return platformGround1;
+		}
+
+		if (className == "PlatformGround2")
+		{
+			PlatformGround2* platformGround2 = new PlatformGround2(game, camera);
+			return platformGround2;
+		}
+
+		if (className == "DoubleStreetLampPost")
+		{
+			DoubleStreetLampPost* doubleStreetLampPost = new DoubleStreetLampPost(game, camera);
+			return doubleStreetLampPost;
+		}
+
+		if (className == "DoubleStreetLampPostWithMegaphone")
+		{
+			DoubleStreetLampPostWithMegaphone* doubleStreetLampPostWithMegaphone = new DoubleStreetLampPostWithMegaphone(game, camera);
+			return doubleStreetLampPostWithMegaphone;
+		}
+
+		if (className == "SingleStreetLampPost")
+		{
+			SingleStreetLampPost* singleStreetLampPost = new SingleStreetLampPost(game, camera);
+			return singleStreetLampPost;
+		}
+
+		else
+		{
+			Bench* bench = new Bench(game, camera);
+			return bench;
+		}
+	}
 }

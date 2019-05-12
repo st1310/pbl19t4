@@ -1,0 +1,17 @@
+<Bench>
+   <Position>
+      <x= 0.00/>
+      <y= -2.50/>
+      <z= 0.00/>
+   </Position>
+   <Rotation>
+      <x= 0.00/>
+      <y= 90.00/>
+      <z= 90.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.25/>
+      <y= 0.25/>
+      <z= 0.25/>
+   </Scale>
+</Bench>

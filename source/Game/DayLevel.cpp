@@ -3,10 +3,9 @@
 namespace Rendering
 {
 	DayLevel::DayLevel(Game& game, Camera& camera)
-		:Scene(DAY_LEVEL, "Content\\Serializations\\day_level.data")
+		:Scene(game, camera,DAY_LEVEL, "Content\\Serializations\\day_level.data")
 	{
 	}
-
 
 	DayLevel::~DayLevel()
 	{
@@ -14,6 +13,7 @@ namespace Rendering
 
 	void DayLevel::Start(Game& game, Camera& camera)
 	{
+		Initialize();
 		GameObjectPusher pusher = GameObjectPusher();
 		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile());
 

@@ -180,69 +180,106 @@ namespace Rendering
 	void GameObject::ChangeEditFactor()
 	{
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPADPLUS))
-			mEditFactor += 0.05;
+			mEditFactorIndex++;
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPADMINUS))
-			mEditFactor -= 0.05;
+			mEditFactorIndex--;
 
-		if (mEditFactor < 0)
-			mEditFactor = 0;
+		if (mEditFactorIndex < 0)
+			mEditFactorIndex = 0;
+
+		if (mEditFactorIndex >= 11)
+			mEditFactorIndex = 10;
 	}
 
 	void GameObject::SetPosition()
 	{
 		if (mPrecisionMode)
 		{
-			if (mEditAxis == X_AXIS)
+			if (mXYPositionMode)
 			{
-				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					Translate(mEditFactor, 0, 0);
+				if (mKeyboard->WasKeyPressedThisFrame(DIK_RIGHTARROW))
+					Translate(mEditFactorArray[mEditFactorIndex], 0, 0);
+
+				if (mKeyboard->WasKeyPressedThisFrame(DIK_LEFTARROW))
+					Translate(-mEditFactorArray[mEditFactorIndex], 0, 0);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					Translate(-mEditFactor, 0, 0);
+					Translate(0, 0, mEditFactorArray[mEditFactorIndex]);
+
+				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
+					Translate(0, 0, -mEditFactorArray[mEditFactorIndex]);
 			}
-			if (mEditAxis == Y_AXIS)
+			else
 			{
-				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					Translate(0, mEditFactor, 0);
+				if (mEditAxis == X_AXIS)
+				{
+					if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
+						Translate(mEditFactorArray[mEditFactorIndex], 0, 0);
 
-				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					Translate(0, -mEditFactor, 0);
-			}
-			if (mEditAxis == Z_AXIS)
-			{
-				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					Translate(0, 0, mEditFactor);
+					if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
+						Translate(-mEditFactorArray[mEditFactorIndex], 0, 0);
+				}
+				if (mEditAxis == Y_AXIS)
+				{
+					if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
+						Translate(0, mEditFactorArray[mEditFactorIndex], 0);
 
-				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					Translate(0, 0, -mEditFactor);
+					if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
+						Translate(0, -mEditFactorArray[mEditFactorIndex], 0);
+				}
+				if (mEditAxis == Z_AXIS)
+				{
+					if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
+						Translate(0, 0, mEditFactorArray[mEditFactorIndex]);
+
+					if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
+						Translate(0, 0, -mEditFactorArray[mEditFactorIndex]);
+				}
 			}
 		}
 		else
 		{
-			if (mEditAxis == X_AXIS)
+			if (mXYPositionMode)
 			{
-				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					Translate(mEditFactor, 0, 0);
+				if (mKeyboard->IsKeyDown(DIK_RIGHTARROW))
+					Translate(mEditFactorArray[mEditFactorIndex], 0, 0);
+
+				if (mKeyboard->IsKeyDown(DIK_LEFTARROW))
+					Translate(-mEditFactorArray[mEditFactorIndex], 0, 0);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					Translate(-mEditFactor, 0, 0);
+					Translate(0, 0, mEditFactorArray[mEditFactorIndex]);
+
+				if (mKeyboard->IsKeyDown(DIK_UPARROW))
+					Translate(0, 0, -mEditFactorArray[mEditFactorIndex]);
 			}
-			if (mEditAxis == Y_AXIS)
+			else
 			{
-				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					Translate(0, mEditFactor, 0);
+				if (mEditAxis == X_AXIS)
+				{
+					if (mKeyboard->IsKeyDown(DIK_UPARROW))
+						Translate(mEditFactorArray[mEditFactorIndex], 0, 0);
 
-				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					Translate(0, -mEditFactor, 0);
-			}
-			if (mEditAxis == Z_AXIS)
-			{
-				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					Translate(0, 0, mEditFactor);
+					if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
+						Translate(-mEditFactorArray[mEditFactorIndex], 0, 0);
+				}
+				if (mEditAxis == Y_AXIS)
+				{
+					if (mKeyboard->IsKeyDown(DIK_UPARROW))
+						Translate(0, mEditFactorArray[mEditFactorIndex], 0);
 
-				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					Translate(0, 0, -mEditFactor);
+					if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
+						Translate(0, -mEditFactorArray[mEditFactorIndex], 0);
+				}
+				if (mEditAxis == Z_AXIS)
+				{
+					if (mKeyboard->IsKeyDown(DIK_UPARROW))
+						Translate(0, 0, mEditFactorArray[mEditFactorIndex]);
+
+					if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
+						Translate(0, 0, -mEditFactorArray[mEditFactorIndex]);
+				}
 			}
 		}
 	}
@@ -254,26 +291,26 @@ namespace Rendering
 			if (mEditAxis == X_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					Rotate(mEditFactor, 0, 0);
+					Rotate(mEditFactorArray[mEditFactorIndex], 0, 0);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					Rotate(-mEditFactor, 0, 0);
+					Rotate(-mEditFactorArray[mEditFactorIndex], 0, 0);
 			}
 			if (mEditAxis == Y_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					Rotate(0, mEditFactor, 0);
+					Rotate(0, mEditFactorArray[mEditFactorIndex], 0);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					Rotate(0, -mEditFactor, 0);
+					Rotate(0, -mEditFactorArray[mEditFactorIndex], 0);
 			}
 			if (mEditAxis == Z_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					Rotate(0, 0, mEditFactor);
+					Rotate(0, 0, mEditFactorArray[mEditFactorIndex]);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					Rotate(0, 0, -mEditFactor);
+					Rotate(0, 0, -mEditFactorArray[mEditFactorIndex]);
 			}
 		}
 
@@ -282,26 +319,26 @@ namespace Rendering
 			if (mEditAxis == X_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					Rotate(mEditFactor, 0, 0);
+					Rotate(mEditFactorArray[mEditFactorIndex], 0, 0);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					Rotate(-mEditFactor, 0, 0);
+					Rotate(-mEditFactorArray[mEditFactorIndex], 0, 0);
 			}
 			if (mEditAxis == Y_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					Rotate(0, mEditFactor, 0);
+					Rotate(0, mEditFactorArray[mEditFactorIndex], 0);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					Rotate(0, -mEditFactor, 0);
+					Rotate(0, -mEditFactorArray[mEditFactorIndex], 0);
 			}
 			if (mEditAxis == Z_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					Rotate(0, 0, mEditFactor);
+					Rotate(0, 0, mEditFactorArray[mEditFactorIndex]);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					Rotate(0, 0, -mEditFactor);
+					Rotate(0, 0, -mEditFactorArray[mEditFactorIndex]);
 			}
 		}
 
@@ -314,34 +351,34 @@ namespace Rendering
 			if (mEditAxis == X_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					Scale(mEditFactor, 0, 0);
+					Scale(mEditFactorArray[mEditFactorIndex], 0, 0);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					Scale(-mEditFactor, 0, 0);
+					Scale(-mEditFactorArray[mEditFactorIndex], 0, 0);
 			}
 			if (mEditAxis == Y_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					Scale(0, mEditFactor, 0);
+					Scale(0, mEditFactorArray[mEditFactorIndex], 0);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					Scale(0, -mEditFactor, 0);
+					Scale(0, -mEditFactorArray[mEditFactorIndex], 0);
 			}
 			if (mEditAxis == Z_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					Scale(0, 0, mEditFactor);
+					Scale(0, 0, mEditFactorArray[mEditFactorIndex]);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					Scale(0, 0, -mEditFactor);
+					Scale(0, 0, -mEditFactorArray[mEditFactorIndex]);
 			}
 			if (mEditAxis == ALL_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					Scale(mEditFactor, mEditFactor, mEditFactor);
+					Scale(mEditFactorArray[mEditFactorIndex], mEditFactorArray[mEditFactorIndex], mEditFactorArray[mEditFactorIndex]);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					Scale(-mEditFactor, -mEditFactor, -mEditFactor);
+					Scale(-mEditFactorArray[mEditFactorIndex], -mEditFactorArray[mEditFactorIndex], -mEditFactorArray[mEditFactorIndex]);
 			}
 
 			// Fix rotation after scaling
@@ -354,34 +391,34 @@ namespace Rendering
 			if (mEditAxis == X_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					Scale(mEditFactor, 0, 0);
+					Scale(mEditFactorArray[mEditFactorIndex], 0, 0);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					Scale(-mEditFactor, 0, 0);
+					Scale(-mEditFactorArray[mEditFactorIndex], 0, 0);
 			}
 			if (mEditAxis == Y_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					Scale(0, mEditFactor, 0);
+					Scale(0, mEditFactorArray[mEditFactorIndex], 0);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					Scale(0, -mEditFactor, 0);
+					Scale(0, -mEditFactorArray[mEditFactorIndex], 0);
 			}
 			if (mEditAxis == Z_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					Scale(0, 0, mEditFactor);
+					Scale(0, 0, mEditFactorArray[mEditFactorIndex]);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					Scale(0, 0, -mEditFactor);
+					Scale(0, 0, -mEditFactorArray[mEditFactorIndex]);
 			}
 			if (mEditAxis == ALL_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					Scale(mEditFactor, mEditFactor, mEditFactor);
+					Scale(mEditFactorArray[mEditFactorIndex], mEditFactorArray[mEditFactorIndex], mEditFactorArray[mEditFactorIndex]);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					Scale(-mEditFactor, -mEditFactor, -mEditFactor);
+					Scale(-mEditFactorArray[mEditFactorIndex], -mEditFactorArray[mEditFactorIndex], -mEditFactorArray[mEditFactorIndex]);
 			}
 
 			// Fix rotation after scaling
@@ -435,6 +472,9 @@ namespace Rendering
 		{
 			mAxisNumber = X_AXIS_NUMBER;
 			mEditMode = POSITION;
+			mEditFactorIndex = 4;
+			mPrecisionMode = false;
+			mXYPositionMode = true;
 		}
 
 
@@ -442,31 +482,59 @@ namespace Rendering
 		{
 			mAxisNumber = X_AXIS_NUMBER;
 			mEditMode = ROTATION;
+			mEditFactorIndex = 5;
+			mPrecisionMode = false;
 		}
 
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPAD3))
 		{
-			mAxisNumber = X_AXIS_NUMBER;
+			mAxisNumber = ALL_AXIS_NUMBER;
 			mEditMode = SCALE;
+			mEditFactorIndex = 1;
+			mPrecisionMode = true;
 		}
 
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPAD4))
 			mPrecisionMode = !mPrecisionMode;
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPAD5))
+			mXYPositionMode = !mXYPositionMode;
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPAD7))
+			mEditFactorIndex = 0;
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPAD9))
+			mEditFactorIndex = 10;
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_X))
+		{
+			mIsSelected = false;
+			mIsEdited = false;
+		}
 	}
 
 	std::wostringstream GameObject::GetCreationKitInfo()
 	{
 		std::wostringstream helpLabel;
+
 		std::string precisionSwitch = (mPrecisionMode == true) ? "On" : "Off";
+		std::string positionXYSwitch = (mXYPositionMode == true) ? "XY Only" : "Normal";
+		std::string currentAxis = (mEditMode == POSITION && mXYPositionMode == true) ? "XY" : mEditAxis;
 
 		helpLabel << "\nMode: " << mEditMode.c_str() <<
-			" | Axis: " << mEditAxis.c_str() <<
-			" | Edit factor: " << mEditFactor << " | Precision mode: " << precisionSwitch.c_str();
+			" | Axis: " << currentAxis.c_str() <<
+			" | Edit factor: " << mEditFactorArray[mEditFactorIndex] << " | Precision mode: " << precisionSwitch.c_str();
+
+		if (mEditMode == POSITION)
+			helpLabel << " | Position mode: " << positionXYSwitch.c_str();
+
 		helpLabel << "\nPosition: " << mPosition.x << ", " << mPosition.y << ", " << mPosition.z;
 		helpLabel << "\nRotation: " << mRotation.x << ", " << mRotation.y << ", " << mRotation.z;
 		helpLabel << "\nScale: " << mScale.x << ", " << mScale.y << ", " << mScale.z;
+
+
 
 		return helpLabel;
 	}

@@ -121,12 +121,10 @@ namespace Rendering
 		mSpriteBatch = new SpriteBatch(mGame->Direct3DDeviceContext());
 		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
 
-		// Initial transform
-		
+		// Initial transform	
 		Scale(0,0,0);
 		FirstRotation();
-		Translate(mPosition);
-			
+		Translate(mPosition);			
 	}
 
 	void AnimatedGameObject::Update(const GameTime& gameTime)

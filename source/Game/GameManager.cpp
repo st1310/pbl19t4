@@ -10,12 +10,10 @@ namespace Rendering
 		this->game = &game;
 		this->camera = &camera;
 		Initialize();
-		
-		//currentScene = MENU_LEVEL;
-		currentScene = CITY_LEVEL;
-		StartScene(currentScene);
-	}
 
+		mCurrentScene = CITY_LEVEL;
+		StartScene(mCurrentScene);
+	}
 
 	GameManager::~GameManager()
 	{
@@ -25,51 +23,57 @@ namespace Rendering
 	{
 		// Adding all scenes aka levels to Scenes
 		MenuLevel* menuLevel = new MenuLevel(*game, *camera);
-		Scenes.push_back(menuLevel);
+		mScenes.push_back(menuLevel);
 
 		DayLevel* dayLevel = new DayLevel(*game, *camera);
-		Scenes.push_back(dayLevel);
+		mScenes.push_back(dayLevel);
 
 		TrainLevel* trainLevel = new TrainLevel(*game, *camera);
-		Scenes.push_back(trainLevel);
+		mScenes.push_back(trainLevel);
 
 		CityLevel* cityLevel= new CityLevel(*game, *camera);
-		Scenes.push_back(cityLevel);
+		mScenes.push_back(cityLevel);
 
 		CreationKitLevel* creationKitLevel = new CreationKitLevel(*game, *camera);
-		Scenes.push_back(creationKitLevel);
+		mScenes.push_back(creationKitLevel);
 	}
 
 	void GameManager::StartScene(int sceneId)
 	{
+		if (sceneId < 0 || sceneId >= mScenes.size())
+			return;
+
 		// Clear old scene
-		Scenes.at(currentScene)->Clear();
+		mScenes.at(mCurrentScene)->Clear();
 
-		currentScene = sceneId;
+		mCurrentScene = sceneId;
 
-		// Fix scene Start 
-		Scenes.at(sceneId)->Start(*game, *camera);	
+		mScenes.at(sceneId)->Start(*game, *camera);	
 	}
 
 	int GameManager::GetSizeOfCurrentScene()
 	{
-		return Scenes.at(currentScene)->GameObjects.size();
+		return mScenes.at(mCurrentScene)->GameObjects.size();
 	}
 
 	void GameManager::Update(const GameTime& gameTime)
 	{
+		mScenes[mCurrentScene]->Update(gameTime);
+
 		for(int i =0; i <  GetSizeOfCurrentScene(); i++)
-			Scenes[currentScene]->GameObjects[i]->Update(gameTime);
+			mScenes[mCurrentScene]->GameObjects[i]->Update(gameTime);
 	}
 
 	void GameManager::Draw(const GameTime& gameTime)
-	{
-		for (GameComponent* component : Scenes[currentScene]->GameObjects)
+	{		
+		for (GameComponent* component : mScenes[mCurrentScene]->GameObjects)
 		{
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
 			if (drawableGameComponent != nullptr)
 				drawableGameComponent->Draw(gameTime);
 		}
+
+		mScenes[mCurrentScene]->Draw(gameTime);
 	}
 }
 

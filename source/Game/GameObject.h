@@ -86,9 +86,10 @@ namespace Rendering
 		// Creation Kit		
 		std::string mEditMode = POSITION;
 		std::string mEditAxis = X_AXIS;
-		float mEditFactor = 0.5;
+		int mEditFactorIndex = 5;
 		int mAxisNumber = X_AXIS_NUMBER;
 		boolean mPrecisionMode = false;
+		boolean mXYPositionMode = true;
 		const char *mClassName;
 
 		void EditModel();
@@ -99,5 +100,38 @@ namespace Rendering
 		void SetRotation();
 		void SetScale();
 		std::wostringstream GetCreationKitInfo();
+
+		const float mEditFactorArray[11] = {
+			0.01,
+			0.05,
+			0.1,
+			0.25,
+			0.5,
+			1,
+			2.5,
+			5,
+			25,
+			45,
+			90
+		};
+
+		/*
+		CREATION KIT CONTROLS
+		1- Position
+		2- Rotation
+		3- Scale
+		4- Precision mode
+		5- XY mode (for Position)
+		7- Min edit factor
+		9- Max edit factor
+		'-'- smaller edit factor
+		'+'- bigger edit factor
+		UPARROW, DOWNARROW- remove/add value
+		LEFTARROW, RIGHTARROW - change axis
+
+		FOR XYMODE all arrows editing axis (L,R -> x, U,D -> z)
+
+		'x'- End editing
+		*/
 	};
 }

@@ -4,10 +4,9 @@
 namespace Rendering
 {
 	TrainLevel::TrainLevel(Game& game, Camera& camera)
-		:Scene(TRAIN_LEVEL, "Content\\Serializations\\train_level.data")
+		:Scene(game, camera, TRAIN_LEVEL, "Content\\Serializations\\train_level.data")
 	{
 	}
-
 
 	TrainLevel::~TrainLevel()
 	{
@@ -15,6 +14,7 @@ namespace Rendering
 
 	void TrainLevel::Start(Game& game, Camera& camera)
 	{
+		Initialize();
 		GameObjectPusher pusher = GameObjectPusher();
 		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile());
 

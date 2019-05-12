@@ -119,56 +119,20 @@ namespace Rendering
 			Exit();
 		}
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_M))
-		{
-			mGameManager->Scenes[mGameManager->currentScene]->Serialize();
-		}
-
-
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_N))
-		{
-			Bench* b = new Bench(*this, *mCamera);
-			b->mIsEdited = true;
-			mGameManager->Scenes[mGameManager->currentScene]->GameObjects.push_back(b);
-			b->Initialize();
-
-			//mComponents.push_back(b);
-		}
-
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_C))
-		{
-			mGameManager->StartScene(CREATION_KIT_LEVEL);
-		}
-
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_X))
-		{
-			mGameManager->StartScene(CITY_LEVEL);
-		}
-
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_1))
-		{
-			if (!buttonClicked) 
-			{
-				buttonClicked = true;
-				for (GameComponent* component : mComponents) {
-					DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
-					if (drawableGameComponent != nullptr) {
-						drawableGameComponent->SetVisible(false);
-					}
-				}
-			}
-			else
-			{
-				buttonClicked = false;
-				for (GameComponent* component : mComponents) {
-					DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
-					if (drawableGameComponent != nullptr) {
-						drawableGameComponent->SetVisible(true);
-					}
-				}
-			}
-			
-		}
+			mGameManager->StartScene(MENU_LEVEL);
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_2))
+			mGameManager->StartScene(DAY_LEVEL);
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_3))
+			mGameManager->StartScene(TRAIN_LEVEL);
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_4))
+			mGameManager->StartScene(CITY_LEVEL);
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_5))
+			mGameManager->StartScene(CREATION_KIT_LEVEL);
 
 		Game::Update(gameTime);
 	}

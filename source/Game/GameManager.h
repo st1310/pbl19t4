@@ -22,16 +22,17 @@ namespace Rendering
 		virtual void Draw(const GameTime& gameTime) override;
 
 		void StartScene(int sceneId);
-		int GetSizeOfCurrentScene();
 
-		std::vector<Scene*> Scenes;
-		int currentScene;
 	private:
-		
 		Game* game;
 		Camera* camera;
 		GameManager(const GameManager& rhs);
 		GameManager& operator=(const GameManager& rhs);
+
+		std::vector<Scene*> mScenes;
+		int mCurrentScene;
+
+		int GetSizeOfCurrentScene();
 	};
 }
 

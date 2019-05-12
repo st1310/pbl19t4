@@ -2,9 +2,11 @@
 #include "Utility.h"
 
 namespace Library{
+	RTTI_DEFINITIONS(Scene)
 
-Scene::Scene(int sceneId, std::string fileName)
-	:mFileName(fileName), SceneId(sceneId)
+Scene::Scene(Game& game, Camera& camera, int sceneId, std::string fileName) :
+	DrawableGameComponent(game, camera), mFileName(fileName), SceneId(sceneId), mKeyboard(nullptr),
+		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f)
 {
 
 }
@@ -15,7 +17,20 @@ Scene::~Scene()
 
 void Scene::Start(Game& game, Camera& camera)
 {
+}
 
+void Scene::Update(const GameTime& gameTime)
+{
+}
+
+void Scene::Initialize()
+{
+	SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
+	mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
+	assert(mKeyboard != nullptr);
+
+	mSpriteBatch = new SpriteBatch(mGame->Direct3DDeviceContext());
+	mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
 }
 
 void Scene::Clear()
@@ -23,7 +38,7 @@ void Scene::Clear()
 	this->GameObjects.clear();
 }
 
-void Scene::Serialize()
+void Scene::SaveToFile()
 {
 	std::string  a = Utility::CurrentDirectory();
 	SetCurrentDirectory(Utility::LibraryDirectory().c_str());
