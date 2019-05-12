@@ -55,6 +55,22 @@ namespace Rendering
 	{
 		return Scenes.at(currentScene)->GameObjects.size();
 	}
+
+	void GameManager::Update(const GameTime& gameTime)
+	{
+		for(int i =0; i <  GetSizeOfCurrentScene(); i++)
+			Scenes[currentScene]->GameObjects[i]->Update(gameTime);
+	}
+
+	void GameManager::Draw(const GameTime& gameTime)
+	{
+		for (GameComponent* component : Scenes[currentScene]->GameObjects)
+		{
+			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
+			if (drawableGameComponent != nullptr)
+				drawableGameComponent->Draw(gameTime);
+		}
+	}
 }
 
 

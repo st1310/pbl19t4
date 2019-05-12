@@ -16,7 +16,11 @@ namespace Rendering
 	public:
 		GameManager(Game& game, Camera& camera);
 		~GameManager();
-		void Initialize();
+
+		virtual void Initialize() override;
+		virtual void Update(const GameTime& gameTime) override;
+		virtual void Draw(const GameTime& gameTime) override;
+
 		void StartScene(int sceneId);
 		int GetSizeOfCurrentScene();
 

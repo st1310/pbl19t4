@@ -67,16 +67,7 @@ namespace Rendering
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
 		mGameManager = new GameManager(*this, *mCamera);
-		//mComponents.push_back(mGameManager);
-
-		/*mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
-		mComponents.push_back(mTMMDemo);*/
-		
-		for(int i =0; i <  mGameManager->GetSizeOfCurrentScene(); i++)
-		{
-			mComponents.push_back(mGameManager->Scenes[mGameManager->currentScene]->GameObjects[i]);
-		}
-
+		mComponents.push_back(mGameManager);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
@@ -142,6 +133,16 @@ namespace Rendering
 			b->Initialize();
 
 			//mComponents.push_back(b);
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_C))
+		{
+			mGameManager->StartScene(CREATION_KIT_LEVEL);
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_X))
+		{
+			mGameManager->StartScene(CITY_LEVEL);
 		}
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_1))
