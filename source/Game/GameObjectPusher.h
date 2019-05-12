@@ -2,10 +2,8 @@
 
 #include "Common.h"
 #include "SerializableGameObject.h"
-#include "GameObject.h"
+#include "AnimatedGameObject.h"
 #include "AssetList.h"
-
-using namespace Library;
 
 namespace Rendering
 {

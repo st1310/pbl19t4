@@ -1,15 +1,12 @@
 #pragma once
 
 #include "DrawableGameComponent.h"
-#include "GameObject.h"
-
-using namespace Library;
-using namespace Rendering;
+#include "AnimatedGameObject.h"
 
 namespace Rendering
 {
 	class GreenSoldier :
-		public GameObject
+		public AnimatedGameObject
 	{
 	public:
 		GreenSoldier(Game& game, Camera& camera,
@@ -19,6 +16,3 @@ namespace Rendering
 		~GreenSoldier();
 	};
 }
-
-
-

@@ -1,4 +1,4 @@
-﻿#include "GameObject.h"
+#include "GameObject.h"
 #include "Game.h"
 #include "GameException.h"
 #include "MatrixHelper.h"
@@ -24,121 +24,29 @@ namespace Rendering
 {
 	RTTI_DEFINITIONS(GameObject)
 
-		GameObject::GameObject(Game& game, Camera& camera, const char *className, const char *modelName, LPCWSTR shaderName, XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
+		GameObject::GameObject(Game& game, Camera& camera, const char *className, XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
 		: DrawableGameComponent(game, camera),
 		mMaterial(nullptr), mEffect(nullptr), mWorldMatrix(MatrixHelper::Identity),
-		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(),
-		mKeyboard(nullptr),
 		mClassName(className),
-		mShaderName(shaderName), mModelName(modelName), 
 		mPosition(startPosition), mRotation(startRotation), mScale(startScale),
 		mSkinnedModel(nullptr), mAnimationPlayer(nullptr),
 		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false)
-	{		
+	{
 	}
 
 	GameObject::~GameObject()
 	{
-		for (ID3D11Buffer* vertexBuffer : mVertexBuffers)
-		{
-			ReleaseObject(vertexBuffer);
-		}
 
-		for (ID3D11Buffer* indexBuffer : mIndexBuffers)
-		{
-			ReleaseObject(indexBuffer);
-		}
-
-		for (ID3D11ShaderResourceView* colorTexture : mColorTextures)
-		{
-			ReleaseObject(colorTexture);
-		}
-
-		DeleteObject(mSpriteFont);
-		DeleteObject(mSpriteBatch);
-		DeleteObject(mSkinnedModel);
-		DeleteObject(mAnimationPlayer);
-		DeleteObject(mMaterial);
-		DeleteObject(mEffect);
 	}
 
 	void GameObject::Initialize()
 	{
-		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
-		// Load the model
-		mSkinnedModel = new Model(*mGame, mModelName, true);
-
-		// Initialize the material
-		mEffect = new Effect(*mGame);
-		mEffect->LoadCompiledEffect(mShaderName);
-
-		mMaterial = new SkinnedModelMaterial();
-		mMaterial->Initialize(mEffect);
-
-		// Create the vertex and index buffers
-		mVertexBuffers.resize(mSkinnedModel->Meshes().size());
-		mIndexBuffers.resize(mSkinnedModel->Meshes().size());
-		mIndexCounts.resize(mSkinnedModel->Meshes().size());
-		mColorTextures.resize(mSkinnedModel->Meshes().size());
-		for (UINT i = 0; i < mSkinnedModel->Meshes().size(); i++)
-		{
-			Mesh* mesh = mSkinnedModel->Meshes().at(i);
-
-			ID3D11Buffer* vertexBuffer = nullptr;
-			mMaterial->CreateVertexBuffer(mGame->Direct3DDevice(), *mesh, &vertexBuffer);
-			mVertexBuffers[i] = vertexBuffer;
-
-			ID3D11Buffer* indexBuffer = nullptr;
-			mesh->CreateIndexBuffer(&indexBuffer);
-			mIndexBuffers[i] = indexBuffer;
-
-			mIndexCounts[i] = mesh->Indices().size();
-
-			ID3D11ShaderResourceView* colorTexture = nullptr;
-			ModelMaterial* material = mesh->GetMaterial();
-
-			if (material != nullptr && material->Textures().find(TextureTypeDifffuse) != material->Textures().cend())
-			{
-				std::vector<std::wstring>* diffuseTextures = material->Textures().at(TextureTypeDifffuse);
-				std::wstring filename = PathFindFileName(diffuseTextures->at(0).c_str());
-
-				std::wostringstream textureName;
-				textureName << L"Content\\Models\\" << filename;
-				HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &colorTexture);
-				if (FAILED(hr))
-				{
-					throw GameException("CreateWICTextureFromFile() failed.", hr);
-				}
-			}
-			mColorTextures[i] = colorTexture;
-		}
-
-		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
-		assert(mKeyboard != nullptr);
-
-		mAnimationPlayer = new AnimationPlayer(*mGame, *mSkinnedModel, false);
-		mAnimationPlayer->StartClip(*(mSkinnedModel->Animations().at(0)));
-
-		mSpriteBatch = new SpriteBatch(mGame->Direct3DDeviceContext());
-		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
-
-		// Initial transform
-		
-		GameObject::Scale(0,0,0);
-		GameObject::FirstRotation();
-		GameObject::Translate(mPosition);
-			
 	}
 
 	void GameObject::Update(const GameTime& gameTime)
 	{
-		UpdateOptions();
 
-		if (mManualAdvanceMode == false)
-		{
-			mAnimationPlayer->Update(gameTime);
-		}
 	}
 
 	void GameObject::Draw(const GameTime& gameTime)
@@ -179,10 +87,10 @@ namespace Rendering
 		mSpriteBatch->Begin();
 
 		std::wostringstream helpLabel;
-		
+
 		helpLabel << std::setprecision(5) << L"\nAnimation Time: " << mAnimationPlayer->CurrentTime()
 			<< "\nFrame Interpolation (I): " << (mAnimationPlayer->InterpolationEnabled() ? "On" : "Off");
-		
+
 		if (mManualAdvanceMode)
 		{
 			helpLabel << "\nCurrent Keyframe (Space): " << mAnimationPlayer->CurrentKeyframe();
@@ -225,7 +133,7 @@ namespace Rendering
 			mScale.x + scale.x,
 			mScale.y + scale.y,
 			mScale.z + scale.z
-			);
+		);
 		mScale = newScale;
 		XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(mScale.x, mScale.y, mScale.z));
 	}
@@ -278,7 +186,7 @@ namespace Rendering
 		mPosition.x += x;
 		mPosition.y += y;
 		mPosition.z += z;
-		XMMATRIX translate = XMMatrixTranslation(x, y, z);	
+		XMMATRIX translate = XMMatrixTranslation(x, y, z);
 		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
 	}
 
@@ -288,71 +196,13 @@ namespace Rendering
 		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
 	}
 
-	void GameObject::UpdateOptions()
-	{
-		if (mKeyboard != nullptr)
-		{
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_U))
-			{
-				//
-			}
-
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_P))
-			{
-				if (mAnimationPlayer->IsPlayingClip())
-				{
-					mAnimationPlayer->PauseClip();
-				}
-				else
-				{
-					mAnimationPlayer->ResumeClip();
-				}
-			}
-
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_B))
-			{
-				// Reset the animation clip to the bind pose
-				mAnimationPlayer->StartClip(*(mSkinnedModel->Animations().at(0)));
-			}
-
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_I))
-			{
-				// Enable/disabled interpolation
-				mAnimationPlayer->SetInterpolationEnabled(!mAnimationPlayer->InterpolationEnabled());
-			}
-
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_RETURN))
-			{
-				// Enable/disable manual advance mode
-				mManualAdvanceMode = !mManualAdvanceMode;
-				mAnimationPlayer->SetCurrentKeyFrame(0);
-			}
-
-			if (mManualAdvanceMode && mKeyboard->WasKeyPressedThisFrame(DIK_SPACE))
-			{
-				// Advance the current keyframe
-				UINT currentKeyFrame = mAnimationPlayer->CurrentKeyframe();
-				currentKeyFrame++;
-				if (currentKeyFrame >= mAnimationPlayer->CurrentClip()->KeyframeCount())
-				{
-					currentKeyFrame = 0;
-				}
-
-				mAnimationPlayer->SetCurrentKeyFrame(currentKeyFrame);
-			}
-
-			if(mIsSelected && mIsEdited)
-				EditModel();
-		}
-	}
-
 	// Creation Kit
 	std::vector<std::string> GameObject::Serialize()
 	{
 		std::vector<std::string> result = std::vector<std::string>();
 
 		result.push_back(mClassName);
-		
+
 		// Position
 		result.push_back(std::to_string(mPosition.x));
 		result.push_back(std::to_string(mPosition.y));
@@ -371,23 +221,23 @@ namespace Rendering
 		return result;
 	}
 
-	void GameObject::EditModel()
+	void GameObject::EditModel(KeyboardComponent* mKeyboard)
 	{
-		ChangeEditFactor();
-		ChangeEditMode();
-		ChangeEditAxis();
+		ChangeEditFactor(mKeyboard);
+		ChangeEditMode(mKeyboard);
+		ChangeEditAxis(mKeyboard);
 
 		if (mEditMode == POSITION)
-			SetPosition();
+			SetPosition(mKeyboard);
 
 		if (mEditMode == ROTATION)
-			SetRotation();
+			SetRotation(mKeyboard);
 
 		if (mEditMode == SCALE)
-			SetScale();
+			SetScale(mKeyboard);
 	}
 
-	void GameObject::ChangeEditFactor()
+	void GameObject::ChangeEditFactor(KeyboardComponent* mKeyboard)
 	{
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPADPLUS))
 			mEditFactor += 0.05;
@@ -399,33 +249,33 @@ namespace Rendering
 			mEditFactor = 0;
 	}
 
-	void GameObject::SetPosition()
+	void GameObject::SetPosition(KeyboardComponent* mKeyboard)
 	{
 		if (mPrecisionMode)
 		{
 			if (mEditAxis == X_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					GameObject::Translate(mEditFactor, 0, 0);
+					Translate(mEditFactor, 0, 0);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					GameObject::Translate(-mEditFactor, 0, 0);
+					Translate(-mEditFactor, 0, 0);
 			}
 			if (mEditAxis == Y_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					GameObject::Translate(0, mEditFactor, 0);
+					Translate(0, mEditFactor, 0);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					GameObject::Translate(0, -mEditFactor, 0);
+					Translate(0, -mEditFactor, 0);
 			}
 			if (mEditAxis == Z_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					GameObject::Translate(0, 0, mEditFactor);
+					Translate(0, 0, mEditFactor);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					GameObject::Translate(0, 0, -mEditFactor);
+					Translate(0, 0, -mEditFactor);
 			}
 		}
 		else
@@ -433,57 +283,57 @@ namespace Rendering
 			if (mEditAxis == X_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					GameObject::Translate(mEditFactor, 0, 0);
+					Translate(mEditFactor, 0, 0);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					GameObject::Translate(-mEditFactor, 0, 0);
+					Translate(-mEditFactor, 0, 0);
 			}
 			if (mEditAxis == Y_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					GameObject::Translate(0, mEditFactor, 0);
+					Translate(0, mEditFactor, 0);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					GameObject::Translate(0, -mEditFactor, 0);
+					Translate(0, -mEditFactor, 0);
 			}
 			if (mEditAxis == Z_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					GameObject::Translate(0, 0, mEditFactor);
+					Translate(0, 0, mEditFactor);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					GameObject::Translate(0, 0, -mEditFactor);
+					Translate(0, 0, -mEditFactor);
 			}
 		}
 	}
 
-	void GameObject::SetRotation()
+	void GameObject::SetRotation(KeyboardComponent* mKeyboard)
 	{
 		if (mPrecisionMode)
 		{
 			if (mEditAxis == X_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					GameObject::Rotate(mEditFactor, 0, 0);
+					Rotate(mEditFactor, 0, 0);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					GameObject::Rotate(-mEditFactor, 0, 0);
+					Rotate(-mEditFactor, 0, 0);
 			}
 			if (mEditAxis == Y_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					GameObject::Rotate(0, mEditFactor, 0);
+					Rotate(0, mEditFactor, 0);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					GameObject::Rotate(0, -mEditFactor, 0);
+					Rotate(0, -mEditFactor, 0);
 			}
 			if (mEditAxis == Z_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					GameObject::Rotate(0, 0, mEditFactor);
+					Rotate(0, 0, mEditFactor);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					GameObject::Rotate(0, 0, -mEditFactor);
+					Rotate(0, 0, -mEditFactor);
 			}
 		}
 
@@ -492,66 +342,66 @@ namespace Rendering
 			if (mEditAxis == X_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					GameObject::Rotate(mEditFactor, 0, 0);
+					Rotate(mEditFactor, 0, 0);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					GameObject::Rotate(-mEditFactor, 0, 0);
+					Rotate(-mEditFactor, 0, 0);
 			}
 			if (mEditAxis == Y_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					GameObject::Rotate(0, mEditFactor, 0);
+					Rotate(0, mEditFactor, 0);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					GameObject::Rotate(0, -mEditFactor, 0);
+					Rotate(0, -mEditFactor, 0);
 			}
 			if (mEditAxis == Z_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					GameObject::Rotate(0, 0, mEditFactor);
+					Rotate(0, 0, mEditFactor);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					GameObject::Rotate(0, 0, -mEditFactor);
+					Rotate(0, 0, -mEditFactor);
 			}
 		}
 
 	}
 
-	void GameObject::SetScale()
+	void GameObject::SetScale(KeyboardComponent* mKeyboard)
 	{
 		if (mPrecisionMode)
 		{
 			if (mEditAxis == X_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					GameObject::Scale(mEditFactor, 0, 0);
+					Scale(mEditFactor, 0, 0);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					GameObject::Scale(-mEditFactor, 0, 0);
+					Scale(-mEditFactor, 0, 0);
 			}
 			if (mEditAxis == Y_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					GameObject::Scale(0, mEditFactor, 0);
+					Scale(0, mEditFactor, 0);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					GameObject::Scale(0, -mEditFactor, 0);
+					Scale(0, -mEditFactor, 0);
 			}
 			if (mEditAxis == Z_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					GameObject::Scale(0, 0, mEditFactor);
+					Scale(0, 0, mEditFactor);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					GameObject::Scale(0, 0, -mEditFactor);
+					Scale(0, 0, -mEditFactor);
 			}
 			if (mEditAxis == ALL_AXIS)
 			{
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_UPARROW))
-					GameObject::Scale(mEditFactor, mEditFactor, mEditFactor);
+					Scale(mEditFactor, mEditFactor, mEditFactor);
 
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_DOWNARROW))
-					GameObject::Scale(-mEditFactor, -mEditFactor, -mEditFactor);
+					Scale(-mEditFactor, -mEditFactor, -mEditFactor);
 			}
 
 			// Fix rotation after scaling
@@ -564,34 +414,34 @@ namespace Rendering
 			if (mEditAxis == X_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					GameObject::Scale(mEditFactor, 0, 0);
+					Scale(mEditFactor, 0, 0);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					GameObject::Scale(-mEditFactor, 0, 0);
+					Scale(-mEditFactor, 0, 0);
 			}
 			if (mEditAxis == Y_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					GameObject::Scale(0, mEditFactor, 0);
+					Scale(0, mEditFactor, 0);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					GameObject::Scale(0, -mEditFactor, 0);
+					Scale(0, -mEditFactor, 0);
 			}
 			if (mEditAxis == Z_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					GameObject::Scale(0, 0, mEditFactor);
+					Scale(0, 0, mEditFactor);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					GameObject::Scale(0, 0, -mEditFactor);
+					Scale(0, 0, -mEditFactor);
 			}
 			if (mEditAxis == ALL_AXIS)
 			{
 				if (mKeyboard->IsKeyDown(DIK_UPARROW))
-					GameObject::Scale(mEditFactor, mEditFactor, mEditFactor);
+					Scale(mEditFactor, mEditFactor, mEditFactor);
 
 				if (mKeyboard->IsKeyDown(DIK_DOWNARROW))
-					GameObject::Scale(-mEditFactor, -mEditFactor, -mEditFactor);
+					Scale(-mEditFactor, -mEditFactor, -mEditFactor);
 			}
 
 			// Fix rotation after scaling
@@ -600,7 +450,7 @@ namespace Rendering
 		}
 	}
 
-	void GameObject::ChangeEditAxis()
+	void GameObject::ChangeEditAxis(KeyboardComponent* mKeyboard)
 	{
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_LEFTARROW))
 			mAxisNumber--;
@@ -639,28 +489,28 @@ namespace Rendering
 			mEditAxis = ALL_AXIS;
 	}
 
-	void GameObject::ChangeEditMode()
+	void GameObject::ChangeEditMode(KeyboardComponent* mKeyboard)
 	{
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPAD1))
 		{
 			mAxisNumber = X_AXIS_NUMBER;
 			mEditMode = POSITION;
 		}
-			
+
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPAD2))
 		{
 			mAxisNumber = X_AXIS_NUMBER;
 			mEditMode = ROTATION;
 		}
-			
+
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPAD3))
 		{
 			mAxisNumber = X_AXIS_NUMBER;
 			mEditMode = SCALE;
 		}
-			
+
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_NUMPAD4))
 			mPrecisionMode = !mPrecisionMode;

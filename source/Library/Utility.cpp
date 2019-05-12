@@ -24,6 +24,43 @@ namespace Library
 		return std::wstring(buffer);
 	}
 
+	std::wstring Utility::LibraryDirectory()
+	{
+		std::wstring buffer = ExecutableDirectory();
+		std::string result = "";
+
+		for (int i = 0; i < buffer.size(); i++)
+		{
+			char character = buffer.at(i);
+
+			if (character == 'p')
+			{
+				if (buffer.size() >= (i + 1 + 7))
+				{
+					if (buffer.at(i + 1) == 'b' &&
+						buffer.at(i + 2) == 'l' &&
+						buffer.at(i + 3) == '1' &&
+						buffer.at(i + 4) == '9' &&
+						buffer.at(i + 5) == 't' &&
+						buffer.at(i + 6) == '4')
+					{
+						for (int j = 0; j < (i + 7); j++)
+						{
+							result += buffer.at(j);
+						}
+						result += "\\source\\Library";
+
+						std::wstring wResult(result.length(), L' ');
+						std::copy(result.begin(), result.end(), wResult.begin());
+						return wResult;
+					}
+				}
+			}
+		}
+
+		return buffer;
+	}
+
 	void Utility::GetFileName(const std::string& inputPath, std::string& filename)
 	{
 		std::string fullPath(inputPath);

@@ -2,9 +2,6 @@
 
 #include "GameObjectPusher.h"
 
-using namespace Library;
-
-
 namespace Rendering
 {
 	class TrainLevel :

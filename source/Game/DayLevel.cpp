@@ -3,9 +3,8 @@
 namespace Rendering
 {
 	DayLevel::DayLevel(Game& game, Camera& camera)
-		:Scene(DAY_LEVEL, "day_level.txt")
+		:Scene(DAY_LEVEL, "Content\\Serializations\\day_level.data")
 	{
-		Start(game, camera);
 	}
 
 
@@ -23,5 +22,3 @@ namespace Rendering
 
 	}
 }
-
-

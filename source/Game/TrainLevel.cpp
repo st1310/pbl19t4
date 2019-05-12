@@ -4,9 +4,8 @@
 namespace Rendering
 {
 	TrainLevel::TrainLevel(Game& game, Camera& camera)
-		:Scene(TRAIN_LEVEL, "train_level.txt")
+		:Scene(TRAIN_LEVEL, "Content\\Serializations\\train_level.data")
 	{
-		Start(game, camera);
 	}
 
 
@@ -23,5 +22,3 @@ namespace Rendering
 			this->GameObjects.push_back(gameObjects.at(i));
 	}
 }
-
-

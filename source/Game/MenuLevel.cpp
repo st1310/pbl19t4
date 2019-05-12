@@ -4,9 +4,8 @@
 namespace Rendering
 {
 	MenuLevel::MenuLevel(Game& game, Camera& camera)
-		:Scene(MENU_LEVEL, "menu_level.txt")
+		:Scene(MENU_LEVEL, "Content\\Serializations\\menu_level.data")
 	{
-		Start(game, camera);
 	}
 
 
@@ -31,4 +30,3 @@ namespace Rendering
 			this->GameObjects.push_back(gameObjects.at(i));
 	}
 }
-

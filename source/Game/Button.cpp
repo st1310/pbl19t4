@@ -6,9 +6,11 @@ namespace Rendering
 		XMFLOAT3 startPosition,
 		XMFLOAT3 startRotation,
 		XMFLOAT3 startScale)
-		: GameObject(game, camera, "",
+		: StaticGameObject(game, camera, 
+			"",
 			"Content\\Models\\Sphere.obj",
 			L"Content\\Effects\\SkinnedModel.cso",
+			"",
 			startPosition,
 			startRotation,
 			startScale)

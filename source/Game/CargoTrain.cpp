@@ -6,9 +6,11 @@ namespace Rendering
 		XMFLOAT3 startPosition,
 		XMFLOAT3 startRotation,
 		XMFLOAT3 startScale)
-		: GameObject(game, camera, "CargoTrain",
+		: StaticGameObject(game, camera, 
+			"CargoTrain",
 			"Content\\Models\\CargoTrain.fbx",
-			L"Content\\Effects\\SkinnedModel.cso",
+			L"Content\\Effects\\TextureMapping.cso",
+			"Content\\Textures\\CargoTrainDiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale)

@@ -4,9 +4,7 @@
 #include "DayLevel.h"
 #include "TrainLevel.h"
 #include "CityLevel.h"
-
-using namespace Library;
-
+#include "CreationKitLevel.h"
 
 namespace Rendering
 {

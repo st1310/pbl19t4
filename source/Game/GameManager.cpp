@@ -11,6 +11,7 @@ namespace Rendering
 		this->camera = &camera;
 		Initialize();
 		
+		//currentScene = MENU_LEVEL;
 		currentScene = CITY_LEVEL;
 		StartScene(currentScene);
 	}
@@ -34,6 +35,9 @@ namespace Rendering
 
 		CityLevel* cityLevel= new CityLevel(*game, *camera);
 		Scenes.push_back(cityLevel);
+
+		CreationKitLevel* creationKitLevel = new CreationKitLevel(*game, *camera);
+		Scenes.push_back(creationKitLevel);
 	}
 
 	void GameManager::StartScene(int sceneId)

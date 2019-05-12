@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "Utility.h"
 
 namespace Library{
 
@@ -24,23 +25,25 @@ void Scene::Clear()
 
 void Scene::Serialize()
 {
-	std::ofstream file(mRepositoryPath + mFilePath + mFileName);
+	std::string  a = Utility::CurrentDirectory();
+	SetCurrentDirectory(Utility::LibraryDirectory().c_str());
+	std::string  b = Utility::CurrentDirectory();
+	std::ofstream file(mFileName);
 
 	if (file.good() == true)
 	{	
 		for (int i = 0; i < GameObjects.size(); i++)
-		{
-			std::vector<std::string> lines = GameObjects.at(i)->Serialize();
+		{			
+			SerializableGameObject serializabledGameObject = SerializableGameObject();
+			std::vector<std::string> validLines = serializabledGameObject.Serialize(GameObjects.at(i));
 
-			// Fix EOF in file
-			for (int j = 0; j < lines.size(); j++)
+			for (int j = 0; j < validLines.size(); j++)
 			{
-
-				if(i == (GameObjects.size() - 1) && j == (lines.size() - 1))
-					file << lines.at(j);
+				if(i == (GameObjects.size() - 1) && j == (validLines.size() - 1))
+					file << validLines.at(j);
 
 				else
-					file << lines.at(j) << "\n";
+					file << validLines.at(j) << "\n";
 			}			
 		}
 		
@@ -51,25 +54,30 @@ void Scene::Serialize()
 std::vector<SerializableGameObject> Scene::LoadFromFile()
 {
 	std::vector<SerializableGameObject> deserializableGameObjects = std::vector<SerializableGameObject>();
-
+	std::string  a = Utility::CurrentDirectory();
+	SetCurrentDirectory(Utility::LibraryDirectory().c_str());
+	std::string  b = Utility::CurrentDirectory();
 	std::fstream file;
-	file.open(mRepositoryPath + mFilePath + mFileName, std::ios::in | std::ios::out);
+	file.open( mFileName, std::ios::in | std::ios::out);
 
 	if (file.good() == true)
 	{		
-		while (!file.eof()) {
+		int deserializabledLinesCount =  SerializableGameObject().DeserializedLinesCount;
 
+		while (!file.eof()) 
+		{
 			std::vector<std::string> deserialisabledValues = std::vector<std::string>();
 
-			// 1 - name 2-4 position 5-7 rotation 8-10 scale
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < deserializabledLinesCount; i++)
 			{
 				std::string value;
 				getline(file, value);
 				deserialisabledValues.push_back(value);
 			}
 
-			SerializableGameObject serializableGameObject = SerializableGameObject(deserialisabledValues);
+			SerializableGameObject serializableGameObject = SerializableGameObject();
+			serializableGameObject.Deserialize(deserialisabledValues);
+
 			deserializableGameObjects.push_back(serializableGameObject);
 		}
 

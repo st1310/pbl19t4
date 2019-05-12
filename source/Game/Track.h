@@ -1,15 +1,12 @@
 #pragma once
 
 #include "DrawableGameComponent.h"
-#include "GameObject.h"
-
-using namespace Library;
-using namespace Rendering;
+#include "StaticGameObject.h"
 
 namespace Rendering
 {
 	class Track :
-		public GameObject
+		public StaticGameObject
 	{
 	public:
 		Track(Game& game, Camera& camera,
@@ -19,4 +16,3 @@ namespace Rendering
 		~Track();
 	};
 }
-

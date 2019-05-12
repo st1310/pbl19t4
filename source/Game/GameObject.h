@@ -27,9 +27,9 @@ namespace Rendering
 		RTTI_DECLARATIONS(GameObject, DrawableGameComponent)
 
 	public:
-		GameObject(Game& game, Camera& camera, const char *className, const char *modelName, LPCWSTR shaderName, XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
+		GameObject(Game& game, Camera& camera, const char *className, XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
 		~GameObject();
-		
+
 		virtual void Initialize() override;
 		virtual void Update(const GameTime& gameTime) override;
 		virtual void Draw(const GameTime& gameTime) override;
@@ -47,12 +47,10 @@ namespace Rendering
 
 		virtual std::vector<std::string> Serialize() override;
 
-	private:
+	protected:
 		GameObject();
 		GameObject(const GameObject& rhs);
 		GameObject& operator=(const GameObject& rhs);
-
-		void UpdateOptions();
 
 		Effect* mEffect;
 		SkinnedModelMaterial* mMaterial;
@@ -61,9 +59,8 @@ namespace Rendering
 
 		XMFLOAT3 mPosition;
 		XMFLOAT3 mRotation;
-		XMFLOAT3 mScale;	
+		XMFLOAT3 mScale;
 
-		KeyboardComponent* mKeyboard;
 		XMFLOAT4X4 mWorldMatrix;
 
 		std::vector<ID3D11Buffer*> mVertexBuffers;
@@ -91,12 +88,12 @@ namespace Rendering
 		boolean mPrecisionMode = false;
 		const char *mClassName;
 
-		void EditModel();
-		void ChangeEditMode();
-		void ChangeEditAxis();
-		void ChangeEditFactor();
-		void SetPosition();
-		void SetRotation();
-		void SetScale();
+		void EditModel(KeyboardComponent* mKeyboard);
+		void ChangeEditMode(KeyboardComponent* mKeyboard);
+		void ChangeEditAxis(KeyboardComponent* mKeyboard);
+		void ChangeEditFactor(KeyboardComponent* mKeyboard);
+		void SetPosition(KeyboardComponent* mKeyboard);
+		void SetRotation(KeyboardComponent* mKeyboard);
+		void SetScale(KeyboardComponent* mKeyboard);
 	};
 }

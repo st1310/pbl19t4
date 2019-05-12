@@ -22,8 +22,6 @@ namespace Library
 
 	private:
 		std::string mFileName;
-		std::string mFilePath = "Content\\Serializations\\";
-		std::string mRepositoryPath = "C:\\Users\\Jakub_Traczyk\\Documents\\GitHub\\pbl19t4\\";
 	};
 }
 

@@ -6,6 +6,7 @@
 #define DAY_LEVEL 1
 #define TRAIN_LEVEL 2
 #define CITY_LEVEL 3
+#define CREATION_KIT_LEVEL 4
 
 
 // For CreationKit

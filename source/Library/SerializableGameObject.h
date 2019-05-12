@@ -1,23 +1,36 @@
 #pragma once
 
 #include "Common.h"
+#include "GameComponent.h"
 
 namespace Library
 {
 	class SerializableGameObject
 	{
 	public:
-		SerializableGameObject(std::vector<std::string> informations);
+		SerializableGameObject();
 		~SerializableGameObject();
 
-	public:
-		std::string className;
-		XMFLOAT3 position;
-		XMFLOAT3 rotation;
-		XMFLOAT3 scale;
+		std::vector<std::string> Serialize(GameComponent* gameObject);
+		void Deserialize(std::vector<std::string> informations);
+
+		std::string GetAssetClassName();
+		XMFLOAT3 GetPosition();
+		XMFLOAT3 GetRotation();
+		XMFLOAT3 GetScale();
+
+		const static int DeserializedLinesCount = 17;
+	
+	private:		
+		std::string mAssetClassName;
+		XMFLOAT3 mPosition;
+		XMFLOAT3 mRotation;
+		XMFLOAT3 mScale;		
 
 	private:
-		void SetParameters(std::vector<std::string> informations);
+		std::string GetValidAssetClassName(std::string className);
+		float GetValidFloat(std::string value);
+		std::string GetShortFloat(std::string value);
 	};
 }
 

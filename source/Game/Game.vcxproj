@@ -23,7 +23,7 @@
     <ProjectGuid>{15D00748-B489-49F1-8BB5-4226A89DDB67}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Game</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -171,37 +171,59 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bench.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CargoTrain.cpp" />
     <ClCompile Include="CityLevel.cpp" />
+    <ClCompile Include="ConcreteWall.cpp" />
+    <ClCompile Include="CreationKitLevel.cpp" />
     <ClCompile Include="DayLevel.cpp" />
-    <ClCompile Include="Earth.cpp" />
+    <ClCompile Include="DoubleStreetLampPost.cpp" />
+    <ClCompile Include="DoubleStreetLampPostWithMegaphone.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObjectPusher.cpp" />
+    <ClCompile Include="GrassGround.cpp" />
     <ClCompile Include="GreenSoldier.cpp" />
     <ClCompile Include="MenuLevel.cpp" />
     <ClCompile Include="PassengerTrain.cpp" />
-    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="AnimatedGameObject.cpp" />
+    <ClCompile Include="PlatformGround1.cpp" />
+    <ClCompile Include="PlatformGround2.cpp" />
+    <ClCompile Include="Policeman.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="RenderingGame.cpp" />
+    <ClCompile Include="SingleStreetLampPost.cpp" />
+    <ClCompile Include="StaticGameObject.cpp" />
+    <ClCompile Include="StoneGround.cpp" />
     <ClCompile Include="TexturedModelMaterialDemo.cpp" />
     <ClCompile Include="Track.cpp" />
     <ClCompile Include="TrainLevel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetList.h" />
+    <ClInclude Include="Bench.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CargoTrain.h" />
     <ClInclude Include="CityLevel.h" />
+    <ClInclude Include="ConcreteWall.h" />
+    <ClInclude Include="CreationKitLevel.h" />
     <ClInclude Include="DayLevel.h" />
-    <ClInclude Include="Earth.h" />
+    <ClInclude Include="DoubleStreetLampPost.h" />
+    <ClInclude Include="DoubleStreetLampPostWithMegaphone.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObjectPusher.h" />
+    <ClInclude Include="GrassGround.h" />
     <ClInclude Include="GreenSoldier.h" />
     <ClInclude Include="MenuLevel.h" />
     <ClInclude Include="PassengerTrain.h" />
-    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="AnimatedGameObject.h" />
+    <ClInclude Include="PlatformGround1.h" />
+    <ClInclude Include="PlatformGround2.h" />
+    <ClInclude Include="Policeman.h" />
     <ClInclude Include="RenderingGame.h" />
+    <ClInclude Include="SingleStreetLampPost.h" />
+    <ClInclude Include="StaticGameObject.h" />
+    <ClInclude Include="StoneGround.h" />
     <ClInclude Include="TexturedModelMaterialDemo.h" />
     <ClInclude Include="Track.h" />
     <ClInclude Include="TrainLevel.h" />

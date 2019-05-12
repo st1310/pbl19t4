@@ -12,7 +12,7 @@
 #include "RenderStateHelper.h"
 #include "TexturedModelMaterialDemo.h"
 #include "GameManager.h"
-#include "GameObject.h"
+#include "AnimatedGameObject.h"
 #include "Utility.h"
 #include "NodeList.h"
 
@@ -67,7 +67,7 @@ namespace Rendering
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
 		mGameManager = new GameManager(*this, *mCamera);
-		//mGameManager->StartScene(CITY_LEVEL);
+		//mComponents.push_back(mGameManager);
 
 		/*mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
 		mComponents.push_back(mTMMDemo);*/
@@ -131,6 +131,17 @@ namespace Rendering
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_M))
 		{
 			mGameManager->Scenes[mGameManager->currentScene]->Serialize();
+		}
+
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_N))
+		{
+			Bench* b = new Bench(*this, *mCamera);
+			b->mIsEdited = true;
+			mGameManager->Scenes[mGameManager->currentScene]->GameObjects.push_back(b);
+			b->Initialize();
+
+			//mComponents.push_back(b);
 		}
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_1))
