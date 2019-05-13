@@ -78,9 +78,6 @@
     <ClCompile Include="CityLevel.cpp">
       <Filter>Scenes\Source</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Assets\Source</Filter>
-    </ClCompile>
     <ClCompile Include="GameObjectPusher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -160,9 +157,6 @@
     </ClInclude>
     <ClInclude Include="CityLevel.h">
       <Filter>Scenes\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Assets\Header</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectPusher.h">
       <Filter>Header Files</Filter>

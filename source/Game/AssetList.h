@@ -7,7 +7,6 @@
 #include "Track.h"
 #include "GreenSoldier.h"
 #include "Policeman.h"
-#include "Button.h"
 #include "Bench.h"
 #include "ConcreteWall.h"
 #include "StoneGround.h"
