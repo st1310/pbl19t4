@@ -4,6 +4,7 @@
 #include "SerializableGameObject.h"
 #include "AnimatedGameObject.h"
 #include "AssetList.h"
+#include "CollisionNode.h"
 
 namespace Rendering
 {
@@ -14,6 +15,9 @@ namespace Rendering
 		~GameObjectPusher();
 
 		std::vector<GameComponent*> CreateAssets(Game& game, Camera& camera, std::vector<SerializableGameObject> gameObjects);
+
+		std::vector<CollisionNode*> listNode;
+		std::vector<GameComponent*> listOfSoldiers;
 	};
 }
 

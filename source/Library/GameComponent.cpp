@@ -17,7 +17,7 @@ namespace Library
 	{
 	}
 
-	Game * GameComponent::GetGame()
+	Game* GameComponent::GetGame()
 	{
 		return mGame;
 	}

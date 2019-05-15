@@ -19,6 +19,8 @@
 #include <sstream>
 #include <iomanip>
 #include "Shlwapi.h"
+#include "Colliders.h"
+#include "NodeLIst.h"
 
 namespace Rendering
 {
@@ -35,8 +37,9 @@ namespace Rendering
 		mShaderName(shaderName), mModelName(modelName), mDiffuseMap(diffuseMap),
 		mPosition(startPosition), mRotation(startRotation), mScale(startScale),
 		mSkinnedModel(nullptr), mAnimationPlayer(nullptr),
-		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false)
-	{		
+		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false),
+		mDynCollider()
+	{			
 	}
 
 	AnimatedGameObject::~AnimatedGameObject()
@@ -132,6 +135,17 @@ namespace Rendering
 		FirstRotation();
 		Translate(mPosition);
 			
+		if (!mSkinnedModel->Meshes().empty())
+		{
+			mDynCollider = new Colliders();
+			for (Mesh* mesh : mSkinnedModel->Meshes())
+			{
+				mDynCollider->BuildBoundingBox(mesh);
+			}
+
+			if (inNode != nullptr)
+				inNode->AddDynamicCollider(getCollider());
+		}
 	}
 
 	void AnimatedGameObject::Update(const GameTime& gameTime)
@@ -242,6 +256,7 @@ namespace Rendering
 		mRotation.y += y;
 		mRotation.z += z;
 		XMMATRIX transformX = XMMatrixRotationX(XMConvertToRadians(x));
+
 		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformX);
 
 		XMMATRIX transformY = XMMatrixRotationY(XMConvertToRadians(y));
@@ -281,17 +296,44 @@ namespace Rendering
 
 	void AnimatedGameObject::Translate(float x, float y, float z)
 	{
-		mPosition.x += x;
-		mPosition.y += y;
-		mPosition.z += z;
+		XMFLOAT3 helperPos;
+		helperPos.x = mPosition.x + x;
+		helperPos.y = mPosition.y + y;
+		helperPos.z = mPosition.z + z;
 		XMMATRIX translate = XMMatrixTranslation(x, y, z);	
-		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
+
+		if (mNode != nullptr && mDynCollider != nullptr)
+		{
+			if (NodeList::TryToMoveInNode(mDynCollider, XMLoadFloat3(&mPosition), MatrixHelper::MatrixZero(), translate.r[3], mNode))
+			{
+				mPosition = helperPos;
+				XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
+				return;
+			}
+		}
+		else
+		{
+			mPosition = helperPos;
+			XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
+		}
 	}
 
 	void AnimatedGameObject::Translate(XMFLOAT3 translation)
 	{
 		XMMATRIX translate = XMMatrixTranslation(translation.x, translation.y, translation.z);
-		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
+
+		if (mNode != nullptr && mDynCollider != nullptr)
+		{
+			if (NodeList::TryToMoveInNode(mDynCollider, XMLoadFloat3(&mPosition), MatrixHelper::MatrixZero(), translate.r[3], mNode))
+			{
+				XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
+				return;
+			}
+		}
+		else
+		{
+			XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
+		}
 	}
 
 	void AnimatedGameObject::UpdateOptions()
@@ -334,8 +376,8 @@ namespace Rendering
 				mAnimationPlayer->SetCurrentKeyFrame(0);
 			}
 
-			if (mManualAdvanceMode && mKeyboard->WasKeyPressedThisFrame(DIK_SPACE))
-			{
+			//if (mManualAdvanceMode && mKeyboard->WasKeyPressedThisFrame(DIK_SPACE))
+			//{
 				// Advance the current keyframe
 				UINT currentKeyFrame = mAnimationPlayer->CurrentKeyframe();
 				currentKeyFrame++;
@@ -345,7 +387,7 @@ namespace Rendering
 				}
 
 				mAnimationPlayer->SetCurrentKeyFrame(currentKeyFrame);
-			}
+			//}
 
 			if(mIsSelected && mIsEdited)
 				EditModel();
@@ -672,4 +714,28 @@ namespace Rendering
 			mPrecisionMode = !mPrecisionMode;
 	}
 
+	XMFLOAT3 AnimatedGameObject::getPosition()
+	{
+		return mPosition;
+	}
+
+	Colliders* AnimatedGameObject::getCollider()
+	{
+		return mDynCollider;
+	}
+
+	void  AnimatedGameObject::SetNode(CollisionNode* colNode)
+	{
+		inNode = colNode;
+	}
+
+	CollisionNode*  AnimatedGameObject::getNode()
+	{
+		return inNode;
+	}
+
+	void AnimatedGameObject::CheckTriggers()
+	{
+
+	}
 }

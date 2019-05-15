@@ -2,6 +2,7 @@
 
 #include "DrawableGameComponent.h"
 #include "RenderStateHelper.h"
+#include "CollisionNode.h"
 
 using namespace Library;
 
@@ -30,7 +31,7 @@ namespace Rendering
 	public:
 		StaticGameObject(Game& game, Camera& camera, const char *className, 
 			const char *modelName, LPCWSTR shaderName, std::string diffuseMap, 
-			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
+			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale, bool needCollision = false);
 		~StaticGameObject();
 
 		virtual void Initialize() override;
@@ -49,9 +50,15 @@ namespace Rendering
 		void Translate(XMFLOAT3 translation);
 
 		virtual std::vector<std::string> Serialize() override;
+		
+		Colliders* getCollider();
+		void SetNode(CollisionNode* colNode);
+		CollisionNode* getNode();
 
 		bool mIsSelected = true;
 		bool mIsEdited = false;
+
+		
 
 	private:
 		StaticGameObject();
@@ -86,7 +93,10 @@ namespace Rendering
 		XMFLOAT2 mTextPosition;
 		bool mManualAdvanceMode;
 
-
+		bool needsCollision;
+		Colliders* mStatCollider;
+		CollisionNode* inNode;
+		
 		// Creation Kit
 		
 		std::string mEditMode = POSITION;

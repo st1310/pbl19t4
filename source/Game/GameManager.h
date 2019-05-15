@@ -5,6 +5,7 @@
 #include "TrainLevel.h"
 #include "CityLevel.h"
 #include "CreationKitLevel.h"
+#include "AssetList.h"
 
 namespace Rendering
 {
@@ -21,6 +22,9 @@ namespace Rendering
 		int GetSizeOfCurrentScene();
 
 		std::vector<Scene*> Scenes;
+		std::vector<CollisionNode*> GetCurrentListOfNodes();
+		void SelectingUnits(XMVECTOR camOr, XMVECTOR ray, float dist);
+
 		int currentScene;
 	private:
 		

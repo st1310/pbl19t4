@@ -22,4 +22,36 @@ namespace Rendering
 	Policeman::~Policeman()
 	{
 	}
+
+	void Policeman::CheckTriggers()
+	{
+		std::vector<TypesTriggerReactions> helper;
+		helper = mNode->trippedTriggers(this->getPosition());
+
+		if (helper.empty())
+			return;
+
+		policeNearby = 0;
+		for (TypesTriggerReactions chck : helper)
+		{
+			switch (chck)
+			{
+			case Library::POLICE_ALLIES:
+				policeNearby++;
+				break;
+			case Library::POLICE_STATION:
+				//If triggered - activate it
+				break;
+			case Library::PLAYER_UNIT:
+				playerNearby++;
+				//If policeNearby > playerNearby - provoke to attack player?
+				break;
+			case Library::PAINT:
+				//Follow the path of paint
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }

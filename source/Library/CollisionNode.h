@@ -32,6 +32,8 @@ namespace Library
 
 		ContainmentType ContainedRightHanded(BoundingFrustum* bFrst, BoundingBox bbox);
 		bool IsCatchedByFrustum(BoundingFrustum* bFrst);
+
+		std::vector<TypesTriggerReactions> trippedTriggers(XMFLOAT3 objectPos);
 	private:
 		CollisionNode* mParent;
 		std::vector<CollisionNode*> mChildList;

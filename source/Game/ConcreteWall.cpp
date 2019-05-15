@@ -13,7 +13,7 @@ namespace Rendering
 			"Content\\Textures\\ConcreteWallDiffuseMap.jpg",
 			startPosition,
 			startRotation,
-			startScale)
+			startScale, true)
 	{
 	}
 

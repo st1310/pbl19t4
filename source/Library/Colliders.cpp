@@ -26,7 +26,7 @@ namespace Library
 	}
 
 	
-	BoundingBox* Colliders::BuildBoundingBox(Mesh* meshes)
+	void Colliders::BuildBoundingBox(Mesh* meshes)
 	{
 		XMFLOAT3 minVec;
 		XMFLOAT3 maxVec;
@@ -61,8 +61,7 @@ namespace Library
 		rad.z = abs(maxVec.z - center.z);
 		
 		newBox = new BoundingBox(center, rad);
-		//Check how it will create such collider - if needed, will write moving to model position
-		return newBox;
+		PushNewBoundingBox(newBox);
 	}
 	
 	bool Colliders::IsEmpty()
@@ -70,6 +69,24 @@ namespace Library
 		if (BoundingBoxes.empty() && TriggerBoxes.empty())
 			return true;
 		else return false;
+	}
+
+	void Colliders::setTriggerReaction(TypesTriggerReactions trg, XMFLOAT3 centerOf, XMFLOAT3 radOfTrig)
+	{
+		if (TriggerBoxes.empty())
+		{
+			TriggerBoxes.push_back({ trg, new BoundingBox(centerOf, radOfTrig) });
+		}
+		else 
+		{
+			//if (std::find(TriggerBoxes.begin(), TriggerBoxes.end(), trg) == TriggerBoxes.end())
+			for (int i = 0; i < TriggerBoxes.size(); i++)
+			{
+				if (trg == TriggerBoxes[i].first)
+					return;
+			}
+			TriggerBoxes.push_back({ trg, new BoundingBox(centerOf, radOfTrig) });
+		}
 	}
 
 	void Colliders::Transform(CXMMATRIX rotation, XMVECTOR destination)
@@ -93,9 +110,18 @@ namespace Library
 
 		if (!TriggerBoxes.empty())
 		{
-			for (BoundingBox* tbox : TriggerBoxes)
+			for (std::pair<TypesTriggerReactions, BoundingBox*> tbox : TriggerBoxes)
 			{
-				tbox->Transform(*tbox, trMatr);
+				XMStoreFloat3(&movm, destination);
+				movm.x = movm.x - tbox.second->Center.x;
+				movm.y = movm.y - tbox.second->Center.y;
+				movm.z = movm.z - tbox.second->Center.z;
+
+				trMatr.r[3] = XMLoadFloat3(&movm);
+				trMatr.r[3].m128_f32[3] = 1.0f;
+				trMatr = XMMatrixMultiply(rotation, trMatr);
+
+				tbox.second->Transform(*tbox.second, trMatr);
 			}
 		}
 	}
@@ -141,5 +167,43 @@ namespace Library
 		}
 
 		return colided;
+	}
+
+	bool Colliders::CheckColliderIntersecteByRay(XMVECTOR origin, XMVECTOR direct, float distance)
+	{
+		for (BoundingBox* bbox : BoundingBoxes)
+		{
+			if (bbox->Intersects(origin, direct, distance))
+				return true;
+		}
+		return false;
+	}
+
+	void Colliders::removeTrigger(TypesTriggerReactions trg)
+	{
+		for (int i = 0; i < TriggerBoxes.size(); i++)
+		{
+			if (TriggerBoxes[i].first == trg)
+			{
+				TriggerBoxes.erase(TriggerBoxes.begin() + i);
+				return;
+			}
+		}
+	}
+
+	std::vector<TypesTriggerReactions> Colliders::getTriggeredReactions(XMFLOAT3 checkPos)
+	{
+		std::vector<TypesTriggerReactions> answer;
+		for (int i = 0; i < TriggerBoxes.size(); i++)
+		{
+			if (TriggerBoxes[i].second->Contains(XMLoadFloat3(&checkPos)))
+				answer.push_back(TriggerBoxes[i].first);
+		}
+		return answer;
+	}
+	
+	std::vector< std::pair<TypesTriggerReactions, BoundingBox*> > Colliders::getTriggers()
+	{
+		return TriggerBoxes;
 	}
 }

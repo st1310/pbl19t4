@@ -14,9 +14,14 @@ namespace Rendering
 	void CityLevel::Start(Game& game, Camera& camera)
 	{
 		GameObjectPusher pusher = GameObjectPusher();
+		pusher.listNode = this->getListOfNode();
 		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile());
+		
+		RewriteUnitList(pusher.listOfSoldiers);
+
 
 		for (int i = 0; i < gameObjects.size(); i++)
 			this->GameObjects.push_back(gameObjects.at(i));
+			
 	}
 }

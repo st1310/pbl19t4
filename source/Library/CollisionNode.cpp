@@ -191,4 +191,33 @@ namespace Library
 			return true;
 		else return false;
 	}
+
+	std::vector<TypesTriggerReactions> CollisionNode::trippedTriggers(XMFLOAT3 objectPos)
+	{
+		std::vector<TypesTriggerReactions> answer;
+
+		if (mTriggers.empty())
+			return answer;
+
+		
+
+		for (Colliders* coll : mTriggers)
+		{
+			std::vector<TypesTriggerReactions> helper;
+			if (!coll->getTriggers().empty())
+			{
+				helper = coll->getTriggeredReactions(objectPos);
+				if (!helper.empty())
+				{
+					for (TypesTriggerReactions react : helper)
+					{
+						if (std::find(answer.begin(), answer.end(), react) == answer.end())
+							answer.push_back(react);
+					}
+				}
+			}
+		}
+
+		return answer;
+	}
 }

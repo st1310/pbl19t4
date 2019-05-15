@@ -1,90 +1,126 @@
 #include "Scene.h"
 #include "Utility.h"
 
-namespace Library{
+namespace Library {
 
-Scene::Scene(int sceneId, std::string fileName)
-	:mFileName(fileName), SceneId(sceneId)
-{
+	Scene::Scene(int sceneId, std::string fileName)
+		:mFileName(fileName), SceneId(sceneId), listOfNodes()
+	{
 
-}
-
-Scene::~Scene()
-{
-}
-
-void Scene::Start(Game& game, Camera& camera)
-{
-
-}
-
-void Scene::Clear()
-{
-	this->GameObjects.clear();
-}
-
-void Scene::Serialize()
-{
-	std::string  a = Utility::CurrentDirectory();
-	SetCurrentDirectory(Utility::LibraryDirectory().c_str());
-	std::string  b = Utility::CurrentDirectory();
-	std::ofstream file(mFileName);
-
-	if (file.good() == true)
-	{	
-		for (int i = 0; i < GameObjects.size(); i++)
-		{			
-			SerializableGameObject serializabledGameObject = SerializableGameObject();
-			std::vector<std::string> validLines = serializabledGameObject.Serialize(GameObjects.at(i));
-
-			for (int j = 0; j < validLines.size(); j++)
-			{
-				if(i == (GameObjects.size() - 1) && j == (validLines.size() - 1))
-					file << validLines.at(j);
-
-				else
-					file << validLines.at(j) << "\n";
-			}			
-		}
-		
-		file.close();
 	}
-}
 
-std::vector<SerializableGameObject> Scene::LoadFromFile()
-{
-	std::vector<SerializableGameObject> deserializableGameObjects = std::vector<SerializableGameObject>();
-	std::string  a = Utility::CurrentDirectory();
-	SetCurrentDirectory(Utility::LibraryDirectory().c_str());
-	std::string  b = Utility::CurrentDirectory();
-	std::fstream file;
-	file.open( mFileName, std::ios::in | std::ios::out);
+	Scene::~Scene()
+	{
+	}
 
-	if (file.good() == true)
-	{		
-		int deserializabledLinesCount =  SerializableGameObject().DeserializedLinesCount;
+	void Scene::Start(Game& game, Camera& camera)
+	{
 
-		while (!file.eof()) 
+	}
+
+	void Scene::Clear()
+	{
+		this->GameObjects.clear();
+	}
+
+	void Scene::Serialize()
+	{
+		std::string  a = Utility::CurrentDirectory();
+		SetCurrentDirectory(Utility::LibraryDirectory().c_str());
+		std::string  b = Utility::CurrentDirectory();
+		std::ofstream file(mFileName);
+
+		if (file.good() == true)
 		{
-			std::vector<std::string> deserialisabledValues = std::vector<std::string>();
-
-			for (int i = 0; i < deserializabledLinesCount; i++)
+			for (int i = 0; i < GameObjects.size(); i++)
 			{
-				std::string value;
-				getline(file, value);
-				deserialisabledValues.push_back(value);
+				SerializableGameObject serializabledGameObject = SerializableGameObject();
+				std::vector<std::string> validLines = serializabledGameObject.Serialize(GameObjects.at(i));
+
+				for (int j = 0; j < validLines.size(); j++)
+				{
+					if (i == (GameObjects.size() - 1) && j == (validLines.size() - 1))
+						file << validLines.at(j);
+
+					else
+						file << validLines.at(j) << "\n";
+				}
 			}
 
-			SerializableGameObject serializableGameObject = SerializableGameObject();
-			serializableGameObject.Deserialize(deserialisabledValues);
-
-			deserializableGameObjects.push_back(serializableGameObject);
+			file.close();
 		}
-
-		file.close();		
 	}
 
-	return deserializableGameObjects;
-}
+	std::vector<SerializableGameObject> Scene::LoadFromFile()
+	{
+		std::vector<SerializableGameObject> deserializableGameObjects = std::vector<SerializableGameObject>();
+		std::string  a = Utility::CurrentDirectory();
+		SetCurrentDirectory(Utility::LibraryDirectory().c_str());
+		std::string  b = Utility::CurrentDirectory();
+		std::fstream file;
+		file.open(mFileName, std::ios::in | std::ios::out);
 
+		if (file.good() == true)
+		{
+			int deserializabledLinesCount = SerializableGameObject().DeserializedLinesCount;
+
+			while (!file.eof())
+			{
+				std::vector<std::string> deserialisabledValues = std::vector<std::string>();
+
+				for (int i = 0; i < deserializabledLinesCount; i++)
+				{
+					std::string value;
+					getline(file, value);
+					deserialisabledValues.push_back(value);
+				}
+
+				SerializableGameObject serializableGameObject = SerializableGameObject();
+				serializableGameObject.Deserialize(deserialisabledValues);
+
+				deserializableGameObjects.push_back(serializableGameObject);
+			}
+
+			file.close();
+		}
+
+		return deserializableGameObjects;
+	}
+
+	void Scene::rewriteListOfNodes(std::vector<CollisionNode*>& list)
+	{
+		listOfNodes = list;
+	}
+
+	std::vector<CollisionNode*> Scene::getListOfNode()
+	{
+		return listOfNodes;
+	}
+
+	void Scene::ClearUnitList()
+	{
+		listOfUnits.clear();
+	}
+
+	void Scene::AddUnitToList(GameComponent* unit)
+	{
+		listOfUnits.push_back(unit);
+	}
+
+	void Scene::RewriteUnitList(std::vector<GameComponent*> newListOfUnits)
+	{
+		listOfUnits = newListOfUnits;
+	}
+
+	void Scene::RemoveUnitFromList(GameComponent* unit)
+	{
+		auto itr = std::find(listOfUnits.begin(), listOfUnits.end(), unit);
+		if (itr != listOfUnits.end())
+			listOfUnits.erase(itr);
+	}
+
+	std::vector<GameComponent*> Scene::GetUnitList()
+	{
+		return listOfUnits;
+	}
 }

@@ -176,6 +176,9 @@ namespace Library
 						mPosition.y + 10.5f, mPosition.y - 10.5f, mPosition.z + mNearPlaneDistance, mPosition.z + mFarPlaneDistance);
 				else mCollider = new BoundingFrustum(mPosition, dr, mPosition.x + 10.f, mPosition.x - 10.f,
 					mPosition.y + 10.5f, mPosition.y - 10.5f, -(mPosition.z - mNearPlaneDistance), mPosition.z - mFarPlaneDistance);
+				/*
+				else mCollider = new BoundingFrustum({mPosition.x, mPosition.y, mPosition.z - mFarPlaneDistance * 
+				*/
 
 			mGame->SetNodesInFructum(NodeList::CheckNodesInsideCamera(mCollider, mGame->NodeList()));
 		}

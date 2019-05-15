@@ -15,5 +15,10 @@ namespace Rendering
 			XMFLOAT3 startRotation = XMFLOAT3(-90, 0, 0),
 			XMFLOAT3 startScale = XMFLOAT3(0.05, 0.05, 0.05));
 		~Policeman();
+
+		virtual void CheckTriggers() override;
+	private:
+		int policeNearby;
+		int playerNearby;
 	};
 }

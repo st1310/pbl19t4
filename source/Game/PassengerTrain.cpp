@@ -13,7 +13,7 @@ namespace Rendering
 			"Content\\Textures\\PassengerTrainDiffuseMap.jpg",
 			startPosition,
 			startRotation,
-			startScale)
+			startScale, true)
 	{
 	}
 

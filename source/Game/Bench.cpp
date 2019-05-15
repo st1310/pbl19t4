@@ -14,7 +14,7 @@ namespace Rendering
 			"Content\\Textures\\BenchDiffuseMap.jpg",
 			startPosition,
 			startRotation,
-			startScale)
+			startScale, true)
 	{
 	}
 

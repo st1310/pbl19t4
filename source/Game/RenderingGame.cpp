@@ -67,6 +67,7 @@ namespace Rendering
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
 		mGameManager = new GameManager(*this, *mCamera);
+		mNode = mGameManager->GetCurrentListOfNodes();
 		//mComponents.push_back(mGameManager);
 
 		/*mTMMDemo = new TexturedModelMaterialDemo(*this, *mCamera, L"Content\\Textures\\checker.dds");
@@ -167,6 +168,24 @@ namespace Rendering
 				}
 			}
 			
+		}
+
+		if (mMouse->WasButtonPressedThisFrame(MouseButtonsRight))
+		{
+			XMMATRIX viewProj = mCamera->ViewProjectionMatrix();
+			XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);
+			float x = (((2.0f * mMouse->X()) / (float) Game::ScreenWidth()) - 1.0f);
+			float y = ((( 2.0f * mMouse->Y()) / (float)Game::ScreenHeight()) - 1.0f) * (-1.0f);
+
+			//XMFLOAT3 mouseNear = XMFLOAT3({x, y, 0.f});
+			//XMFLOAT3 mouseFar = XMFLOAT3({ x, y, 1.f });
+			XMVECTOR farPoint = XMVECTOR({ x, y, 1.0f, 0.0f });
+			
+
+			XMVECTOR TrF = XMVector3Transform(farPoint, invProjectionView);
+			//XMVECTOR TT = mCamera->PositionVector() + y * Tr;
+
+			mGameManager->SelectingUnits(mCamera->PositionVector(), TrF, mCamera->FarPlaneDistance());
 		}
 
 		Game::Update(gameTime);

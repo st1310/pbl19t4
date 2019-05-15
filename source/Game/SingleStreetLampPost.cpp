@@ -13,7 +13,7 @@ namespace Rendering
 			"Content\\Textures\\SingleStreetLampPostDiffuseMap.jpg",
 			startPosition,
 			startRotation,
-			startScale)
+			startScale, true)
 	{
 	}
 

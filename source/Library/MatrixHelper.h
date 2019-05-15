@@ -19,6 +19,8 @@ namespace Library
 		static void SetRight(XMMATRIX& matrix, XMFLOAT3 &right);
 		static void SetTranslation(XMMATRIX& matrix, XMFLOAT3 &translation);
 
+		static CXMMATRIX MatrixZero();
+
 	private:
 		MatrixHelper();
 		MatrixHelper(const MatrixHelper& rhs);

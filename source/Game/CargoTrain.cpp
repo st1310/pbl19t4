@@ -13,7 +13,7 @@ namespace Rendering
 			"Content\\Textures\\CargoTrainDiffuseMap.jpg",
 			startPosition,
 			startRotation,
-			startScale)
+			startScale, true)
 	{
 	}
 

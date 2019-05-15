@@ -5,8 +5,11 @@ namespace Library
 	//Method to check, if moving is possible considering collision
 	//If true - move position of object containing this Collider to targetPosition
 	//If object has no mNode (here - orgPosNode) than use TryToMoveInNodeFromNullNode
-	bool TryToMoveInNode(Colliders* coll, XMVECTOR originalPosition, CXMMATRIX rotation, XMVECTOR targetPosition, CollisionNode* orgPosNode)
+	bool NodeList::TryToMoveInNode(Colliders* coll, XMVECTOR originalPosition, CXMMATRIX rotation, XMVECTOR targetPosition, CollisionNode* orgPosNode)
 	{
+		if (coll->IsEmpty())
+			return true;
+
 		coll->Transform(rotation, targetPosition);
 
 		XMFLOAT3 checkPos;
@@ -28,6 +31,8 @@ namespace Library
 			if (newColl == nullptr)
 			{
 				orgPosNode->RemoveDynamicCollider(coll);
+				if(!coll->getTriggers().empty())
+					orgPosNode->RemoveTriggerCollider(coll);
 				orgPosNode = nullptr;
 				return true;
 			}
@@ -36,6 +41,12 @@ namespace Library
 			{
 				orgPosNode->RemoveDynamicCollider(coll);
 				newColl->AddDynamicCollider(coll);
+				if (!coll->getTriggers().empty())
+				{
+					orgPosNode->RemoveTriggerCollider(coll);
+					newColl->AddTriggerCollider(coll);
+				}
+					
 				orgPosNode = newColl;
 				return true;
 			}
@@ -133,6 +144,8 @@ namespace Library
 
 		return helperList;
 	}
+
+	
 
 	bool NodeList::IsNodeInsideList(CollisionNode* checkedNode, std::vector<CollisionNode*> listOfNode)
 	{

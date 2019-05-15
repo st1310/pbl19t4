@@ -20,14 +20,15 @@
 #include <sstream>
 #include <iomanip>
 #include "Shlwapi.h"
+#include "Colliders.h"
 
 namespace Rendering
 {
 	RTTI_DEFINITIONS(StaticGameObject)
 
-		StaticGameObject::StaticGameObject(Game& game, Camera& camera, const char *className, 
-			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,			
-			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
+		StaticGameObject::StaticGameObject(Game& game, Camera& camera, const char *className,
+			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,
+			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale, bool needCollision)
 		: DrawableGameComponent(game, camera),
 		mMaterial(nullptr), mEffect(nullptr), mWorldMatrix(MatrixHelper::Identity),
 		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(),
@@ -36,9 +37,12 @@ namespace Rendering
 		mShaderName(shaderName), mModelName(modelName), mDiffuseMap(diffuseMap),
 		mPosition(startPosition), mRotation(startRotation), mScale(startScale),
 		mSkinnedModel(nullptr),
-		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false)
-	{
-	}
+		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false),
+		mStatCollider(), needsCollision(needCollision)
+		{
+			
+			
+		}
 
 	StaticGameObject::~StaticGameObject()
 	{
@@ -130,6 +134,15 @@ namespace Rendering
 		StaticGameObject::Scale(0, 0, 0);
 		StaticGameObject::FirstRotation();
 		StaticGameObject::Translate(mPosition);
+
+		if (needsCollision && !mSkinnedModel->Meshes().empty())
+		{
+			mStatCollider = new Colliders();
+			for (Mesh* mesh : mSkinnedModel->Meshes())
+			{
+				mStatCollider->BuildBoundingBox(mesh);
+			}
+		}
 
 	}
 
@@ -604,4 +617,18 @@ namespace Rendering
 			mPrecisionMode = !mPrecisionMode;
 	}
 
+	Colliders* StaticGameObject::getCollider()
+	{
+		return mStatCollider;
+	}
+
+	void  StaticGameObject::SetNode(CollisionNode* colNode)
+	{
+		inNode = colNode;
+	}
+
+	CollisionNode*  StaticGameObject::getNode()
+	{
+		return inNode;
+	}
 }

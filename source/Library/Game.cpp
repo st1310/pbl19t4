@@ -446,4 +446,9 @@ namespace Library
 
 		return center;
 	}
+
+	void Game::ChangeCameraMovementStatus(bool newStat)
+	{
+		cameraHasMoved = newStat;
+	}
 }

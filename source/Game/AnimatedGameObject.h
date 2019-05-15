@@ -2,6 +2,7 @@
 
 #include "DrawableGameComponent.h"
 #include "RenderStateHelper.h"
+#include "CollisionNode.h"
 
 using namespace Library;
 
@@ -48,9 +49,17 @@ namespace Rendering
 		void Translate(XMFLOAT3 translation);
 
 		virtual std::vector<std::string> Serialize() override;
+		
+		XMFLOAT3 getPosition();
+		Colliders* getCollider();
+		void SetNode(CollisionNode* colNode);
+		CollisionNode* getNode();
+
+		virtual void CheckTriggers();
 
 		bool mIsSelected = true;
 		bool mIsEdited = false;
+
 
 	private:
 		AnimatedGameObject();
@@ -85,6 +94,9 @@ namespace Rendering
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mTextPosition;
 		bool mManualAdvanceMode;
+
+		Colliders* mDynCollider;
+		CollisionNode* inNode;
 
 		// Creation Kit		
 		std::string mEditMode = POSITION;

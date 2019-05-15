@@ -2,7 +2,6 @@
 
 #include "CollisionNode.h"
 #include "DrawableGameComponent.h"
-//include some sort of entity.h which contains model with collision?
 
 namespace Library
 {
