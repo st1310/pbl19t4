@@ -143,8 +143,8 @@ namespace Rendering
 				mDynCollider->BuildBoundingBox(mesh);
 			}
 
-			if (inNode != nullptr)
-				inNode->AddDynamicCollider(getCollider());
+			if (inNode != nullptr && mDynCollider != nullptr)
+				inNode->AddDynamicCollider(mDynCollider);
 		}
 	}
 

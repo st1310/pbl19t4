@@ -2,7 +2,9 @@
 
 namespace Library
 {
-	//A - top left, C - down right
+	//A - upper left, C - down right
+	//So ensure that A have max X and min Y and Z
+	//Accordingly - C has min X and max Y and Z
 	CollisionNode::CollisionNode(XMFLOAT3 positionA, XMFLOAT3 positionC)
 		: mStaticObjects(), mDynamicObjects(), mTriggers(), mChildList(), mParent(nullptr)
 	{
@@ -77,7 +79,8 @@ namespace Library
 	bool CollisionNode::IsInsideThisNode(XMFLOAT3 position)
 	{
 		return (mPositionA.x >= position.x && mPositionC.x <= position.x)
-			&& (mPositionA.y <= position.y && mPositionC.y >= position.y);
+			&& (mPositionA.y <= position.y && mPositionC.y >= position.y)
+			&& (mPositionA.z <= position.z && mPositionC.z >= position.z);
 	}
 
 	//This is used to determine - is movable object inside this node collides with anything within this node

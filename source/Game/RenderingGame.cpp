@@ -181,10 +181,10 @@ namespace Rendering
 			//XMFLOAT3 mouseFar = XMFLOAT3({ x, y, 1.f });
 			XMVECTOR farPoint = XMVECTOR({ x, y, 1.0f, 0.0f });
 			
-
+			//farPoint = XMVector3Transform(farPoint, -mCamera->ViewMatrix());
 			XMVECTOR TrF = XMVector3Transform(farPoint, invProjectionView);
 			//XMVECTOR TT = mCamera->PositionVector() + y * Tr;
-
+			TrF = XMVector3Normalize(TrF);
 			mGameManager->SelectingUnits(mCamera->PositionVector(), TrF, mCamera->FarPlaneDistance());
 		}
 
