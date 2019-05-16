@@ -102,17 +102,17 @@ namespace Rendering
 		std::wostringstream GetCreationKitInfo();
 
 		const float mEditFactorArray[11] = {
-			0.01,
-			0.05,
-			0.1,
-			0.25,
-			0.5,
-			1,
-			2.5,
-			5,
-			25,
-			45,
-			90
+			0.01f,
+			0.05f,
+			0.1f,
+			0.25f,
+			0.5f,
+			1.0f,
+			2.5f,
+			5.0f,
+			25.0f,
+			45.0f,
+			90.0f
 		};
 
 		/*

@@ -126,6 +126,9 @@
     <ClCompile Include="AnimatedGameObject.cpp">
       <Filter>Assets\Abstract\Source</Filter>
     </ClCompile>
+    <ClCompile Include="PathFinding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PassengerTrain.h">
@@ -208,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="AnimatedGameObject.h">
       <Filter>Assets\Abstract\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
