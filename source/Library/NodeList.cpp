@@ -121,18 +121,18 @@ namespace Library
 
 
 	//Use result to check if drawable component is in this nodes
-	std::vector<CollisionNode*> NodeList::CheckNodesInsideCamera(BoundingFrustum* bFrst, std::vector<CollisionNode*> listOfNode)
+	std::vector<CollisionNode*> NodeList::CheckNodesInsideCamera(std::vector<XMVECTOR> planes, std::vector<CollisionNode*> listOfNode)
 	{
 		std::vector<CollisionNode*> helperList;
-		if ( (!listOfNode.empty()) && (bFrst != nullptr))
+		if ( (!listOfNode.empty()))
 		for (CollisionNode* clNd : listOfNode)
 		{
-			if (clNd->IsCatchedByFrustum(bFrst))
+			if (clNd->CustomPlaneIntersection(planes))
 			{
 				if (!clNd->GetChild().empty())
 				{
 					std::vector<CollisionNode*> minorHelperList;
-					minorHelperList = CheckNodesInsideCamera(bFrst, clNd->GetChild());
+					minorHelperList = CheckNodesInsideCamera(planes, clNd->GetChild());
 					helperList.insert(helperList.end(), minorHelperList.begin(), minorHelperList.end());
 
 					minorHelperList.clear();

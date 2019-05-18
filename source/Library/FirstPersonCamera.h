@@ -49,12 +49,12 @@ namespace Library
 		float mRotationRate;
 		float mMovementRate;
 
-		BoundingFrustum* mCollider;
 		CollisionNode* mNode;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
 
 	private:
+		bool firstTime;
 		FirstPersonCamera(const FirstPersonCamera& rhs);
 		FirstPersonCamera& operator=(const FirstPersonCamera& rhs);
 	};

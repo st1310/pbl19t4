@@ -93,13 +93,7 @@ namespace Rendering
 		Game::Initialize();
 
 
-		mCamera->SetPosition(0.0f, 0.0f, 20.0f);
-
-		CollisionNode* additionalCheckNode = new CollisionNode({ -1000.f, -200.f, 0.f }, { 900.f, 190.f, 20.f });
-		newNode->AddDynamicCollider(mCollC);
-		newNode->AddStaticCollider(mCollTM);
-		additionalCheckNode->AddNewChild(newNode);
-		mNode.push_back(additionalCheckNode);
+		mCamera->SetPosition(0.0f, 10.0f, 20.0f);
 		
 
 	}

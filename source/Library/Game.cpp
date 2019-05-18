@@ -182,7 +182,9 @@ namespace Library
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
 			{		
-				//if(NodeList::IsNodeInsideList(drawableGameComponent->getNode(), mNodesInFructum))
+				if(drawableGameComponent->getNode() == nullptr)
+					drawableGameComponent->Draw(gameTime);
+				else if(NodeList::IsNodeInsideList(drawableGameComponent->getNode(), mNodesInFructum))
 					drawableGameComponent->Draw(gameTime);
 			}
 		}

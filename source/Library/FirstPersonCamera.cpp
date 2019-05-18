@@ -16,15 +16,13 @@ namespace Library
 
 	FirstPersonCamera::FirstPersonCamera(Game& game)
 		: Camera(game), mKeyboard(nullptr), mMouse(nullptr),
-		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate), mCollider(nullptr),
-		mNode(nullptr)
+		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate), mNode(nullptr)
 	{
 	}
 
 	FirstPersonCamera::FirstPersonCamera(Game& game, float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
 		: Camera(game, fieldOfView, aspectRatio, nearPlaneDistance, farPlaneDistance), mKeyboard(nullptr), mMouse(nullptr),
-		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate), mCollider(),
-		mNode(nullptr)
+		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate),	mNode(nullptr)
 
 	{
 	}
@@ -33,7 +31,6 @@ namespace Library
 	{
 		mKeyboard = nullptr;
 		mMouse = nullptr;
-		mCollider = nullptr;
 		mNode = nullptr;
 	}
 
@@ -55,19 +52,6 @@ namespace Library
 	void FirstPersonCamera::SetMouse(MouseComponent& mouse)
 	{
 		mMouse = &mouse;
-	}
-
-	BoundingFrustum* FirstPersonCamera::GetFrustrum()
-	{
-		return mCollider;
-	}
-
-	void FirstPersonCamera::SetFrustrum(BoundingFrustum* collider)
-	{
-		if (collider != nullptr)
-			mCollider = collider;
-		else
-			mCollider = new BoundingFrustum(ViewProjectionMatrix());
 	}
 
 	void FirstPersonCamera::SetCollisionNode(CollisionNode* node)
@@ -99,6 +83,7 @@ namespace Library
 		mMouse = (MouseComponent*)mGame->Services().GetService(MouseComponent::TypeIdClass());
 
 		Camera::Initialize();
+		firstTime = false;
 	}
 
 	void FirstPersonCamera::Update(const GameTime& gameTime)
@@ -162,29 +147,64 @@ namespace Library
 		XMFLOAT3 checkPos;
 		XMStoreFloat3(&checkPos, position);
 
-		//mCollider->Transform(mCollider, );
-
   		XMStoreFloat3(&mPosition, position);
 		Camera::Update(gameTime);
 
-		XMFLOAT4 hlp;
-		XMStoreFloat4(&hlp, DirectionVector());
-
-		if (moved || mCollider == nullptr)
+		if (moved || !firstTime)
 		{
-				XMFLOAT4 dr;
-				XMStoreFloat4(&dr, DirectionVector());
-				if (dr.z >= 0)
-					mCollider = new BoundingFrustum(mPosition, dr, mPosition.x + 20.f, mPosition.x - 20.f,
-						mPosition.y + 15.f, mPosition.y - 15.f, mPosition.z + mNearPlaneDistance, mPosition.z + mFarPlaneDistance);
+			// 0 - right; 1 -left; 2 - up; 3 - down; 4 - near; 5 - far 
+				std::vector<XMVECTOR> planes;
+				XMVECTOR dirHelp = XMVECTOR();
+
+				//Try to "smooth" border values
+				dirHelp.m128_f32[0] = mDirection.x > 0.f ? (mDirection.x < 0.08f ? 0.08f : mDirection.x < 0.984f ? mDirection.x : 0.984f)
+					: (mDirection.x > -0.08f ? -0.08f : mDirection.x > -0.9f ? mDirection.x : -0.9f);
+
+				dirHelp.m128_f32[1] = mDirection.y > 0.f ? (mDirection.y < 0.08f ? 0.08f : mDirection.y < 0.984f ? mDirection.y : 0.984f)
+					: (mDirection.y > -0.08f ? -0.08f : mDirection.y > -0.984f ? mDirection.y : -0.984f);
+
+				dirHelp.m128_f32[2] = mDirection.z > 0.f ? (mDirection.z < 0.08f ? 0.08f : mDirection.z < 0.984f ? mDirection.z : 0.984f)
+					: (mDirection.z > -0.08f ? -0.08f : mDirection.z > -0.984f ? mDirection.z : -0.984f);
+
+				//right slope
+				planes.push_back(XMVectorSet(1.0f, 0.f, -(mPosition.x + 30.f), 0.f));
+				planes[0] = DirectX::Internal::XMPlaneTransform(planes[0], dirHelp, position);
+				planes[0] = XMPlaneNormalize(planes[0]);
+
+				//left slope
+				planes.push_back(XMVectorSet(-1.0f, 0.f, (mPosition.x - 30.f), 0.f));
+				planes[1] = DirectX::Internal::XMPlaneTransform(planes[1], dirHelp, position);
+				planes[1] = XMPlaneNormalize(planes[1]);
+
+				//upper slope
+				planes.push_back(XMVectorSet(0.0f, 1.f, -(mPosition.y + 30.f), 0.f));
+				planes[2] = DirectX::Internal::XMPlaneTransform(planes[2], dirHelp, position);
+				planes[2] = XMPlaneNormalize(planes[2]);
+				//lower slope
+				planes.push_back(XMVectorSet(0.0f, -1.f, (mPosition.y - 30.f), 0.f));
+				planes[3] = DirectX::Internal::XMPlaneTransform(planes[3], dirHelp, position);
+				planes[3] = XMPlaneNormalize(planes[3]);
+
+				//near and far slope
+				if(mDirection.z > 0.f)
+				{
+					planes.push_back(XMVectorSet(0.0f, 0.f, -1.0f, (mPosition.z - 1.f)));
+					planes.push_back(XMVectorSet(0.0f, 0.f, 1.0f, -(mPosition.z + FarPlaneDistance())));
+				}
 				else
 				{
-					float originZHelper = (-dr.z) > 0.8f ? mFarPlaneDistance/2 * (-dr.z) : 15;
-					mCollider = new BoundingFrustum(XMFLOAT3(mPosition.x, mPosition.y, (mPosition.z - originZHelper) ), XMFLOAT4(dr.x, dr.y, -dr.z, dr.w),
-						mPosition.x + 20.f, mPosition.x - 20.f, mPosition.y + 15.f, mPosition.y - 15.f, mPosition.z + mNearPlaneDistance, mPosition.z + mFarPlaneDistance);
+					planes.push_back(XMVectorSet(0.0f, 0.f, 1.0f, -(mPosition.z + 1.f)));
+					planes.push_back(XMVectorSet(0.0f, 0.f, -1.0f, (mPosition.z - FarPlaneDistance())));
 				}
 
-			mGame->SetNodesInFructum(NodeList::CheckNodesInsideCamera(mCollider, mGame->NodeList()));
+				planes[4] = DirectX::Internal::XMPlaneTransform(planes[4], dirHelp, position);
+				planes[4] = XMPlaneNormalize(planes[4]);
+
+				planes[5] = DirectX::Internal::XMPlaneTransform(planes[5], dirHelp, position);
+				planes[5] = XMPlaneNormalize(planes[5]);
+
+				firstTime = true;
+			mGame->SetNodesInFructum(NodeList::CheckNodesInsideCamera(planes, mGame->NodeList()));
 		}
 
 	}

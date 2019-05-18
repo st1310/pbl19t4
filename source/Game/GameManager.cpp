@@ -26,15 +26,15 @@ namespace Rendering
 		std::vector<CollisionNode*> listOfNodes;
 		listOfNodes.clear();
 		//Will rewrite to match maps
-		CollisionNode* collNode1 = new CollisionNode({ 200.f, -100.f, 0.f }, { 0.f, 100.f, 200.f });
-		CollisionNode* collNode2 = new CollisionNode({ 200.f, -100.f, -200.f }, { 0.f, 100.f, 0.f });
-		CollisionNode* collNode12 = new CollisionNode({ 200.f, -100.f, -200.f }, { 0.f, 100.f, 200.f });
+		CollisionNode* collNode1 = new CollisionNode({ 100.f, -100.f, 0.f }, { 0.f, 100.f, 100.f });
+		CollisionNode* collNode2 = new CollisionNode({ 100.f, -100.f, -100.f }, { 0.f, 100.f, 0.f });
+		CollisionNode* collNode12 = new CollisionNode({ 100.f, -100.f, -100.f }, { 0.f, 100.f, 100.f });
 		collNode1->SetParent(collNode12); collNode2->SetParent(collNode12);
 		collNode12->AddNewChild(collNode1); collNode12->AddNewChild(collNode2);
-		CollisionNode* collNode3 = new CollisionNode({ 0.f, -100.f, 0.f }, { -200.f, 100.f, 200.f });
-		CollisionNode* collNode4 = new CollisionNode({ 0.f, -100.f, -200.f }, { -200.f, 100.f, 0.f });
-		CollisionNode* collNode34 = new CollisionNode({ 0.f, -100.f, -200.f }, { -200.f, 100.f, 200.f });
-		CollisionNode* collNodeAll = new CollisionNode({ 200.f, -100.f, -200.f }, { -200.f, 100.f, 200.f });
+		CollisionNode* collNode3 = new CollisionNode({ 0.f, -100.f, 0.f }, { -100.f, 100.f, 100.f });
+		CollisionNode* collNode4 = new CollisionNode({ 0.f, -100.f, -100.f }, { -100.f, 100.f, 0.f });
+		CollisionNode* collNode34 = new CollisionNode({ 0.f, -100.f, -100.f }, { -100.f, 100.f, 100.f });
+		CollisionNode* collNodeAll = new CollisionNode({ 100.f, -100.f, -100.f }, { -100.f, 100.f, 100.f });
 		collNode3->SetParent(collNode34); collNode4->SetParent(collNode34);
 		collNode34->AddNewChild(collNode3); collNode34->AddNewChild(collNode4);
 		collNode12->SetParent(collNodeAll); collNode34->SetParent(collNodeAll);

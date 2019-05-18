@@ -31,6 +31,7 @@ namespace Library
 		bool CheckCollisionWhenEntering(Colliders* movingCollider);
 
 		ContainmentType ContainedRightHanded(BoundingFrustum* bFrst, BoundingBox bbox);
+		bool CustomPlaneIntersection(std::vector<XMVECTOR> planes);
 		bool IsCatchedByFrustum(BoundingFrustum* bFrst);
 
 		std::vector<TypesTriggerReactions> trippedTriggers(XMFLOAT3 objectPos);
