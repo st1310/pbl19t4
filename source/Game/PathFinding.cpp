@@ -2,7 +2,7 @@
 #include <list>
 
 PathFinding::PathFinding() {
-
+	
 }
 
 PathFinding::~PathFinding() {
@@ -11,11 +11,12 @@ PathFinding::~PathFinding() {
 
 bool PathFinding::OnUserCreate() {
 	
+	nodes = new sNode[nMapWidth*nMapHeight];
 	//grid of nodes
 	for (int x = 0; x < nMapWidth; x++) {
 		for (int y = 0; y < nMapHeight; y++) {
-			nodes[y*nMapWidth + x].x = x;
-			nodes[y*nMapHeight + x].y = y;
+			nodes[y*nMapWidth + x].x = -25 + y*3;
+			nodes[y*nMapHeight + x].y = -12 + x*3;
 			nodes[y*nMapHeight + x].bObstacle = false;
 			nodes[y*nMapHeight + x].bVisited = false;
 			nodes[y*nMapHeight + x].parent = nullptr;
@@ -32,6 +33,15 @@ bool PathFinding::OnUserCreate() {
 				nodes[y*nMapWidth + x].vecNeighbours.push_back(&nodes[(y + 0)* nMapWidth + (x - 1)]);
 			if(x<nMapWidth-1)
 				nodes[y*nMapWidth + x].vecNeighbours.push_back(&nodes[(y + 0)* nMapWidth + (x + 1)]);
+			if (y>0 && x>0)
+			nodes[y*nMapWidth + x].vecNeighbours.push_back(&nodes[(y - 1) * nMapWidth + (x - 1)]);
+			if (y<nMapHeight-1 && x>0)
+			nodes[y*nMapWidth + x].vecNeighbours.push_back(&nodes[(y + 1) * nMapWidth + (x - 1)]);
+			if (y>0 && x<nMapWidth-1)
+			nodes[y*nMapWidth + x].vecNeighbours.push_back(&nodes[(y - 1) * nMapWidth + (x + 1)]);
+			if (y<nMapHeight - 1 && x<nMapWidth-1)
+			nodes[y*nMapWidth + x].vecNeighbours.push_back(&nodes[(y + 1) * nMapWidth + (x + 1)]);
+			
 		}
 	}
 
@@ -101,9 +111,22 @@ bool PathFinding::Solve_AStar() {
 	return true;
 }
 
-bool PathFinding::OnUserUpdate(float fElapsedTime) {
+int PathFinding::howManyNodesToEnter() {
 	
-	Solve_AStar();
-	//additional things, for visual like for mouseComponent etc.
-	return true;
+	sNode* p = nodeEnd;
+	int countNodes=0;
+	while (p->parent != nullptr) {
+		p = p->parent;
+		countNodes++;
+	}
+	return countNodes;
+}
+
+//GETTERY
+int PathFinding::getMapheight() {
+	return nMapHeight;
+}
+
+int PathFinding::getMapWidth() {
+	return nMapWidth;
 }

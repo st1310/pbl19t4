@@ -34,9 +34,26 @@
 </GrassGround>
 <GreenSoldier>
    <Position>
-      <x= -15.00/>
+      <x= -25.00/>
       <y= 0.00/>
-      <z= 5.00/>
+      <z= -12.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 99.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
+   </Scale>
+</GreenSoldier>
+<GreenSoldier>
+   <Position>
+      <x= 72.00/>
+      <y= 0.00/>
+      <z= 16.00/>
    </Position>
    <Rotation>
       <x= -90.00/>

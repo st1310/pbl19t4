@@ -36,6 +36,9 @@ namespace Rendering
 
 		CreationKitLevel* creationKitLevel = new CreationKitLevel(*game, *camera);
 		mScenes.push_back(creationKitLevel);
+
+		PathFinder_Test* pathFinder_Test = new PathFinder_Test(*game, *camera);
+		mScenes.push_back(pathFinder_Test);
 	}
 
 	void GameManager::StartScene(int sceneId)

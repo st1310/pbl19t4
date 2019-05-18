@@ -129,6 +129,9 @@
     <ClCompile Include="PathFinding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PathFinder_Test.cpp">
+      <Filter>Scenes\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PassengerTrain.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="PathFinding.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinder_Test.h">
+      <Filter>Scenes\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

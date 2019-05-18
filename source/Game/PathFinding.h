@@ -1,13 +1,21 @@
 #pragma once
 #include <vector>
 
+
 class PathFinding {
 public:
 
 	PathFinding();
 	~PathFinding();
 
-private:
+	int getMapWidth();
+	int getMapheight();
+
+	bool OnUserCreate();
+	bool Solve_AStar();
+	int howManyNodesToEnter();
+
+//private:
 
 	struct sNode {
 		bool bObstacle = false;
@@ -21,16 +29,17 @@ private:
 	};
 
 	sNode * nodes = nullptr;
-	int nMapWidth = 16;
-	int nMapHeight = 16;
+	int nMapWidth = 10;
+	int nMapHeight =10;
 
 	sNode *nodeStart = nullptr;
 	sNode *nodeEnd = nullptr;
+	sNode *currentNode = nullptr;
 
 protected:
 
-	bool OnUserCreate();
-	bool Solve_AStar();
-	bool OnUserUpdate(float fElapsedTime);
+	//bool OnUserCreate();
+	//bool Solve_AStar();
+	//bool OnUserUpdate(float fElapsedTime);
 
 };

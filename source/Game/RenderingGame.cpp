@@ -133,6 +133,8 @@ namespace Rendering
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_5))
 			mGameManager->StartScene(CREATION_KIT_LEVEL);
+		if(mKeyboard->WasKeyPressedThisFrame(DIK_6))
+			mGameManager->StartScene(PATHFINDER_TEST);
 
 		Game::Update(gameTime);
 	}

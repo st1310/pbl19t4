@@ -7,6 +7,7 @@
 #define TRAIN_LEVEL 2
 #define CITY_LEVEL 3
 #define CREATION_KIT_LEVEL 4
+#define PATHFINDER_TEST 5
 
 
 // For CreationKit

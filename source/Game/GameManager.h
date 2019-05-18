@@ -5,6 +5,7 @@
 #include "TrainLevel.h"
 #include "CityLevel.h"
 #include "CreationKitLevel.h"
+#include "PathFinder_Test.h"
 
 namespace Rendering
 {
