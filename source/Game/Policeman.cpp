@@ -23,6 +23,12 @@ namespace Rendering
 	{
 	}
 
+	void Policeman::Initialize()
+	{
+		AnimatedGameObject::Initialize();
+		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.25f, 10.5f, 3.25f));
+	}
+
 	void Policeman::CheckTriggers()
 	{
 		std::vector<TypesTriggerReactions> helper;

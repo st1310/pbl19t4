@@ -21,4 +21,10 @@ namespace Rendering
 	PassengerTrain::~PassengerTrain()
 	{
 	}
+
+	void PassengerTrain::Initialize()
+	{
+		StaticGameObject::Initialize();
+		StaticGameObject::BuildBoundingBox(XMFLOAT3(110.5f, 10.5f, 12.5f));
+	}
 }

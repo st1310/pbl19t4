@@ -15,6 +15,8 @@ namespace Rendering
 			XMFLOAT3 startScale = XMFLOAT3(0.05, 0.05, 0.05));
 		~GreenSoldier();
 
+		virtual void Initialize() override;
+
 		void setSelection(bool selection);
 		bool getIsSelected();
 		virtual void CheckTriggers() override;

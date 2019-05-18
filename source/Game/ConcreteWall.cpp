@@ -21,4 +21,10 @@ namespace Rendering
 	ConcreteWall::~ConcreteWall()
 	{
 	}
+
+	void ConcreteWall::Initialize()
+	{
+		StaticGameObject::Initialize();
+		StaticGameObject::BuildBoundingBox(XMFLOAT3(6.3f, 8.f, 9.f));
+	}
 }

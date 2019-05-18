@@ -48,4 +48,9 @@ namespace Library
 	void DrawableGameComponent::Draw(const GameTime & gameTime)
 	{
 	}
+
+	CollisionNode* DrawableGameComponent::getNode()
+	{
+		return nullptr;
+	}
 }

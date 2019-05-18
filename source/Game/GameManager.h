@@ -23,7 +23,7 @@ namespace Rendering
 
 		std::vector<Scene*> Scenes;
 		std::vector<CollisionNode*> GetCurrentListOfNodes();
-		void SelectingUnits(XMVECTOR camOr, XMVECTOR ray, float dist);
+		void SelectingUnits(XMVECTOR camOr, XMVECTOR ray, float dist, bool selectSeveral);
 
 		int currentScene;
 	private:

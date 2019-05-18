@@ -21,4 +21,11 @@ namespace Rendering
 	Bench::~Bench()
 	{
 	}
+
+	void Bench::Initialize()
+	{
+		StaticGameObject::Initialize();
+		//TODO: apply rotation
+		StaticGameObject::BuildBoundingBox(XMFLOAT3(6.f, 3.9f, 3.f));
+	}
 }

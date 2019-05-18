@@ -21,6 +21,13 @@ namespace Rendering
 
 	GreenSoldier::~GreenSoldier()
 	{
+	
+	}
+
+	void GreenSoldier::Initialize()
+	{
+		AnimatedGameObject::Initialize();
+		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.25f, 10.5f, 3.25f));
 	}
 
 	void GreenSoldier::setSelection(bool selection)

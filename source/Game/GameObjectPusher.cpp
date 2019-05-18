@@ -76,7 +76,7 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-
+				track->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(track);
 			}
 
@@ -111,6 +111,7 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
+				stoneGround->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(stoneGround);
 			}
 
@@ -121,6 +122,7 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
+				grassGround->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(grassGround);
 			}
 
@@ -131,6 +133,7 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
+				platformGround1->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(platformGround1);
 			}
 
@@ -141,6 +144,7 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
+				platformGround2->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(platformGround2);
 			}
 

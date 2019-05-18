@@ -134,18 +134,7 @@ namespace Rendering
 		Scale(0,0,0);
 		FirstRotation();
 		Translate(mPosition);
-			
-		if (!mSkinnedModel->Meshes().empty())
-		{
-			mDynCollider = new Colliders();
-			for (Mesh* mesh : mSkinnedModel->Meshes())
-			{
-				mDynCollider->BuildBoundingBox(mesh);
-			}
-
-			if (inNode != nullptr && mDynCollider != nullptr)
-				inNode->AddDynamicCollider(mDynCollider);
-		}
+		mDynCollider = new Colliders();
 	}
 
 	void AnimatedGameObject::Update(const GameTime& gameTime)
@@ -736,6 +725,22 @@ namespace Rendering
 
 	void AnimatedGameObject::CheckTriggers()
 	{
+
+	}
+
+	void AnimatedGameObject::BuildBoundingBox(XMFLOAT3 radius)
+	{
+			XMVECTOR helper;
+
+			XMMATRIX transformX = XMMatrixRotationX(XMConvertToRadians(mRotation.x));
+			XMMATRIX transformZ = XMMatrixRotationZ(XMConvertToRadians(mRotation.z));
+			helper = XMLoadFloat3(&radius);
+
+			helper = XMVector3Transform(helper, transformX);
+			helper = XMVector3Transform(helper, transformZ);
+
+			XMStoreFloat3(&radius, helper);
+			mDynCollider->BuildBoundingBox(mPosition, radius);
 
 	}
 }

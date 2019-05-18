@@ -185,7 +185,10 @@ namespace Rendering
 			XMVECTOR TrF = XMVector3Transform(farPoint, invProjectionView);
 			//XMVECTOR TT = mCamera->PositionVector() + y * Tr;
 			TrF = XMVector3Normalize(TrF);
-			mGameManager->SelectingUnits(mCamera->PositionVector(), TrF, mCamera->FarPlaneDistance());
+
+			if (mKeyboard->IsKeyHeldDown(DIKEYBOARD_LCONTROL))
+				mGameManager->SelectingUnits(mCamera->PositionVector(), TrF, mCamera->FarPlaneDistance(), true);
+			else mGameManager->SelectingUnits(mCamera->PositionVector(), TrF, mCamera->FarPlaneDistance(), false);
 		}
 
 		Game::Update(gameTime);

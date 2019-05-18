@@ -22,13 +22,22 @@ namespace Library
 		Colliders(BoundingBox* colliderBox);
 		~Colliders();
 
+
 		void BuildBoundingBox(Mesh* meshes);
+		void BuildBoundingBox(XMFLOAT3 position, XMFLOAT3 radius);
+
+		void BuildOBB(Mesh* meshes, XMFLOAT4 orientation);
+		void BuildOBB(XMFLOAT3 position, XMFLOAT3 radius, XMFLOAT4 orientation);
 
 		bool IsEmpty();
 		void setTriggerReaction(TypesTriggerReactions trg, XMFLOAT3 centerOf, XMFLOAT3 radOfTrig);
 
 		void Transform(CXMMATRIX rotation, XMVECTOR destination);
+
+
 		void PushNewBoundingBox(BoundingBox* bbox);
+		void PushNewOrientedBoundingBox(BoundingOrientedBox* obbox);
+
 		bool CheckCollision(std::vector<Colliders*>& CollidableObjects);
 		bool CheckTriggerCollision(Colliders& TriggerCollider);
 
@@ -37,7 +46,11 @@ namespace Library
 		void removeTrigger(TypesTriggerReactions trg);
 		std::vector<TypesTriggerReactions> getTriggeredReactions(XMFLOAT3 checkPos);
 		std::vector< std::pair<TypesTriggerReactions, BoundingBox*> > getTriggers();
+
 	private:
+		void FindMax(Mesh* meshes, XMFLOAT3* minVec, XMFLOAT3* maxVec);
+
+		std::vector<BoundingOrientedBox*> OrrBoundingBox;
 		std::vector<BoundingBox*> BoundingBoxes;
 		std::vector< std::pair<TypesTriggerReactions, BoundingBox*> > TriggerBoxes;
 	};

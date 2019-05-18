@@ -4,7 +4,6 @@ namespace Library
 {
 	//Method to check, if moving is possible considering collision
 	//If true - move position of object containing this Collider to targetPosition
-	//If object has no mNode (here - orgPosNode) than use TryToMoveInNodeFromNullNode
 	bool NodeList::TryToMoveInNode(Colliders* coll, XMVECTOR originalPosition, CXMMATRIX rotation, XMVECTOR targetPosition, CollisionNode* orgPosNode)
 	{
 		if (coll->IsEmpty())
@@ -17,7 +16,7 @@ namespace Library
 
 		if (orgPosNode->IsInsideThisNode(checkPos))
 		{
-			if (orgPosNode->CheckCollisionInNode(coll))
+			if (!orgPosNode->CheckCollisionInNode(coll))
 				return true;
 			else
 			{
@@ -37,7 +36,7 @@ namespace Library
 				return true;
 			}
 			
-			if (newColl->CheckCollisionWhenEntering(coll))
+			if (!newColl->CheckCollisionWhenEntering(coll))
 			{
 				orgPosNode->RemoveDynamicCollider(coll);
 				newColl->AddDynamicCollider(coll);

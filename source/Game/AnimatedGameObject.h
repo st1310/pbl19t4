@@ -50,12 +50,15 @@ namespace Rendering
 
 		virtual std::vector<std::string> Serialize() override;
 		
+		void BuildBoundingBox(XMFLOAT3 radius);
+
 		XMFLOAT3 getPosition();
 		Colliders* getCollider();
 		void SetNode(CollisionNode* colNode);
-		CollisionNode* getNode();
+		virtual CollisionNode* getNode() override;
 
 		virtual void CheckTriggers();
+		
 
 		bool mIsSelected = true;
 		bool mIsEdited = false;

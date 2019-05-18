@@ -87,7 +87,7 @@ namespace Library
 	//So, if there is no movable objects or object doesn't belong here - return false
 	bool CollisionNode::CheckCollisionInNode(Colliders* movingCollider)
 	{
-		if (mDynamicObjects.empty())
+		if (mDynamicObjects.empty() && mStaticObjects.empty())
 			return false;
 
 		bool collided = false;
@@ -99,7 +99,7 @@ namespace Library
 		collided = movingCollider->CheckCollision(vct);
 
 		if (collided)
-			return true;
+			return false;
 
 		vct.clear();
 		for (unsigned int i = 0; i < mStaticObjects.size(); i++)
@@ -185,9 +185,9 @@ namespace Library
 		ContainmentType TypeOfCatch;
 		bbox.CreateFromPoints(bbox, XMLoadFloat3(&mPositionA), XMLoadFloat3(&mPositionC));
 
-		if (bFrst->Orientation.z >= 0)
+		//if (bFrst->Orientation.z >= 0)
 			TypeOfCatch = bFrst->Contains(bbox);
-		else TypeOfCatch = ContainedRightHanded(bFrst, bbox);
+	//	else TypeOfCatch = ContainedRightHanded(bFrst, bbox);
 
 		//If Node is CONTAINED or INTERSECTS with Frustrum - return true;
 		if (TypeOfCatch != DISJOINT)

@@ -134,16 +134,7 @@ namespace Rendering
 		StaticGameObject::Scale(0, 0, 0);
 		StaticGameObject::FirstRotation();
 		StaticGameObject::Translate(mPosition);
-
-		if (needsCollision && !mSkinnedModel->Meshes().empty())
-		{
-			mStatCollider = new Colliders();
-			for (Mesh* mesh : mSkinnedModel->Meshes())
-			{
-				mStatCollider->BuildBoundingBox(mesh);
-			}
-		}
-
+		mStatCollider = new Colliders();
 	}
 
 	void StaticGameObject::Update(const GameTime& gameTime)
@@ -630,5 +621,28 @@ namespace Rendering
 	CollisionNode*  StaticGameObject::getNode()
 	{
 		return inNode;
+	}
+
+	void StaticGameObject::BuildBoundingBox(XMFLOAT3 radius)
+	{
+		if (needsCollision)
+		{
+			XMVECTOR helper;
+			helper = XMVector3Transform(XMLoadFloat3(&radius), XMLoadFloat4x4(&mWorldMatrix));
+			XMStoreFloat3(&radius, helper);
+			mStatCollider = new Colliders();
+			mStatCollider->BuildBoundingBox(mPosition, radius);
+		}
+	}
+
+	void StaticGameObject::BuildOrientedBoundingBox(XMFLOAT3 radius, XMFLOAT4 orientation)
+	{
+		if (needsCollision)
+		{
+			XMVECTOR helper;
+			helper = XMVector3Transform(XMLoadFloat3(&radius), XMLoadFloat4x4(&mWorldMatrix));
+			XMStoreFloat3(&radius, helper);
+			mStatCollider->BuildOBB(mPosition, radius, orientation);
+		}
 	}
 }

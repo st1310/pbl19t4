@@ -167,18 +167,22 @@ namespace Library
   		XMStoreFloat3(&mPosition, position);
 		Camera::Update(gameTime);
 
+		XMFLOAT4 hlp;
+		XMStoreFloat4(&hlp, DirectionVector());
+
 		if (moved || mCollider == nullptr)
 		{
 				XMFLOAT4 dr;
 				XMStoreFloat4(&dr, DirectionVector());
 				if (dr.z >= 0)
-					mCollider = new BoundingFrustum(mPosition, dr, mPosition.x + 10.f, mPosition.x - 10.f,
-						mPosition.y + 10.5f, mPosition.y - 10.5f, mPosition.z + mNearPlaneDistance, mPosition.z + mFarPlaneDistance);
-				else mCollider = new BoundingFrustum(mPosition, dr, mPosition.x + 10.f, mPosition.x - 10.f,
-					mPosition.y + 10.5f, mPosition.y - 10.5f, -(mPosition.z - mNearPlaneDistance), mPosition.z - mFarPlaneDistance);
-				/*
-				else mCollider = new BoundingFrustum({mPosition.x, mPosition.y, mPosition.z - mFarPlaneDistance * 
-				*/
+					mCollider = new BoundingFrustum(mPosition, dr, mPosition.x + 20.f, mPosition.x - 20.f,
+						mPosition.y + 15.f, mPosition.y - 15.f, mPosition.z + mNearPlaneDistance, mPosition.z + mFarPlaneDistance);
+				else
+				{
+					float originZHelper = (-dr.z) > 0.8f ? mFarPlaneDistance/2 * (-dr.z) : 15;
+					mCollider = new BoundingFrustum(XMFLOAT3(mPosition.x, mPosition.y, (mPosition.z - originZHelper) ), XMFLOAT4(dr.x, dr.y, -dr.z, dr.w),
+						mPosition.x + 20.f, mPosition.x - 20.f, mPosition.y + 15.f, mPosition.y - 15.f, mPosition.z + mNearPlaneDistance, mPosition.z + mFarPlaneDistance);
+				}
 
 			mGame->SetNodesInFructum(NodeList::CheckNodesInsideCamera(mCollider, mGame->NodeList()));
 		}

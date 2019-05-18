@@ -53,12 +53,13 @@ namespace Rendering
 		
 		Colliders* getCollider();
 		void SetNode(CollisionNode* colNode);
-		CollisionNode* getNode();
+		virtual CollisionNode* getNode() override;
 
 		bool mIsSelected = true;
 		bool mIsEdited = false;
 
-		
+		void BuildBoundingBox(XMFLOAT3 radius);
+		void BuildOrientedBoundingBox(XMFLOAT3 radius, XMFLOAT4 orientation);
 
 	private:
 		StaticGameObject();
