@@ -559,6 +559,10 @@ namespace Rendering
 		return inNode;
 	}
 
+	void GameObject::BuildBoundingBox(XMFLOAT3 radius)
+	{
+	}
+
 	void GameObject::BuildOrientedBoundingBox(XMFLOAT3 radius, XMFLOAT4 orientation)
 	{
 		XMVECTOR helper;
