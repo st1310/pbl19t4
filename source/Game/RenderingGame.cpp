@@ -58,9 +58,6 @@ namespace Rendering
 		mComponents.push_back(mCamera);
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
 
-
-		BoundingBox* mDemoBox = new BoundingBox();
-		mCollTM = new Colliders(mDemoBox);
 //=======
 		mSkybox = new SkyboxComponent(*this, *mCamera, L"Content\\Textures\\Maskonaive2_1024.dds", 100.0f);
 		mComponents.push_back(mSkybox);
@@ -83,13 +80,7 @@ namespace Rendering
 		Game::Initialize();
 
 
-		mCamera->SetPosition(0.0f, 0.0f, 20.0f);
-
-		CollisionNode* additionalCheckNode = new CollisionNode({ -1000.f, -200.f, 0.f }, { 900.f, 190.f, 20.f });
-		newNode->AddDynamicCollider(mCollC);
-		newNode->AddStaticCollider(mCollTM);
-		additionalCheckNode->AddNewChild(newNode);
-		mNode.push_back(additionalCheckNode);
+		mCamera->SetPosition(0.0f, 10.0f, 20.0f);
 		
 
 	}
@@ -136,6 +127,13 @@ namespace Rendering
 		if(mKeyboard->WasKeyPressedThisFrame(DIK_6))
 			mGameManager->StartScene(PATHFINDER_TEST);
 
+		if (mMouse->WasButtonPressedThisFrame(MouseButtonsRight))
+		{
+			if (mKeyboard->IsKeyHeldDown(DIKEYBOARD_LCONTROL))
+				mGameManager->SelectingUnits(mMouse->X(), mMouse->Y(), true);
+			else mGameManager->SelectingUnits(mMouse->X(), mMouse->Y(), false);
+		}
+
 		Game::Update(gameTime);
 	}
 
@@ -158,7 +156,8 @@ namespace Rendering
 			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition);
 
-		if (mMouse->Y() > 295.0f && mMouse->Y() < 307.0f && mMouse->X() > 104.0f  && mMouse->X() < 200.0f) {
+		if (mMouse->Y() > 295.0f && mMouse->Y() < 307.0f && mMouse->X() > 104.0f  && mMouse->X() < 200.0f) 
+		{
 			std::wostringstream startGame;
 			startGame << "Start Game";
 			mSpriteFont->DrawString(mSpriteBatch, startGame.str().c_str(), XMFLOAT2(100.0f, 300.0f), Colors::Blue);

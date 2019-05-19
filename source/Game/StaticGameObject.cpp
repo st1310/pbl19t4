@@ -20,6 +20,7 @@
 #include <sstream>
 #include <iomanip>
 #include "Shlwapi.h"
+#include "Colliders.h"
 
 namespace Rendering
 {
@@ -27,11 +28,11 @@ namespace Rendering
 
 		StaticGameObject::StaticGameObject(Game& game, Camera& camera, const char *className, 
 			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,			
-			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
+			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale, bool needCollision)
 		: GameObject(game, camera, className,
 			modelName, shaderName, diffuseMap,
 			startPosition, startRotation, startScale),
-		mMaterial(nullptr)
+		mMaterial(nullptr), needsCollision(needCollision)
 	{
 	}
 
@@ -125,7 +126,7 @@ namespace Rendering
 		StaticGameObject::Scale(0, 0, 0);
 		StaticGameObject::FirstRotation();
 		StaticGameObject::Translate(mPosition);
-
+		mCollider = new Colliders();
 	}
 
 	void StaticGameObject::Update(const GameTime& gameTime)
@@ -186,6 +187,20 @@ namespace Rendering
 		{
 			if (mIsSelected && mIsEdited)
 				EditModel();
+		}
+	}
+
+	void StaticGameObject::BuildBoundingBox(XMFLOAT3 radius)
+	{
+		if (needsCollision)
+		{
+			XMVECTOR helper;
+			helper = XMVector3Transform(XMLoadFloat3(&radius), XMLoadFloat4x4(&mWorldMatrix));
+			XMStoreFloat3(&radius, helper);
+			mCollider = new Colliders();
+			mCollider->BuildBoundingBox(mPosition, radius);
+			if (inNode != nullptr)
+				inNode->AddStaticCollider(mCollider);
 		}
 	}
 }

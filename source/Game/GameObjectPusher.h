@@ -5,6 +5,7 @@
 #include "AnimatedGameObject.h"
 #include "GameObject.h"
 #include "AssetList.h"
+#include "CollisionNode.h"
 
 namespace Rendering
 {
@@ -16,6 +17,9 @@ namespace Rendering
 
 		std::vector<GameComponent*> CreateAssets(Game& game, Camera& camera, std::vector<SerializableGameObject> gameObjects);
 		GameObject* GetGameObjectByName(Game& game, Camera& camera, std::string className);
+
+		std::vector<CollisionNode*> listNode;
+		std::vector<GameComponent*> listOfSoldiers;
 	};
 }
 

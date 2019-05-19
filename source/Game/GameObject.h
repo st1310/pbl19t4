@@ -48,6 +48,16 @@ namespace Rendering
 		void Translate(XMFLOAT3 translation);
 
 		virtual std::vector<std::string> Serialize() override;
+
+		XMFLOAT3 getPosition();
+
+		Colliders* getCollider();
+		void SetNode(CollisionNode* colNode);
+		virtual CollisionNode* getNode() override;
+
+		virtual void BuildBoundingBox(XMFLOAT3 radius);
+		void BuildOrientedBoundingBox(XMFLOAT3 radius, XMFLOAT4 orientation);
+
 		bool mIsSelected = false;
 		bool mIsEdited = false;
 
@@ -82,6 +92,9 @@ namespace Rendering
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mTextPosition;
 		bool mManualAdvanceMode;	
+
+		Colliders* mCollider;
+		CollisionNode* inNode;
 
 		// Creation Kit		
 		std::string mEditMode = POSITION;

@@ -13,12 +13,18 @@ namespace Rendering
 			"Content\\Textures\\SingleStreetLampPostDiffuseMap.jpg",
 			startPosition,
 			startRotation,
-			startScale)
+			startScale, true)
 	{
 	}
 
 
 	SingleStreetLampPost::~SingleStreetLampPost()
 	{
+	}
+
+	void SingleStreetLampPost::Initialize()
+	{
+		StaticGameObject::Initialize();
+		StaticGameObject::BuildBoundingBox(XMFLOAT3(2.f, 15.f, 2.f));
 	}
 }

@@ -19,6 +19,8 @@
 #include <sstream>
 #include <iomanip>
 #include "Shlwapi.h"
+#include "Colliders.h"
+#include "NodeLIst.h"
 
 namespace Rendering
 {
@@ -124,7 +126,8 @@ namespace Rendering
 		// Initial transform	
 		Scale(0,0,0);
 		FirstRotation();
-		Translate(mPosition);			
+		Translate(mPosition);
+		mCollider = new Colliders();
 	}
 
 	void AnimatedGameObject::Update(const GameTime& gameTime)
@@ -237,8 +240,8 @@ namespace Rendering
 				mAnimationPlayer->SetCurrentKeyFrame(0);
 			}
 
-			if (mManualAdvanceMode && mKeyboard->WasKeyPressedThisFrame(DIK_SPACE))
-			{
+			//if (mManualAdvanceMode && mKeyboard->WasKeyPressedThisFrame(DIK_SPACE))
+			//{
 				// Advance the current keyframe
 				UINT currentKeyFrame = mAnimationPlayer->CurrentKeyframe();
 				currentKeyFrame++;
@@ -248,10 +251,32 @@ namespace Rendering
 				}
 
 				mAnimationPlayer->SetCurrentKeyFrame(currentKeyFrame);
-			}
+			//}
 
 			if(mIsSelected && mIsEdited)
 				EditModel();
 		}
 	}
+
+	void AnimatedGameObject::CheckTriggers()
+	{
+	}
+
+	void AnimatedGameObject::BuildBoundingBox(XMFLOAT3 radius)
+	{
+			XMVECTOR helper;
+
+			XMMATRIX transformX = XMMatrixRotationX(XMConvertToRadians(mRotation.x));
+			XMMATRIX transformZ = XMMatrixRotationZ(XMConvertToRadians(mRotation.z));
+			helper = XMLoadFloat3(&radius);
+
+			helper = XMVector3Transform(helper, transformX);
+			helper = XMVector3Transform(helper, transformZ);
+
+			XMStoreFloat3(&radius, helper);
+			mCollider->BuildBoundingBox(mPosition, radius);
+			if (inNode != nullptr)
+				inNode->AddDynamicCollider(mCollider);
+	}
+
 }

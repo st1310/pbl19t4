@@ -1,4 +1,5 @@
 #pragma once
+#include "FirstPersonCamera.h"
 #include "Scene.h"
 #include "MenuLevel.h"
 #include "DayLevel.h"
@@ -23,6 +24,8 @@ namespace Rendering
 		virtual void Draw(const GameTime& gameTime) override;
 
 		void StartScene(int sceneId);
+		std::vector<CollisionNode*> GetCurrentListOfNodes();
+		void SelectingUnits(long mouseX, long mouseY, bool selectSeveral);
 
 	private:
 		Game* game;
