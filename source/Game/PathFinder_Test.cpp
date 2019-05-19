@@ -36,24 +36,36 @@ namespace Rendering
 	void PathFinder_Test::Update(const GameTime& gameTime) {
 		
 
+
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_H))
 		{
-			GameObjects.pop_back();
+			//GameObjects.pop_back();
 			pathfinding->nodeEnd = &pathfinding->nodes[indexNode];
 			GameObject* asset2 = gameObjectPusher->GetGameObjectByName(*mGame, *mCamera, "GreenSoldier");
 			asset2->mIsEdited = false;
 			asset2->Translate(pathfinding->nodeEnd->x, 0, pathfinding->nodeEnd->y);
 			GameObjects.push_back(asset2);
 			asset2->Initialize();
+			pathfinding->currentNode = pathfinding->nodeEnd;
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_G)) {
+
+			pathfinding->nodeStart = &pathfinding->nodes[indexNode];
+			GameObject* asset6 = gameObjectPusher->GetGameObjectByName(*mGame, *mCamera, "GreenSoldier");
+			asset6->mIsEdited = false;
+			asset6->Translate(pathfinding->nodeStart->x, 0, pathfinding->nodeStart->y);
+			GameObjects.push_back(asset6);
+			asset6->Initialize();
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_K)) {
+			pathfinding->Solve_AStar();
 		}
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_J)) {
-			pathfinding->Solve_AStar();
-			pathfinding->currentNode = pathfinding->nodeEnd;
-			while (!(pathfinding->currentNode->parent == nullptr)) {
-
+			if (pathfinding->currentNode->parent != nullptr) {
 				pathfinding->currentNode = pathfinding->currentNode->parent;
-
 				GameObject* asset3 = gameObjectPusher->GetGameObjectByName(*mGame, *mCamera, "GreenSoldier");
 				asset3->mIsEdited = false;
 				asset3->Translate(pathfinding->currentNode->x, 0, pathfinding->currentNode->y);

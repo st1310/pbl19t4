@@ -46,7 +46,7 @@ bool PathFinding::OnUserCreate() {
 	}
 
 	nodeStart = &nodes[(nMapHeight / 2)*nMapWidth + 1];
-	nodeEnd = &nodes[(nMapHeight / 2)*nMapWidth + nMapWidth - 2];
+	//nodeEnd = &nodes[(nMapHeight / 2)*nMapWidth + nMapWidth - 2];
 	return true;
 
 }
