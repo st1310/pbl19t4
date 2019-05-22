@@ -143,6 +143,16 @@ namespace Library
 		}
 	}
 
+	void Colliders::AddBoundingBox(BoundingBox* added)
+	{
+		BoundingBoxes.push_back(added);
+	}
+
+	std::vector<BoundingBox*> Colliders::GetBoundingBox()
+	{
+		return BoundingBoxes;
+	}
+
 	void Colliders::Transform(CXMMATRIX rotation, XMVECTOR destination)
 	{
 		XMMATRIX trMatr = XMMATRIX({1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1});

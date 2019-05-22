@@ -26,6 +26,7 @@ namespace Rendering
 		void StartScene(int sceneId);
 		std::vector<CollisionNode*> GetCurrentListOfNodes();
 		void SelectingUnits(long mouseX, long mouseY, bool selectSeveral);
+		void SelectingGround(long mouseX, long mouseY);
 
 	private:
 		Game* game;

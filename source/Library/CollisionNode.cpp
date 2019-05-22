@@ -153,6 +153,7 @@ namespace Library
 		BoundingBox bbox;
 		bbox.CreateFromPoints(bbox, XMLoadFloat3(&mPositionA), XMLoadFloat3(&mPositionC));
 
+
 		if (bbox.ContainedBy(planes[0], planes[1], planes[2], planes[3], planes[4], planes[5]) != DISJOINT)
 			return true;
 

@@ -43,6 +43,9 @@ namespace Library
 
 		bool CheckColliderIntersecteByRay(XMVECTOR origin, XMVECTOR direct, float distance);
 
+		void AddBoundingBox(BoundingBox* added);
+		std::vector<BoundingBox*> GetBoundingBox();
+
 		void removeTrigger(TypesTriggerReactions trg);
 		std::vector<TypesTriggerReactions> getTriggeredReactions(XMFLOAT3 checkPos);
 		std::vector< std::pair<TypesTriggerReactions, BoundingBox*> > getTriggers();

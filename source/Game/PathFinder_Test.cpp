@@ -55,11 +55,24 @@ namespace Rendering
 			GameObject* asset6 = gameObjectPusher->GetGameObjectByName(*mGame, *mCamera, "GreenSoldier");
 			asset6->mIsEdited = false;
 			asset6->Translate(pathfinding->nodeStart->x, 0, pathfinding->nodeStart->y);
+			this->AddUnitToList(asset6);
 			GameObjects.push_back(asset6);
 			asset6->Initialize();
 		}
 
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_O)) {
+			pathfinding->currentNode = &pathfinding->nodes[indexNode];
+			GameObject* asset7 = gameObjectPusher->GetGameObjectByName(*mGame, *mCamera, "SingleStreetLampPost");
+			asset7->mIsEdited = false;
+			asset7->Translate(pathfinding->currentNode->x, 0, pathfinding->currentNode->y);
+			this->AddUnitToList(asset7);
+			GameObjects.push_back(asset7);
+			pathfinding->nodes[indexNode].bObstacle = 1;
+			asset7->Initialize();
+		}
+
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_K)) {
+			pathfinding->currentNode = pathfinding->nodeEnd;
 			pathfinding->Solve_AStar();
 		}
 

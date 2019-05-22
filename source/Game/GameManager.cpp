@@ -103,6 +103,21 @@ namespace Rendering
 		return mScenes.at(mCurrentScene)->getListOfNode();
 	}
 
+	void GameManager::SelectingGround(long mouseX, long mouseY) {
+		FirstPersonCamera* frCam = camera->As<FirstPersonCamera>();
+		XMMATRIX viewProj = frCam->ViewProjectionMatrix();
+		XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);
+
+		float x = (((2.0f * mouseX) / (float)game->ScreenWidth()) - 1.0f);
+		float y = (((2.0f * mouseY) / (float)game->ScreenHeight()) - 1.0f) * (-1.0f);
+
+		XMVECTOR farPoint = XMVECTOR({ x, y, 1.0f, 0.0f });
+		XMVECTOR TrF = XMVector3Transform(farPoint, invProjectionView);
+		TrF = XMVector3Normalize(TrF);
+
+		bool wasSelected = false;
+	}
+
 	//void GameManager::SelectingUnits(XMVECTOR camOr, XMVECTOR ray, float dist, bool selectSeveral)
 	void GameManager::SelectingUnits(long mouseX, long mouseY, bool selectSeveral)
 	{

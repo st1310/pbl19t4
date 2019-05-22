@@ -1,5 +1,8 @@
 #include "PathFinding.h"
 #include <list>
+#include "Common.h"
+#include "FirstPersonCamera.h"
+
 
 PathFinding::PathFinding() {
 	
@@ -15,11 +18,14 @@ bool PathFinding::OnUserCreate() {
 	//grid of nodes
 	for (int x = 0; x < nMapWidth; x++) {
 		for (int y = 0; y < nMapHeight; y++) {
+			nodes[y*nMapWidth + x].cld = new Colliders();
 			nodes[y*nMapWidth + x].x = -25 + y*3;
 			nodes[y*nMapHeight + x].y = -12 + x*3;
 			nodes[y*nMapHeight + x].bObstacle = false;
 			nodes[y*nMapHeight + x].bVisited = false;
 			nodes[y*nMapHeight + x].parent = nullptr;
+			BoundingBox* bbox = new BoundingBox(XMFLOAT3(nodes[y*nMapWidth+x].x, .0f, nodes[y*nMapHeight + x].y), XMFLOAT3(3.f, 3.f, 3.f));
+			nodes[y*nMapWidth + x].cld->AddBoundingBox(bbox);
 		}
 	}
 
@@ -50,6 +56,8 @@ bool PathFinding::OnUserCreate() {
 	return true;
 
 }
+
+
 
 bool PathFinding::Solve_AStar() {
 	

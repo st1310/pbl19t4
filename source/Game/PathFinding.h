@@ -1,6 +1,10 @@
 #pragma once
 #include <vector>
+#include <DirectXMath.h>
+#include "Colliders.h"
+#include "Common.h"
 
+using namespace Library;
 
 class PathFinding {
 public:
@@ -14,7 +18,7 @@ public:
 	bool OnUserCreate();
 	bool Solve_AStar();
 	int howManyNodesToEnter();
-
+	
 //private:
 
 	struct sNode {
@@ -26,6 +30,7 @@ public:
 		int y;
 		std::vector<sNode*> vecNeighbours;
 		sNode* parent;
+		Colliders* cld;
 	};
 
 	sNode * nodes = nullptr;
