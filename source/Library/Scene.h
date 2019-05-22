@@ -6,7 +6,7 @@
 #include "RenderStateHelper.h"
 #include "SpriteBatch.h"
 #include "SpriteFont.h"
-#include "CollisionNode.h"
+#include "NodeList.h"
 #include "Game.h"
 #include <iomanip> 
 #include <fstream>
@@ -36,21 +36,24 @@ namespace Library
 		std::vector<CollisionNode*> getListOfNode();
 
 		void ClearUnitList();
-		void AddUnitToList(GameComponent* unit);
-		void RewriteUnitList(std::vector<GameComponent*> newListOfUnits);
-		void RemoveUnitFromList(GameComponent* unit);
-		std::vector<GameComponent*> GetUnitList();
+		void AddUnitToList(DrawableGameComponent* unit);
+		void RewriteUnitList(std::vector<DrawableGameComponent*> newListOfUnits);
+		void RemoveUnitFromList(DrawableGameComponent* unit);
+		std::vector<DrawableGameComponent*> GetUnitList();
 
+		
+		void BuildNodesStart(XMFLOAT3 posA, XMFLOAT3 posC);
 	protected:
 		KeyboardComponent* mKeyboard;
 		RenderStateHelper mRenderStateHelper;
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mTextPosition;
-
-		std::vector<GameComponent*> listOfUnits;
-
+		std::vector<DrawableGameComponent*> listOfUnits;
+		
 	private:
+		void BuildNodesRec(CollisionNode* parNode);
+
 		std::string mFileName;
 		std::vector<CollisionNode*> listOfNodes;
 	};

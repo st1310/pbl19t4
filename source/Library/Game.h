@@ -40,7 +40,6 @@ namespace Library
 		const std::vector<CollisionNode*>& NodeList() const;
 
 		void SetNodesInFructum(std::vector<CollisionNode*> NodesInFructum);
-		const std::vector<CollisionNode*>& GetNodesInFructum() const;
 		void ChangeCameraMovementStatus(bool newStat);
 
 		virtual void Run();

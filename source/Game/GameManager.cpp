@@ -21,42 +21,29 @@ namespace Rendering
 
 	void GameManager::Initialize()
 	{
-		std::vector<CollisionNode*> listOfNodes;
-		listOfNodes.clear();
-		//Will rewrite to match maps
-		CollisionNode* collNode1 = new CollisionNode({ 100.f, -100.f, 0.f }, { 0.f, 100.f, 100.f });
-		CollisionNode* collNode2 = new CollisionNode({ 100.f, -100.f, -100.f }, { 0.f, 100.f, 0.f });
-		CollisionNode* collNode12 = new CollisionNode({ 100.f, -100.f, -100.f }, { 0.f, 100.f, 100.f });
-		collNode1->SetParent(collNode12); collNode2->SetParent(collNode12);
-		collNode12->AddNewChild(collNode1); collNode12->AddNewChild(collNode2);
-		CollisionNode* collNode3 = new CollisionNode({ 0.f, -100.f, 0.f }, { -100.f, 100.f, 100.f });
-		CollisionNode* collNode4 = new CollisionNode({ 0.f, -100.f, -100.f }, { -100.f, 100.f, 0.f });
-		CollisionNode* collNode34 = new CollisionNode({ 0.f, -100.f, -100.f }, { -100.f, 100.f, 100.f });
-		CollisionNode* collNodeAll = new CollisionNode({ 100.f, -100.f, -100.f }, { -100.f, 100.f, 100.f });
-		collNode3->SetParent(collNode34); collNode4->SetParent(collNode34);
-		collNode34->AddNewChild(collNode3); collNode34->AddNewChild(collNode4);
-		collNode12->SetParent(collNodeAll); collNode34->SetParent(collNodeAll);
-		collNodeAll->AddNewChild(collNode34); collNodeAll->AddNewChild(collNode12);
-		listOfNodes.push_back(collNodeAll);
-
 		// Adding all scenes aka levels to Scenes
 		MenuLevel* menuLevel = new MenuLevel(*game, *camera);
 		mScenes.push_back(menuLevel);
 
 		DayLevel* dayLevel = new DayLevel(*game, *camera);
+		dayLevel->BuildNodesStart({ 100.f, -100.f, -50.f }, { -100.f, 100.f, 50.f });
 		mScenes.push_back(dayLevel);
 
 		TrainLevel* trainLevel = new TrainLevel(*game, *camera);
+		trainLevel->BuildNodesStart({ 100.f, -100.f, -50.f }, { -100.f, 100.f, 50.f });
 		mScenes.push_back(trainLevel);
 
 		CityLevel* cityLevel= new CityLevel(*game, *camera);
-		cityLevel->rewriteListOfNodes(listOfNodes);
+		cityLevel->BuildNodesStart({200.f, -100.f, -250.f}, { -200.f, 100.f, 250.f });
 		mScenes.push_back(cityLevel);
 
 		CreationKitLevel* creationKitLevel = new CreationKitLevel(*game, *camera);
+		//Need to find a way to get min/max coordinates from it... Dynamic check?
+		creationKitLevel->BuildNodesStart({ 500.f, -100.f, -500.f }, { -500.f, 100.f, 500.f });
 		mScenes.push_back(creationKitLevel);
 
 		PathFinder_Test* pathFinder_Test = new PathFinder_Test(*game, *camera);
+		pathFinder_Test->BuildNodesStart({ 200.f, -100.f, -200.f }, { -200.f, 100.f, 200.f });
 		mScenes.push_back(pathFinder_Test);
 	}
 
@@ -91,7 +78,7 @@ namespace Rendering
 		for (GameComponent* component : mScenes[mCurrentScene]->GameObjects)
 		{
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
-			if (drawableGameComponent != nullptr)
+			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
 				drawableGameComponent->Draw(gameTime);
 		}
 
@@ -106,9 +93,9 @@ namespace Rendering
 	//void GameManager::SelectingUnits(XMVECTOR camOr, XMVECTOR ray, float dist, bool selectSeveral)
 	void GameManager::SelectingUnits(long mouseX, long mouseY, bool selectSeveral)
 	{
-		FirstPersonCamera* frCam = camera->As<FirstPersonCamera>();
+		FirstPersonCamera* firstCam = camera->As<FirstPersonCamera>();
 
-		XMMATRIX viewProj = frCam->ViewProjectionMatrix();
+		XMMATRIX viewProj = firstCam->ViewProjectionMatrix();
 		XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);
 
 		float x = (((2.0f * mouseX) / (float)game->ScreenWidth()) - 1.0f);
@@ -123,8 +110,8 @@ namespace Rendering
 		for (GameComponent* gmCm : mScenes.at(mCurrentScene)->GetUnitList())
 		{
 			GreenSoldier* greenSold = gmCm->As<GreenSoldier>();
-
-			if (greenSold->getCollider()->CheckColliderIntersecteByRay(frCam->PositionVector(), TrF, frCam->FarPlaneDistance()) && (!wasSelected || selectSeveral))
+			
+			if (greenSold->getCollider()->CheckColliderIntersecteByRay(firstCam->PositionVector(), TrF, firstCam->FarPlaneDistance()) && (!wasSelected || selectSeveral))
 			{
 				greenSold->setSelection(true);
 				//Will remove this later

@@ -76,6 +76,7 @@ namespace Rendering
 	{
 		Initialize();
 		GameObjectPusher pusher = GameObjectPusher();
+
 		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile());
 
 		for (int i = 0; i < gameObjects.size(); i++)

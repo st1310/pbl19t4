@@ -25,6 +25,8 @@ namespace Rendering
 		{
 			this->GameObjects.push_back(gameObjects.at(i));
 			GameObjects.at(i)->Initialize();
+			//GameObject* gmObj = GameObjects.at(i)->As<GameObject>();
+			//gmObj->SetNode(NodeList::MovedToNode(gmObj->getPosition(), getListOfNode()));
 		}	
 	}
 }

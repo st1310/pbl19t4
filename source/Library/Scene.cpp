@@ -14,6 +14,7 @@ namespace Library
 
 	Scene::~Scene()
 	{
+		listOfNodes.clear();
 	}
 
 
@@ -99,25 +100,74 @@ namespace Library
 		listOfUnits.clear();
 	}
 
-	void Scene::AddUnitToList(GameComponent* unit)
+	void Scene::AddUnitToList(DrawableGameComponent* unit)
 	{
 		listOfUnits.push_back(unit);
 	}
 
-	void Scene::RewriteUnitList(std::vector<GameComponent*> newListOfUnits)
+	void Scene::RewriteUnitList(std::vector<DrawableGameComponent*> newListOfUnits)
 	{
 		listOfUnits = newListOfUnits;
 	}
 
-	void Scene::RemoveUnitFromList(GameComponent* unit)
+	void Scene::RemoveUnitFromList(DrawableGameComponent* unit)
 	{
 		auto itr = std::find(listOfUnits.begin(), listOfUnits.end(), unit);
 		if (itr != listOfUnits.end())
 			listOfUnits.erase(itr);
 	}
 
-	std::vector<GameComponent*> Scene::GetUnitList()
+	std::vector<DrawableGameComponent*> Scene::GetUnitList()
 	{
 		return listOfUnits;
+	}
+	
+	//Recursion - for dividing scene for smaller parts
+	void Scene::BuildNodesRec(CollisionNode* parNode)
+	{
+		XMFLOAT3 posA = parNode->GetPosA();
+		XMFLOAT3 posC = parNode->GetPosC();
+		float partX = (posA.x - posC.x) * 0.5f;
+		float partZ = (posC.z - posA.z) * 0.5f;
+
+		if (partX < 100.f && partZ < 100.f)
+			return;
+
+		if (partX < 100.f) partX = 100.f;
+		if (partZ < 100.f) partZ = 100.f;
+
+		float toPntX = posA.x - partX;
+		float toPntZ = posC.z - partZ;
+
+		for (float prX = posA.x; prX >= posC.x; prX -= partX)
+		{
+			if (toPntX < posC.x) toPntX = posC.x;
+
+			for (float prZ = posC.z; prZ >= posA.z; prZ -= partZ)
+			{
+				if (toPntZ < posA.z) toPntZ = posA.z;
+
+				CollisionNode* chlColl = new CollisionNode({ prX, posA.y, toPntZ }, { toPntX, posC.y, prZ });
+				chlColl->SetParent(parNode);
+				parNode->AddNewChild(chlColl);
+				BuildNodesRec(chlColl);
+				toPntZ -= partZ;
+			}
+
+			toPntX -= partX;
+		}
+	}
+
+
+	//Start building scene nodes from here
+	//posA : max X, min Y and min Z
+	//posC : min X, max Y and max Z
+	void Scene::BuildNodesStart(XMFLOAT3 posA, XMFLOAT3 posC)
+	{
+		CollisionNode* mainColl = new CollisionNode(posA, posC);
+		listOfNodes.push_back(mainColl);
+
+		BuildNodesRec(mainColl);
+			
 	}
 }

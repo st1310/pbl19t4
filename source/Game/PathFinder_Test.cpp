@@ -18,9 +18,10 @@ namespace Rendering
 		Initialize();
 		pathfinding->OnUserCreate();
 		//pathfinding->Solve_AStar();
-
+		ClearUnitList();
 		mChooseEndNode = true;
 		GameObjectPusher pusher = GameObjectPusher();
+		pusher.listNode = this->getListOfNode();
 		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile());
 
 		for (int i = 0; i < gameObjects.size(); i++)
@@ -59,6 +60,11 @@ namespace Rendering
 				asset3->Translate(pathfinding->currentNode->x, 0, pathfinding->currentNode->y);
 				GameObjects.push_back(asset3);
 				asset3->Initialize();
+
+				AddUnitToList(asset3);
+				GreenSoldier* grnSld = asset3->As<GreenSoldier>();
+				grnSld->SetNode(NodeList::MovedToNode(grnSld->getPosition(), this->getListOfNode()));
+
 				pathfinding->currentNode = pathfinding->currentNode->parent;
 			}
 			

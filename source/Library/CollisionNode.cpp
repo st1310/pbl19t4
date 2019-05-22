@@ -21,6 +21,16 @@ namespace Library
 		mParent = nullptr;
 	}
 
+	XMFLOAT3 CollisionNode::GetPosA()
+	{
+		return mPositionA;
+	}
+
+	XMFLOAT3 CollisionNode::GetPosC()
+	{
+		return mPositionC;
+	}
+
 	void CollisionNode::AddStaticCollider(Colliders* staticCollider)
 	{
 		mStaticObjects.push_back(staticCollider);

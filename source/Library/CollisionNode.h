@@ -11,6 +11,9 @@ namespace Library
 		CollisionNode(XMFLOAT3 positionA, XMFLOAT3 positionC);
 		~CollisionNode();
 
+		XMFLOAT3 GetPosA();
+		XMFLOAT3 GetPosC();
+
 		void AddStaticCollider(Colliders* staticCollider);
 		void AddDynamicCollider(Colliders* dynamicCollider);
 		void RemoveDynamicCollider(Colliders* dynamicCollider);

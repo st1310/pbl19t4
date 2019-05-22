@@ -12,12 +12,34 @@ namespace Rendering
 	{
 	}
 
-	std::vector<GameComponent*> GameObjectPusher::CreateAssets(Game& game, Camera& camera, std::vector<SerializableGameObject> gameObjects)
+	std::vector<GameComponent*> GameObjectPusher::CreateAssets(Game& game, Camera& camera, std::vector<SerializableGameObject> gameObjects, bool needToFindCoord)
 	{
 		std::vector<GameComponent*> assets = std::vector<GameComponent*>();
 
 		for (int i = 0; i < gameObjects.size(); i++)
 		{
+			if (needToFindCoord)
+			{
+				PosA = XMFLOAT3(0.f, 0.f, 0.f);
+				PosC = XMFLOAT3(0.f, 0.f, 0.f);
+				XMFLOAT3 posit = gameObjects.at(i).GetPosition();
+
+				if (posit.x > PosA.x)
+					PosA.x = posit.x;
+				if (posit.x < PosC.x)
+					PosC.x = posit.x;
+
+				if (posit.y < PosA.y)
+					PosA.y = posit.y;
+				if (posit.y > PosC.y)
+					PosC.y = posit.y;
+
+				if (posit.z < PosA.z)
+					PosA.z = posit.z;
+				if (posit.z > PosC.z)
+					PosC.z = posit.z;
+			}
+
 			std::string className = gameObjects.at(i).GetAssetClassName();
 
 			if (className == "CargoTrain")

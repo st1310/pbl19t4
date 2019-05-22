@@ -41,6 +41,8 @@ namespace Rendering
 
 	GameObject::~GameObject()
 	{
+		mCollider = nullptr;
+		inNode = nullptr;
 	}
 
 	void GameObject::Initialize()

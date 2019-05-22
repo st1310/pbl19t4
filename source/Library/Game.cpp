@@ -19,7 +19,7 @@ namespace Library
 		mFrameRate(DefaultFrameRate), mIsFullScreen(false),
 		mDepthStencilBufferEnabled(false), mMultiSamplingEnabled(false), mMultiSamplingCount(DefaultMultiSamplingCount),
 		mDepthStencilBuffer(nullptr), mRenderTargetView(nullptr), mDepthStencilView(nullptr), mViewport(),
-		mComponents(), mServices(), mNode(), mNodesInFructum()
+		mComponents(), mServices(), mNode()
 	{
 	}
 
@@ -115,11 +115,6 @@ namespace Library
 	void Game::SetNodesInFructum(std::vector<CollisionNode*> NodesInFructum)
 	{
 		mNodesInFructum = NodesInFructum;
-	}
-
-	const std::vector<CollisionNode*>& Game::GetNodesInFructum() const
-	{
-		return mNodesInFructum;
 	}
 
 	void Game::Run()
