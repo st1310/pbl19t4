@@ -126,6 +126,9 @@
     <ClCompile Include="AnimatedGameObject.cpp">
       <Filter>Assets\Abstract\Source</Filter>
     </ClCompile>
+    <ClCompile Include="MultipleLightsDemo.cpp">
+      <Filter>Assets\Abstract\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PassengerTrain.h">
@@ -207,6 +210,9 @@
       <Filter>Assets\Abstract\Header</Filter>
     </ClInclude>
     <ClInclude Include="AnimatedGameObject.h">
+      <Filter>Assets\Abstract\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MultipleLightsDemo.h">
       <Filter>Assets\Abstract\Header</Filter>
     </ClInclude>
   </ItemGroup>

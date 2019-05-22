@@ -23,7 +23,7 @@
     <ProjectGuid>{5ADAD276-7C9E-4115-94D3-F8C5602C3ADA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Library</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -188,6 +188,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="Colliders.h" />
     <ClInclude Include="ColorHelper.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DrawableGameComponent.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="FirstPersonCamera.h" />
@@ -199,6 +200,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="KeyboardComponent.h" />
     <ClInclude Include="Keyframe.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MatrixHelper.h" />
     <ClInclude Include="Mesh.h" />
@@ -206,8 +208,10 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="ModelMaterial.h" />
     <ClInclude Include="MouseComponent.h" />
     <ClInclude Include="CollisionNode.h" />
+    <ClInclude Include="MultipleLightsMaterial.h" />
     <ClInclude Include="NodeList.h" />
     <ClInclude Include="Pass.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="RenderStateHelper.h" />
     <ClInclude Include="RTTI.h" />
     <ClInclude Include="Scene.h" />
@@ -217,6 +221,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="SkinnedModelMaterial.h" />
     <ClInclude Include="SkyboxComponent.h" />
     <ClInclude Include="SkyboxMaterial.h" />
+    <ClInclude Include="SpotLight.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Technique.h" />
@@ -235,6 +240,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Colliders.cpp" />
     <ClCompile Include="ColorHelper.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DrawableGameComponent.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
@@ -246,6 +252,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="KeyboardComponent.cpp" />
     <ClCompile Include="Keyframe.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MatrixHelper.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -253,8 +260,10 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="ModelMaterial.cpp" />
     <ClCompile Include="MouseComponent.cpp" />
     <ClCompile Include="CollisionNode.cpp" />
+    <ClCompile Include="MultipleLightsMaterial.cpp" />
     <ClCompile Include="NodeList.cpp" />
     <ClCompile Include="Pass.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RenderStateHelper.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneNode.cpp" />
@@ -263,6 +272,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="SkinnedModelMaterial.cpp" />
     <ClCompile Include="SkyboxComponent.cpp" />
     <ClCompile Include="SkyboxMaterial.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -280,6 +290,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Content\Effects\BasicEffect.fx" />
+    <FxCompile Include="Content\Effects\MultipleLights.fx" />
     <FxCompile Include="Content\Effects\SkinnedModel.fx" />
     <FxCompile Include="Content\Effects\Skybox.fx" />
     <FxCompile Include="Content\Effects\TextureMapping.fx" />

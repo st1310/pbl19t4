@@ -11,6 +11,7 @@
 #include "ColorHelper.h"
 #include "RenderStateHelper.h"
 #include "TexturedModelMaterialDemo.h"
+#include "MultipleLightsDemo.h"
 #include "GameManager.h"
 #include "AnimatedGameObject.h"
 #include "Utility.h"
@@ -26,7 +27,7 @@ namespace Rendering
 		mRenderStateHelper(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mGameManager(nullptr), buttonClicked(false)
+		mGameManager(nullptr), buttonClicked(false), mMLDemo(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -66,8 +67,11 @@ namespace Rendering
 		mComponents.push_back(mSkybox);
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
-		mGameManager = new GameManager(*this, *mCamera);
-		mComponents.push_back(mGameManager);
+		/*mGameManager = new GameManager(*this, *mCamera);
+		mComponents.push_back(mGameManager);*/
+
+		mMLDemo = new MultipleLightsDemo(*this, *mCamera);
+		mComponents.push_back(mMLDemo);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
@@ -85,11 +89,11 @@ namespace Rendering
 
 		mCamera->SetPosition(0.0f, 0.0f, 20.0f);
 
-		CollisionNode* additionalCheckNode = new CollisionNode({ -1000.f, -200.f, 0.f }, { 900.f, 190.f, 20.f });
+		/*CollisionNode* additionalCheckNode = new CollisionNode({ -1000.f, -200.f, 0.f }, { 900.f, 190.f, 20.f });
 		newNode->AddDynamicCollider(mCollC);
 		newNode->AddStaticCollider(mCollTM);
 		additionalCheckNode->AddNewChild(newNode);
-		mNode.push_back(additionalCheckNode);
+		mNode.push_back(additionalCheckNode);*/
 		
 
 	}
@@ -105,6 +109,7 @@ namespace Rendering
 		DeleteObject(mSpriteFont);
 		DeleteObject(mCamera);
 		DeleteObject(mRenderStateHelper);
+		DeleteObject(mMLDemo);
 
 		ReleaseObject(mDirectInput);
 

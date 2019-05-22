@@ -28,6 +28,7 @@ namespace Rendering
 	class TexturedModelDemo;
 	class TexturedModelMaterialDemo;
 	class AnimationDemo;
+	class MultipleLightsDemo;
 
 	class RenderingGame : public Game
 	{
@@ -65,7 +66,7 @@ namespace Rendering
 
 		Colliders* mCollC;
 		Colliders* mCollTM;
-		TexturedModelDemo* mTMDemo;
+		MultipleLightsDemo* mMLDemo;
 		GameManager* mGameManager;
 	};
 }
