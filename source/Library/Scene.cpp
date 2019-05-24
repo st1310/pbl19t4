@@ -9,7 +9,7 @@ namespace Library
 		DrawableGameComponent(game, camera), mFileName(fileName), SceneId(sceneId), mKeyboard(nullptr),
 		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), listOfNodes()
 	{
-
+		
 	}
 
 	Scene::~Scene()
@@ -34,6 +34,8 @@ namespace Library
 
 		mSpriteBatch = new SpriteBatch(mGame->Direct3DDeviceContext());
 		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
+
+		
 	}
 
 	void Scene::Clear()
@@ -120,6 +122,14 @@ namespace Library
 	std::vector<DrawableGameComponent*> Scene::GetUnitList()
 	{
 		return listOfUnits;
+	}
+
+	Colliders* Scene::GetGroundCollider() {
+		return groundCollider;
+	}
+
+	void Scene::SetGroudndCollider(Colliders* collider) {
+		this->groundCollider = collider;
 	}
 	
 	//Recursion - for dividing scene for smaller parts

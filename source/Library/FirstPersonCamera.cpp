@@ -16,7 +16,9 @@ namespace Library
 
 	FirstPersonCamera::FirstPersonCamera(Game& game)
 		: Camera(game), mKeyboard(nullptr), mMouse(nullptr),
-		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate), mNode(nullptr)
+		mMouseSensitivity(DefaultMouseSensitivity), mRotationRate(DefaultRotationRate), mMovementRate(DefaultMovementRate), mNode(nullptr),
+		cameraMode(false)
+
 	{
 	}
 
@@ -90,7 +92,16 @@ namespace Library
 	{
 		bool moved = false;
 		XMFLOAT2 movementAmount = Vector2Helper::Zero;
-		if (mKeyboard != nullptr)
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_SPACE))
+		{
+			if (cameraMode)
+				cameraMode = false;
+			else
+				cameraMode = true;
+		}
+
+		if (mKeyboard != nullptr &&  cameraMode==true)
 		{
 			if (mKeyboard->IsKeyDown(DIK_W))
 			{
@@ -118,7 +129,7 @@ namespace Library
 		}
 
 		XMFLOAT2 rotationAmount = Vector2Helper::Zero;
-		if ((mMouse != nullptr) && (mMouse->IsButtonHeldDown(MouseButtonsLeft)))
+		if ((mMouse != nullptr) && (mMouse->IsButtonHeldDown(MouseButtonsLeft) && cameraMode))
 		{
 			LPDIMOUSESTATE mouseState = mMouse->CurrentState();
 			rotationAmount.x = -mouseState->lX * mMouseSensitivity;

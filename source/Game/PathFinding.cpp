@@ -1,5 +1,8 @@
+
 #include "PathFinding.h"
 #include <list>
+#include "Common.h"
+#include "FirstPersonCamera.h"
 
 PathFinding::PathFinding() {
 	
@@ -11,17 +14,22 @@ PathFinding::~PathFinding() {
 
 bool PathFinding::OnUserCreate() {
 	
+	collider = new Colliders();
 	nodes = new sNode[nMapWidth*nMapHeight];
+
 	//grid of nodes
 	for (int x = 0; x < nMapWidth; x++) {
 		for (int y = 0; y < nMapHeight; y++) {
-			nodes[y*nMapWidth + x].x = -25 + y*3;
-			nodes[y*nMapHeight + x].y = -12 + x*3;
+			nodes[y*nMapWidth + x].x = -25 + y * 3;
+			nodes[y*nMapHeight + x].y = -12 + x * 3;
 			nodes[y*nMapHeight + x].bObstacle = false;
 			nodes[y*nMapHeight + x].bVisited = false;
 			nodes[y*nMapHeight + x].parent = nullptr;
+			BoundingBox* bbox = new BoundingBox(XMFLOAT3(nodes[y*nMapWidth + x].x, .0f, nodes[y*nMapHeight + x].y), XMFLOAT3(3.f, 3.f, 3.f));
+			collider->AddBoundingBox(bbox);
 		}
 	}
+
 
 	for (int x = 0; x < nMapWidth; x++) {
 		for (int y = 0; y < nMapHeight; y++) {
@@ -105,10 +113,24 @@ bool PathFinding::Solve_AStar() {
 				nodeNeighbour->parent = nodeCurrent;
 				nodeNeighbour->fLocalGoal = fPossiblyLowerGoal;
 				nodeNeighbour->fGlobalGoal = nodeNeighbour->fLocalGoal + heuristic(nodeNeighbour, nodeEnd);
+
 			}
 		}
 	}
-	return true;
+
+	//XMFLOAT2 nodePos = new XMFLOAT2(nodeEnd->x, nodeEnd->y);
+	
+	while (true) {
+		if (this->currentNode->parent != nullptr) {
+			this->currentNode = this->currentNode->parent;
+			XMFLOAT2 pos = XMFLOAT2(currentNode->x, currentNode->y);
+			pathNodesPos.push_back(pos);
+		}
+			
+		else
+			return true;
+	}
+	
 }
 
 int PathFinding::howManyNodesToEnter() {

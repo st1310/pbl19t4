@@ -48,6 +48,7 @@ namespace Rendering
 		static const XMVECTORF32 BackgroundColor;
 
 		bool buttonClicked;
+		bool unitActiveFlag;
 		LPDIRECTINPUT8 mDirectInput;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;

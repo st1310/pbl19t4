@@ -40,6 +40,9 @@ namespace Library
 		void RewriteUnitList(std::vector<DrawableGameComponent*> newListOfUnits);
 		void RemoveUnitFromList(DrawableGameComponent* unit);
 		std::vector<DrawableGameComponent*> GetUnitList();
+		
+		Colliders* GetGroundCollider();
+		void SetGroudndCollider(Colliders* collider);
 
 		
 		void BuildNodesStart(XMFLOAT3 posA, XMFLOAT3 posC);
@@ -50,6 +53,7 @@ namespace Library
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mTextPosition;
 		std::vector<DrawableGameComponent*> listOfUnits;
+		Colliders* groundCollider;
 		
 	private:
 		void BuildNodesRec(CollisionNode* parNode);

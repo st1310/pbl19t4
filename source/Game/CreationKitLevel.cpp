@@ -47,9 +47,9 @@ namespace Rendering
 			mCurrentAssetIndex -= 5;
 
 		if (mCurrentAssetIndex < 0)
-			mCurrentAssetIndex = 13 - 1;
+			mCurrentAssetIndex = 14 - 1;
 
-		if (mCurrentAssetIndex >= 13)
+		if (mCurrentAssetIndex >= 14)
 			mCurrentAssetIndex = 0;
 	}
 
@@ -62,7 +62,7 @@ namespace Rendering
 
 		if (!mEditAsset)
 		{
-			helpLabel << "Index/Size: "<< mCurrentAssetIndex + 1 << "/" << 13;
+			helpLabel << "Index/Size: "<< mCurrentAssetIndex + 1 << "/" << 14;
 			helpLabel << "\nName: " << mAssets[mCurrentAssetIndex].c_str();
 		}		
 

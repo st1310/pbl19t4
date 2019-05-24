@@ -132,6 +132,9 @@
     <ClCompile Include="PathFinder_Test.cpp">
       <Filter>Scenes\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Pathcircles.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PassengerTrain.h">
@@ -220,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="PathFinder_Test.h">
       <Filter>Scenes\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathcircles.h">
+      <Filter>Assets\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

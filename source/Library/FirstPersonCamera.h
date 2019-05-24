@@ -54,6 +54,7 @@ namespace Library
 		MouseComponent* mMouse;
 
 	private:
+		bool cameraMode;
 		bool firstTime;
 		FirstPersonCamera(const FirstPersonCamera& rhs);
 		FirstPersonCamera& operator=(const FirstPersonCamera& rhs);

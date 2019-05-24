@@ -1,5 +1,6 @@
 #include "GameObjectPusher.h"
 #include "NodeList.h"
+#include "Pathcircles.h"
 
 namespace Rendering
 {
@@ -41,6 +42,16 @@ namespace Rendering
 			}
 
 			std::string className = gameObjects.at(i).GetAssetClassName();
+
+			if (className == "Pathcircles") {
+				Pathcircles* pathcircles = new Pathcircles(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				pathcircles->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(pathcircles);
+			}
 
 			if (className == "CargoTrain")
 			{
@@ -217,6 +228,12 @@ namespace Rendering
 		{
 			PassengerTrain* passengerTrain = new PassengerTrain(game, camera);
 			return passengerTrain;
+		}
+
+		if (className == "Pathcircles")
+		{
+			Pathcircles* pathcircles = new Pathcircles(game, camera);
+			return pathcircles;
 		}
 
 		if (className == "GreenSoldier")

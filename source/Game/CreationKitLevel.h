@@ -18,8 +18,9 @@ namespace Rendering
 	private:
 		bool mEditAsset = false;
 		int mCurrentAssetIndex = 0;
-		const std::string mAssets[13] =
+		const std::string mAssets[14] =
 		{
+			"Pathcircles",
 			"Bench",
 			"CargoTrain",
 			"ConcreteWall",

@@ -20,6 +20,17 @@ namespace Library
 		TriggerBoxes.clear();
 	}
 
+	void Colliders::AddBoundingBox(BoundingBox* added)
+	{
+		BoundingBoxes.push_back(added);
+	}
+
+	std::vector<BoundingBox*> Colliders::GetBoundingBox()
+	{
+		return BoundingBoxes;
+	}
+
+
 	void Colliders::PushNewBoundingBox(BoundingBox* bbox)
 	{
 		BoundingBoxes.push_back(bbox);

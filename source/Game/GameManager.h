@@ -26,6 +26,8 @@ namespace Rendering
 		void StartScene(int sceneId);
 		std::vector<CollisionNode*> GetCurrentListOfNodes();
 		void SelectingUnits(long mouseX, long mouseY, bool selectSeveral);
+		void SelectingGrounds(long mouseX, long mouseY);
+		int GetCurrentSceneId();
 
 	private:
 		Game* game;
@@ -37,6 +39,7 @@ namespace Rendering
 		int mCurrentScene;
 
 		int GetSizeOfCurrentScene();
+
 	};
 }
 

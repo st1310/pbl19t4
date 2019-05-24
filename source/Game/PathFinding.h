@@ -1,6 +1,10 @@
 #pragma once
 #include <vector>
+#include <DirectXMath.h>
+#include "Colliders.h"
+#include "Common.h"
 
+using namespace Library;
 
 class PathFinding {
 public:
@@ -28,6 +32,8 @@ public:
 		sNode* parent;
 	};
 
+	Colliders* collider;
+
 	sNode * nodes = nullptr;
 	int nMapWidth = 10;
 	int nMapHeight =10;
@@ -35,6 +41,8 @@ public:
 	sNode *nodeStart = nullptr;
 	sNode *nodeEnd = nullptr;
 	sNode *currentNode = nullptr;
+
+	std::vector<XMFLOAT2> pathNodesPos;
 
 protected:
 

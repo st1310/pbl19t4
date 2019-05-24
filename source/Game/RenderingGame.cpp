@@ -26,7 +26,7 @@ namespace Rendering
 		mRenderStateHelper(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mGameManager(nullptr), buttonClicked(false)
+		mGameManager(nullptr), buttonClicked(false), unitActiveFlag(false)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -127,11 +127,23 @@ namespace Rendering
 		if(mKeyboard->WasKeyPressedThisFrame(DIK_6))
 			mGameManager->StartScene(PATHFINDER_TEST);
 
+		if (mMouse->WasButtonPressedThisFrame(MouseButtonsLeft))
+		{
+			if (mKeyboard->IsKeyHeldDown(DIKEYBOARD_LCONTROL)) {
+				mGameManager->SelectingUnits(mMouse->X(), mMouse->Y(), true);
+			}
+				
+			else {
+				mGameManager->SelectingUnits(mMouse->X(), mMouse->Y(), false);
+
+			}
+		}
+
 		if (mMouse->WasButtonPressedThisFrame(MouseButtonsRight))
 		{
-			if (mKeyboard->IsKeyHeldDown(DIKEYBOARD_LCONTROL))
-				mGameManager->SelectingUnits(mMouse->X(), mMouse->Y(), true);
-			else mGameManager->SelectingUnits(mMouse->X(), mMouse->Y(), false);
+			if (true) {
+				mGameManager->SelectingGrounds(mMouse->X(), mMouse->Y());
+			}
 		}
 
 		Game::Update(gameTime);
