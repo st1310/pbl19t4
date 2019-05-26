@@ -141,7 +141,7 @@ namespace Rendering
 
 		if (mMouse->WasButtonPressedThisFrame(MouseButtonsRight))
 		{
-			if (true) {
+			if (mGameManager->GetunitsReadyToMove()) {
 				mGameManager->SelectingGrounds(mMouse->X(), mMouse->Y());
 			}
 		}
@@ -167,6 +167,18 @@ namespace Rendering
 		mouseLabel << L"Mouse Position: " << mMouse->X() << ", "
 			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition);
+
+		if (true) {
+			std::wostringstream tmp1;
+			tmp1 << mGameManager->GetTargetPos().x<<" : "<< mGameManager->GetTargetPos().y << " : " << mGameManager->GetTargetPos().z;
+			mSpriteFont->DrawString(mSpriteBatch, tmp1.str().c_str(), XMFLOAT2(50.0f, 500.0f), Colors::Blue);
+		}
+
+		if (mGameManager->GetunitsReadyToMove()) {
+			std::wostringstream tmp;
+			tmp << "GroundActive";
+			mSpriteFont->DrawString(mSpriteBatch, tmp.str().c_str(), XMFLOAT2(50.0f, 300.0f), Colors::Blue);
+		}
 
 		if (mMouse->Y() > 295.0f && mMouse->Y() < 307.0f && mMouse->X() > 104.0f  && mMouse->X() < 200.0f) 
 		{

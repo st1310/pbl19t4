@@ -8,13 +8,16 @@
 #include "CreationKitLevel.h"
 #include "PathFinder_Test.h"
 
+
 namespace Rendering
 {
+	class PathFinding_Test;
+
 	class GameManager :
 		public DrawableGameComponent
 	{
 		RTTI_DECLARATIONS(GameManager, DrawableGameComponent)
-
+		
 	public:
 		GameManager(Game& game, Camera& camera);
 		~GameManager();
@@ -28,6 +31,14 @@ namespace Rendering
 		void SelectingUnits(long mouseX, long mouseY, bool selectSeveral);
 		void SelectingGrounds(long mouseX, long mouseY);
 		int GetCurrentSceneId();
+		bool GetunitsReadyToMove();
+		bool GetShowMousePosition();
+		float GetMouseX();
+		XMFLOAT3 GetTargetPos();
+		float GetMouseY();
+		bool GetTargetSet();
+		void SetTargetSet(bool value);
+		
 
 	private:
 		Game* game;
@@ -39,7 +50,15 @@ namespace Rendering
 		int mCurrentScene;
 
 		int GetSizeOfCurrentScene();
+		bool unitsReadyToMove;
+		bool targetSet;
 
+		//tests-remove after
+		float mouseX1, mouseY1;
+		bool ShowMousePosition;
+		XMFLOAT3 targetPos;
+		//PathFinding* pathfinding;
+		//PathFinder_Test pathfinding1;
 	};
 }
 

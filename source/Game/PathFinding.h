@@ -24,12 +24,14 @@ public:
 	struct sNode {
 		bool bObstacle = false;
 		bool bVisited = false;
+		bool bMouseCliked = false;
 		float fGlobalGoal;
 		float fLocalGoal;
 		int x;
 		int y;
 		std::vector<sNode*> vecNeighbours;
 		sNode* parent;
+		BoundingBox* bbox;
 	};
 
 	Colliders* collider;

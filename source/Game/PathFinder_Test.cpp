@@ -37,6 +37,20 @@ namespace Rendering
 
 	void PathFinder_Test::Update(const GameTime& gameTime) {
 
+		//if (gameManager->GetTargetSet()) {
+
+		//	GameObject* asset211 = gameObjectPusher->GetGameObjectByName(*mGame, *mCamera, "Bench");
+		//	asset211->mIsEdited = false;
+		//	XMFLOAT3 pos = gameManager->GetTargetPos();
+		//	asset211->Translate(pos.x, 0, pos.z);
+		//	this->AddUnitToList(asset211);
+		//	GameObjects.push_back(asset211);
+		//	pathfinding->nodes[indexNode].bObstacle = 0;
+		//	asset211->Initialize();
+
+		//	gameManager->SetTargetSet(false);
+		//}
+
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_Y))
 		{
 			pathfinding->currentNode = &pathfinding->nodes[indexNode];
@@ -143,6 +157,7 @@ namespace Rendering
 		mSpriteBatch->Begin();
 
 		std::wostringstream helpLabel;
+		std::wostringstream helpLabel22;
 
 		if (mChooseEndNode)
 		{
@@ -150,10 +165,24 @@ namespace Rendering
 			helpLabel << "\nChooseDestinationPoint: " << indexNode + 1;
 		}
 
+
 		mSpriteFont->DrawString(mSpriteBatch, helpLabel.str().c_str(), mTextPosition);
+		
 
 		mSpriteBatch->End();
 		mRenderStateHelper.RestoreAll();
+	}
+
+	void PathFinder_Test::SetEndNodePath(XMFLOAT3 positionValue) {
+		
+				GameObject* asset225 = gameObjectPusher->GetGameObjectByName(*mGame, *mCamera, "GreenSoldier");
+				asset225->mIsEdited = false;
+				asset225->Translate(positionValue.x, 0, positionValue.z);
+				GameObjects.push_back(asset225);
+				asset225->Initialize();
+				//pathfinding->currentNode = pathfinding->nodeEnd;
+		
+				
 	}
 
 }

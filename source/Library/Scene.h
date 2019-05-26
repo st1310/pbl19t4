@@ -28,13 +28,14 @@ namespace Library
 		void Clear();
 
 		int SceneId;
+		
 		std::vector<GameComponent*> GameObjects;
 		void SaveToFile();
 		std::vector<SerializableGameObject> LoadFromFile();
 
 		void rewriteListOfNodes(std::vector<CollisionNode*>& list);
 		std::vector<CollisionNode*> getListOfNode();
-
+		 
 		void ClearUnitList();
 		void AddUnitToList(DrawableGameComponent* unit);
 		void RewriteUnitList(std::vector<DrawableGameComponent*> newListOfUnits);

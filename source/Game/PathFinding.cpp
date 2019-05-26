@@ -25,8 +25,8 @@ bool PathFinding::OnUserCreate() {
 			nodes[y*nMapHeight + x].bObstacle = false;
 			nodes[y*nMapHeight + x].bVisited = false;
 			nodes[y*nMapHeight + x].parent = nullptr;
-			BoundingBox* bbox = new BoundingBox(XMFLOAT3(nodes[y*nMapWidth + x].x, .0f, nodes[y*nMapHeight + x].y), XMFLOAT3(3.f, 3.f, 3.f));
-			collider->AddBoundingBox(bbox);
+			nodes[y*nMapHeight + x].bbox = new BoundingBox(XMFLOAT3(nodes[y*nMapWidth + x].x, .0f, nodes[y*nMapHeight + x].y), XMFLOAT3(3.f, 3.f, 3.f));
+			collider->AddBoundingBox(nodes[y*nMapHeight + x].bbox);
 		}
 	}
 
