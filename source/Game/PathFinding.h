@@ -15,6 +15,9 @@ public:
 	int getMapWidth();
 	int getMapheight();
 
+	void setMapWidth(int value);
+	void setMapHeight(int value);
+
 	bool OnUserCreate();
 	bool Solve_AStar();
 	int howManyNodesToEnter();
@@ -45,6 +48,8 @@ public:
 	sNode *currentNode = nullptr;
 
 	std::vector<XMFLOAT2> pathNodesPos;
+
+	
 
 protected:
 

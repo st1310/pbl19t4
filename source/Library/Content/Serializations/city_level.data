@@ -51,13 +51,13 @@
 </ConcreteWall>
 <GreenSoldier>
    <Position>
-      <x= 35.50/>
+      <x= -30.00/>
       <y= 0.00/>
-      <z= 21.50/>
+      <z= 15.00/>
    </Position>
    <Rotation>
       <x= -90.00/>
-      <y= 129.50/>
+      <y= 90.0/>
       <z= 0.00/>
    </Rotation>
    <Scale>

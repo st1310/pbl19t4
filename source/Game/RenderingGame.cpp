@@ -141,9 +141,9 @@ namespace Rendering
 
 		if (mMouse->WasButtonPressedThisFrame(MouseButtonsRight))
 		{
-			if (mGameManager->GetunitsReadyToMove()) {
+			//if (mGameManager->GetunitsReadyToMove()) {
 				mGameManager->SelectingGrounds(mMouse->X(), mMouse->Y());
-			}
+		//	}
 		}
 
 		Game::Update(gameTime);
@@ -168,11 +168,7 @@ namespace Rendering
 			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition);
 
-		if (true) {
-			std::wostringstream tmp1;
-			tmp1 << mGameManager->GetTargetPos().x<<" : "<< mGameManager->GetTargetPos().y << " : " << mGameManager->GetTargetPos().z;
-			mSpriteFont->DrawString(mSpriteBatch, tmp1.str().c_str(), XMFLOAT2(50.0f, 500.0f), Colors::Blue);
-		}
+	
 
 		if (mGameManager->GetunitsReadyToMove()) {
 			std::wostringstream tmp;

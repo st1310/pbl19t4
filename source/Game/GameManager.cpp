@@ -14,12 +14,9 @@ namespace Rendering
 		mCurrentScene = CITY_LEVEL;
 		StartScene(mCurrentScene);
 		unitsReadyToMove = false;
-		mouseX1 = 0;
-		mouseY1 = 0;
 		ShowMousePosition = false;
 		targetPos = XMFLOAT3(0, 0, 0);
-		targetSet = false;
-		//pathfinding = new PathFinding();
+		
 	}
 
 	GameManager::~GameManager()
@@ -52,6 +49,7 @@ namespace Rendering
 		PathFinder_Test* pathFinder_Test = new PathFinder_Test(*game, *camera);
 		pathFinder_Test->BuildNodesStart({ 200.f, -100.f, -200.f }, { -200.f, 100.f, 200.f });
 		mScenes.push_back(pathFinder_Test);
+		
 	}
 
 	void GameManager::StartScene(int sceneId)
@@ -62,10 +60,15 @@ namespace Rendering
 		// Clear old scene
 		mScenes.at(mCurrentScene)->Clear();
 
+		pathfinding = new PathFinding();
+		pathfinding->setMapWidth(27);
+		pathfinding->setMapHeight(145);
+		pathfinding->OnUserCreate();
+
 		mCurrentScene = sceneId;
 
 		mScenes.at(sceneId)->Start(*game, *camera);
-
+		mScenes.at(sceneId)->SetGroudndCollider(pathfinding->collider);
 	}
 
 	int GameManager::GetSizeOfCurrentScene()
@@ -112,22 +115,13 @@ namespace Rendering
 		XMVECTOR TrF = XMVector3Transform(farPoint, invProjectionView);
 		TrF = XMVector3Normalize(TrF);
 
-		int boundingBoxId = 0;
-		////mScenes.at(mCurrentScene)->SetGroudn
 
 		for (BoundingBox* bbx: mScenes.at(mCurrentScene)->GetGroundCollider()->GetBoundingBox()) {
 			float farPlaneDistance = firstCam->FarPlaneDistance();
 			if (bbx->Intersects(firstCam->PositionVector(), TrF, farPlaneDistance)) {
 				
-				targetPos = bbx->Center;
-				targetSet = true;
-				//mScenes.at(5)->
-				//PathFinder_Test* pathFinder_Test1 = new PathFinder_Test(*game, *camera);
-				//mScenes.at(mCurrentScene)->GetGroundCollider()->GetBoundingBox().at()
-				//pathFinder_Test1->SetEndNodePath(targetPos);
+				targetPos = bbx->Center;	
 			}
-			boundingBoxId++;
-			//pathfinding
 		}
 	}
 
@@ -191,18 +185,6 @@ namespace Rendering
 		return ShowMousePosition;
 	}
 
-
-	float GameManager::GetMouseX() {
-		return mouseX1;
-	}
-
-	float GameManager::GetMouseY() {
-		return mouseY1;
-	}
-
-	XMFLOAT3 GameManager::GetTargetPos() {
-		return targetPos;
-	}
 	
 }
 

@@ -33,11 +33,7 @@ namespace Rendering
 		int GetCurrentSceneId();
 		bool GetunitsReadyToMove();
 		bool GetShowMousePosition();
-		float GetMouseX();
-		XMFLOAT3 GetTargetPos();
-		float GetMouseY();
-		bool GetTargetSet();
-		void SetTargetSet(bool value);
+
 		
 
 	private:
@@ -51,14 +47,11 @@ namespace Rendering
 
 		int GetSizeOfCurrentScene();
 		bool unitsReadyToMove;
-		bool targetSet;
 
 		//tests-remove after
-		float mouseX1, mouseY1;
 		bool ShowMousePosition;
 		XMFLOAT3 targetPos;
-		//PathFinding* pathfinding;
-		//PathFinder_Test pathfinding1;
+		PathFinding* pathfinding;
 	};
 }
 
