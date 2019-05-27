@@ -121,6 +121,30 @@ namespace Rendering
 			if (bbx->Intersects(firstCam->PositionVector(), TrF, farPlaneDistance)) {
 				
 				targetPos = bbx->Center;	
+				
+				int mapHeight = pathfinding->getMapheight();
+				int mapWidth = pathfinding->getMapWidth();
+				int pathFindingMapSize = mapHeight * mapWidth;
+
+				for (int j = 0; j < pathFindingMapSize; j++) {
+					if (pathfinding->nodes[j].x == targetPos.x && pathfinding->nodes[j].y == targetPos.z) {
+						pathfinding->nodeEnd = &pathfinding->nodes[j];
+						pathfinding->currentNode = pathfinding->nodeEnd;
+						pathfinding->Solve_AStar();
+
+						for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
+
+							GameObject* gameObject = (GameObject*)(mScenes.at(mCurrentScene)->GetUnitList().at(i));
+
+							if (gameObject->mIsSelected) {
+
+								XMFLOAT3 unitPosition = gameObject->getPosition();
+								std::vector<XMFLOAT2> nextPositions = std::vector<XMFLOAT2>();
+								nextPositions = pathfinding->GetPathNodesPosVector();
+							}
+						}
+					}
+				}
 			}
 		}
 	}

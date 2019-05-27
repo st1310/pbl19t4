@@ -47,10 +47,11 @@ public:
 	sNode *nodeEnd = nullptr;
 	sNode *currentNode = nullptr;
 
-	std::vector<XMFLOAT2> pathNodesPos;
-
 	
-
+	std::vector<XMFLOAT2> GetPathNodesPosVector();
+	
+private:
+	std::vector<XMFLOAT2> pathNodesPos;
 protected:
 
 	//bool OnUserCreate();

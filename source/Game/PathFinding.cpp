@@ -133,6 +133,10 @@ bool PathFinding::Solve_AStar() {
 	
 }
 
+std::vector<XMFLOAT2> PathFinding::GetPathNodesPosVector() {
+	return pathNodesPos;
+}
+
 int PathFinding::howManyNodesToEnter() {
 	
 	sNode* p = nodeEnd;
