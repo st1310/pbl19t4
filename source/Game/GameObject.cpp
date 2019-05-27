@@ -35,7 +35,7 @@ namespace Rendering
 		mSkinnedModel(nullptr), mAnimationPlayer(nullptr),
 		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false),
 		mKeyboard(nullptr),
-		mPosition(startPosition), mRotation(startRotation), mScale(startScale), mCollider(), inNode(nullptr)
+		mPosition(startPosition), mRotation(startRotation), mScale(startScale), mCollider(), inNode(nullptr), mState(new State()), objectToMove(false)
 	{
 	}
 
@@ -581,5 +581,17 @@ namespace Rendering
 		mCollider->BuildOBB(mPosition, radius, orientation);
 		if (inNode != nullptr)
 			inNode->AddStaticCollider(mCollider);
+	}
+
+	void GameObject::StartMoving(std::vector<XMFLOAT2> positions) {
+		mState->MoveInit(positions, mRotation.y, mTranslationSpeed, mRotationSpeed);
+	}
+
+	void GameObject::SetPathFindingMoveFlag(bool value) {
+		objectToMove = value;
+	}
+
+	bool GameObject::GetPathFindingMoveFlag() {
+		return objectToMove;
 	}
 }

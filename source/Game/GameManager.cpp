@@ -141,6 +141,8 @@ namespace Rendering
 								XMFLOAT3 unitPosition = gameObject->getPosition();
 								std::vector<XMFLOAT2> nextPositions = std::vector<XMFLOAT2>();
 								nextPositions = pathfinding->GetPathNodesPosVector();
+								gameObject->StartMoving(nextPositions);
+
 							}
 						}
 					}

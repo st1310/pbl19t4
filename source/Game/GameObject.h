@@ -2,6 +2,7 @@
 
 #include "DrawableGameComponent.h"
 #include "RenderStateHelper.h"
+#include "State.h"
 
 using namespace Library;
 
@@ -64,6 +65,10 @@ namespace Rendering
 		bool mIsSelected = false;
 		bool mIsEdited = false;
 
+		void StartMoving(std::vector<XMFLOAT2> positions);
+		void SetPathFindingMoveFlag(bool value);
+		bool GetPathFindingMoveFlag();
+
 	protected:
 		GameObject();
 		GameObject(const GameObject& rhs);
@@ -77,6 +82,16 @@ namespace Rendering
 		XMFLOAT3 mPosition;
 		XMFLOAT3 mRotation;
 		XMFLOAT3 mScale;
+
+		//little work around to fix rotation bug
+		XMFLOAT3 mOriginalPosition = XMFLOAT3(0, 0, 0);
+
+		//states
+		State* mState;
+		float mRotationSpeed;
+		float mTranslationSpeed;
+
+		bool mIsBusy = false;
 
 		KeyboardComponent* mKeyboard;
 
@@ -98,6 +113,8 @@ namespace Rendering
 
 		Colliders* mCollider;
 		CollisionNode* inNode;
+
+		bool objectToMove;
 
 		// Creation Kit		
 		std::string mEditMode = POSITION;
