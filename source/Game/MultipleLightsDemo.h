@@ -8,7 +8,9 @@ using namespace Library;
 namespace Library
 {
 	class KeyboardComponent;
+	class DirectionalLight;
 	class PointLight;
+	class SpotLight;
 	class ProxyModel;
 	class Effect;
 	class MultipleLightsMaterial;
@@ -59,7 +61,11 @@ namespace Rendering
 
 		KeyboardComponent* mKeyboard;
 
+		std::vector<DirectionalLight*> mDirectLights;
 		std::vector<PointLight*> mPointLights;
+		std::vector<SpotLight*> mSpotLights;
+		std::vector<ProxyModel*> mProxyModels;
+
 		XMCOLOR mAmbientColor;
 		XMCOLOR mSpecularColor;
 		float mSpecularPower;
@@ -70,6 +76,10 @@ namespace Rendering
 		std::vector<ID3D11Buffer*> mIndexBuffers;
 		std::vector<UINT> mIndexCounts;
 		std::vector<ID3D11ShaderResourceView*> mColorTextures;
+		std::vector<ID3D11ShaderResourceView*> mNormalTextures;
+
+		ID3D11BlendState* mBlendState;
+		RenderStateHelper mRenderStateHelper;
 
 		Model* mModel;
 	};

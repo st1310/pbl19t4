@@ -212,6 +212,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="NodeList.h" />
     <ClInclude Include="Pass.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="ProxyModel.h" />
     <ClInclude Include="RenderStateHelper.h" />
     <ClInclude Include="RTTI.h" />
     <ClInclude Include="Scene.h" />
@@ -264,6 +265,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="NodeList.cpp" />
     <ClCompile Include="Pass.cpp" />
     <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="ProxyModel.cpp" />
     <ClCompile Include="RenderStateHelper.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneNode.cpp" />

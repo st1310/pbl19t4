@@ -11,6 +11,7 @@ struct DIRECTIONAL_LIGHT
 {
 	float3 Direction;
     float4 Color;
+	bool Enabled;
 };
 
 struct POINT_LIGHT
@@ -24,11 +25,12 @@ struct POINT_LIGHT
 struct SPOT_LIGHT
 {
 	float3 Position;
-	float4 Direction;
+	float3 Direction;
 	float OuterAngle;
 	float InnerAngle;
 	float LightRadius;
 	float4 Color;
+	bool Enabled;
 };
 
 struct LIGHT_CONTRIBUTION_DATA
@@ -65,7 +67,7 @@ float3 get_scalar_color_contribution(float4 light, float color)
 	return light.rgb * light.a * color;
 }
 
-float4 get_light_data(float3 lightPosition, float3 worldPosition, float lightRadius)
+float4 get_point_light_data(float3 lightPosition, float3 worldPosition, float lightRadius)
 {
 	float4 lightData;
 	float3 lightDirection = lightPosition - worldPosition;
@@ -74,6 +76,29 @@ float4 get_light_data(float3 lightPosition, float3 worldPosition, float lightRad
 	lightData.w = saturate(1.0f - length(lightDirection) / lightRadius); // Attenuation
 
 	return lightData;
+}
+
+float4 get_spot_light_data(float3 lightPosition, float3 worldPosition, float outerAngle, float innerAngle, float lightRadius)
+{
+	float4 lightData;
+	float3 lightDirection = lightPosition - worldPosition;
+
+	lightData.xyz = normalize(lightDirection);
+	lightData.w = saturate(1.0f - length(lightDirection) / lightRadius); // Attenuation
+
+	return lightData;
+}
+
+float get_spot_factor(float lightAngle, float outerAngle, float innerAngle)
+{
+	if (lightAngle > 0.0f)
+	{
+    	return smoothstep(outerAngle, innerAngle, lightAngle);
+	}
+	else
+	{
+		return 0.0f;
+	}
 }
 
 float3 get_light_contribution(LIGHT_CONTRIBUTION_DATA IN)

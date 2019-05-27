@@ -6,7 +6,10 @@
 #include "../Library/Model.h"
 #include "Mesh.h"
 #include "ModelMaterial.h"
+#include "DirectionalLight.h"
 #include "PointLight.h"
+#include "SpotLight.h"
+#include "ProxyModel.h"
 #include "KeyboardComponent.h"
 #include "MultipleLightsMaterial.h"
 #include <WICTextureLoader.h>
@@ -27,9 +30,11 @@ namespace Rendering
 	MultipleLightsDemo::MultipleLightsDemo(Game& game, Camera& camera) :
 		DrawableGameComponent(game, camera),
 		mMaterial(nullptr), mEffect(nullptr), mWorldMatrix(Matrix::Identity),
-		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(),
-		mKeyboard(nullptr), mAmbientColor(1.0f, 1.0f, 1.0f, 0.5f)/*mAmbientColor(reinterpret_cast<const float*>(&Colors::White))*/, mPointLights(),
-		mSpecularColor(1.0f, 1.0f, 1.0f, 1.0f), mSpecularPower(25.0f), mModel(nullptr)
+		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(), mNormalTextures(),
+		mKeyboard(nullptr), mBlendState(), mRenderStateHelper(game),
+		mDirectLights(), mPointLights(), mSpotLights(), mProxyModels(),
+		mAmbientColor(1.0f, 1.0f, 1.0f, 0.2f)/*mAmbientColor(reinterpret_cast<const float*>(&Colors::White))*/,
+		mSpecularColor(1.0f, 1.0f, 1.0f, 0.5f), mSpecularPower(25.0f), mModel(nullptr)
 	{
 	}
 
@@ -50,14 +55,31 @@ namespace Rendering
 			ReleaseObject(colorTexture);
 		}
 
+		for (DirectionalLight* directLight : mDirectLights)
+		{
+			DeleteObject(directLight);
+		}
+
 		for (PointLight* pointLight : mPointLights)
 		{
 			DeleteObject(pointLight);
 		}
 
+		for (SpotLight* spotLight : mSpotLights)
+		{
+			DeleteObject(spotLight);
+		}
+
+		for (ProxyModel* proxyModel : mProxyModels)
+		{
+			DeleteObject(proxyModel);
+		}
+
 		DeleteObject(mModel);
 		DeleteObject(mMaterial);
 		DeleteObject(mEffect);
+
+		ReleaseObject(mBlendState);
 	}
 
 	void MultipleLightsDemo::Initialize()
@@ -65,7 +87,8 @@ namespace Rendering
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
 		// Load the model
-		mModel = new Model(*mGame, "Content\\Models\\Sphere.obj", true);
+		mModel = new Model(*mGame, "Content\\Models\\Sponza\\Sponza.fbx", true);
+		//mModel = new Model(*mGame, "Content\\Models\\Sphere.obj", true);
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
@@ -78,6 +101,7 @@ namespace Rendering
 		mIndexBuffers.resize(mModel->Meshes().size());
 		mIndexCounts.resize(mModel->Meshes().size());
 		mColorTextures.resize(mModel->Meshes().size());
+		mNormalTextures.resize(mModel->Meshes().size());
 		for (UINT i = 0; i < mModel->Meshes().size(); i++)
 		{
 			Mesh* mesh = mModel->Meshes().at(i);
@@ -93,52 +117,127 @@ namespace Rendering
 			mIndexCounts[i] = mesh->Indices().size();
 
 			ID3D11ShaderResourceView* colorTexture = nullptr;
+			ID3D11ShaderResourceView* normalTexture = nullptr;
 			ModelMaterial* material = mesh->GetMaterial();
 
-			/*if (material != nullptr && material->Textures().find(TextureTypeDifffuse) != material->Textures().cend())
+			if (material != nullptr && material->Textures().find(TextureTypeDifffuse) != material->Textures().cend())
 			{
 				std::vector<std::wstring>* diffuseTextures = material->Textures().at(TextureTypeDifffuse);
 				std::wstring filename = PathFindFileName(diffuseTextures->at(0).c_str());
 
 				std::wostringstream textureName;
-				textureName << L"Content\\Textures\\" << L"EarthComposite" << L".jpg";
+				textureName << L"Content\\Models\\Sponza\\" << filename;
 				HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &colorTexture);
 				if (FAILED(hr))
 				{
 					throw GameException("CreateWICTextureFromFile() failed.", hr);
 				}
-			}*/
-			std::wostringstream textureName;
-			textureName << L"Content\\Textures\\" << L"EarthComposite" << L".jpg";
-			HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &colorTexture);
-			if (FAILED(hr))
-			{
-				throw GameException("CreateWICTextureFromFile() failed.", hr);
 			}
 
+			if (material != nullptr && material->Textures().find(TextureTypeHeightmap) != material->Textures().cend())
+			{
+				std::vector<std::wstring>* normalTextures = material->Textures().at(TextureTypeHeightmap);
+				std::wstring filename = PathFindFileName(normalTextures->at(0).c_str());
+
+				std::wostringstream textureName;
+				textureName << L"Content\\Models\\Sponza\\" << filename;
+				HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &normalTexture);
+				if (FAILED(hr))
+				{
+					throw GameException("CreateWICTextureFromFile() failed.", hr);
+				}
+			}
+			//std::wostringstream textureName;
+			////textureName << L"Content\\Textures\\" << L"EarthComposite" << L".jpg";
+			//textureName << L"Content\\Models\\Sponza\\" << L"Lion_Albedo" << L".png";
+			//HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &colorTexture);
+			//if (FAILED(hr))
+			//{
+			//	throw GameException("CreateWICTextureFromFile() failed.", hr);
+			//}
+
+			//textureName.str(L"");
+			//textureName << L"Content\\Models\\Sponza\\" << L"Lion_Normal" << L".png";
+			//hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &normalTexture);
+			//if (FAILED(hr))
+			//{
+			//	throw GameException("CreateWICTextureFromFile() failed.", hr);
+			//}
+
 			mColorTextures[i] = colorTexture;
+			mNormalTextures[i] = normalTexture;
 		}
 
-		//XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(0.05f, 0.05f, 0.05f));
+		XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(0.06f, 0.06f, 0.06f));
 
 		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
 		assert(mKeyboard != nullptr);
+
+		// Blend state
+		D3D11_BLEND_DESC blendStateDesc{ 0 };
+		blendStateDesc.RenderTarget[0].BlendEnable = true;
+		blendStateDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		blendStateDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+		blendStateDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		blendStateDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO; // or _ONE
+		blendStateDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+		blendStateDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		blendStateDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+		mGame->Direct3DDevice()->CreateBlendState(&blendStateDesc, &mBlendState);
+
+		// Spot Lights
+		/*mSpotLights.push_back(new SpotLight(*mGame));
+
+		mSpotLights.at(0)->SetPosition(0.0f, 0.0f, 10.0f);
+		mSpotLights.at(0)->SetRadius(50.0f);*/
+
+		// Directional Lights
+		mDirectLights.push_back(new DirectionalLight(*mGame));
+		mDirectLights.back()->SetColor(Colors::AntiqueWhite - SimpleMath::Vector3(0.0f, 0.0f, 0.8f));
+		mDirectLights.back()->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(-90.0f)));
+		mDirectLights.back()->ApplyRotation(XMMatrixRotationZ(XMConvertToRadians(45.0f)));
+		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\DirectionalLightProxy.obj"));
+		mProxyModels.back()->SetPosition(XMFLOAT3(0.0f, 10.0f, 0.0f));
+		mProxyModels.back()->ApplyRotation(XMMatrixRotationY(XMConvertToRadians(90.0f))); // Init rotation to allign with Vector3::Forward
+		mProxyModels.back()->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(-90.0f)));
+		mProxyModels.back()->ApplyRotation(XMMatrixRotationZ(XMConvertToRadians(45.0f)));
+
+		/*mDirectLights.push_back(new DirectionalLight(*mGame));
+
+		mDirectLights.at(1)->ApplyRotation(XMMatrixRotationY(-90.0f));
+		mDirectLights.at(1)->SetColor(Colors::Red);*/
 		
+		// Point Lights
 		mPointLights.push_back(new PointLight(*mGame));
+		mPointLights.at(0)->SetRadius(40.0f);
+		mPointLights.at(0)->SetPosition(5.0f, 10.0f, -5.0f);
+		mPointLights.at(0)->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
+		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\PointLightProxy.obj"));
+		mProxyModels.back()->SetPosition(mPointLights.back()->Position());
+
 		mPointLights.push_back(new PointLight(*mGame));
+		mPointLights.at(1)->SetRadius(40.0f);
+		mPointLights.at(1)->SetPosition(-5.0f, 10.0f, 5.0f);
+		mPointLights.at(1)->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
+		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\PointLightProxy.obj"));
+		mProxyModels.back()->SetPosition(mPointLights.back()->Position());
 
-		mPointLights.at(0)->SetRadius(500.0f);
-		mPointLights.at(0)->SetPosition(5.0f, 5.0f, 10.0f);
-		mPointLights.at(0)->SetColor(Colors::Red);
-
-		mPointLights.at(1)->SetRadius(500.0f);
-		mPointLights.at(1)->SetPosition(-5.0f, -5.0f, 10.0f);
-		mPointLights.at(1)->SetColor(Colors::Green);
+		for (ProxyModel* proxy : mProxyModels)
+		{
+			proxy->Initialize();
+		}
 	}
 
 	void MultipleLightsDemo::Update(const GameTime& gameTime)
 	{
+		mPointLights.back()->SetPosition(mPointLights.back()->Position() + XMFLOAT3(sin(gameTime.TotalGameTime()) / 10, 0.0f, 0.0f));
+		mProxyModels.back()->SetPosition(mPointLights.back()->Position());
 
+		for (ProxyModel* proxy : mProxyModels)
+		{
+			proxy->Update(gameTime);
+		}
 	}
 
 	void MultipleLightsDemo::Draw(const GameTime& gameTime)
@@ -164,6 +263,7 @@ namespace Rendering
 			ID3D11Buffer* indexBuffer = mIndexBuffers[i];
 			UINT indexCount = mIndexCounts[i];
 			ID3D11ShaderResourceView* colorTexture = mColorTextures[i];
+			ID3D11ShaderResourceView* normalTexture = mNormalTextures[i];
 
 			direct3DDeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 			direct3DDeviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
@@ -174,7 +274,16 @@ namespace Rendering
 			mMaterial->SpecularPower() << mSpecularPower;
 			mMaterial->AmbientColor() << ambientColor;
 			mMaterial->ColorTexture() << colorTexture;
+			mMaterial->NormalTexture() << normalTexture;
 			mMaterial->CameraPosition() << mCamera->PositionVector();
+
+			for (size_t i = 0; i < mDirectLights.size(); i++)
+			{
+				ID3DX11EffectVariable* variable = mMaterial->DirectLights().GetVariable()->GetElement(i);
+				variable->GetMemberByName("Direction")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mDirectLights.at(i)->DirectionVector()));
+				variable->GetMemberByName("Color")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mDirectLights.at(i)->ColorVector()));
+				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
+			}
 
 			for (size_t i = 0; i < mPointLights.size(); i++)
 			{
@@ -185,9 +294,32 @@ namespace Rendering
 				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
 			}
 
+			for (size_t i = 0; i < mSpotLights.size(); i++)
+			{
+				ID3DX11EffectVariable* variable = mMaterial->SpotLights().GetVariable()->GetElement(i);
+				variable->GetMemberByName("Position")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mSpotLights.at(i)->PositionVector()));
+				variable->GetMemberByName("Direction")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mSpotLights.at(i)->DirectionVector()));
+				variable->GetMemberByName("OuterAngle")->AsScalar()->SetFloat(mSpotLights.at(i)->OuterAngle());
+				variable->GetMemberByName("InnerAngle")->AsScalar()->SetFloat(mSpotLights.at(i)->InnerAngle());
+				variable->GetMemberByName("LightRadius")->AsScalar()->SetFloat(mSpotLights.at(i)->Radius());
+				variable->GetMemberByName("Color")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mSpotLights.at(i)->ColorVector()));
+				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
+			}
+
+			//mRenderStateHelper.SaveAll();
+
+			//direct3DDeviceContext->OMSetBlendState(mBlendState, 0, 0xffffffff);
+
 			pass->Apply(0, direct3DDeviceContext);
 
 			direct3DDeviceContext->DrawIndexed(indexCount, 0, 0);
+
+			//mRenderStateHelper.RestoreAll();
+		}
+
+		for (ProxyModel* proxy : mProxyModels)
+		{
+			proxy->Draw(gameTime);
 		}
 	}
 }
