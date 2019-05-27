@@ -136,7 +136,7 @@ namespace Rendering
 
 							GameObject* gameObject = (GameObject*)(mScenes.at(mCurrentScene)->GetUnitList().at(i));
 
-							if (gameObject->mIsSelected) {
+							if (gameObject->getIsSelected()) {
 
 								XMFLOAT3 unitPosition = gameObject->getPosition();
 								std::vector<XMFLOAT2> nextPositions = std::vector<XMFLOAT2>();
@@ -174,6 +174,7 @@ namespace Rendering
 			if (greenSold->getCollider()->CheckColliderIntersecteByRay(firstCam->PositionVector(), TrF, firstCam->FarPlaneDistance()) && (!wasSelected))
 			{
 				greenSold->setSelection(true);
+				greenSold->setIsSelected(true);
 				//Will remove this later
 				greenSold->SetVisible(false);
 				wasSelected = true;
@@ -181,6 +182,7 @@ namespace Rendering
 			}
 			else if (greenSold->getCollider()->CheckColliderIntersecteByRay(firstCam->PositionVector(), TrF, firstCam->FarPlaneDistance()) && (selectSeveral)) {
 				greenSold->setSelection(true);
+				greenSold->setIsSelected(true);
 				//Will remove this later
 				greenSold->SetVisible(false);
 				wasSelected = true;
@@ -190,6 +192,7 @@ namespace Rendering
 			else if (!selectSeveral)
 			{
 				greenSold->setSelection(false);
+				greenSold->setIsSelected(false);
 				greenSold->SetVisible(true);
 				unitsReadyToMove = false;
 			}

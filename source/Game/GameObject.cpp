@@ -561,6 +561,14 @@ namespace Rendering
 		return inNode;
 	}
 
+	void GameObject::setIsSelected(bool value) {
+		mIsSelected = value;
+	}
+
+	bool GameObject::getIsSelected() {
+		return mIsSelected;
+	}
+
 	void GameObject::BuildBoundingBox(XMFLOAT3 radius)
 	{
 	}

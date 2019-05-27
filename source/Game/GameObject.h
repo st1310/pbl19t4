@@ -58,6 +58,9 @@ namespace Rendering
 		virtual void BuildBoundingBox(XMFLOAT3 radius);
 		void BuildOrientedBoundingBox(XMFLOAT3 radius, XMFLOAT4 orientation);
 
+		void setIsSelected(bool value);
+		bool getIsSelected();
+
 		bool mIsSelected = false;
 		bool mIsEdited = false;
 
