@@ -20,11 +20,6 @@ namespace Library
 		TriggerBoxes.clear();
 	}
 
-	void Colliders::AddBoundingBox(BoundingBox* added)
-	{
-		BoundingBoxes.push_back(added);
-	}
-
 	std::vector<BoundingBox*> Colliders::GetBoundingBox()
 	{
 		return BoundingBoxes;
@@ -76,9 +71,9 @@ namespace Library
 		
 		
 		XMFLOAT3 center, rad;
-		center.x = (maxVec.x + minVec.x) / 2;
-		center.y = (maxVec.y + minVec.y) / 2;
-		center.z = (maxVec.z + minVec.z) / 2;
+		center.x = (maxVec.x + minVec.x) * 0.5f;
+		center.y = (maxVec.y + minVec.y) * 0.5f;
+		center.z = (maxVec.z + minVec.z) * 0.5f;
 
 		rad.x = abs(maxVec.x - center.x);
 		rad.y = abs(maxVec.y - center.y);
@@ -108,9 +103,9 @@ namespace Library
 		FindMax(meshes, &minVec, &maxVec);
 
 		XMFLOAT3 center, rad;
-		center.x = (maxVec.x + minVec.x) / 2;
-		center.y = (maxVec.y + minVec.y) / 2;
-		center.z = (maxVec.z + minVec.z) / 2;
+		center.x = (maxVec.x + minVec.x) * 0.5f;
+		center.y = (maxVec.y + minVec.y) * 0.5f;
+		center.z = (maxVec.z + minVec.z) * 0.5f;
 
 		rad.x = abs(maxVec.x - center.x);
 		rad.y = abs(maxVec.y - center.y);
@@ -267,6 +262,83 @@ namespace Library
 			for (BoundingOrientedBox* obbox : OrrBoundingBox)
 			{
 				if (obbox->Intersects(origin, direct, distance))
+					return true;
+			}
+		}
+		return false;
+	}
+
+	bool Colliders::CheckColliderIntersectsByPlanes(XMVECTOR ray1, XMVECTOR ray2, XMVECTOR camPos, XMVECTOR camDir)
+	{
+		std::vector<XMVECTOR> planes;
+
+		//right slope
+		if (ray1.m128_f32[0] < ray2.m128_f32[0])
+		{
+			planes.push_back(XMVectorSet(1.0f, 0.f, -ray1.m128_f32[0], 0.f));
+			planes.push_back(XMVectorSet(-1.0f, 0.f, ray2.m128_f32[0], 0.f));
+		}
+		else
+		{
+			planes.push_back(XMVectorSet(1.0f, 0.f, -ray2.m128_f32[0], 0.f));
+			planes.push_back(XMVectorSet(-1.0f, 0.f, ray1.m128_f32[0], 0.f));
+		}
+
+
+		planes[0] = DirectX::Internal::XMPlaneTransform(planes[0], camDir, camPos);
+		planes[0] = XMPlaneNormalize(planes[0]);
+
+		//left slope
+		planes[1] = DirectX::Internal::XMPlaneTransform(planes[1], camDir, camPos);
+		planes[1] = XMPlaneNormalize(planes[1]);
+
+		if (ray1.m128_f32[1] < ray2.m128_f32[1])
+		{
+			planes.push_back(XMVectorSet(0.0f, 1.f, -ray1.m128_f32[1], 0.f));
+			planes.push_back(XMVectorSet(0.0f, -1.f, ray2.m128_f32[1], 0.f));
+		}
+		else
+		{
+			planes.push_back(XMVectorSet(0.0f, 1.f, -ray2.m128_f32[1], 0.f));
+			planes.push_back(XMVectorSet(0.0f, -1.f, ray1.m128_f32[1], 0.f));
+		}
+
+		//upper slope
+		planes[2] = DirectX::Internal::XMPlaneTransform(planes[2], camDir, camPos);
+		planes[2] = XMPlaneNormalize(planes[2]);
+
+		//lower slope
+		planes[3] = DirectX::Internal::XMPlaneTransform(planes[3], camDir, camPos);
+		planes[3] = XMPlaneNormalize(planes[3]);
+
+		//near and far slope
+		if (camDir.m128_f32[2] > 0)
+		{
+			planes.push_back(XMVectorSet(0.0f, 0.f, -1.0f, (camPos.m128_f32[2] - 0.5f)));
+			planes.push_back(XMVectorSet(0.0f, 0.f, 1.0f, -(camPos.m128_f32[2] + 1000.f)));
+		}
+		else
+		{
+			planes.push_back(XMVectorSet(0.0f, 0.f, 1.0f, -(camPos.m128_f32[2] + 0.5f)));
+			planes.push_back(XMVectorSet(0.0f, 0.f, -1.0f, (camPos.m128_f32[2] - 1000.f)));
+		}
+
+		planes[4] = DirectX::Internal::XMPlaneTransform(planes[4], camDir, camPos);
+		planes[4] = XMPlaneNormalize(planes[4]);
+
+		planes[5] = DirectX::Internal::XMPlaneTransform(planes[5], camDir, camPos);
+		planes[5] = XMPlaneNormalize(planes[5]);
+
+		for (BoundingBox* bbox : BoundingBoxes)
+		{
+			if (bbox->ContainedBy(planes[0], planes[1], planes[2], planes[3], planes[4], planes[5]) != DISJOINT)
+				return true;
+		}
+		if (!OrrBoundingBox.empty())
+		{
+			for (BoundingOrientedBox* obbox : OrrBoundingBox)
+			{
+				if (obbox->ContainedBy(planes[0], planes[1], planes[2], planes[3], planes[4], planes[5]) != DISJOINT)
 					return true;
 			}
 		}

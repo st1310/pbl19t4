@@ -63,6 +63,9 @@ namespace Rendering
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mMouseTextPosition;
 	
+		XMFLOAT2 mouse1Pos;
+		XMFLOAT2 mouse2Pos;
+		bool selectedOnce;
 
 		Colliders* mCollC;
 		Colliders* mCollTM;

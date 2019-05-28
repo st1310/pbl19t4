@@ -35,7 +35,7 @@ namespace Rendering
 		mSkinnedModel(nullptr), mAnimationPlayer(nullptr),
 		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false),
 		mKeyboard(nullptr),
-		mPosition(startPosition), mRotation(startRotation), mScale(startScale), mCollider(), inNode(nullptr)
+		mPosition(startPosition), mRotation(startRotation), mScale(startScale), mCollider(), inNode(nullptr), mustBeDestroyed(false)
 	{
 	}
 
@@ -43,6 +43,11 @@ namespace Rendering
 	{
 		mCollider = nullptr;
 		inNode = nullptr;
+	}
+
+	bool GameObject::IsMustBeDestroyed()
+	{
+		return mustBeDestroyed;
 	}
 
 	void GameObject::Initialize()

@@ -39,7 +39,10 @@ namespace Library
 		const ServiceContainer& Services() const;
 		const std::vector<CollisionNode*>& NodeList() const;
 
+		void ClearAndSetNodes(std::vector<CollisionNode*> nodes);
+
 		void SetNodesInFructum(std::vector<CollisionNode*> NodesInFructum);
+		std::vector<CollisionNode*> GetNodesInFructum();
 		void ChangeCameraMovementStatus(bool newStat);
 
 		virtual void Run();
@@ -48,6 +51,7 @@ namespace Library
 		virtual void Update(const GameTime& gameTime);
 		virtual void Draw(const GameTime& gameTime);
 
+		void RemoveComponent(GameComponent* removableGM);
 	protected:
 		virtual void InitializeWindow();
 		virtual void InitializeDirectX();

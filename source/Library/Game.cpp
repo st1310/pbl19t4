@@ -112,6 +112,17 @@ namespace Library
 		return mNode;
 	}
 
+	void Game::ClearAndSetNodes(std::vector<CollisionNode*> nodes)
+	{
+		mNode.clear();
+		mNode = nodes;
+	}
+
+	std::vector<CollisionNode*> Game::GetNodesInFructum()
+	{
+		return mNodesInFructum;
+	}
+
 	void Game::SetNodesInFructum(std::vector<CollisionNode*> NodesInFructum)
 	{
 		mNodesInFructum = NodesInFructum;
@@ -449,5 +460,12 @@ namespace Library
 	void Game::ChangeCameraMovementStatus(bool newStat)
 	{
 		cameraHasMoved = newStat;
+	}
+
+	void Game::RemoveComponent(GameComponent* removableGM)
+	{	
+			auto itrGmGO = std::find(mComponents.begin(), mComponents.end(), removableGM);
+			if (itrGmGO != mComponents.end())
+				mComponents.erase(itrGmGO);
 	}
 }

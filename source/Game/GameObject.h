@@ -32,6 +32,8 @@ namespace Rendering
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
 		~GameObject();
 
+		bool IsMustBeDestroyed();
+
 		virtual void Initialize() override;
 		virtual void Update(const GameTime& gameTime) override;
 		virtual void Draw(const GameTime& gameTime) override;
@@ -96,6 +98,7 @@ namespace Rendering
 		Colliders* mCollider;
 		CollisionNode* inNode;
 
+		bool mustBeDestroyed;
 		// Creation Kit		
 		std::string mEditMode = POSITION;
 		std::string mEditAxis = X_AXIS;

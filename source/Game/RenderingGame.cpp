@@ -127,23 +127,31 @@ namespace Rendering
 		if(mKeyboard->WasKeyPressedThisFrame(DIK_6))
 			mGameManager->StartScene(PATHFINDER_TEST);
 
+
 		if (mMouse->WasButtonPressedThisFrame(MouseButtonsLeft))
 		{
-			if (mKeyboard->IsKeyHeldDown(DIKEYBOARD_LCONTROL)) {
-				mGameManager->SelectingUnits(mMouse->X(), mMouse->Y(), true);
-			}
-				
-			else {
-				mGameManager->SelectingUnits(mMouse->X(), mMouse->Y(), false);
-
-			}
+			//mouse1Pos = XMFLOAT2({ mMouse->X(), mMouse->Y()});
+			mouse1Pos.x = 0.0f + mMouse->X();
+			mouse1Pos.y = 0.0f + mMouse->Y();
+			selectedOnce = false;
+		}
+		else if (mMouse->IsButtonHeldDown(MouseButtonsLeft) && mKeyboard->IsKeyDown(DIK_LCONTROL))
+		{
+			//mouse2Pos = XMFLOAT2({ mMouse->X(), mMouse->Y()});
+			mouse2Pos.x = 0.0f + mMouse->X();
+			mouse2Pos.y = 0.0f + mMouse->Y();
+			selectedOnce = true;
+		}
+		else if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft))
+		{
+			if (selectedOnce)
+				mGameManager->SelectingUnits(mouse1Pos.x, mouse1Pos.y, mouse2Pos.x, mouse2Pos.y);
+			else  mGameManager->SelectingUnits(mouse1Pos.x, mouse1Pos.y);
 		}
 
 		if (mMouse->WasButtonPressedThisFrame(MouseButtonsRight))
 		{
-			if (true) {
-				mGameManager->SelectingGrounds(mMouse->X(), mMouse->Y());
-			}
+				//mGameManager->SelectingGrounds(mMouse->X(), mMouse->Y());
 		}
 
 		Game::Update(gameTime);

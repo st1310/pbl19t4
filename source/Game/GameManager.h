@@ -25,10 +25,11 @@ namespace Rendering
 
 		void StartScene(int sceneId);
 		std::vector<CollisionNode*> GetCurrentListOfNodes();
-		void SelectingUnits(long mouseX, long mouseY, bool selectSeveral);
 		void SelectingGrounds(long mouseX, long mouseY);
 		int GetCurrentSceneId();
 
+		void SelectingUnits(float mouseX, float mouseY);
+		void SelectingUnits(float mouse1X, float mouse1Y, float mouse2X, float mouse2Y);
 	private:
 		Game* game;
 		Camera* camera;

@@ -1,5 +1,5 @@
 #include "GameManager.h"
-
+#include "NodeList.h"
 
 namespace Rendering
 {
@@ -60,6 +60,7 @@ namespace Rendering
 
 		mScenes.at(sceneId)->Start(*game, *camera);	
 		
+		this->game->ClearAndSetNodes(mScenes.at(sceneId)->getListOfNode());
 	}
 
 	int GameManager::GetSizeOfCurrentScene()
@@ -71,6 +72,24 @@ namespace Rendering
 	{
 		mScenes[mCurrentScene]->Update(gameTime);
 
+		//For later - have different vector for objects, that can "die" during dynamic gameplay?
+		for (GameComponent* remCmp : mScenes[mCurrentScene]->GetUnitList())
+		{
+			GreenSoldier* grnSold = remCmp->As<GreenSoldier>();
+			if (grnSold->IsMustBeDestroyed())
+			{
+				auto itrScGO = std::find(mScenes[mCurrentScene]->GameObjects.begin(), mScenes[mCurrentScene]->GameObjects.end(), remCmp);
+
+				if (itrScGO != mScenes[mCurrentScene]->GameObjects.end())
+					mScenes[mCurrentScene]->GameObjects.erase(itrScGO);
+
+				//No, we can't use the same iterator - because their variable type bound to which vector we are declaring it for
+				game->RemoveComponent(remCmp);
+				mScenes[mCurrentScene]->RemoveUnitFromList(grnSold);
+				remCmp->~GameComponent();
+			}
+		}
+
 		for(int i =0; i <  GetSizeOfCurrentScene(); i++)
 			mScenes[mCurrentScene]->GameObjects[i]->Update(gameTime);
 	}
@@ -81,7 +100,10 @@ namespace Rendering
 		{
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
-				drawableGameComponent->Draw(gameTime);
+				if(drawableGameComponent->getNode() == nullptr)
+					drawableGameComponent->Draw(gameTime);
+				else if(NodeList::IsNodeInsideList(drawableGameComponent->getNode(), this->game->GetNodesInFructum()))
+					drawableGameComponent->Draw(gameTime);
 		}
 
 		mScenes[mCurrentScene]->Draw(gameTime);
@@ -109,6 +131,7 @@ namespace Rendering
 
 		//mScenes.at(mCurrentScene)->SetGroudn
 
+		if (mScenes.at(mCurrentScene) != nullptr)
 		for (BoundingBox* bbx: mScenes.at(mCurrentScene)->GetGroundCollider()->GetBoundingBox()) {
 			float farPlaneDistance = firstCam->FarPlaneDistance();
 			if (bbx->Intersects(firstCam->PositionVector(), TrF, farPlaneDistance)) {
@@ -119,7 +142,7 @@ namespace Rendering
 		}
 	}
 
-	void GameManager::SelectingUnits(long mouseX, long mouseY, bool selectSeveral)
+	void GameManager::SelectingUnits(float mouseX, float mouseY)
 	{
 		FirstPersonCamera* firstCam = camera->As<FirstPersonCamera>();
 
@@ -141,23 +164,62 @@ namespace Rendering
 			{
 				GreenSoldier* greenSold = gmCm->As<GreenSoldier>();
 
-				if (greenSold->getCollider()->CheckColliderIntersecteByRay(firstCam->PositionVector(), TrF, firstCam->FarPlaneDistance()) && (!wasSelected || selectSeveral))
+				if (greenSold->getCollider()->CheckColliderIntersecteByRay(firstCam->PositionVector(), TrF, firstCam->FarPlaneDistance()) && (!wasSelected))
 				{
 					greenSold->setSelection(true);
 					//Will remove this later
 					greenSold->SetVisible(false);
 					wasSelected = true;
-
 				}
-				else if (!selectSeveral)
+				else
 				{
 					greenSold->setSelection(false);
 					greenSold->SetVisible(true);
-
 				}
 
 			}
+	}
+
+	void GameManager::SelectingUnits(float mouse1X, float mouse1Y, float mouse2X, float mouse2Y)
+	{
+		FirstPersonCamera* firstCam = camera->As<FirstPersonCamera>();
+
+		XMMATRIX viewProj = firstCam->ViewProjectionMatrix();
+		XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);
+
+		float x1 = (((2.0f * mouse1X) / (float)game->ScreenWidth()) - 1.0f);
+		float y1 = (((2.0f * mouse1Y) / (float)game->ScreenHeight()) - 1.0f) * (-1.0f);
+
+		float x2 = (((2.0f * mouse2X) / (float)game->ScreenWidth()) - 1.0f);
+		float y2 = (((2.0f * mouse2Y) / (float)game->ScreenHeight()) - 1.0f) * (-1.0f);
+
+		XMVECTOR farPoint = XMVECTOR({ x1, y1, 1.0f, 0.0f });
+		XMVECTOR Tr1F = XMVector3Transform(farPoint, invProjectionView);
+		Tr1F = XMVector3Normalize(Tr1F);
+
+		farPoint = XMVECTOR({ x2, y2, 1.0f, 0.0f });
+		XMVECTOR Tr2F = XMVector3Transform(farPoint, invProjectionView);
+		Tr2F = XMVector3Normalize(Tr2F);
+
+		//For now - this is the prototype of checking if mouse clicked in right position
+		for (GameComponent* gmCm : mScenes.at(mCurrentScene)->GetUnitList())
+		{
+			GreenSoldier* greenSold = gmCm->As<GreenSoldier>();
+
+			if (greenSold->getCollider()->CheckColliderIntersectsByPlanes(Tr1F, Tr2F, firstCam->PositionVector(), firstCam->DirectionVector()))
+			{
+				greenSold->setSelection(true);
+				//Will remove this later
+				greenSold->SetVisible(false);
+			}
+			else
+			{
+				//greenSold->setSelection(false);
+				//greenSold->SetVisible(true);
+			}
+
 		}
+	}
 		
 	int GameManager::GetCurrentSceneId() {
 		return  mCurrentScene;

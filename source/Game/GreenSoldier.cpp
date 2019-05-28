@@ -53,7 +53,7 @@ namespace Rendering
 			{
 			case Library::POLICE_CATCHING:
 				//Remove from corresponding tables - GameObjects and listOfSoldiers
-				this->~GreenSoldier();
+				mustBeDestroyed = true;
 				break;
 			case Library::PAINT:
 				//Remove paint if right unit
