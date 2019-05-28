@@ -171,6 +171,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Library\GUI.cpp" />
     <ClCompile Include="Bench.cpp" />
     <ClCompile Include="CargoTrain.cpp" />
     <ClCompile Include="CityLevel.cpp" />
@@ -212,6 +213,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="TrainLevel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Library\GUI.h" />
     <ClInclude Include="AssetList.h" />
     <ClInclude Include="Bench.h" />
     <ClInclude Include="CargoTrain.h" />

@@ -162,6 +162,9 @@
     <ClCompile Include="PoliceCar.cpp">
       <Filter>Assets\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\Library\GUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PassengerTrain.h">
@@ -280,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="PoliceCar.h">
       <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Library\GUI.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

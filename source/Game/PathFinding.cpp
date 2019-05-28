@@ -26,7 +26,7 @@ bool PathFinding::OnUserCreate() {
 			nodes[y*nMapWidth + x].bVisited = false;
 			nodes[y*nMapWidth + x].parent = nullptr;
 			nodes[y*nMapWidth + x].bbox = new BoundingBox(XMFLOAT3(nodes[y*nMapWidth + x].x, .0f, nodes[y*nMapWidth + x].y), XMFLOAT3(1.f, 1.f, 1.f));
-			collider->AddBoundingBox(nodes[y*nMapWidth + x].bbox);
+			collider->PushNewBoundingBox(nodes[y*nMapWidth + x].bbox);
 		}
 	}
 
@@ -120,17 +120,24 @@ bool PathFinding::Solve_AStar() {
 
 	//XMFLOAT2 nodePos = new XMFLOAT2(nodeEnd->x, nodeEnd->y);
 	
-	while (true) 
+	XMFLOAT2 pos;
+	pos = XMFLOAT2(currentNode->x, currentNode->y);		//firstly we have to add endNode to position's list
+	pathNodesPos.push_back(pos);
+
+	while (true)										//then others by theirs parents to the start point
 	{
 		if (this->currentNode->parent != nullptr) 
 		{
 			this->currentNode = this->currentNode->parent;
-			XMFLOAT2 pos = XMFLOAT2(currentNode->x, currentNode->y);
+			pos = XMFLOAT2(currentNode->x, currentNode->y);
 			pathNodesPos.push_back(pos);
 		}
 			
-		else
+		else {
+			std::reverse(pathNodesPos.begin(), pathNodesPos.end());
 			return true;
+		}
+			
 	}	
 }
 

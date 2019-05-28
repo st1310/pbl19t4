@@ -15,6 +15,7 @@
 #include "AnimatedGameObject.h"
 #include "Utility.h"
 #include "NodeList.h"
+#include <WICTextureLoader.h>
 
 namespace Rendering
 {
@@ -26,7 +27,8 @@ namespace Rendering
 		mRenderStateHelper(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mGameManager(nullptr), buttonClicked(false), unitActiveFlag(false)
+		mGameManager(nullptr), buttonClicked(false), unitActiveFlag(false), mUnitGuiTexture(nullptr),
+		mUnitGuiTextureBlack(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -76,6 +78,18 @@ namespace Rendering
 
 		mSpriteBatch = new SpriteBatch(mDirect3DDeviceContext);
 		mSpriteFont = new SpriteFont(mDirect3DDevice, L"Content\\Fonts\\Arial_14_Regular.spritefont");
+
+		std::wostringstream textureName;
+		textureName << L"content\\Textures\\pepeColor.png";
+
+		std::wostringstream textureName1;
+		textureName1 << L"content\\Textures\\pepeBlack.png";
+
+		HRESULT hr = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &mUnitGuiTexture);
+		HRESULT hr1 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName1.str().c_str(), nullptr, &mUnitGuiTextureBlack);
+
+		if (FAILED(hr))
+			throw GameException("CreateWICTextureFromFile() failed.", hr);
 
 		Game::Initialize();
 
@@ -168,7 +182,15 @@ namespace Rendering
 			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition);
 
-	
+		if (true) {
+			//mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(0.0f, 660.0f, 120.0f, 120.0f));
+			mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(0, 660.0f, 120.0f, 120.0f));
+			mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(50.0f, 660.0f, 120.0f, 120.0f));
+			mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(100.0f, 660.0f, 120.0f, 120.0f));
+			mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(150.0f, 660.0f, 120.0f, 120.0f));
+			mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(200.0f, 660.0f, 120.0f, 120.0f));
+			mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(250.0f, 660.0f, 120.0f, 120.0f));
+		}
 
 		if (mGameManager->GetunitsReadyToMove()) {
 			std::wostringstream tmp;

@@ -61,6 +61,8 @@ namespace Rendering
 
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
+		ID3D11ShaderResourceView* mUnitGuiTexture;
+		ID3D11ShaderResourceView* mUnitGuiTextureBlack;
 		XMFLOAT2 mMouseTextPosition;
 	
 

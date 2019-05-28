@@ -10,10 +10,16 @@ namespace Rendering
 	{
 	public:
 		FarbaMan(Game& game, Camera& camera,
-			XMFLOAT3 startPosition = XMFLOAT3(0, 0, 0),
+			XMFLOAT3 startPosition = XMFLOAT3(0, -2.5, 0),
 			XMFLOAT3 startRotation = XMFLOAT3(-90, 0, 0),
-			XMFLOAT3 startScale = XMFLOAT3(0.05, 0.05, 0.05));
+			XMFLOAT3 startScale = XMFLOAT3(0.02, 0.02, 0.02));
 		~FarbaMan();
+
+		virtual void Initialize() override;
+
+		void setSelection(bool selection);
+		bool getIsSelected();
+		virtual void CheckTriggers() override;
 
 	private:
 		bool isSelected = false;
