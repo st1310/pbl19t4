@@ -43,14 +43,15 @@ namespace Rendering
 
 			std::string className = gameObjects.at(i).GetAssetClassName();
 
-			if (className == "Pathcircles") {
-				Pathcircles* pathcircles = new Pathcircles(game, camera,
+			if (className == "Bench")
+			{
+				Bench* bench = new Bench(game, camera,
 					gameObjects.at(i).GetPosition(),
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				pathcircles->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-				assets.push_back(pathcircles);
+				bench->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(bench);
 			}
 
 			if (className == "CargoTrain")
@@ -64,62 +65,6 @@ namespace Rendering
 				assets.push_back(cargoTrain);
 			}
 
-			if (className == "PassengerTrain")
-			{
-				PassengerTrain* passengerTrain = new PassengerTrain(game, camera,
-					gameObjects.at(i).GetPosition(),
-					gameObjects.at(i).GetRotation(),
-					gameObjects.at(i).GetScale());
-
-				passengerTrain->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-				assets.push_back(passengerTrain);
-			}
-
-			if (className == "GreenSoldier")
-			{
-				GreenSoldier* greenSoldier = new GreenSoldier(game, camera,
-					gameObjects.at(i).GetPosition(),
-					gameObjects.at(i).GetRotation(),
-					gameObjects.at(i).GetScale());
-
-				greenSoldier->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-				assets.push_back(greenSoldier);
-				listOfSoldiers.push_back(greenSoldier);
-			}
-
-			if (className == "Policeman")
-			{
-				Policeman* policeman = new Policeman(game, camera,
-					gameObjects.at(i).GetPosition(),
-					gameObjects.at(i).GetRotation(),
-					gameObjects.at(i).GetScale());
-
-				policeman->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-				assets.push_back(policeman);
-			}
-
-			if (className == "Track")
-			{
-				Track* track = new Track(game, camera,
-					gameObjects.at(i).GetPosition(),
-					gameObjects.at(i).GetRotation(),
-					gameObjects.at(i).GetScale());
-
-				track->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-				assets.push_back(track);
-			}
-
-			if (className == "Bench")
-			{
-				Bench* bench = new Bench(game, camera,
-					gameObjects.at(i).GetPosition(),
-					gameObjects.at(i).GetRotation(),
-					gameObjects.at(i).GetScale());
-
-				bench->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-				assets.push_back(bench);
-			}
-
 			if (className == "ConcreteWall")
 			{
 				ConcreteWall* concreteWall = new ConcreteWall(game, camera,
@@ -130,50 +75,6 @@ namespace Rendering
 				concreteWall->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 
 				assets.push_back(concreteWall);
-			}
-
-			if (className == "StoneGround")
-			{
-				StoneGround* stoneGround = new StoneGround(game, camera,
-					gameObjects.at(i).GetPosition(),
-					gameObjects.at(i).GetRotation(),
-					gameObjects.at(i).GetScale());
-
-				stoneGround->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-				assets.push_back(stoneGround);
-			}
-
-			if (className == "GrassGround")
-			{
-				GrassGround* grassGround = new GrassGround(game, camera,
-					gameObjects.at(i).GetPosition(),
-					gameObjects.at(i).GetRotation(),
-					gameObjects.at(i).GetScale());
-
-				grassGround->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-				assets.push_back(grassGround);
-			}
-
-			if (className == "PlatformGround1")
-			{
-				PlatformGround1* platformGround1 = new PlatformGround1(game, camera,
-					gameObjects.at(i).GetPosition(),
-					gameObjects.at(i).GetRotation(),
-					gameObjects.at(i).GetScale());
-
-				platformGround1->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-				assets.push_back(platformGround1);
-			}
-
-			if (className == "PlatformGround2")
-			{
-				PlatformGround2* platformGround2 = new PlatformGround2(game, camera,
-					gameObjects.at(i).GetPosition(),
-					gameObjects.at(i).GetRotation(),
-					gameObjects.at(i).GetScale());
-
-				platformGround2->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-				assets.push_back(platformGround2);
 			}
 
 			if (className == "DoubleStreetLampPost")
@@ -200,6 +101,185 @@ namespace Rendering
 				assets.push_back(doubleStreetLampPostWithMegaphone);
 			}
 
+			if (className == "FarbaMan")
+			{
+				FarbaMan* farbaMan = new FarbaMan(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				farbaMan->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+
+				assets.push_back(farbaMan);
+			}
+
+			if (className == "GrassGround")
+			{
+				GrassGround* grassGround = new GrassGround(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				grassGround->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(grassGround);
+			}
+
+			if (className == "GrassGroundNew")
+			{
+				GrassGroundNew* grassGroundNew = new GrassGroundNew(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				grassGroundNew->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(grassGroundNew);
+			}
+
+			if (className == "GreenSoldier")
+			{
+				GreenSoldier* greenSoldier = new GreenSoldier(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				greenSoldier->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(greenSoldier);
+				listOfSoldiers.push_back(greenSoldier);
+			}
+
+			if (className == "Information")
+			{
+				Information* information = new Information(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				information->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(information);
+			}
+
+			if (className == "InformationBoard")
+			{
+				InformationBoard* informationBoard = new InformationBoard(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				informationBoard->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(informationBoard);
+			}
+
+			if (className == "OverheadLines")
+			{
+				OverheadLines* overheadLines = new OverheadLines(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				overheadLines->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(overheadLines);
+				listOfSoldiers.push_back(overheadLines);
+			}
+
+			if (className == "PassengerTrain")
+			{
+				PassengerTrain* passengerTrain = new PassengerTrain(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				passengerTrain->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(passengerTrain);
+			}
+
+			if (className == "Pathcircles")
+			{
+				Pathcircles* pathcircles = new Pathcircles(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				pathcircles->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(pathcircles);
+			}
+
+			if (className == "PlatformGround1")
+			{
+				PlatformGround1* platformGround1 = new PlatformGround1(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				platformGround1->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(platformGround1);
+			}
+
+			if (className == "PlatformGround2")
+			{
+				PlatformGround2* platformGround2 = new PlatformGround2(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				platformGround2->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(platformGround2);
+			}
+
+			if (className == "PlatformNumber1")
+			{
+				PlatformNumber1* platformNumber1 = new PlatformNumber1(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				platformNumber1->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(platformNumber1);
+			}
+
+			if (className == "PlatformNumber2And3")
+			{
+				PlatformNumber2And3* platformNumber2And3 = new PlatformNumber2And3(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				platformNumber2And3->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(platformNumber2And3);
+			}
+
+			if (className == "PlatformNumber4")
+			{
+				PlatformNumber4* platformNumber4 = new PlatformNumber4(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				platformNumber4->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(platformNumber4);
+			}
+
+			if (className == "PoliceCar")
+			{
+				PoliceCar* policeCar = new PoliceCar(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				policeCar->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(policeCar);
+			}
+
+			if (className == "Policeman")
+			{
+				Policeman* policeman = new Policeman(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				policeman->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(policeman);
+			}
+
 			if (className == "SingleStreetLampPost")
 			{
 				SingleStreetLampPost* singleStreetLampPost = new SingleStreetLampPost(game, camera,
@@ -208,8 +288,29 @@ namespace Rendering
 					gameObjects.at(i).GetScale());
 
 				singleStreetLampPost->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-
 				assets.push_back(singleStreetLampPost);
+			}
+
+			if (className == "StoneGround")
+			{
+				StoneGround* stoneGround = new StoneGround(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				stoneGround->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(stoneGround);
+			}
+
+			if (className == "Track")
+			{
+				Track* track = new Track(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				track->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(track);
 			}
 		}
 
@@ -218,77 +319,22 @@ namespace Rendering
 
 	GameObject* GameObjectPusher::GetGameObjectByName(Game& game, Camera& camera, std::string className)
 	{
-		if (className == "CargoTrain")
-		{
-			CargoTrain* cargoTrain = new CargoTrain(game, camera);
-			return cargoTrain;
-		}
-
-		if (className == "PassengerTrain")
-		{
-			PassengerTrain* passengerTrain = new PassengerTrain(game, camera);
-			return passengerTrain;
-		}
-
-		if (className == "Pathcircles")
-		{
-			Pathcircles* pathcircles = new Pathcircles(game, camera);
-			return pathcircles;
-		}
-
-		if (className == "GreenSoldier")
-		{
-			GreenSoldier* greenSoldier = new GreenSoldier(game, camera);
-			return greenSoldier;
-		}
-
-		if (className == "Policeman")
-		{
-			//Policeman* policeman = new Policeman(game, camera);
-			Policeman* policeman = new Policeman(game, camera);
-			return policeman;
-		}
-
-		if (className == "Track")
-		{
-			Track* track = new Track(game, camera);
-			return track;
-		}
-
 		if (className == "Bench")
 		{
 			Bench* bench = new Bench(game, camera);
 			return bench;
 		}
 
+		if (className == "CargoTrain")
+		{
+			CargoTrain* cargoTrain = new CargoTrain(game, camera);
+			return cargoTrain;
+		}
+
 		if (className == "ConcreteWall")
 		{
 			ConcreteWall* concreteWall = new ConcreteWall(game, camera);
 			return concreteWall;
-		}
-
-		if (className == "StoneGround")
-		{
-			StoneGround* stoneGround = new StoneGround(game, camera);
-			return stoneGround;
-		}
-
-		if (className == "GrassGround")
-		{
-			GrassGround* grassGround = new GrassGround(game, camera);
-			return grassGround;
-		}
-
-		if (className == "PlatformGround1")
-		{
-			PlatformGround1* platformGround1 = new PlatformGround1(game, camera);
-			return platformGround1;
-		}
-
-		if (className == "PlatformGround2")
-		{
-			PlatformGround2* platformGround2 = new PlatformGround2(game, camera);
-			return platformGround2;
 		}
 
 		if (className == "DoubleStreetLampPost")
@@ -303,10 +349,119 @@ namespace Rendering
 			return doubleStreetLampPostWithMegaphone;
 		}
 
+		if (className == "FarbaMan")
+		{
+			FarbaMan* farbaMan = new FarbaMan(game, camera);
+			return farbaMan;
+		}
+
+		if (className == "GrassGround")
+		{
+			GrassGround* grassGround = new GrassGround(game, camera);
+			return grassGround;
+		}
+
+		if (className == "GrassGroundNew")
+		{
+			GrassGroundNew* grassGroundNew = new GrassGroundNew(game, camera);
+			return grassGroundNew;
+		}
+
+		if (className == "GreenSoldier")
+		{
+			GreenSoldier* greenSoldier = new GreenSoldier(game, camera);
+			return greenSoldier;
+		}
+
+		if (className == "Information")
+		{
+			Information* information = new Information(game, camera);
+			return information;
+		}
+
+		if (className == "InformationBoard")
+		{
+			InformationBoard* informationBoard = new InformationBoard(game, camera);
+			return informationBoard;
+		}
+
+		if (className == "OverheadLines")
+		{
+			OverheadLines* overheadLines = new OverheadLines(game, camera);
+			return overheadLines;
+		}
+
+		if (className == "PassengerTrain")
+		{
+			PassengerTrain* passengerTrain = new PassengerTrain(game, camera);
+			return passengerTrain;
+		}
+
+		if (className == "Pathcircles")
+		{
+			Pathcircles* pathcircles = new Pathcircles(game, camera);
+			return pathcircles;
+		}
+
+		if (className == "PlatformGround1")
+		{
+			PlatformGround1* platformGround1 = new PlatformGround1(game, camera);
+			return platformGround1;
+		}
+
+		if (className == "PlatformGround2")
+		{
+			PlatformGround2* platformGround2 = new PlatformGround2(game, camera);
+			return platformGround2;
+		}
+
+		if (className == "PlatformNumber1")
+		{
+			PlatformNumber1* platformNumber1 = new PlatformNumber1(game, camera);
+			return platformNumber1;
+		}
+
+		if (className == "PlatformNumber2And3")
+		{
+			PlatformNumber2And3* platformNumber2And3 = new PlatformNumber2And3(game, camera);
+			return platformNumber2And3;
+		}
+
+		if (className == "PlatformNumber4")
+		{
+			PlatformNumber4* platformNumber4 = new PlatformNumber4(game, camera);
+			return platformNumber4;
+		}
+
+		if (className == "PoliceCar")
+		{
+			PoliceCar* policeCar = new PoliceCar(game, camera);
+			return policeCar;
+		}
+
+		if (className == "Policeman")
+		{
+			//Policeman* policeman = new Policeman(game, camera);
+			Bench* policeman = new Bench(game, camera);
+			return policeman;
+		}
+
 		if (className == "SingleStreetLampPost")
 		{
 			SingleStreetLampPost* singleStreetLampPost = new SingleStreetLampPost(game, camera);
 			return singleStreetLampPost;
+		}
+
+		if (className == "StoneGround")
+		{
+			StoneGround* stoneGround = new StoneGround(game, camera);
+			return stoneGround;
+		}
+
+		if (className == "Track")
+		{
+			Track* track = new Track(game, camera);
+			return track;
 		}
 
 		else
