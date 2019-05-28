@@ -23,6 +23,9 @@ namespace Library
 		{
 			XMFLOAT3 result = XMFLOAT3(mXDistancePerFrame, 0, mYDistancePerFrame);
 			mCurrentFrameNumber++;
+			mCurrentXPosition += mXDistancePerFrame;
+			mCurrentYPosition += mYDistancePerFrame;
+
 			return result;
 		}
 
@@ -64,9 +67,12 @@ namespace Library
 		return result;
 	}
 
-	void State::MoveInit(std::vector<XMFLOAT2> positions, float rotation, float translationSpeed, float rotationSpeed)
+	void State::MoveInit(XMFLOAT2 currentPosition,  std::vector<XMFLOAT2> positions, float rotation, float translationSpeed, float rotationSpeed)
 	{
 		mIsInActiveState = true;
+
+		mCurrentXPosition = currentPosition.x;
+		mCurrentYPosition = currentPosition.y;
 
 		mPositions = positions;
 		mTranslationSpeed = translationSpeed;
@@ -91,49 +97,50 @@ namespace Library
 
 	void State::MoveInitNextNode(float targetXMovement, float targetYMovement, float movementSpeed, float rotationSpeed)
 	{
-		float distanceSquare = pow(targetXMovement, 2) + pow(targetYMovement, 2);
+		float xDistance = GetFixedFloat(targetXMovement - mCurrentXPosition);
+		float yDistance = GetFixedFloat(targetYMovement - mCurrentYPosition);
+
+		float distanceSquare = pow(xDistance, 2) + pow(yDistance, 2);
 		float distance = sqrt(distanceSquare);
 		mCurrentFrameNumber = 0;
 
 		if (rotationSpeed != 0)
 		{
-			if (targetXMovement > 0 && targetYMovement == 0)
+			if (xDistance > 0 && yDistance == 0)
 				mTargetRotation = 90;
 
-			else if (targetXMovement < 0 && targetYMovement == 0)
+			else if (xDistance < 0 && yDistance == 0)
 				mTargetRotation = -90;
 
-			else if (targetYMovement > 0 && targetXMovement == 0)
+			else if (yDistance > 0 && xDistance == 0)
 				mTargetRotation = 0;
 
-			else if (targetYMovement < 0 && targetXMovement == 0)
+			else if (yDistance < 0 && xDistance == 0)
 				mTargetRotation = 180;
 
 			else
 			{
-				if (targetXMovement == targetYMovement)
+				if (xDistance == yDistance)
 					mTargetRotation = 45;
 
 				else
 				{
 					// if |x| < |y| tangens has wrong value
-					double x = (abs(targetXMovement) > abs(targetYMovement)) ? abs(targetXMovement) : abs(targetYMovement);
-					double y = (abs(targetXMovement) > abs(targetYMovement)) ? abs(targetYMovement) : abs(targetXMovement);
+					double x = (abs(xDistance) > abs(yDistance)) ? abs(xDistance) : abs(yDistance);
+					double y = (abs(xDistance) > abs(yDistance)) ? abs(yDistance) : abs(xDistance);
 
 					double targetRotationTangens = x / y;
 					double targetRotationInRadians = tan(targetRotationTangens);
-
-					mTargetRotation = 90 - XMConvertToDegrees(targetRotationInRadians);
 				}
 
 				// Check in which quarter is degree
-				if (targetXMovement > 0 && targetYMovement < 0)
+				if (xDistance > 0 && yDistance < 0)
 					mTargetRotation += 90;
 
-				if (targetXMovement < 0 && targetYMovement > 0)
+				if (xDistance < 0 && yDistance > 0)
 					mTargetRotation = -mTargetRotation;
 
-				if (targetXMovement < 0 && targetYMovement < 0)
+				if (xDistance < 0 && yDistance < 0)
 					mTargetRotation = -mTargetRotation - 90;
 			}
 		}
@@ -141,11 +148,8 @@ namespace Library
 		if (movementSpeed != 0)
 		{
 			mFramesCountInState = ceil(distance / movementSpeed);
-			mXDistancePerFrame = targetXMovement / mFramesCountInState;
-			mYDistancePerFrame = targetYMovement / mFramesCountInState;
-
-			mCurrentXPosition = 0.0;
-			mCurrentYPosition = 0.0;
+			mXDistancePerFrame = xDistance / mFramesCountInState;
+			mYDistancePerFrame = yDistance / mFramesCountInState;
 		}
 	}
 
@@ -158,5 +162,12 @@ namespace Library
 			rotation = rotation + 180;
 
 		return rotation;
+	}
+
+	double State::GetFixedFloat(float value)
+	{
+		float rounded = ((int)(value * 100 + .5) / 100.0);
+
+		return rounded;
 	}
 }

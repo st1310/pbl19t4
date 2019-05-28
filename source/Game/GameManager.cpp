@@ -89,6 +89,7 @@ namespace Rendering
 		for (GameComponent* component : mScenes[mCurrentScene]->GameObjects)
 		{
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
+
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
 				drawableGameComponent->Draw(gameTime);
 		}
@@ -143,7 +144,8 @@ namespace Rendering
 								nextPositions = pathfinding->GetPathNodesPosVector();
 								gameObject->StartMoving(nextPositions);
 
-							}
+								gameObject->setIsSelected(false);
+   							}
 						}
 					}
 				}
@@ -178,7 +180,6 @@ namespace Rendering
 				greenSold->setSelection(true);
 				greenSold->setIsSelected(true);
 				//Will remove this later
-				greenSold->SetVisible(false);
 				wasSelected = true;
 				unitsReadyToMove = true;
 			}
@@ -195,7 +196,6 @@ namespace Rendering
 			{
 				greenSold->setSelection(false);
 				greenSold->setIsSelected(false);
-				greenSold->SetVisible(true);
 				unitsReadyToMove = false;
 			}
 

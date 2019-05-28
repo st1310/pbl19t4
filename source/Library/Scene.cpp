@@ -43,20 +43,36 @@ namespace Library
 		this->GameObjects.clear();
 	}
 
-		void Scene::SaveToFile()
+	void Scene::SaveToFile()
 	{
-		std::string  a = Utility::CurrentDirectory();
 		SetCurrentDirectory(Utility::LibraryDirectory().c_str());
-		std::string  b = Utility::CurrentDirectory();
 		std::ofstream file(mFileName);
+
+		if (file.good() == true)
+		{
+			for (int i = 0; i < GameObjects.size(); i++)
+			{
+				SerializableGameObject serializabledGameObject = SerializableGameObject();
+				std::vector<std::string> validLines = serializabledGameObject.Serialize(GameObjects.at(i));
+
+				for (int j = 0; j < validLines.size(); j++)
+				{
+					if (i == (GameObjects.size() - 1) && j == (validLines.size() - 1))
+						file << validLines.at(j);
+
+					else
+						file << validLines.at(j) << "\n";
+				}
+			}
+
+			file.close();
+		}
 	}
 
 	std::vector<SerializableGameObject> Scene::LoadFromFile()
 	{
 		std::vector<SerializableGameObject> deserializableGameObjects = std::vector<SerializableGameObject>();
-		std::string  a = Utility::CurrentDirectory();
 		SetCurrentDirectory(Utility::LibraryDirectory().c_str());
-		std::string  b = Utility::CurrentDirectory();
 		std::fstream file;
 		file.open(mFileName, std::ios::in | std::ios::out);
 

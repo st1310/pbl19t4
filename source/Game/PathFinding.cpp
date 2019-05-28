@@ -120,8 +120,10 @@ bool PathFinding::Solve_AStar() {
 
 	//XMFLOAT2 nodePos = new XMFLOAT2(nodeEnd->x, nodeEnd->y);
 	
-	while (true) {
-		if (this->currentNode->parent != nullptr) {
+	while (true) 
+	{
+		if (this->currentNode->parent != nullptr) 
+		{
 			this->currentNode = this->currentNode->parent;
 			XMFLOAT2 pos = XMFLOAT2(currentNode->x, currentNode->y);
 			pathNodesPos.push_back(pos);
@@ -129,8 +131,7 @@ bool PathFinding::Solve_AStar() {
 			
 		else
 			return true;
-	}
-	
+	}	
 }
 
 std::vector<XMFLOAT2> PathFinding::GetPathNodesPosVector() {

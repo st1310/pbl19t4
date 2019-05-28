@@ -45,6 +45,7 @@ namespace Rendering
 		void Rotate(XMFLOAT3 rotation);
 		void FirstRotation();
 
+		void FirstTranslation(XMFLOAT3 translation);
 		void Translate(float x, float y, float z);
 		void Translate(XMFLOAT3 translation);
 
@@ -74,6 +75,9 @@ namespace Rendering
 		GameObject(const GameObject& rhs);
 		GameObject& operator=(const GameObject& rhs);
 
+		void Move();
+		void ChangeTexture(std::string textureName);
+
 		Effect* mEffect;
 		const char *mModelName;
 		LPCWSTR mShaderName;
@@ -82,6 +86,9 @@ namespace Rendering
 		XMFLOAT3 mPosition;
 		XMFLOAT3 mRotation;
 		XMFLOAT3 mScale;
+
+		std::string mIsSelectedDiffuseMap = "";
+		std::string mIsBusyDiffuseMap = "";
 
 		//little work around to fix rotation bug
 		XMFLOAT3 mOriginalPosition = XMFLOAT3(0, 0, 0);
@@ -148,6 +155,8 @@ namespace Rendering
 			90.0f
 		};
 
+		private:
+			void StandarizeRotationVectorValue();
 		/*
 		CREATION KIT CONTROLS
 		1- Position

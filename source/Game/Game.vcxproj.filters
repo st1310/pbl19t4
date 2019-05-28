@@ -135,6 +135,33 @@
     <ClCompile Include="Pathcircles.cpp">
       <Filter>Assets\Source</Filter>
     </ClCompile>
+    <ClCompile Include="FarbaMan.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GrassGroundNew.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Information.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="InformationBoard.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="OverheadLines.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformNumber1.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformNumber2And3.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformNumber4.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PoliceCar.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PassengerTrain.h">
@@ -225,6 +252,33 @@
       <Filter>Scenes\Header</Filter>
     </ClInclude>
     <ClInclude Include="Pathcircles.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="FarbaMan.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GrassGroundNew.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Information.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="InformationBoard.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="OverheadLines.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformNumber1.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformNumber2And3.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformNumber4.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PoliceCar.h">
       <Filter>Assets\Header</Filter>
     </ClInclude>
   </ItemGroup>

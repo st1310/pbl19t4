@@ -97,22 +97,7 @@ namespace Rendering
 			ID3D11ShaderResourceView* colorTexture = nullptr;
 			ModelMaterial* material = mesh->GetMaterial();
 
-			if (material != nullptr && material->Textures().find(TextureTypeDifffuse) != material->Textures().cend())
-			{
-				std::vector<std::wstring>* diffuseTextures = material->Textures().at(TextureTypeDifffuse);
-				std::wstring filename = PathFindFileName(diffuseTextures->at(0).c_str());
-				std::wostringstream textureName;
-
-				SetCurrentDirectory(Utility::LibraryDirectory().c_str());
-				textureName << mDiffuseMap.c_str();
-				//textureName << L"Content\\Textures\\" << filename;
-				HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &colorTexture);
-				if (FAILED(hr))
-				{
-					throw GameException("CreateWICTextureFromFile() failed.", hr);
-				}
-			}
-			mColorTextures[i] = colorTexture;
+			ChangeTexture(mDiffuseMap.c_str());
 		}
 
 		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
@@ -199,6 +184,7 @@ namespace Rendering
 			XMStoreFloat3(&radius, helper);
 			mCollider = new Colliders();
 			mCollider->BuildBoundingBox(mPosition, radius);
+
 			if (inNode != nullptr)
 				inNode->AddStaticCollider(mCollider);
 		}

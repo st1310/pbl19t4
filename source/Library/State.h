@@ -10,7 +10,7 @@ namespace Library
 		State();
 		~State();
 
-		void MoveInit(std::vector<XMFLOAT2> positions, float rotation, float translationSpeed, float rotationSpeed);
+		void MoveInit(XMFLOAT2 currentPosition, std::vector<XMFLOAT2> positions, float rotation, float translationSpeed, float rotationSpeed);
 
 		XMFLOAT3 Move();
 		XMFLOAT3 Rotate();
@@ -20,6 +20,7 @@ namespace Library
 		void ChangeToNextNode();
 		void MoveInitNextNode(float targetXMovement, float targetYMovement, float movementSpeed, float rotationSpeed);
 		float SetStandarizedRotation(float rotation);
+		double GetFixedFloat(float value);
 
 		bool mIsInActiveState = false;
 

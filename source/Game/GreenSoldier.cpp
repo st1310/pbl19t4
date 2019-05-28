@@ -8,13 +8,18 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: AnimatedGameObject(game, camera, 
 			"GreenSoldier",
-			"Content\\Models\\GreenSoldier.fbx",
+			"Content\\Models\\Soldier.fbx",
 			L"Content\\Effects\\SkinnedModel.cso",
-			"Content\\Textures\\GreenSoldierDiffuseMap.jpg",
+			"Content\\Textures\\SoldierDiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale)
 	{
+		mRotationSpeed = 1;
+		mTranslationSpeed = 0.05;
+
+		mIsSelectedDiffuseMap = "Content\\Textures\\SoldierSelectedDiffuseMap.jpg";
+		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
 	}
 
 
@@ -32,6 +37,15 @@ namespace Rendering
 	void GreenSoldier::setSelection(bool selection)
 	{
 		isSelected = selection;
+
+		if(isSelected)
+			ChangeTexture(mIsSelectedDiffuseMap);
+
+		else if(!isSelected && !mIsBusy)
+			ChangeTexture(mDiffuseMap);
+
+		else if (!isSelected && mIsBusy)
+			ChangeTexture(mIsBusyDiffuseMap);
 	}
 
 	bool GreenSoldier::getIsSelected()
