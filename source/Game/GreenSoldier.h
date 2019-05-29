@@ -23,5 +23,6 @@ namespace Rendering
 
 	private:
 		bool isSelected = false;
+		
 	};
 }

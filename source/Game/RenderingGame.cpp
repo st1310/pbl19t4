@@ -143,21 +143,32 @@ namespace Rendering
 
 		if (mMouse->WasButtonPressedThisFrame(MouseButtonsLeft))
 		{
-			if (mKeyboard->IsKeyHeldDown(DIKEYBOARD_LCONTROL)) {
-				mGameManager->SelectingUnits(mMouse->X(), mMouse->Y(), true);
-			}
-				
-			else {
-				mGameManager->SelectingUnits(mMouse->X(), mMouse->Y(), false);
+			if (mMouse->Y() > 640.0f && mMouse->X() > 20.0f  && mMouse->X() < 369.0f) {
 
 			}
+			else {
+				if (mKeyboard->IsKeyHeldDown(DIKEYBOARD_LCONTROL)) {
+					mGameManager->SelectingUnits(mMouse->X(), mMouse->Y(), true);
+				}
+
+				else {
+					mGameManager->SelectingUnits(mMouse->X(), mMouse->Y(), false);
+
+				}
+			}
+			
 		}
 
 		if (mMouse->WasButtonPressedThisFrame(MouseButtonsRight))
 		{
-			//if (mGameManager->GetunitsReadyToMove()) {
+			if (mMouse->Y() > 640.0f && mMouse->X() > 20.0f  && mMouse->X() < 369.0f) {
+
+			}
+			else {
 				mGameManager->SelectingGrounds(mMouse->X(), mMouse->Y());
-		//	}
+			}
+				
+		
 		}
 
 		Game::Update(gameTime);
@@ -183,13 +194,15 @@ namespace Rendering
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition);
 
 		if (true) {
-			//mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(0.0f, 660.0f, 120.0f, 120.0f));
-			mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(0, 660.0f, 120.0f, 120.0f));
-			mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(50.0f, 660.0f, 120.0f, 120.0f));
-			mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(100.0f, 660.0f, 120.0f, 120.0f));
-			mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(150.0f, 660.0f, 120.0f, 120.0f));
-			mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(200.0f, 660.0f, 120.0f, 120.0f));
-			mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(250.0f, 660.0f, 120.0f, 120.0f));
+			for (int i = 0; i < 6; i++) {
+				if (mGameManager->GetListOfUnits().at(i)->GetUnitID()==mGameManager->unitID) {
+					mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(0.0f + 50 * i, 630.0f, 150.0f, 150.0f));
+				}
+				else {
+					mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(0 + 50 * i, 660.0f, 120.0f, 120.0f));
+				}
+				
+			}
 		}
 
 		if (mGameManager->GetunitsReadyToMove()) {

@@ -53,6 +53,7 @@ namespace Rendering
 		return isSelected;
 	}
 
+
 	void GreenSoldier::CheckTriggers()
 	{
 		std::vector<TypesTriggerReactions> helper;

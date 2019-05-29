@@ -61,6 +61,7 @@ bool PathFinding::OnUserCreate() {
 
 bool PathFinding::Solve_AStar() {
 	
+	pathNodesPos.clear();
 	// Reset Navigation Graph - default all node states
 	for (int x = 0; x < nMapWidth; x++)
 		for (int y = 0; y < nMapHeight; y++)

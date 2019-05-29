@@ -69,6 +69,14 @@ namespace Rendering
 
 		mScenes.at(sceneId)->Start(*game, *camera);
 		mScenes.at(sceneId)->SetGroudndCollider(pathfinding->collider);
+
+		for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
+			mScenes.at(mCurrentScene)->GetUnitList().at(i)->SetUnitID(i);
+		}
+	}
+
+	std::vector<DrawableGameComponent*> GameManager::GetListOfUnits() {
+		return mScenes.at(mCurrentScene)->GetUnitList();
 	}
 
 	int GameManager::GetSizeOfCurrentScene()
@@ -128,23 +136,29 @@ namespace Rendering
 				int pathFindingMapSize = mapHeight * mapWidth;
 
 				for (int j = 0; j < pathFindingMapSize; j++) {
-					if (pathfinding->nodes[j].x == targetPos.x && pathfinding->nodes[j].y == targetPos.z) {
-						pathfinding->nodeEnd = &pathfinding->nodes[j];
-						pathfinding->currentNode = pathfinding->nodeEnd;
-						pathfinding->Solve_AStar();
-
+					if (pathfinding->nodes[j].x == targetPos.x && pathfinding->nodes[j].y == targetPos.z) {	
+						
 						for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
 
 							GameObject* gameObject = (GameObject*)(mScenes.at(mCurrentScene)->GetUnitList().at(i));
 
 							if (gameObject->getIsSelected()) {
 
-								XMFLOAT3 unitPosition = gameObject->getPosition();
-								std::vector<XMFLOAT2> nextPositions = std::vector<XMFLOAT2>();
-								nextPositions = pathfinding->GetPathNodesPosVector();
-								gameObject->StartMoving(nextPositions);
+								for (int x = 0; x < pathFindingMapSize; x++) {
+									if (gameObject->getPosition().x == pathfinding->nodes[x].x && gameObject->getPosition().z == pathfinding->nodes[x].y) {
+										pathfinding->nodeStart = &pathfinding->nodes[x];
+										pathfinding->nodeEnd = &pathfinding->nodes[j];
+										pathfinding->currentNode = pathfinding->nodeEnd;
+										pathfinding->Solve_AStar();
+										XMFLOAT3 unitPosition = gameObject->getPosition();
+										std::vector<XMFLOAT2> nextPositions = std::vector<XMFLOAT2>();
+										nextPositions = pathfinding->GetPathNodesPosVector();
+										gameObject->StartMoving(nextPositions);
 
-								gameObject->setIsSelected(false);
+										gameObject->setIsSelected(false);
+									}
+								}
+
    							}
 						}
 					}
@@ -155,6 +169,7 @@ namespace Rendering
 
 	void GameManager::SelectingUnits(long mouseX, long mouseY, bool selectSeveral)
 	{
+		unitID = -1;
 		FirstPersonCamera* firstCam = camera->As<FirstPersonCamera>();
 
 		XMMATRIX viewProj = firstCam->ViewProjectionMatrix();
@@ -182,6 +197,8 @@ namespace Rendering
 				//Will remove this later
 				wasSelected = true;
 				unitsReadyToMove = true;
+				unitID = greenSold->GetUnitID();
+				
 			}
 			else if (greenSold->getCollider()->CheckColliderIntersecteByRay(firstCam->PositionVector(), TrF, firstCam->FarPlaneDistance()) && (selectSeveral)) {
 				greenSold->setSelection(true);
@@ -190,6 +207,7 @@ namespace Rendering
 				greenSold->SetVisible(false);
 				wasSelected = true;
 				unitsReadyToMove = true;
+				
 			}
 
 			else if (!selectSeveral)
@@ -197,6 +215,7 @@ namespace Rendering
 				greenSold->setSelection(false);
 				greenSold->setIsSelected(false);
 				unitsReadyToMove = false;
+				
 			}
 
 		}

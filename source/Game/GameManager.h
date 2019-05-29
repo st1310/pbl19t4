@@ -34,8 +34,8 @@ namespace Rendering
 		bool GetunitsReadyToMove();
 		bool GetShowMousePosition();
 
-		
-
+		std::vector<DrawableGameComponent*> GetListOfUnits();
+		int unitID=-1;
 	private:
 		Game* game;
 		Camera* camera;
