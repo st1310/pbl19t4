@@ -15,6 +15,9 @@ namespace Library
 	class Effect;
 	class MultipleLightsMaterial;
 	class Model;
+	class FullScreenRenderTarget;
+	class FullScreenQuad;
+	class ColorFilterMaterial;
 }
 
 namespace DirectX
@@ -55,6 +58,9 @@ namespace Rendering
 		MultipleLightsDemo();
 		MultipleLightsDemo(const MultipleLightsDemo& rhs);
 		MultipleLightsDemo& operator=(const MultipleLightsDemo& rhs);
+
+		void UpdateColorFilterMaterial();
+		void UpdateGenericColorFilter(const GameTime& gameTime);
 
 		Effect* mEffect;
 		MultipleLightsMaterial* mMaterial;

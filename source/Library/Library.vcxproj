@@ -186,6 +186,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="BoneVertexWeights.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Colliders.h" />
+    <ClInclude Include="ColorFilterMaterial.h" />
     <ClInclude Include="ColorHelper.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="DirectionalLight.h" />
@@ -193,6 +194,8 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="Effect.h" />
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="FpsComponent.h" />
+    <ClInclude Include="FullScreenQuad.h" />
+    <ClInclude Include="FullScreenRenderTarget.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameClock.h" />
     <ClInclude Include="GameComponent.h" />
@@ -212,8 +215,10 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="NodeList.h" />
     <ClInclude Include="Pass.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="PostProcessingMaterial.h" />
     <ClInclude Include="ProxyModel.h" />
     <ClInclude Include="RenderStateHelper.h" />
+    <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="RTTI.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneNode.h" />
@@ -230,6 +235,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="Utility.h" />
     <ClInclude Include="Variable.h" />
     <ClInclude Include="VectorHelper.h" />
+    <ClInclude Include="VertexDeclarations.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationClip.cpp" />
@@ -240,12 +246,15 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="BoneVertexWeights.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Colliders.cpp" />
+    <ClCompile Include="ColorFilterMaterial.cpp" />
     <ClCompile Include="ColorHelper.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DrawableGameComponent.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
     <ClCompile Include="FpsComponent.cpp" />
+    <ClCompile Include="FullScreenQuad.cpp" />
+    <ClCompile Include="FullScreenRenderTarget.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GameComponent.cpp" />
@@ -265,8 +274,10 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="NodeList.cpp" />
     <ClCompile Include="Pass.cpp" />
     <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="PostProcessingMaterial.cpp" />
     <ClCompile Include="ProxyModel.cpp" />
     <ClCompile Include="RenderStateHelper.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="SerializableGameObject.cpp" />
@@ -292,6 +303,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Content\Effects\BasicEffect.fx" />
+    <FxCompile Include="Content\Effects\ColorFilter.fx" />
     <FxCompile Include="Content\Effects\MultipleLights.fx" />
     <FxCompile Include="Content\Effects\SkinnedModel.fx" />
     <FxCompile Include="Content\Effects\Skybox.fx" />

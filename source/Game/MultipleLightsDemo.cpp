@@ -12,6 +12,10 @@
 #include "ProxyModel.h"
 #include "KeyboardComponent.h"
 #include "MultipleLightsMaterial.h"
+#include "FullScreenRenderTarget.h"
+#include "FullScreenQuad.h"
+#include "ColorFilterMaterial.h"
+
 #include <WICTextureLoader.h>
 #include <DirectXColors.h>
 #include <SpriteBatch.h>
@@ -187,10 +191,15 @@ namespace Rendering
 		mGame->Direct3DDevice()->CreateBlendState(&blendStateDesc, &mBlendState);
 
 		// Spot Lights
-		/*mSpotLights.push_back(new SpotLight(*mGame));
-
-		mSpotLights.at(0)->SetPosition(0.0f, 0.0f, 10.0f);
-		mSpotLights.at(0)->SetRadius(50.0f);*/
+		mSpotLights.push_back(new SpotLight(*mGame));
+		mSpotLights.at(0)->SetPosition(-15.0f, 5.0f, -10.0f);
+		mSpotLights.at(0)->SetRadius(30.0f);
+		mSpotLights.at(0)->SetColor(Colors::Purple - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
+		mSpotLights.at(0)->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(45.0f)));
+		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\DirectionalLightProxy.obj"));
+		mProxyModels.back()->SetPosition(mSpotLights.back()->Position());
+		mProxyModels.back()->ApplyRotation(XMMatrixRotationY(XMConvertToRadians(90.0f))); // Init rotation to allign with Vector3::Forward
+		mProxyModels.back()->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(45.0f)));
 
 		// Directional Lights
 		mDirectLights.push_back(new DirectionalLight(*mGame));
@@ -210,14 +219,14 @@ namespace Rendering
 		
 		// Point Lights
 		mPointLights.push_back(new PointLight(*mGame));
-		mPointLights.at(0)->SetRadius(40.0f);
+		mPointLights.at(0)->SetRadius(30.0f);
 		mPointLights.at(0)->SetPosition(5.0f, 10.0f, -5.0f);
 		mPointLights.at(0)->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
 		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\PointLightProxy.obj"));
 		mProxyModels.back()->SetPosition(mPointLights.back()->Position());
 
 		mPointLights.push_back(new PointLight(*mGame));
-		mPointLights.at(1)->SetRadius(40.0f);
+		mPointLights.at(1)->SetRadius(30.0f);
 		mPointLights.at(1)->SetPosition(-5.0f, 10.0f, 5.0f);
 		mPointLights.at(1)->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
 		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\PointLightProxy.obj"));
@@ -231,7 +240,7 @@ namespace Rendering
 
 	void MultipleLightsDemo::Update(const GameTime& gameTime)
 	{
-		mPointLights.back()->SetPosition(mPointLights.back()->Position() + XMFLOAT3(sin(gameTime.TotalGameTime()) / 10, 0.0f, 0.0f));
+		mPointLights.back()->SetPosition(mPointLights.back()->Position() + XMFLOAT3((float)(sin(gameTime.TotalGameTime()) / 10), 0.0f, 0.0f));
 		mProxyModels.back()->SetPosition(mPointLights.back()->Position());
 
 		for (ProxyModel* proxy : mProxyModels)

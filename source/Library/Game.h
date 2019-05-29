@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <string>
+#include "RenderTarget.h"
 #include "Colliders.h"
 #include "Common.h"
 #include "GameClock.h"
@@ -12,8 +13,11 @@
 
 namespace Library
 {
-	class Game
+	class Game :
+		public RenderTarget
 	{
+		RTTI_DECLARATIONS(Game, RenderTarget)
+
 	public:
 		Game(HINSTANCE instance, const std::wstring& windowClass,
 			const std::wstring& windowTitle, int showCommand);
@@ -49,6 +53,8 @@ namespace Library
 		virtual void Draw(const GameTime& gameTime);
 
 	protected:
+		virtual void Begin() override;
+		virtual void End() override;
 		virtual void InitializeWindow();
 		virtual void InitializeDirectX();
 		virtual void Shutdown();
