@@ -7,7 +7,7 @@ namespace Library
 
 	Scene::Scene(Game& game, Camera& camera, int sceneId, std::string fileName) :
 		DrawableGameComponent(game, camera), mFileName(fileName), SceneId(sceneId), mKeyboard(nullptr),
-		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), listOfNodes()
+		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), listOfNodes(), listOfUnits(), trigerrableObjects()
 	{
 		
 	}
@@ -15,6 +15,8 @@ namespace Library
 	Scene::~Scene()
 	{
 		listOfNodes.clear();
+		listOfUnits.clear();
+		trigerrableObjects.clear();
 	}
 
 
@@ -122,6 +124,23 @@ namespace Library
 	std::vector<DrawableGameComponent*> Scene::GetUnitList()
 	{
 		return listOfUnits;
+	}
+
+	void Scene::AddTriggerableObjectToList(DrawableGameComponent* object)
+	{
+		trigerrableObjects.push_back(object);
+	}
+
+	void Scene::RemoveTriggerableObjectFromList(DrawableGameComponent* object)
+	{
+		auto itr = std::find(trigerrableObjects.begin(), trigerrableObjects.end(), object);
+		if (itr != trigerrableObjects.end())
+			trigerrableObjects.erase(itr);
+	}
+
+	std::vector<DrawableGameComponent*> Scene::GetTriggerableObjects()
+	{
+		return trigerrableObjects;
 	}
 
 	Colliders* Scene::GetGroundCollider() {

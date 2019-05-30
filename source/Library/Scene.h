@@ -41,6 +41,10 @@ namespace Library
 		void RemoveUnitFromList(DrawableGameComponent* unit);
 		std::vector<DrawableGameComponent*> GetUnitList();
 		
+		void AddTriggerableObjectToList(DrawableGameComponent* object);
+		void RemoveTriggerableObjectFromList(DrawableGameComponent* object);
+		std::vector<DrawableGameComponent*> GetTriggerableObjects();
+
 		Colliders* GetGroundCollider();
 		void SetGroudndCollider(Colliders* collider);
 
@@ -53,6 +57,7 @@ namespace Library
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mTextPosition;
 		std::vector<DrawableGameComponent*> listOfUnits;
+		std::vector<DrawableGameComponent*> trigerrableObjects;
 		Colliders* groundCollider;
 		
 	private:

@@ -32,7 +32,8 @@ namespace Rendering
 	void Policeman::CheckTriggers()
 	{
 		std::vector<TypesTriggerReactions> helper;
-		helper = mNode->trippedTriggers(this->getPosition());
+		if (inNode != nullptr) 
+			helper = inNode->trippedTriggers(this->getPosition());
 
 		if (helper.empty())
 			return;

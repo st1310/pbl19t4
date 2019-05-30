@@ -38,7 +38,6 @@ namespace Rendering
 		virtual void Draw(const GameTime& gameTime) override;
 
 		virtual void BuildBoundingBox(XMFLOAT3 radius) override;
-		virtual void CheckTriggers();
 
 	private:
 		AnimatedGameObject();

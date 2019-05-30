@@ -198,7 +198,7 @@ namespace Rendering
 			endGame << "Quit Game";
 			mSpriteFont->DrawString(mSpriteBatch, endGame.str().c_str(), XMFLOAT2(100.0f, 320.0f), Colors::White);
 		}
-
+ 
 		mSpriteBatch->End();
 		mRenderStateHelper->RestoreAll();
 

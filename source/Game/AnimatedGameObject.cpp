@@ -258,9 +258,6 @@ namespace Rendering
 		}
 	}
 
-	void AnimatedGameObject::CheckTriggers()
-	{
-	}
 
 	void AnimatedGameObject::BuildBoundingBox(XMFLOAT3 radius)
 	{

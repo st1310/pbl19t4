@@ -4,13 +4,17 @@
 
 namespace Rendering
 {
-	GameObjectPusher::GameObjectPusher()
+	GameObjectPusher::GameObjectPusher() :
+		listNode(), listOfSoldiers(), triggerableObjects()
 	{
 	}
 
 
 	GameObjectPusher::~GameObjectPusher()
 	{
+		listNode.clear();
+		listOfSoldiers.clear();
+		triggerableObjects.clear();
 	}
 
 	std::vector<GameComponent*> GameObjectPusher::CreateAssets(Game& game, Camera& camera, std::vector<SerializableGameObject> gameObjects, bool needToFindCoord)
@@ -84,6 +88,7 @@ namespace Rendering
 
 				greenSoldier->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(greenSoldier);
+				triggerableObjects.push_back(greenSoldier);
 				listOfSoldiers.push_back(greenSoldier);
 			}
 
@@ -96,6 +101,7 @@ namespace Rendering
 
 				policeman->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(policeman);
+				triggerableObjects.push_back(policeman);
 			}
 
 			if (className == "Track")
@@ -314,5 +320,15 @@ namespace Rendering
 			Bench* bench = new Bench(game, camera);
 			return bench;
 		}
+	}
+
+	XMFLOAT3 GameObjectPusher::GetPosA()
+	{
+		return PosA;
+	}
+
+	XMFLOAT3 GameObjectPusher::GetPosC()
+	{
+		return PosC;
 	}
 }

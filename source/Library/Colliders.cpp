@@ -271,7 +271,6 @@ namespace Library
 	bool Colliders::CheckColliderIntersectsByPlanes(XMVECTOR ray1, XMVECTOR ray2, XMVECTOR camPos, XMVECTOR camDir)
 	{
 		std::vector<XMVECTOR> planes;
-
 		//right slope
 		if (ray1.m128_f32[0] < ray2.m128_f32[0])
 		{

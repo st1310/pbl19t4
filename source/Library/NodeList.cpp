@@ -68,6 +68,7 @@ namespace Library
 		}
 	}
 
+
 	CollisionNode* NodeList::MovedToNode(XMFLOAT3 ObjectPosition, CollisionNode* originalNode)
 	{
 

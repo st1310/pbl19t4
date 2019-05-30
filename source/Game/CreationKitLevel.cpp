@@ -77,7 +77,13 @@ namespace Rendering
 		Initialize();
 		GameObjectPusher pusher = GameObjectPusher();
 
-		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile());
+		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile(), true);
+
+		RewriteUnitList(pusher.listOfSoldiers);
+		trigerrableObjects = pusher.triggerableObjects;
+
+		this->BuildNodesStart(pusher.GetPosA(), pusher.GetPosC());
+
 
 		for (int i = 0; i < gameObjects.size(); i++)
 		{

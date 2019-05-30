@@ -10,6 +10,11 @@ namespace Library
 	{
 		mPositionA = positionA;
 		mPositionC = positionC;
+
+		mStaticObjects = std::vector<Colliders*>();
+		mDynamicObjects = std::vector<Colliders*>();
+		mTriggers = std::vector<Colliders*>();
+		mChildList = std::vector<CollisionNode*>();
 	}
 
 	CollisionNode::~CollisionNode()
@@ -91,6 +96,20 @@ namespace Library
 		return (mPositionA.x >= position.x && mPositionC.x <= position.x)
 			&& (mPositionA.y <= position.y && mPositionC.y >= position.y)
 			&& (mPositionA.z <= position.z && mPositionC.z >= position.z);
+	}
+
+	bool CollisionNode::IsStaticOnTheWay(Colliders* pathCollider)
+	{
+		if (mStaticObjects.empty())
+			return false;
+
+		std::vector<Colliders*> vct;
+		vct.push_back(pathCollider);
+
+		for (unsigned int i = 0; i < mStaticObjects.size(); i++)
+			vct.push_back(mStaticObjects[i]);
+
+		return pathCollider->CheckCollision(vct);
 	}
 
 	//This is used to determine - is movable object inside this node collides with anything within this node
@@ -175,8 +194,6 @@ namespace Library
 
 		if (mTriggers.empty())
 			return answer;
-
-		
 
 		for (Colliders* coll : mTriggers)
 		{

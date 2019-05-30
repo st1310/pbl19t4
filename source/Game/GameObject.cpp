@@ -579,4 +579,8 @@ namespace Rendering
 		if (inNode != nullptr)
 			inNode->AddStaticCollider(mCollider);
 	}
+
+	void GameObject::CheckTriggers()
+	{
+	}
 }

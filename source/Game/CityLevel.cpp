@@ -19,7 +19,7 @@ namespace Rendering
 		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile());
 		
 		RewriteUnitList(pusher.listOfSoldiers);
-
+		trigerrableObjects = pusher.triggerableObjects;
 
 		for (int i = 0; i < gameObjects.size(); i++)
 		{
