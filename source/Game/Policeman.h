@@ -19,6 +19,7 @@ namespace Rendering
 		virtual void Initialize() override;
 
 		virtual void CheckTriggers() override;
+		virtual void SetAnimations() override;
 	private:
 		int policeNearby;
 		int playerNearby;

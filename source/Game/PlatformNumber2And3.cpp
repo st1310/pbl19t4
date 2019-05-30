@@ -8,9 +8,7 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: StaticGameObject(game, camera,
 			"PlatformNumber2And3",
-			"Content\\Models\\PlatformNumber2And3.fbx",
 			L"Content\\Effects\\TextureMapping.cso",
-			"Content\\Textures\\PlatformNumber2And3DiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale, true)

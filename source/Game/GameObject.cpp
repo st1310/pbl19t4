@@ -25,13 +25,13 @@ namespace Rendering
 	RTTI_DEFINITIONS(GameObject)
 
 		GameObject::GameObject(Game& game, Camera& camera, const char *className,
-			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,
+			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
 		: DrawableGameComponent(game, camera),
 		mEffect(nullptr), mWorldMatrix(MatrixHelper::Identity),
 		mClassName(className),
 		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(),
-		mShaderName(shaderName), mModelName(modelName), mDiffuseMap(diffuseMap),
+		mShaderName(shaderName),
 		mSkinnedModel(nullptr), mAnimationPlayer(nullptr),
 		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false),
 		mKeyboard(nullptr),

@@ -30,7 +30,7 @@ namespace Rendering
 
 	public:
 		StaticGameObject(Game& game, Camera& camera, const char *className, 
-			const char *modelName, LPCWSTR shaderName, std::string diffuseMap, 
+			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale, bool needCollision = false);
 		~StaticGameObject();
 

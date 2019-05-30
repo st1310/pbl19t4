@@ -7,10 +7,8 @@ namespace Rendering
 		XMFLOAT3 startRotation,
 		XMFLOAT3 startScale)
 		: AnimatedGameObject(game, camera, 
-			"GreenSoldier",
-			"Content\\Models\\Soldier.fbx",
+			"Soldier",
 			L"Content\\Effects\\SkinnedModel.cso",
-			"Content\\Textures\\SoldierDiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale)
@@ -43,8 +41,11 @@ namespace Rendering
 		if(isSelected)
 			ChangeTexture(mIsSelectedDiffuseMap);
 
-		else if(!isSelected && !mIsBusy)
-			ChangeTexture(mDiffuseMap);
+		else if (!isSelected && !mIsBusy)
+		{
+			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
+			ChangeTexture(modelName);
+		}
 
 		else if (!isSelected && mIsBusy)
 			ChangeTexture(mIsBusyDiffuseMap);

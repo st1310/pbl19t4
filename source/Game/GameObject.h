@@ -29,7 +29,7 @@ namespace Rendering
 
 	public:
 		GameObject(Game& game, Camera& camera, const char *className,
-			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,
+			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
 		~GameObject();
 
@@ -79,9 +79,7 @@ namespace Rendering
 		void ChangeTexture(std::string textureName);
 
 		Effect* mEffect;
-		const char *mModelName;
 		LPCWSTR mShaderName;
-		std::string mDiffuseMap;
 
 		XMFLOAT3 mPosition;
 		XMFLOAT3 mRotation;

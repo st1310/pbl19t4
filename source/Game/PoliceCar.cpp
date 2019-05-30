@@ -8,9 +8,7 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: StaticGameObject(game, camera,
 			"PoliceCar",
-			"Content\\Models\\PoliceCar.fbx",
 			L"Content\\Effects\\TextureMapping.cso",
-			"Content\\Textures\\PoliceCarDiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale, true)

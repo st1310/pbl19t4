@@ -27,10 +27,10 @@ namespace Rendering
 	RTTI_DEFINITIONS(StaticGameObject)
 
 		StaticGameObject::StaticGameObject(Game& game, Camera& camera, const char *className, 
-			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,			
+			LPCWSTR shaderName,	
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale, bool needCollision)
 		: GameObject(game, camera, className,
-			modelName, shaderName, diffuseMap,
+			shaderName, 
 			startPosition, startRotation, startScale),
 		mMaterial(nullptr), needsCollision(needCollision)
 	{
@@ -65,7 +65,8 @@ namespace Rendering
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
 		// Load the model
-		mSkinnedModel = new Model(*mGame, mModelName, true);
+		std::string modelName = "Content\\Models\\" + (std::string)mClassName + ".fbx";
+		mSkinnedModel = new Model(*mGame, modelName, true);
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
@@ -97,7 +98,8 @@ namespace Rendering
 			ID3D11ShaderResourceView* colorTexture = nullptr;
 			ModelMaterial* material = mesh->GetMaterial();
 
-			ChangeTexture(mDiffuseMap.c_str());
+			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
+			ChangeTexture(modelName);
 		}
 
 		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());

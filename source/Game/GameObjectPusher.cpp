@@ -135,7 +135,7 @@ namespace Rendering
 				assets.push_back(grassGroundNew);
 			}
 
-			if (className == "GreenSoldier")
+			if (className == "Soldier")
 			{
 				GreenSoldier* greenSoldier = new GreenSoldier(game, camera,
 					gameObjects.at(i).GetPosition(),
@@ -367,7 +367,7 @@ namespace Rendering
 			return grassGroundNew;
 		}
 
-		if (className == "GreenSoldier")
+		if (className == "Soldier")
 		{
 			GreenSoldier* greenSoldier = new GreenSoldier(game, camera);
 			return greenSoldier;
@@ -441,8 +441,7 @@ namespace Rendering
 
 		if (className == "Policeman")
 		{
-			//Policeman* policeman = new Policeman(game, camera);
-			Bench* policeman = new Bench(game, camera);
+			Policeman* policeman = new Policeman(game, camera);
 			return policeman;
 		}
 

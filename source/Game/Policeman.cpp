@@ -8,14 +8,12 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: AnimatedGameObject(game, camera,
 			"Policeman",
-			"Content\\Models\\Policeman.fbx",
 			L"Content\\Effects\\SkinnedModel.cso",
-			"Content\\Textures\\PolicemanDiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale)
 	{
-		this->SetVisible(true);
+		SetAnimations();
 	}
 
 
@@ -59,5 +57,16 @@ namespace Rendering
 				break;
 			}
 		}
+	}
+
+	void Policeman::SetAnimations()
+	{
+		/*
+		mAnimations.insert(std::pair<std::string, int>("Idle", 0));
+		mAnimations.insert(std::pair<std::string, int>("StartRunning", 1));
+		mAnimations.insert(std::pair<std::string, int>("Run", 2));
+		mAnimations.insert(std::pair<std::string, int>("StopRunning", 3));
+		mAnimations.insert(std::pair<std::string, int>("Reload", 4));
+		mAnimations.insert(std::pair<std::string, int>("Paint", 5));*/
 	}
 }

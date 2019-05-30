@@ -9,9 +9,7 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: StaticGameObject(game, camera,
 			"Pathcircles",
-			"Content\\Models\\Pathcircles.fbx",
 			L"Content\\Effects\\TextureMapping.cso",
-			"Content\\Textures\\PathcirclesDiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale, true)

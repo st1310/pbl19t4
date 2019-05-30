@@ -27,10 +27,10 @@ namespace Rendering
 	RTTI_DEFINITIONS(AnimatedGameObject)
 
 		AnimatedGameObject::AnimatedGameObject(Game& game, Camera& camera, const char *className,
-			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,
+			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
 		: GameObject(game, camera, className, 
-			modelName, shaderName, diffuseMap,
+			shaderName,
 			startPosition, startRotation, startScale),
 		mMaterial(nullptr), mAnimationPlayer(nullptr)
 	{		
@@ -69,7 +69,8 @@ namespace Rendering
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
 		// Load the model
-		mSkinnedModel = new Model(*mGame, mModelName, true);
+		std::string modelName = "Content\\Models\\" + (std::string)mClassName + ".fbx";
+		mSkinnedModel = new Model(*mGame, modelName, true);
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
@@ -101,7 +102,8 @@ namespace Rendering
 			ID3D11ShaderResourceView* colorTexture = nullptr;
 			ModelMaterial* material = mesh->GetMaterial();
 
-			ChangeTexture(mDiffuseMap.c_str());
+			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
+			ChangeTexture(modelName);
 		}
 
 		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
@@ -132,7 +134,8 @@ namespace Rendering
 		if (!mState->IsInActiveState() && mIsBusy == true)
 		{
 			mIsBusy = false;
-			ChangeTexture(mDiffuseMap);
+			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
+			ChangeTexture(modelName);
 		}
 		if (!mState->IsInActiveState() && mAnimationPlayer->CurrentKeyframe() != 0)
 		{
@@ -259,12 +262,12 @@ namespace Rendering
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_G))
 			{
 				mStartAnimation = true;
-				mAnimationSequence.push_back("StartRunning");
-				mAnimationSequence.push_back("StartRunning");
+				//mAnimationSequence.push_back("StartRunning");
+				//mAnimationSequence.push_back("StartRunning");
 				mAnimationSequence.push_back("Run");
 				mAnimationSequence.push_back("Run");
 				mAnimationSequence.push_back("Run");
-				mAnimationSequence.push_back("StopRunning");
+				//.push_back("StopRunning");
 			}
 
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_B))

@@ -49,7 +49,7 @@
       <z= 0.30/>
    </Scale>
 </ConcreteWall>
-<GreenSoldier>
+<Soldier>
    <Position>
       <x= -30.00/>
       <y= 0.00/>
@@ -65,8 +65,8 @@
       <y= 0.02/>
       <z= 0.02/>
    </Scale>
-</GreenSoldier>
-<GreenSoldier>
+</Soldier>
+<Soldier>
    <Position>
       <x= 56.50/>
       <y= 0.00/>
@@ -82,8 +82,8 @@
       <y= 0.02/>
       <z= 0.02/>
    </Scale>
-</GreenSoldier>
-<GreenSoldier>
+</Soldier>
+<Soldier>
    <Position>
       <x= 45.50/>
       <y= 0.00/>
@@ -99,7 +99,7 @@
       <y= 0.02/>
       <z= 0.02/>
    </Scale>
-</GreenSoldier>
+</Soldier>
 <SingleStreetLampPost>
    <Position>
       <x= -44.00/>
@@ -457,7 +457,7 @@
       <z= 0.50/>
    </Scale>
 </GrassGround>
-<GreenSoldier>
+<Soldier>
    <Position>
       <x= -1.00/>
       <y= 0.00/>
@@ -473,8 +473,8 @@
       <y= 0.02/>
       <z= 0.02/>
    </Scale>
-</GreenSoldier>
-<GreenSoldier>
+</Soldier>
+<Soldier>
    <Position>
       <x= 8.50/>
       <y= 0.00/>
@@ -490,7 +490,7 @@
       <y= 0.02/>
       <z= 0.02/>
    </Scale>
-</GreenSoldier>
+</Soldier>
 <Bench>
    <Position>
       <x= 0.00/>
@@ -508,7 +508,7 @@
       <z= 0.25/>
    </Scale>
 </Bench>
-<GreenSoldier>
+<Soldier>
    <Position>
       <x= 21.50/>
       <y= 0.00/>
@@ -524,4 +524,4 @@
       <y= 0.02/>
       <z= 0.02/>
    </Scale>
-</GreenSoldier>
+</Soldier>

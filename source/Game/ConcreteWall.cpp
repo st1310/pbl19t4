@@ -8,9 +8,7 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: StaticGameObject(game, camera,
 			"ConcreteWall",
-			"Content\\Models\\ConcreteWall.fbx",
 			L"Content\\Effects\\TextureMapping.cso",
-			"Content\\Textures\\ConcreteWallDiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale, true)

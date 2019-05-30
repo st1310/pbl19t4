@@ -8,9 +8,7 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: AnimatedGameObject(game, camera,
 			"FarbaMan",
-			"Content\\Models\\FarbaMan.fbx",
 			L"Content\\Effects\\SkinnedModel.cso",
-			"Content\\Textures\\FarbaManDiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale)
@@ -44,7 +42,10 @@ namespace Rendering
 			ChangeTexture(mIsSelectedDiffuseMap);
 
 		else if (!isSelected && !mIsBusy)
-			ChangeTexture(mDiffuseMap);
+		{
+			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
+			ChangeTexture(modelName);
+		}
 
 		else if (!isSelected && mIsBusy)
 			ChangeTexture(mIsBusyDiffuseMap);

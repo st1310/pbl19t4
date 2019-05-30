@@ -8,9 +8,7 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: StaticGameObject(game, camera,
 			"OverheadLines",
-			"Content\\Models\\OverheadLines.fbx",
 			L"Content\\Effects\\TextureMapping.cso",
-			"Content\\Textures\\OverheadLinesDiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale, true)
