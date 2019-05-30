@@ -20,6 +20,8 @@ namespace Rendering
 
 		mIsSelectedDiffuseMap = "Content\\Textures\\SoldierSelectedDiffuseMap.jpg";
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
+
+		SetAnimations();
 	}
 
 
@@ -80,6 +82,11 @@ namespace Rendering
 				break;
 			}
 		}
+	}
+
+	void GreenSoldier::SetAnimations()
+	{
+		mAnimations.insert(std::pair<std::string, int>("Walk", 0));
 	}
 }
 

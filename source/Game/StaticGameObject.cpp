@@ -107,10 +107,9 @@ namespace Rendering
 		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
 
 		// Initial transform
-
-		StaticGameObject::Scale(0, 0, 0);
-		StaticGameObject::FirstRotation();
-		StaticGameObject::Translate(mPosition);
+		Scale(0, 0, 0);
+		FirstRotation();
+		FirstTranslation(mPosition);
 		mCollider = new Colliders();
 	}
 

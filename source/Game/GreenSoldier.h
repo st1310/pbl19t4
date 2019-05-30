@@ -20,6 +20,7 @@ namespace Rendering
 		void setSelection(bool selection);
 		bool getIsSelected();
 		virtual void CheckTriggers() override;
+		virtual void SetAnimations() override;
 
 	private:
 		bool isSelected = false;

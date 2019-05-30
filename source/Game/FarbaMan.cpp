@@ -7,7 +7,7 @@ namespace Rendering
 		XMFLOAT3 startRotation,
 		XMFLOAT3 startScale)
 		: AnimatedGameObject(game, camera,
-			"GreenSoldier",
+			"FarbaMan",
 			"Content\\Models\\FarbaMan.fbx",
 			L"Content\\Effects\\SkinnedModel.cso",
 			"Content\\Textures\\FarbaManDiffuseMap.jpg",
@@ -20,6 +20,8 @@ namespace Rendering
 
 		mIsSelectedDiffuseMap = "Content\\Textures\\SoldierSelectedDiffuseMap.jpg";
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
+
+		SetAnimations();
 	}
 
 
@@ -79,5 +81,15 @@ namespace Rendering
 				break;
 			}
 		}
+	}
+
+	void FarbaMan::SetAnimations()
+	{
+		mAnimations.insert(std::pair<std::string, int>("Idle", 0));
+		mAnimations.insert(std::pair<std::string, int>("StartRunning", 1));
+		mAnimations.insert(std::pair<std::string, int>("Run", 2));
+		mAnimations.insert(std::pair<std::string, int>("StopRunning", 3));
+		mAnimations.insert(std::pair<std::string, int>("Reload", 4));
+		mAnimations.insert(std::pair<std::string, int>("Paint", 5));
 	}
 }

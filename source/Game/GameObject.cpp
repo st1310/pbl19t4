@@ -594,8 +594,6 @@ namespace Rendering
 		helpLabel << "\nRotation: " << mRotation.x << ", " << mRotation.y << ", " << mRotation.z;
 		helpLabel << "\nScale: " << mScale.x << ", " << mScale.y << ", " << mScale.z;
 
-
-
 		return helpLabel;
 	}
 

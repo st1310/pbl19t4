@@ -193,15 +193,15 @@ namespace Rendering
 			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition);
 
-		if (true) {
-			for (int i = 0; i < 6; i++) {
-				if (mGameManager->GetListOfUnits().at(i)->GetUnitID()==mGameManager->unitID) {
+		if (true) 
+		{
+			for (int i = 0; i < mGameManager->GetListOfUnits().size(); i++) 
+			{
+				if (mGameManager->GetListOfUnits().at(i)->GetUnitID()==mGameManager->unitID) 
 					mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(0.0f + 50 * i, 630.0f, 150.0f, 150.0f));
-				}
-				else {
-					mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(0 + 50 * i, 660.0f, 120.0f, 120.0f));
-				}
-				
+
+				else 
+					mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(0 + 50 * i, 660.0f, 120.0f, 120.0f));			
 			}
 		}
 

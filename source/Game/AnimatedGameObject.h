@@ -39,6 +39,11 @@ namespace Rendering
 
 		virtual void BuildBoundingBox(XMFLOAT3 radius) override;
 		virtual void CheckTriggers();
+		virtual void SetAnimations();
+		void ChangeAnimation(std::string animationName);
+
+	protected:
+		std::map<std::string, int> mAnimations;
 
 	private:
 		AnimatedGameObject();
@@ -49,5 +54,9 @@ namespace Rendering
 
 		AnimationPlayer* mAnimationPlayer;
 		SkinnedModelMaterial* mMaterial;
+
+		//Only for sequence testing
+		std::vector<std::string> mAnimationSequence;
+		bool mStartAnimation = false;
 	};
 }

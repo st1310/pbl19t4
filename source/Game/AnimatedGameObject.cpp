@@ -34,6 +34,9 @@ namespace Rendering
 			startPosition, startRotation, startScale),
 		mMaterial(nullptr), mAnimationPlayer(nullptr)
 	{		
+		mAnimations = std::map<std::string, int>();
+
+		mAnimationSequence = std::vector<std::string>();
 	}
 
 	AnimatedGameObject::~AnimatedGameObject()
@@ -113,7 +116,7 @@ namespace Rendering
 		// Initial transform	
 		Scale(0,0,0);
 		FirstRotation();
-		Translate(mPosition);
+		FirstTranslation(mPosition);
 		mCollider = new Colliders();
 	}
 
@@ -136,6 +139,26 @@ namespace Rendering
 			//float animationLenth = mSkinnedModel->Animations().at(0)->Duration();
 			//mAnimationPlayer->CurrentKeyframe();
 		}
+
+		if (mAnimationPlayer->CurrentKeyframe() > 1 && mStartAnimation == false)
+			mStartAnimation = true;
+
+		// Only for sequence testing
+		if (mAnimationSequence.size() != 0 && mAnimationPlayer->CurrentKeyframe() < 1 && mStartAnimation == true)
+		{
+			mAnimationSequence.erase(mAnimationSequence.begin());
+			mStartAnimation = false;
+
+			if (mAnimationSequence.size() != 0)
+			{
+				std::string nextAnimation = mAnimationSequence[0];
+				ChangeAnimation(nextAnimation);
+			}
+			else
+				ChangeAnimation("Idle");			
+		}
+
+		mAnimationPlayer->Update(gameTime);
 	}
 
 	void AnimatedGameObject::Draw(const GameTime& gameTime)
@@ -176,7 +199,7 @@ namespace Rendering
 		mSpriteBatch->Begin();
 
 		std::wostringstream helpLabel;
-		/*
+		
 		helpLabel << std::setprecision(5) << L"\nAnimation Time: " << mAnimationPlayer->CurrentTime()
 			<< "\nFrame Interpolation (I): " << (mAnimationPlayer->InterpolationEnabled() ? "On" : "Off");
 		
@@ -188,7 +211,7 @@ namespace Rendering
 		{
 			helpLabel << "\nPause / Resume(P)";
 		}
-		*/
+		
 		if (mIsSelected && mIsEdited)
 			helpLabel = GetCreationKitInfo();
 		
@@ -221,6 +244,27 @@ namespace Rendering
 			{
 				// Enable/disabled interpolation
 				mAnimationPlayer->SetInterpolationEnabled(!mAnimationPlayer->InterpolationEnabled());
+			}
+
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_F))
+			{
+				mStartAnimation = true;
+				mAnimationSequence.push_back("Paint");
+				mAnimationSequence.push_back("Paint");
+				mAnimationSequence.push_back("Paint");
+				mAnimationSequence.push_back("Reload");
+				mAnimationSequence.push_back("Paint");
+			}
+
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_G))
+			{
+				mStartAnimation = true;
+				mAnimationSequence.push_back("StartRunning");
+				mAnimationSequence.push_back("StartRunning");
+				mAnimationSequence.push_back("Run");
+				mAnimationSequence.push_back("Run");
+				mAnimationSequence.push_back("Run");
+				mAnimationSequence.push_back("StopRunning");
 			}
 
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_RETURN))
@@ -265,6 +309,19 @@ namespace Rendering
 			mCollider->BuildBoundingBox(mPosition, radius);
 			if (inNode != nullptr)
 				inNode->AddDynamicCollider(mCollider);
+	}
+
+	void AnimatedGameObject::ChangeAnimation(std::string animationName)
+	{
+		if (mAnimations.find(animationName) == std::end(mAnimations))
+			return;
+
+		int animationNumber = mAnimations.at(animationName);
+		mAnimationPlayer->StartClip(*(mSkinnedModel->Animations().at(animationNumber)));
+	}
+
+	void AnimatedGameObject::SetAnimations()
+	{
 	}
 
 }
