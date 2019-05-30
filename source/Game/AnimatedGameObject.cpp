@@ -267,6 +267,16 @@ namespace Rendering
 				mAnimationSequence.push_back("StopRunning");
 			}
 
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_B))
+			{
+				ChangeAnimation("Run");				
+			}
+
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_V))
+			{
+				ChangeAnimation("Paint");
+			}
+
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_RETURN))
 			{
 				// Enable/disable manual advance mode
