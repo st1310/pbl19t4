@@ -120,7 +120,7 @@ namespace Rendering
 
 	void GameManager::SelectingGrounds(long mouseX, long mouseY) {
 
-		FirstPersonCamera* firstCam = camera->As<FirstPersonCamera>();
+		Camera* firstCam = camera->As<Camera>();
 
 		XMMATRIX viewProj = firstCam->ViewProjectionMatrix();
 		XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);
@@ -179,7 +179,7 @@ namespace Rendering
 	void GameManager::SelectingUnits(long mouseX, long mouseY, bool selectSeveral)
 	{
 		unitID = -1;
-		FirstPersonCamera* firstCam = camera->As<FirstPersonCamera>();
+		Camera* firstCam = camera->As<Camera>();
 
 		XMMATRIX viewProj = firstCam->ViewProjectionMatrix();
 		XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);

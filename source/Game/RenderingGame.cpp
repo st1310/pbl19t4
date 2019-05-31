@@ -6,7 +6,9 @@
 #include "KeyboardComponent.h"
 #include "MouseComponent.h"
 #include "FpsComponent.h"
+#include "Camera.h"
 #include "FirstPersonCamera.h"
+#include "GameCamera.h"
 #include "SkyboxComponent.h"
 #include "ColorHelper.h"
 #include "RenderStateHelper.h"
@@ -54,11 +56,17 @@ namespace Rendering
 		mServices.AddService(MouseComponent::TypeIdClass(), mMouse);
 
 		mCollC = new Colliders();
-		mCamera = new FirstPersonCamera(*this);
+		mCamera = new GameCamera(*this);
 		CollisionNode* newNode = new CollisionNode({-5.f, -20.f, 0.f}, { 5.f, 20.f, 50.f });
 
+		//For debug
 		mComponents.push_back(mCamera);
-		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
+		mServices.AddService(GameCamera::TypeIdClass(), mCamera);
+		//mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
+
+		// For game
+		//mComponents.push_back(mGameCamera);
+		//mServices.AddService(GameCamera::TypeIdClass(), mGameCamera);
 
 //=======
 		mSkybox = new SkyboxComponent(*this, *mCamera, L"Content\\Textures\\Maskonaive2_1024.dds", 100.0f);
@@ -94,8 +102,8 @@ namespace Rendering
 		Game::Initialize();
 
 
-		mCamera->SetPosition(0.0f, 10.0f, 20.0f);
-		
+		//mCamera->SetPosition(0.0f, 10.0f, 20.0f);		
+		mCamera->SetPosition(0.0f, 70.0f, 20.0f);
 
 	}
 

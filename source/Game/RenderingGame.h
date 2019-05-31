@@ -18,6 +18,7 @@ namespace Library
 	class KeyboardComponent;
 	class MouseComponent;
 	class FirstPersonCamera;
+	class GameCamera;
 	class RenderStateHelper;
 	class SkyboxComponent;
 }
@@ -52,7 +53,8 @@ namespace Rendering
 		LPDIRECTINPUT8 mDirectInput;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
-		FirstPersonCamera* mCamera;
+		GameCamera* mCamera;
+		//FirstPersonCamera* mCamera;
 		FpsComponent* mFpsComponent;
 		SkyboxComponent* mSkybox;
 

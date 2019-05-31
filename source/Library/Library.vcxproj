@@ -195,6 +195,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="FpsComponent.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameClock.h" />
     <ClInclude Include="GameComponent.h" />
     <ClInclude Include="GameException.h" />
@@ -246,6 +247,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="FirstPersonCamera.cpp" />
     <ClCompile Include="FpsComponent.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GameComponent.cpp" />
     <ClCompile Include="GameException.cpp" />
