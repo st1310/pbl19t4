@@ -2,10 +2,8 @@
 
 namespace Library
 {
-	namespace Rendering
-	{
 
-		GUI::GUI() {
+		GUI::GUI(Game& game, Camera& camera) : DrawableGameComponent(game, camera){
 
 		}
 
@@ -35,5 +33,5 @@ namespace Library
 			return buttonsList;
 		}
 
-	}
+	
 }

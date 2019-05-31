@@ -8,11 +8,11 @@
 
 namespace Library 
 {
-	namespace Rendering
-	{
+	
 		class GUI : public DrawableGameComponent {
+			RTTI_DECLARATIONS(GUI, DrawableGameComponent)
 		public:
-			GUI();
+			GUI(Game& game, Camera& camera);
 			~GUI();
 
 			virtual void Initialize() override;
@@ -29,6 +29,6 @@ namespace Library
 			SpriteFont* mSpriteFont;
 
 		};
-	}
+	
 }
 

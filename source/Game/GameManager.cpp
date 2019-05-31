@@ -1,8 +1,12 @@
 #include "GameManager.h"
-
+#include "GUI.h"
 
 namespace Rendering
 {
+	namespace Library {
+
+	}
+	class GUI;
 	RTTI_DEFINITIONS(GameManager)
 
 		GameManager::GameManager(Game& game, Camera& camera)
@@ -16,6 +20,7 @@ namespace Rendering
 		unitsReadyToMove = false;
 		ShowMousePosition = false;
 		targetPos = XMFLOAT3(0, 0, 0);
+		
 		
 	}
 
@@ -50,10 +55,12 @@ namespace Rendering
 		pathFinder_Test->BuildNodesStart({ 200.f, -100.f, -200.f }, { -200.f, 100.f, 200.f });
 		mScenes.push_back(pathFinder_Test);
 		
+	 
 	}
 
 	void GameManager::StartScene(int sceneId)
 	{
+		guiButtons.clear();
 		if (sceneId < 0 || sceneId >= mScenes.size())
 			return;
 
@@ -72,6 +79,7 @@ namespace Rendering
 
 		for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
 			mScenes.at(mCurrentScene)->GetUnitList().at(i)->SetUnitID(i);
+			guiButtons.push_back(new Button(*game, *camera, XMFLOAT2(0 + 50 * i, 660.0f), XMFLOAT2(120.f, 120.f), "cos"));
 		}
 	}
 
