@@ -52,7 +52,7 @@
 <Soldier>
    <Position>
       <x= -30.00/>
-      <y= 0.00/>
+      <y= -7.00/>
       <z= 15.00/>
    </Position>
    <Rotation>
@@ -61,15 +61,15 @@
       <z= 0.00/>
    </Rotation>
    <Scale>
-      <x= 0.02/>
-      <y= 0.02/>
-      <z= 0.02/>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
    </Scale>
 </Soldier>
 <Soldier>
    <Position>
       <x= 56.50/>
-      <y= 0.00/>
+      <y= -7.00/>
       <z= 28.00/>
    </Position>
    <Rotation>
@@ -78,15 +78,15 @@
       <z= 0.00/>
    </Rotation>
    <Scale>
-      <x= 0.02/>
-      <y= 0.02/>
-      <z= 0.02/>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
    </Scale>
 </Soldier>
 <Soldier>
    <Position>
       <x= 45.50/>
-      <y= 0.00/>
+      <y= -7.00/>
       <z= 14.00/>
    </Position>
    <Rotation>
@@ -95,9 +95,9 @@
       <z= 0.00/>
    </Rotation>
    <Scale>
-      <x= 0.02/>
-      <y= 0.02/>
-      <z= 0.02/>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
    </Scale>
 </Soldier>
 <SingleStreetLampPost>
@@ -460,7 +460,7 @@
 <Soldier>
    <Position>
       <x= -1.00/>
-      <y= 0.00/>
+      <y= -7.00/>
       <z= 10.50/>
    </Position>
    <Rotation>
@@ -469,15 +469,15 @@
       <z= 0.00/>
    </Rotation>
    <Scale>
-      <x= 0.02/>
-      <y= 0.02/>
-      <z= 0.02/>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
    </Scale>
 </Soldier>
 <Soldier>
    <Position>
       <x= 8.50/>
-      <y= 0.00/>
+      <y= -7.00/>
       <z= 3.50/>
    </Position>
    <Rotation>
@@ -486,9 +486,9 @@
       <z= 0.00/>
    </Rotation>
    <Scale>
-      <x= 0.02/>
-      <y= 0.02/>
-      <z= 0.02/>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
    </Scale>
 </Soldier>
 <Bench>
@@ -511,7 +511,7 @@
 <Soldier>
    <Position>
       <x= 21.50/>
-      <y= 0.00/>
+      <y= -7.00/>
       <z= 0.00/>
    </Position>
    <Rotation>
@@ -520,8 +520,8 @@
       <z= 0.00/>
    </Rotation>
    <Scale>
-      <x= 0.02/>
-      <y= 0.02/>
-      <z= 0.02/>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
    </Scale>
 </Soldier>

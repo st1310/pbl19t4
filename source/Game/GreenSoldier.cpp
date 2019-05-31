@@ -87,7 +87,10 @@ namespace Rendering
 
 	void GreenSoldier::SetAnimations()
 	{
-		mAnimations.insert(std::pair<std::string, int>("Walk", 0));
+		mAnimations.insert(std::pair<std::string, int>("Idle", 0));
+		mAnimations.insert(std::pair<std::string, int>("StartRunning", 1));
+		mAnimations.insert(std::pair<std::string, int>("Run", 2));
+		mAnimations.insert(std::pair<std::string, int>("StopRunning", 3));
 	}
 }
 

@@ -31,7 +31,6 @@ namespace Rendering
 			"FarbaMan",
 			"GrassGround",
 			"GrassGroundNew",
-			"GreenSoldier",
 			"Information",
 			"InformationBoard",
 			"OverheadLines",
@@ -45,6 +44,7 @@ namespace Rendering
 			"PoliceCar",
 			"Policeman",
 			"SingleStreetLampPost",
+			"Soldier",
 			"StoneGround",
 			"Track"
 		};

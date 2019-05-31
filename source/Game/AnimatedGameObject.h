@@ -13,6 +13,7 @@ namespace Library
 	class SkinnedModelMaterial;
 	class Model;
 	class AnimationPlayer;
+	class AnimationSequence;
 }
 
 namespace DirectX
@@ -42,6 +43,8 @@ namespace Rendering
 		virtual void SetAnimations();
 		void ChangeAnimation(std::string animationName);
 
+		void RunInit();
+
 	protected:
 		std::map<std::string, int> mAnimations;
 
@@ -55,8 +58,8 @@ namespace Rendering
 		AnimationPlayer* mAnimationPlayer;
 		SkinnedModelMaterial* mMaterial;
 
-		//Only for sequence testing
-		std::vector<std::string> mAnimationSequence;
-		bool mStartAnimation = false;
+		//Animation sequence
+		AnimationSequence* mAnimationSequence;
+		std::string mCurrentAnimation = "Idle";
 	};
 }

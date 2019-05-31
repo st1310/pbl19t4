@@ -148,7 +148,7 @@ namespace Rendering
 						
 						for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
 
-							GameObject* gameObject = (GameObject*)(mScenes.at(mCurrentScene)->GetUnitList().at(i));
+							AnimatedGameObject* gameObject = (AnimatedGameObject*)(mScenes.at(mCurrentScene)->GetUnitList().at(i));
 
 							if (gameObject->getIsSelected()) {
 
@@ -162,6 +162,7 @@ namespace Rendering
 										std::vector<XMFLOAT2> nextPositions = std::vector<XMFLOAT2>();
 										nextPositions = pathfinding->GetPathNodesPosVector();
 										gameObject->StartMoving(nextPositions);
+										gameObject->RunInit();
 
 										gameObject->setIsSelected(false);
 									}

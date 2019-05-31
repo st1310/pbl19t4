@@ -13,6 +13,7 @@
 #include "ColorHelper.h"
 #include "AnimationPlayer.h"
 #include "AnimationClip.h"
+#include "AnimationSequence.h"
 #include <WICTextureLoader.h>
 #include <SpriteBatch.h>
 #include <SpriteFont.h>
@@ -35,8 +36,9 @@ namespace Rendering
 		mMaterial(nullptr), mAnimationPlayer(nullptr)
 	{		
 		mAnimations = std::map<std::string, int>();
+		mAnimationSequence = new AnimationSequence("Idle");
 
-		mAnimationSequence = std::vector<std::string>();
+		//mAnimationSequence = std::vector<std::string>();
 	}
 
 	AnimatedGameObject::~AnimatedGameObject()
@@ -135,30 +137,14 @@ namespace Rendering
 		{
 			mIsBusy = false;
 			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
+			mAnimationSequence->EndLoop();
 			ChangeTexture(modelName);
 		}
-		if (!mState->IsInActiveState() && mAnimationPlayer->CurrentKeyframe() != 0)
+
+		if (mCurrentAnimation != mAnimationSequence->GetCurrentAnimation(mAnimationPlayer->CurrentTime()))
 		{
-			//float animationLenth = mSkinnedModel->Animations().at(0)->Duration();
-			//mAnimationPlayer->CurrentKeyframe();
-		}
-
-		if (mAnimationPlayer->CurrentKeyframe() > 1 && mStartAnimation == false)
-			mStartAnimation = true;
-
-		// Only for sequence testing
-		if (mAnimationSequence.size() != 0 && mAnimationPlayer->CurrentKeyframe() < 1 && mStartAnimation == true)
-		{
-			mAnimationSequence.erase(mAnimationSequence.begin());
-			mStartAnimation = false;
-
-			if (mAnimationSequence.size() != 0)
-			{
-				std::string nextAnimation = mAnimationSequence[0];
-				ChangeAnimation(nextAnimation);
-			}
-			else
-				ChangeAnimation("Idle");			
+			mCurrentAnimation = mAnimationSequence->GetCurrentAnimation(mAnimationPlayer->CurrentTime());
+			ChangeAnimation(mCurrentAnimation);
 		}
 
 		mAnimationPlayer->Update(gameTime);
@@ -251,23 +237,21 @@ namespace Rendering
 
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_F))
 			{
-				mStartAnimation = true;
+				//mStartAnimation = true;
+				/*
+				mAnimationSequence->InitLoopAnimationSequence()
 				mAnimationSequence.push_back("Paint");
 				mAnimationSequence.push_back("Paint");
 				mAnimationSequence.push_back("Paint");
 				mAnimationSequence.push_back("Reload");
 				mAnimationSequence.push_back("Paint");
+				*/
 			}
 
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_G))
 			{
-				mStartAnimation = true;
-				//mAnimationSequence.push_back("StartRunning");
-				//mAnimationSequence.push_back("StartRunning");
-				mAnimationSequence.push_back("Run");
-				mAnimationSequence.push_back("Run");
-				mAnimationSequence.push_back("Run");
-				//.push_back("StopRunning");
+				//mStartAnimation = true;
+				mAnimationSequence->InitLoopAnimationSequence("StartRunning", "Run", "StopRunning");
 			}
 
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_B))
@@ -337,4 +321,8 @@ namespace Rendering
 	{
 	}
 
+	void AnimatedGameObject::RunInit()
+	{
+		mAnimationSequence->InitLoopAnimationSequence("StartRunning", "Run", "StopRunning");
+	}
 }
