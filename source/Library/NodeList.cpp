@@ -71,9 +71,10 @@ namespace Library
 
 	CollisionNode* NodeList::MovedToNode(XMFLOAT3 ObjectPosition, CollisionNode* originalNode)
 	{
-
-
-		CollisionNode* parNode = originalNode->GetParent();
+		CollisionNode* parNode;
+		if (originalNode->GetParent() != nullptr)
+			parNode = originalNode->GetParent();
+		else parNode = originalNode;
 
 		if (parNode->IsInsideThisNode(ObjectPosition))
 		{

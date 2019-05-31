@@ -26,5 +26,11 @@ namespace Rendering
 			this->GameObjects.push_back(gameObjects.at(i));
 			GameObjects.at(i)->Initialize();
 		}
+
+		for (DrawableGameComponent* drwGm : trigerrableObjects)
+		{
+			GameObject* gmObj = drwGm->As<GameObject>();
+			gmObj->getNode()->AddTriggerCollider(gmObj->getCollider());
+		}
 	}
 }

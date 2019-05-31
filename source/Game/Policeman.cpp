@@ -27,6 +27,8 @@ namespace Rendering
 	{
 		AnimatedGameObject::Initialize();
 		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.25f, 10.5f, 3.25f));
+		this->mCollider->setTriggerReaction(POLICE_CATCHING, mPosition, { 2.25f, 5.0f, 2.25f });
+		this->mCollider->setTriggerReaction(POLICE_ALLIES, mPosition, { 6.f, 5.0f, 6.f });
 	}
 
 	void Policeman::CheckTriggers()

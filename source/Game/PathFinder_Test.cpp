@@ -32,6 +32,12 @@ namespace Rendering
 			GameObjects.at(i)->Initialize();
 		}
 		
+		for (DrawableGameComponent* drwGm : trigerrableObjects)
+		{
+			GameObject* gmObj = drwGm->As<GameObject>();
+			gmObj->getNode()->AddTriggerCollider(gmObj->getCollider());
+		}
+
 		this->groundCollider = pathfinding->collider;	//przypisanie do kolajdera sceny kolajdera pathfindingu zawieraj¹cego wszystkie boundingboxy pod³o¿a
 
 	}

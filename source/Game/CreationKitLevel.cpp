@@ -87,8 +87,17 @@ namespace Rendering
 
 		for (int i = 0; i < gameObjects.size(); i++)
 		{
+			GameObject* gmObj = GameObjects.at(i)->As<GameObject>();
+			gmObj->SetNode(NodeList::MovedToNode(gmObj->getPosition(), getListOfNode()));
+
 			this->GameObjects.push_back(gameObjects.at(i));
 			GameObjects.at(i)->Initialize();
+		}
+
+		for (DrawableGameComponent* drwGm : trigerrableObjects)
+		{
+			GameObject* gmObj = drwGm->As<GameObject>();
+			gmObj->getNode()->AddTriggerCollider(gmObj->getCollider());
 		}
 	}
 }

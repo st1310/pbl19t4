@@ -27,6 +27,7 @@ namespace Rendering
 	{
 		AnimatedGameObject::Initialize();
 		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.25f, 10.5f, 3.25f));
+		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, {6.0f, 5.0f, 6.0f});
 	}
 
 	void GreenSoldier::setSelection(bool selection)
