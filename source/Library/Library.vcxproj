@@ -185,6 +185,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="Bone.h" />
     <ClInclude Include="BoneAnimation.h" />
     <ClInclude Include="BoneVertexWeights.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Colliders.h" />
     <ClInclude Include="ColorHelper.h" />
@@ -198,6 +199,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="GameComponent.h" />
     <ClInclude Include="GameException.h" />
     <ClInclude Include="GameTime.h" />
+    <ClInclude Include="GUI.h" />
     <ClInclude Include="KeyboardComponent.h" />
     <ClInclude Include="Keyframe.h" />
     <ClInclude Include="Material.h" />
@@ -235,6 +237,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BoneAnimation.cpp" />
     <ClCompile Include="BoneVertexWeights.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Colliders.cpp" />
     <ClCompile Include="ColorHelper.cpp" />
@@ -247,6 +250,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="GameComponent.cpp" />
     <ClCompile Include="GameException.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="GUI.cpp" />
     <ClCompile Include="KeyboardComponent.cpp" />
     <ClCompile Include="Keyframe.cpp" />
     <ClCompile Include="Material.cpp" />

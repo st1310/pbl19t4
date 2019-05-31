@@ -1,19 +1,39 @@
-//#include "GUI.h"
-//#include <WICTextureLoader.h>
-//
-//namespace Rendering
-//{
-//	GUI::GUI() :mUnitGuiTexture(nullptr), mUnitGuiTextureBlack(nullptr) {
-//
-//	}
-//
-//	GUI::~GUI() {
-//
-//	}
-//
-//	void GUI::Initialize() {
-//		HRESULT hr = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &mUnitGuiTexture);
-//		HRESULT hr1 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName1.str().c_str(), nullptr, &mUnitGuiTextureBlack);
-//
-//	}
-//}
+#include "GUI.h"
+
+namespace Library
+{
+	namespace Rendering
+	{
+
+		GUI::GUI() {
+
+		}
+
+		GUI::~GUI() {
+
+		}
+
+		void GUI::Initialize() {
+			for (int i = 0; i < buttonsList.size(); i++) {
+				buttonsList.at(i)->Init();
+			}
+		}
+
+		void GUI::Update(const GameTime& gameTime) {
+
+		}
+
+		void GUI::Draw(const GameTime& gameTime) {
+
+		}
+
+		void GUI::AddButton(Button* button) {
+			buttonsList.push_back(button);
+		}
+
+		std::vector<Button*> GUI::GetButtonList() {
+			return buttonsList;
+		}
+
+	}
+}
