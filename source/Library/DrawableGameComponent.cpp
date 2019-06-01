@@ -53,4 +53,12 @@ namespace Library
 	{
 		return nullptr;
 	}
+
+	void DrawableGameComponent::SetUnitID(int id) {
+		unitID = id;
+	}
+
+	int DrawableGameComponent::GetUnitID() {
+		return unitID;
+	}
 }

@@ -1,11 +1,16 @@
 #include "GameManager.h"
 #include "NodeList.h"
+#include "GUI.h"
 
 namespace Rendering
 {
+	namespace Library {
+
+	}
+	class GUI;
 	RTTI_DEFINITIONS(GameManager)
 
-	GameManager::GameManager(Game& game, Camera& camera)
+		GameManager::GameManager(Game& game, Camera& camera)
 	{
 		this->game = &game;
 		this->camera = &camera;
@@ -13,7 +18,11 @@ namespace Rendering
 
 		mCurrentScene = CITY_LEVEL;
 		StartScene(mCurrentScene);
-
+		unitsReadyToMove = false;
+		ShowMousePosition = false;
+		targetPos = XMFLOAT3(0, 0, 0);
+		
+		
 	}
 
 	GameManager::~GameManager()
@@ -34,8 +43,8 @@ namespace Rendering
 		trainLevel->BuildNodesStart({ 100.f, -100.f, -50.f }, { -100.f, 100.f, 50.f });
 		mScenes.push_back(trainLevel);
 
-		CityLevel* cityLevel= new CityLevel(*game, *camera);
-		cityLevel->BuildNodesStart({200.f, -100.f, -250.f}, { -200.f, 100.f, 250.f });
+		CityLevel* cityLevel = new CityLevel(*game, *camera);
+		cityLevel->BuildNodesStart({ 200.f, -100.f, -250.f }, { -200.f, 100.f, 250.f });
 		mScenes.push_back(cityLevel);
 
 		CreationKitLevel* creationKitLevel = new CreationKitLevel(*game, *camera);
@@ -46,21 +55,39 @@ namespace Rendering
 		PathFinder_Test* pathFinder_Test = new PathFinder_Test(*game, *camera);
 		pathFinder_Test->BuildNodesStart({ 200.f, -100.f, -200.f }, { -200.f, 100.f, 200.f });
 		mScenes.push_back(pathFinder_Test);
+		
+	 
 	}
 
 	void GameManager::StartScene(int sceneId)
 	{
+		guiButtons.clear();
 		if (sceneId < 0 || sceneId >= mScenes.size())
 			return;
 
 		// Clear old scene
 		mScenes.at(mCurrentScene)->Clear();
 
+		pathfinding = new PathFinding();
+		pathfinding->setMapWidth(27);
+		pathfinding->setMapHeight(145);
+		pathfinding->OnUserCreate();
+
 		mCurrentScene = sceneId;
 
-		mScenes.at(sceneId)->Start(*game, *camera);	
-		
+		mScenes.at(sceneId)->Start(*game, *camera);
+		mScenes.at(sceneId)->SetGroudndCollider(pathfinding->collider);
+
 		this->game->ClearAndSetNodes(mScenes.at(sceneId)->getListOfNode());
+
+		for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
+			mScenes.at(mCurrentScene)->GetUnitList().at(i)->SetUnitID(i);
+			guiButtons.push_back(new Button(*game, *camera, XMFLOAT2(0 + 50 * i, 660.0f), XMFLOAT2(120.f, 120.f), "cos"));
+		}
+	}
+
+	std::vector<DrawableGameComponent*> GameManager::GetListOfUnits() {
+		return mScenes.at(mCurrentScene)->GetUnitList();
 	}
 
 	int GameManager::GetSizeOfCurrentScene()
@@ -71,7 +98,6 @@ namespace Rendering
 	void GameManager::Update(const GameTime& gameTime)
 	{
 		mScenes[mCurrentScene]->Update(gameTime);
-
 		for (GameComponent* remCmp : mScenes[mCurrentScene]->GetTriggerableObjects())
 		{
 			GameObject* trgObj = remCmp->As<GameObject>();
@@ -97,10 +123,11 @@ namespace Rendering
 	}
 
 	void GameManager::Draw(const GameTime& gameTime)
-	{		
+	{
 		for (GameComponent* component : mScenes[mCurrentScene]->GameObjects)
 		{
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
+
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
 				if(drawableGameComponent->getNode() == nullptr)
 					drawableGameComponent->Draw(gameTime);
@@ -118,37 +145,66 @@ namespace Rendering
 
 	void GameManager::SelectingGrounds(long mouseX, long mouseY) {
 
-		FirstPersonCamera* firstCam = camera->As<FirstPersonCamera>();
-
-		XMMATRIX viewProj = firstCam->ViewProjectionMatrix();
+		XMMATRIX viewProj = camera->ViewProjectionMatrix();
 		XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);
 
 		float x = (((2.0f * mouseX) / (float)game->ScreenWidth()) - 1.0f);
 		float y = (((2.0f * mouseY) / (float)game->ScreenHeight()) - 1.0f) * (-1.0f);
 
-		
 		XMVECTOR farPoint = XMVECTOR({ x, y, 1.0f, 0.0f });
 		XMVECTOR TrF = XMVector3Transform(farPoint, invProjectionView);
 		TrF = XMVector3Normalize(TrF);
 
-		//mScenes.at(mCurrentScene)->SetGroudn
 
 		if (mScenes.at(mCurrentScene) != nullptr)
 		for (BoundingBox* bbx: mScenes.at(mCurrentScene)->GetGroundCollider()->GetBoundingBox()) {
-			float farPlaneDistance = firstCam->FarPlaneDistance();
-			if (bbx->Intersects(firstCam->PositionVector(), TrF, farPlaneDistance)) {
+			float farPlaneDistance = camera->FarPlaneDistance();
+			if (bbx->Intersects(camera->PositionVector(), TrF, farPlaneDistance)) {
 				
-				XMFLOAT3 targetPos = bbx->Center;
+				targetPos = bbx->Center;	
 				
+				int mapHeight = pathfinding->getMapheight();
+				int mapWidth = pathfinding->getMapWidth();
+				int pathFindingMapSize = mapHeight * mapWidth;
+
+				for (int j = 0; j < pathFindingMapSize; j++) {
+					if (pathfinding->nodes[j].x == targetPos.x && pathfinding->nodes[j].y == targetPos.z) {	
+						
+						for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
+
+							AnimatedGameObject* gameObject = (AnimatedGameObject*)(mScenes.at(mCurrentScene)->GetUnitList().at(i));
+
+							if (gameObject->getIsSelected()) {
+
+								for (int x = 0; x < pathFindingMapSize; x++) {
+									if (gameObject->getPosition().x == pathfinding->nodes[x].x && gameObject->getPosition().z == pathfinding->nodes[x].y) {
+										pathfinding->nodeStart = &pathfinding->nodes[x];
+										pathfinding->nodeEnd = &pathfinding->nodes[j];
+										pathfinding->currentNode = pathfinding->nodeEnd;
+										pathfinding->Solve_AStar();
+										XMFLOAT3 unitPosition = gameObject->getPosition();
+										std::vector<XMFLOAT2> nextPositions = std::vector<XMFLOAT2>();
+										nextPositions = pathfinding->GetPathNodesPosVector();
+										gameObject->StartMoving(nextPositions);
+										gameObject->RunInit();
+
+										gameObject->setIsSelected(false);
+									}
+								}
+
+   							}
+						}
+					}
+				}
 			}
 		}
 	}
 
 	void GameManager::SelectingUnits(float mouseX, float mouseY)
 	{
-		FirstPersonCamera* firstCam = camera->As<FirstPersonCamera>();
+		unitID = -1;
 
-		XMMATRIX viewProj = firstCam->ViewProjectionMatrix();
+		XMMATRIX viewProj = camera->ViewProjectionMatrix();
 		XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);
 
 		float x = (((2.0f * mouseX) / (float)game->ScreenWidth()) - 1.0f);
@@ -160,33 +216,35 @@ namespace Rendering
 
 		bool wasSelected = false;
 
-			
 			//For now - this is the prototype of checking if mouse clicked in right position
-			for (GameComponent* gmCm : mScenes.at(mCurrentScene)->GetUnitList())
+		for (GameComponent* gmCm : mScenes.at(mCurrentScene)->GetUnitList())
+		{
+			GreenSoldier* greenSold = gmCm->As<GreenSoldier>();
+
+			if (greenSold->getCollider()->CheckColliderIntersecteByRay(camera->PositionVector(), TrF, camera->FarPlaneDistance()) && (!wasSelected))
 			{
-				GreenSoldier* greenSold = gmCm->As<GreenSoldier>();
-
-				if (greenSold->getCollider()->CheckColliderIntersecteByRay(firstCam->PositionVector(), TrF, firstCam->FarPlaneDistance()) && (!wasSelected))
-				{
-					greenSold->setSelection(true);
-					//Will remove this later
-					greenSold->SetVisible(false);
-					wasSelected = true;
-				}
-				else
-				{
-					greenSold->setSelection(false);
-					greenSold->SetVisible(true);
-				}
-
+				greenSold->setSelection(true);
+				greenSold->setIsSelected(true);
+				//Will remove this later
+				wasSelected = true;
+				unitsReadyToMove = true;
+				unitID = greenSold->GetUnitID();
 			}
+			else
+			{
+				greenSold->setSelection(false);
+				greenSold->setIsSelected(false);
+				unitsReadyToMove = false;
+			}
+		}
+
 	}
 
 	void GameManager::SelectingUnits(float mouse1X, float mouse1Y, float mouse2X, float mouse2Y)
 	{
-		FirstPersonCamera* firstCam = camera->As<FirstPersonCamera>();
+		GameCamera* gmCam = camera->As<GameCamera>();
 
-		XMMATRIX viewProj = firstCam->ViewProjectionMatrix();
+		XMMATRIX viewProj = gmCam->ViewProjectionMatrix();
 		XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);
 
 		if (mouse1X > mouse2X)
@@ -209,9 +267,9 @@ namespace Rendering
 		float x2 = (((2.0f * mouse2X) / (float)game->ScreenWidth()) - 1.0f);
 		float y2 = (((2.0f * mouse2Y) / (float)game->ScreenHeight()) - 1.0f) * (-1.0f);
 
-		for (float i = x1; i <= x2; i += 0.025f)
+		for (float i = x1; i <= x2; i += 0.1f)
 		{
-			for (float j = y1; j >= y2; j -= 0.025f)
+			for (float j = y1; j >= y2; j -= 0.1f)
 			{
 				XMVECTOR farPoint = XMVECTOR({ i, j, 1.0f, 0.0f });
 				XMVECTOR TrF = XMVector3Transform(farPoint, invProjectionView);
@@ -223,22 +281,31 @@ namespace Rendering
 				{
 					GreenSoldier* greenSold = gmCm->As<GreenSoldier>();
 
-					if (greenSold->getCollider()->CheckColliderIntersecteByRay(firstCam->PositionVector(), TrF, firstCam->FarPlaneDistance()))
+					if (greenSold->getCollider()->CheckColliderIntersecteByRay(gmCam->PositionVector(), TrF, gmCam->FarPlaneDistance()))
 					{
 						greenSold->setSelection(true);
-						greenSold->SetVisible(false);
+						greenSold->setIsSelected(true);
+						unitsReadyToMove = true;
 					}
-
 				}
 			}
 		}
 	}
-		
+	
 	int GameManager::GetCurrentSceneId() {
 		return  mCurrentScene;
 	}
 
+	bool GameManager::GetunitsReadyToMove() {
+		return unitsReadyToMove;
 	}
+
+	bool GameManager::GetShowMousePosition() {
+		return ShowMousePosition;
+	}
+
+	
+}
 
 	
 

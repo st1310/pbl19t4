@@ -1,5 +1,5 @@
 #pragma once
-#include "FirstPersonCamera.h"
+#include "GameCamera.h"
 #include "Scene.h"
 #include "MenuLevel.h"
 #include "DayLevel.h"
@@ -7,41 +7,59 @@
 #include "CityLevel.h"
 #include "CreationKitLevel.h"
 #include "PathFinder_Test.h"
+#include "Button.h"
+#include "GUI.h"
 
 namespace Rendering
 {
-	class GameManager :
-		public DrawableGameComponent
-	{
-		RTTI_DECLARATIONS(GameManager, DrawableGameComponent)
+		class PathFinding_Test;
+		class GUI;
 
-	public:
-		GameManager(Game& game, Camera& camera);
-		~GameManager();
+		class GameManager :
+			public DrawableGameComponent
+		{
+			RTTI_DECLARATIONS(GameManager, DrawableGameComponent)
 
-		virtual void Initialize() override;
-		virtual void Update(const GameTime& gameTime) override;
-		virtual void Draw(const GameTime& gameTime) override;
+		public:
+			GameManager(Game& game, Camera& camera);
+			~GameManager();
 
-		void StartScene(int sceneId);
-		std::vector<CollisionNode*> GetCurrentListOfNodes();
-		void SelectingGrounds(long mouseX, long mouseY);
-		int GetCurrentSceneId();
+			virtual void Initialize() override;
+			virtual void Update(const GameTime& gameTime) override;
+			virtual void Draw(const GameTime& gameTime) override;
 
-		void SelectingUnits(float mouseX, float mouseY);
-		void SelectingUnits(float mouse1X, float mouse1Y, float mouse2X, float mouse2Y);
-	private:
-		Game* game;
-		Camera* camera;
-		GameManager(const GameManager& rhs);
-		GameManager& operator=(const GameManager& rhs);
+			void StartScene(int sceneId);
+			std::vector<CollisionNode*> GetCurrentListOfNodes();
+			void SelectingGrounds(long mouseX, long mouseY);
+			int GetCurrentSceneId();
+			bool GetunitsReadyToMove();
+			bool GetShowMousePosition();
 
-		std::vector<Scene*> mScenes;
-		int mCurrentScene;
+			void SelectingUnits(float mouseX, float mouseY);
+			void SelectingUnits(float mouse1X, float mouse1Y, float mouse2X, float mouse2Y);
 
-		int GetSizeOfCurrentScene();
+			std::vector<DrawableGameComponent*> GetListOfUnits();
+			int unitID = -1;
+		private:
+			Game * game;
+			Camera* camera;
+			GameManager(const GameManager& rhs);
+			GameManager& operator=(const GameManager& rhs);
 
-	};
+			std::vector<Scene*> mScenes;
+			int mCurrentScene;
+
+			int GetSizeOfCurrentScene();
+			bool unitsReadyToMove;
+
+			//tests-remove after
+			bool ShowMousePosition;
+			XMFLOAT3 targetPos;
+			PathFinding* pathfinding;
+
+			std::vector<Button*> guiButtons;
+			
+		};
 }
 
 

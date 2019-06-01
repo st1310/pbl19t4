@@ -13,6 +13,7 @@ namespace Library
 	class SkinnedModelMaterial;
 	class Model;
 	class AnimationPlayer;
+	class AnimationSequence;
 }
 
 namespace DirectX
@@ -29,7 +30,7 @@ namespace Rendering
 
 	public:
 		AnimatedGameObject(Game& game, Camera& camera, const char *className,
-			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,
+			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
 		~AnimatedGameObject();
 		
@@ -38,6 +39,14 @@ namespace Rendering
 		virtual void Draw(const GameTime& gameTime) override;
 
 		virtual void BuildBoundingBox(XMFLOAT3 radius) override;
+
+		virtual void SetAnimations();
+		void ChangeAnimation(std::string animationName);
+
+		void RunInit();
+
+	protected:
+		std::map<std::string, int> mAnimations;
 
 	private:
 		AnimatedGameObject();
@@ -48,5 +57,9 @@ namespace Rendering
 
 		AnimationPlayer* mAnimationPlayer;
 		SkinnedModelMaterial* mMaterial;
+
+		//Animation sequence
+		AnimationSequence* mAnimationSequence;
+		std::string mCurrentAnimation = "Idle";
 	};
 }

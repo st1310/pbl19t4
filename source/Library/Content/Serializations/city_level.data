@@ -49,15 +49,15 @@
       <z= 0.30/>
    </Scale>
 </ConcreteWall>
-<GreenSoldier>
+<Soldier>
    <Position>
-      <x= 35.50/>
-      <y= 0.00/>
-      <z= 21.50/>
+      <x= -30.00/>
+      <y= -7.00/>
+      <z= 15.00/>
    </Position>
    <Rotation>
       <x= -90.00/>
-      <y= 129.50/>
+      <y= 90.0/>
       <z= 0.00/>
    </Rotation>
    <Scale>
@@ -65,11 +65,11 @@
       <y= 0.05/>
       <z= 0.05/>
    </Scale>
-</GreenSoldier>
-<GreenSoldier>
+</Soldier>
+<Soldier>
    <Position>
       <x= 56.50/>
-      <y= 0.00/>
+      <y= -7.00/>
       <z= 28.00/>
    </Position>
    <Rotation>
@@ -82,11 +82,11 @@
       <y= 0.05/>
       <z= 0.05/>
    </Scale>
-</GreenSoldier>
-<GreenSoldier>
+</Soldier>
+<Soldier>
    <Position>
       <x= 45.50/>
-      <y= 0.00/>
+      <y= -7.00/>
       <z= 14.00/>
    </Position>
    <Rotation>
@@ -99,7 +99,7 @@
       <y= 0.05/>
       <z= 0.05/>
    </Scale>
-</GreenSoldier>
+</Soldier>
 <SingleStreetLampPost>
    <Position>
       <x= -44.00/>
@@ -457,10 +457,10 @@
       <z= 0.50/>
    </Scale>
 </GrassGround>
-<GreenSoldier>
+<Soldier>
    <Position>
       <x= -1.00/>
-      <y= 0.00/>
+      <y= -7.00/>
       <z= 10.50/>
    </Position>
    <Rotation>
@@ -473,11 +473,11 @@
       <y= 0.05/>
       <z= 0.05/>
    </Scale>
-</GreenSoldier>
-<GreenSoldier>
+</Soldier>
+<Soldier>
    <Position>
       <x= 8.50/>
-      <y= 0.00/>
+      <y= -7.00/>
       <z= 3.50/>
    </Position>
    <Rotation>
@@ -490,7 +490,7 @@
       <y= 0.05/>
       <z= 0.05/>
    </Scale>
-</GreenSoldier>
+</Soldier>
 <Bench>
    <Position>
       <x= 0.00/>
@@ -508,10 +508,10 @@
       <z= 0.25/>
    </Scale>
 </Bench>
-<GreenSoldier>
+<Soldier>
    <Position>
       <x= 21.50/>
-      <y= 0.00/>
+      <y= -7.00/>
       <z= 0.00/>
    </Position>
    <Rotation>
@@ -524,4 +524,21 @@
       <y= 0.05/>
       <z= 0.05/>
    </Scale>
-</GreenSoldier>
+</Soldier>
+<Policeman>
+   <Position>
+      <x= -10.0/>
+      <y= -7.0/>
+      <z= 20.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
+   </Scale>
+</Policeman>

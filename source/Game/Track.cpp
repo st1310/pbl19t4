@@ -8,9 +8,7 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: StaticGameObject(game, camera, 
 			"Track",
-			"Content\\Models\\Track.fbx",
 			L"Content\\Effects\\TextureMapping.cso",
-			"Content\\Textures\\TrackDiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale)

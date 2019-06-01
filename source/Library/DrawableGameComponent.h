@@ -25,6 +25,10 @@ namespace Library
 
 		virtual void Draw(const GameTime& gameTime);
 		virtual CollisionNode* getNode();
+
+		void SetUnitID(int id);
+		int GetUnitID();
+
 	protected:
 		CollisionNode* mNode;
 		bool mVisible;
@@ -33,5 +37,6 @@ namespace Library
 	private:
 		DrawableGameComponent(const DrawableGameComponent& rhs);
 		DrawableGameComponent& operator=(const DrawableGameComponent& rhs);
+		int unitID;
 	};
 }

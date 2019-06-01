@@ -41,15 +41,15 @@ namespace Rendering
 			mCurrentAssetIndex--;
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_RIGHTARROW) && !mEditAsset)
-			mCurrentAssetIndex += 5;
+			mCurrentAssetIndex += mSpeedlyIterationFactor;
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_LEFTARROW) && !mEditAsset)
-			mCurrentAssetIndex -= 5;
+			mCurrentAssetIndex -= mSpeedlyIterationFactor;
 
 		if (mCurrentAssetIndex < 0)
-			mCurrentAssetIndex = 14 - 1;
+			mCurrentAssetIndex = mAssetsSize - 1;
 
-		if (mCurrentAssetIndex >= 14)
+		if (mCurrentAssetIndex >= mAssetsSize)
 			mCurrentAssetIndex = 0;
 	}
 
@@ -62,7 +62,7 @@ namespace Rendering
 
 		if (!mEditAsset)
 		{
-			helpLabel << "Index/Size: "<< mCurrentAssetIndex + 1 << "/" << 14;
+			helpLabel << "Index/Size: " << mCurrentAssetIndex + 1 << "/" << mAssetsSize;
 			helpLabel << "\nName: " << mAssets[mCurrentAssetIndex].c_str();
 		}		
 

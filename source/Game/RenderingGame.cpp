@@ -6,7 +6,9 @@
 #include "KeyboardComponent.h"
 #include "MouseComponent.h"
 #include "FpsComponent.h"
+#include "Camera.h"
 #include "FirstPersonCamera.h"
+#include "GameCamera.h"
 #include "SkyboxComponent.h"
 #include "ColorHelper.h"
 #include "RenderStateHelper.h"
@@ -15,6 +17,7 @@
 #include "AnimatedGameObject.h"
 #include "Utility.h"
 #include "NodeList.h"
+#include <WICTextureLoader.h>
 
 namespace Rendering
 {
@@ -26,7 +29,8 @@ namespace Rendering
 		mRenderStateHelper(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mGameManager(nullptr), buttonClicked(false), unitActiveFlag(false)
+		mGameManager(nullptr), buttonClicked(false), unitActiveFlag(false), mUnitGuiTexture(nullptr),
+		mUnitGuiTextureBlack(nullptr), mSelectionRectangleTexture(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -52,11 +56,17 @@ namespace Rendering
 		mServices.AddService(MouseComponent::TypeIdClass(), mMouse);
 
 		mCollC = new Colliders();
-		mCamera = new FirstPersonCamera(*this);
+		mCamera = new GameCamera(*this);
 		CollisionNode* newNode = new CollisionNode({-5.f, -20.f, 0.f}, { 5.f, 20.f, 50.f });
 
+		//For debug
 		mComponents.push_back(mCamera);
-		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
+		mServices.AddService(GameCamera::TypeIdClass(), mCamera);
+		//mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
+
+		// For game
+		//mComponents.push_back(mGameCamera);
+		//mServices.AddService(GameCamera::TypeIdClass(), mGameCamera);
 
 //=======
 		mSkybox = new SkyboxComponent(*this, *mCamera, L"Content\\Textures\\Maskonaive2_1024.dds", 100.0f);
@@ -77,11 +87,28 @@ namespace Rendering
 		mSpriteBatch = new SpriteBatch(mDirect3DDeviceContext);
 		mSpriteFont = new SpriteFont(mDirect3DDevice, L"Content\\Fonts\\Arial_14_Regular.spritefont");
 
+		std::wostringstream textureName;
+		textureName << L"content\\Textures\\pepeColor.png";
+
+		std::wostringstream textureName1;
+		textureName1 << L"content\\Textures\\pepeBlack.png";
+
+		std::wostringstream textureForRactangle;
+		textureForRactangle << L"content\\Textures\\whiteRect75.png";
+
+
+		HRESULT hr = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &mUnitGuiTexture);
+		HRESULT hr1 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName1.str().c_str(), nullptr, &mUnitGuiTextureBlack);
+		HRESULT hr2 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureForRactangle.str().c_str(), nullptr, &mSelectionRectangleTexture);
+
+		if (FAILED(hr))
+			throw GameException("CreateWICTextureFromFile() failed.", hr);
+
 		Game::Initialize();
 
 
-		mCamera->SetPosition(0.0f, 10.0f, 20.0f);
-		
+		//mCamera->SetPosition(0.0f, 10.0f, 20.0f);		
+		mCamera->SetPosition(0.0f, 70.0f, 20.0f);
 
 	}
 
@@ -127,31 +154,47 @@ namespace Rendering
 		if(mKeyboard->WasKeyPressedThisFrame(DIK_6))
 			mGameManager->StartScene(PATHFINDER_TEST);
 
+		
 
-		if (mMouse->WasButtonPressedThisFrame(MouseButtonsLeft))
+		if (mMouse->Y() > 640.0f && mMouse->X() > 20.0f  && mMouse->X() < 369.0f) {
+
+		}
+		else if (mMouse->WasButtonPressedThisFrame(MouseButtonsLeft))
 		{
+			timeFromPressed = gameTime;
 			//mouse1Pos = XMFLOAT2({ mMouse->X(), mMouse->Y()});
 			mouse1Pos.x = 0.0f + mMouse->X();
 			mouse1Pos.y = 0.0f + mMouse->Y();
 			selectedOnce = false;
 		}
-		else if (mMouse->IsButtonHeldDown(MouseButtonsLeft) && mKeyboard->IsKeyDown(DIK_LCONTROL))
+		//else if (mMouse->IsButtonHeldDown(MouseButtonsLeft) && mKeyboard->IsKeyDown(DIK_LCONTROL))
+		else if (mMouse->IsButtonHeldDown(MouseButtonsLeft))
 		{
-			//mouse2Pos = XMFLOAT2({ mMouse->X(), mMouse->Y()});
-			mouse2Pos.x = 0.0f + mMouse->X();
-			mouse2Pos.y = 0.0f + mMouse->Y();
-			selectedOnce = true;
+			if (gameTime.TotalGameTime() - timeFromPressed.TotalGameTime() >= 0.3)
+			{
+				mouse2Pos.x = 0.0f + mMouse->X();
+				mouse2Pos.y = 0.0f + mMouse->Y();
+				selectedOnce = true;
+			}
 		}
 		else if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft))
 		{
 			if (selectedOnce)
+			{
 				mGameManager->SelectingUnits(mouse1Pos.x, mouse1Pos.y, mouse2Pos.x, mouse2Pos.y);
+				selectedOnce = false;
+			}
 			else  mGameManager->SelectingUnits(mouse1Pos.x, mouse1Pos.y);
 		}
 
 		if (mMouse->WasButtonPressedThisFrame(MouseButtonsRight))
 		{
-				//mGameManager->SelectingGrounds(mMouse->X(), mMouse->Y());
+			if (mMouse->Y() > 640.0f && mMouse->X() > 20.0f  && mMouse->X() < 369.0f) {
+
+			}
+			else {
+				mGameManager->SelectingGrounds(mMouse->X(), mMouse->Y());
+			}
 		}
 
 		Game::Update(gameTime);
@@ -176,6 +219,24 @@ namespace Rendering
 			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition);
 
+		if (true) 
+		{
+			for (int i = 0; i < mGameManager->GetListOfUnits().size(); i++) 
+			{
+				if (mGameManager->GetListOfUnits().at(i)->GetUnitID()==mGameManager->unitID) 
+					mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(0.f + 50 * i, 630.0f, 150.0f, 150.0f));
+
+				else 
+					mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(0.f + 50 * i, 660.0f, 120.0f, 120.0f));			
+			}
+		}
+
+		if (mGameManager->GetunitsReadyToMove()) {
+			std::wostringstream tmp;
+			tmp << "GroundActive";
+			mSpriteFont->DrawString(mSpriteBatch, tmp.str().c_str(), XMFLOAT2(25.0f, 200.0f), Colors::Blue);
+		}
+
 		if (mMouse->Y() > 295.0f && mMouse->Y() < 307.0f && mMouse->X() > 104.0f  && mMouse->X() < 200.0f) 
 		{
 			std::wostringstream startGame;
@@ -199,6 +260,38 @@ namespace Rendering
 			mSpriteFont->DrawString(mSpriteBatch, endGame.str().c_str(), XMFLOAT2(100.0f, 320.0f), Colors::White);
 		}
  
+		if (selectedOnce)
+		{
+			float x1, x2, y1, y2;
+			if (mouse1Pos.x > mouse2Pos.x)
+			{
+				x1 = mouse2Pos.x;
+				x2 = mouse1Pos.x;
+			}
+			else
+			{
+				x1 = mouse1Pos.x;
+				x2 = mouse2Pos.x;
+			}
+
+			if (mouse1Pos.y > mouse2Pos.y)
+			{
+				y1 = mouse2Pos.y;
+				y2 = mouse1Pos.y;
+			}
+			else
+			{
+				y1 = mouse1Pos.y;
+				y2 = mouse2Pos.y;
+			}
+
+			mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x1, y1, abs(x2-x1), 1.5f));
+			mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x1, y2, abs(x2 - x1), 1.5f));
+
+			mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x1, y1, 1.5f, abs(y2 - y1)));
+			mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x2, y1, 1.5f, abs(y2 - y1)));
+		}
+
 		mSpriteBatch->End();
 		mRenderStateHelper->RestoreAll();
 

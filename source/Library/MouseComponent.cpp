@@ -93,6 +93,8 @@ namespace Library
 			ScreenToClient(mGame->WindowHandle(), &p);
 			mX = p.x;
 			mY = p.y;
+
+			mWheel += mCurrentState.lZ;
 		}
 	}
 

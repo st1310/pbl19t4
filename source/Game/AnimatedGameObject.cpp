@@ -13,6 +13,7 @@
 #include "ColorHelper.h"
 #include "AnimationPlayer.h"
 #include "AnimationClip.h"
+#include "AnimationSequence.h"
 #include <WICTextureLoader.h>
 #include <SpriteBatch.h>
 #include <SpriteFont.h>
@@ -27,13 +28,17 @@ namespace Rendering
 	RTTI_DEFINITIONS(AnimatedGameObject)
 
 		AnimatedGameObject::AnimatedGameObject(Game& game, Camera& camera, const char *className,
-			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,
+			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
 		: GameObject(game, camera, className, 
-			modelName, shaderName, diffuseMap,
+			shaderName,
 			startPosition, startRotation, startScale),
 		mMaterial(nullptr), mAnimationPlayer(nullptr)
 	{		
+		mAnimations = std::map<std::string, int>();
+		mAnimationSequence = new AnimationSequence("Idle");
+
+		//mAnimationSequence = std::vector<std::string>();
 	}
 
 	AnimatedGameObject::~AnimatedGameObject()
@@ -66,7 +71,8 @@ namespace Rendering
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
 		// Load the model
-		mSkinnedModel = new Model(*mGame, mModelName, true);
+		std::string modelName = "Content\\Models\\" + (std::string)mClassName + ".fbx";
+		mSkinnedModel = new Model(*mGame, modelName, true);
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
@@ -80,6 +86,7 @@ namespace Rendering
 		mIndexBuffers.resize(mSkinnedModel->Meshes().size());
 		mIndexCounts.resize(mSkinnedModel->Meshes().size());
 		mColorTextures.resize(mSkinnedModel->Meshes().size());
+
 		for (UINT i = 0; i < mSkinnedModel->Meshes().size(); i++)
 		{
 			Mesh* mesh = mSkinnedModel->Meshes().at(i);
@@ -97,21 +104,8 @@ namespace Rendering
 			ID3D11ShaderResourceView* colorTexture = nullptr;
 			ModelMaterial* material = mesh->GetMaterial();
 
-			if (material != nullptr && material->Textures().find(TextureTypeDifffuse) != material->Textures().cend())
-			{
-				std::vector<std::wstring>* diffuseTextures = material->Textures().at(TextureTypeDifffuse);
-				std::wstring filename = PathFindFileName(diffuseTextures->at(0).c_str());
-
-				std::wostringstream textureName;
-				//textureName << L"Content\\Models\\" << filename;
-				textureName << mDiffuseMap.c_str();
-				HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &colorTexture);
-				if (FAILED(hr))
-				{
-					throw GameException("CreateWICTextureFromFile() failed.", hr);
-				}
-			}
-			mColorTextures[i] = colorTexture;
+			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
+			ChangeTexture(modelName);
 		}
 
 		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
@@ -126,18 +120,35 @@ namespace Rendering
 		// Initial transform	
 		Scale(0,0,0);
 		FirstRotation();
-		Translate(mPosition);
+		FirstTranslation(mPosition);
 		mCollider = new Colliders();
+		this->mCollider->Transform(XMLoadFloat4x4(&mWorldMatrix), XMLoadFloat3(&mPosition));
 	}
 
 	void AnimatedGameObject::Update(const GameTime& gameTime)
 	{
 		UpdateOptions();
 
-		if (mManualAdvanceMode == false)
+		if (mState->IsInActiveState())
 		{
-			//mAnimationPlayer->Update(gameTime);
+			Move();
+			mAnimationPlayer->Update(gameTime);
 		}
+		if (!mState->IsInActiveState() && mIsBusy == true)
+		{
+			mIsBusy = false;
+			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
+			mAnimationSequence->EndLoop();
+			ChangeTexture(modelName);
+		}
+
+		if (mCurrentAnimation != mAnimationSequence->GetCurrentAnimation(mAnimationPlayer->CurrentTime()))
+		{
+			mCurrentAnimation = mAnimationSequence->GetCurrentAnimation(mAnimationPlayer->CurrentTime());
+			ChangeAnimation(mCurrentAnimation);
+		}
+
+		mAnimationPlayer->Update(gameTime);
 	}
 
 	void AnimatedGameObject::Draw(const GameTime& gameTime)
@@ -178,7 +189,7 @@ namespace Rendering
 		mSpriteBatch->Begin();
 
 		std::wostringstream helpLabel;
-		/*
+		
 		helpLabel << std::setprecision(5) << L"\nAnimation Time: " << mAnimationPlayer->CurrentTime()
 			<< "\nFrame Interpolation (I): " << (mAnimationPlayer->InterpolationEnabled() ? "On" : "Off");
 		
@@ -190,7 +201,7 @@ namespace Rendering
 		{
 			helpLabel << "\nPause / Resume(P)";
 		}
-		*/
+		
 		if (mIsSelected && mIsEdited)
 			helpLabel = GetCreationKitInfo();
 		
@@ -204,21 +215,13 @@ namespace Rendering
 	{
 		if (mKeyboard != nullptr)
 		{
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_U))
-			{
-				//
-			}
-
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_P))
 			{
 				if (mAnimationPlayer->IsPlayingClip())
-				{
 					mAnimationPlayer->PauseClip();
-				}
+
 				else
-				{
 					mAnimationPlayer->ResumeClip();
-				}
 			}
 
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_B))
@@ -233,6 +236,35 @@ namespace Rendering
 				mAnimationPlayer->SetInterpolationEnabled(!mAnimationPlayer->InterpolationEnabled());
 			}
 
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_F))
+			{
+				//mStartAnimation = true;
+				/*
+				mAnimationSequence->InitLoopAnimationSequence()
+				mAnimationSequence.push_back("Paint");
+				mAnimationSequence.push_back("Paint");
+				mAnimationSequence.push_back("Paint");
+				mAnimationSequence.push_back("Reload");
+				mAnimationSequence.push_back("Paint");
+				*/
+			}
+
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_G))
+			{
+				//mStartAnimation = true;
+				mAnimationSequence->InitLoopAnimationSequence("StartRunning", "Run", "StopRunning");
+			}
+
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_B))
+			{
+				ChangeAnimation("Run");				
+			}
+
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_V))
+			{
+				ChangeAnimation("Paint");
+			}
+
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_RETURN))
 			{
 				// Enable/disable manual advance mode
@@ -240,18 +272,16 @@ namespace Rendering
 				mAnimationPlayer->SetCurrentKeyFrame(0);
 			}
 
-			//if (mManualAdvanceMode && mKeyboard->WasKeyPressedThisFrame(DIK_SPACE))
-			//{
-				// Advance the current keyframe
+			if (mManualAdvanceMode && mKeyboard->WasKeyPressedThisFrame(DIK_SPACE))
+			{
 				UINT currentKeyFrame = mAnimationPlayer->CurrentKeyframe();
 				currentKeyFrame++;
+
 				if (currentKeyFrame >= mAnimationPlayer->CurrentClip()->KeyframeCount())
-				{
 					currentKeyFrame = 0;
-				}
 
 				mAnimationPlayer->SetCurrentKeyFrame(currentKeyFrame);
-			//}
+			}
 
 			if(mIsSelected && mIsEdited)
 				EditModel();
@@ -276,4 +306,21 @@ namespace Rendering
 				inNode->AddDynamicCollider(mCollider);
 	}
 
+	void AnimatedGameObject::ChangeAnimation(std::string animationName)
+	{
+		if (mAnimations.find(animationName) == std::end(mAnimations))
+			return;
+
+		int animationNumber = mAnimations.at(animationName);
+		mAnimationPlayer->StartClip(*(mSkinnedModel->Animations().at(animationNumber)));
+	}
+
+	void AnimatedGameObject::SetAnimations()
+	{
+	}
+
+	void AnimatedGameObject::RunInit()
+	{
+		mAnimationSequence->InitLoopAnimationSequence("StartRunning", "Run", "StopRunning");
+	}
 }

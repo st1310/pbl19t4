@@ -215,7 +215,7 @@ namespace Library
 				planes[5] = XMPlaneNormalize(planes[5]);
 
 				firstTime = true;
-			mGame->SetNodesInFructum(NodeList::CheckNodesInsideCamera(planes, mGame->NodeList()));
+			//mGame->SetNodesInFructum(NodeList::CheckNodesInsideCamera(planes, mGame->NodeList()));
 		}
 
 	}

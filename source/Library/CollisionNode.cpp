@@ -192,11 +192,16 @@ namespace Library
 	{
 		std::vector<TypesTriggerReactions> answer;
 
-		if (mTriggers.empty())
-			return answer;
 
-		for (Colliders* coll : mTriggers)
+		if (this->GetParent() != nullptr)
 		{
+			return this->GetParent()->trippedTriggers(objectPos);
+		}
+		else for (Colliders* coll : mTriggers)
+		{
+			if (mTriggers.empty())
+				return answer;
+
 			std::vector<TypesTriggerReactions> helper;
 			if (!coll->getTriggers().empty())
 			{
@@ -205,8 +210,7 @@ namespace Library
 				{
 					for (TypesTriggerReactions react : helper)
 					{
-						if (std::find(answer.begin(), answer.end(), react) == answer.end())
-							answer.push_back(react);
+						answer.push_back(react);
 					}
 				}
 			}

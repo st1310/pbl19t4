@@ -15,6 +15,9 @@ public:
 	int getMapWidth();
 	int getMapheight();
 
+	void setMapWidth(int value);
+	void setMapHeight(int value);
+
 	bool OnUserCreate();
 	bool Solve_AStar();
 	int howManyNodesToEnter();
@@ -24,12 +27,14 @@ public:
 	struct sNode {
 		bool bObstacle = false;
 		bool bVisited = false;
+		bool bMouseCliked = false;
 		float fGlobalGoal;
 		float fLocalGoal;
 		int x;
 		int y;
 		std::vector<sNode*> vecNeighbours;
 		sNode* parent;
+		BoundingBox* bbox;
 	};
 
 	Colliders* collider;
@@ -42,8 +47,11 @@ public:
 	sNode *nodeEnd = nullptr;
 	sNode *currentNode = nullptr;
 
+	
+	std::vector<XMFLOAT2> GetPathNodesPosVector();
+	
+private:
 	std::vector<XMFLOAT2> pathNodesPos;
-
 protected:
 
 	//bool OnUserCreate();

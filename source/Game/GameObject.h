@@ -2,6 +2,7 @@
 
 #include "DrawableGameComponent.h"
 #include "RenderStateHelper.h"
+#include "State.h"
 
 using namespace Library;
 
@@ -28,7 +29,7 @@ namespace Rendering
 
 	public:
 		GameObject(Game& game, Camera& camera, const char *className,
-			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,
+			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
 		~GameObject();
 
@@ -46,6 +47,7 @@ namespace Rendering
 		void Rotate(XMFLOAT3 rotation);
 		void FirstRotation();
 
+		void FirstTranslation(XMFLOAT3 translation);
 		void Translate(float x, float y, float z);
 		void Translate(XMFLOAT3 translation);
 
@@ -61,23 +63,44 @@ namespace Rendering
 		void BuildOrientedBoundingBox(XMFLOAT3 radius, XMFLOAT4 orientation);
 
 		virtual void CheckTriggers();
+		void setIsSelected(bool value);
+		bool getIsSelected();
+
 
 		bool mIsSelected = false;
 		bool mIsEdited = false;
+
+		void StartMoving(std::vector<XMFLOAT2> positions);
+		void SetPathFindingMoveFlag(bool value);
+		bool GetPathFindingMoveFlag();
 
 	protected:
 		GameObject();
 		GameObject(const GameObject& rhs);
 		GameObject& operator=(const GameObject& rhs);
 
+		void Move();
+		void ChangeTexture(std::string textureName);
+
 		Effect* mEffect;
-		const char *mModelName;
 		LPCWSTR mShaderName;
-		std::string mDiffuseMap;
 
 		XMFLOAT3 mPosition;
 		XMFLOAT3 mRotation;
 		XMFLOAT3 mScale;
+
+		std::string mIsSelectedDiffuseMap = "";
+		std::string mIsBusyDiffuseMap = "";
+
+		//little work around to fix rotation bug
+		XMFLOAT3 mOriginalPosition = XMFLOAT3(0, 0, 0);
+
+		//states
+		State* mState;
+		float mRotationSpeed;
+		float mTranslationSpeed;
+
+		bool mIsBusy = false;
 
 		KeyboardComponent* mKeyboard;
 
@@ -101,6 +124,8 @@ namespace Rendering
 		CollisionNode* inNode;
 
 		bool mustBeDestroyed;
+		bool objectToMove;
+
 		// Creation Kit		
 		std::string mEditMode = POSITION;
 		std::string mEditAxis = X_AXIS;
@@ -133,6 +158,8 @@ namespace Rendering
 			90.0f
 		};
 
+		private:
+			void StandarizeRotationVectorValue();
 		/*
 		CREATION KIT CONTROLS
 		1- Position

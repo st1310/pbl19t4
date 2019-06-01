@@ -33,7 +33,7 @@ namespace Library
 		void setTriggerReaction(TypesTriggerReactions trg, XMFLOAT3 centerOf, XMFLOAT3 radOfTrig);
 
 		void Transform(CXMMATRIX rotation, XMVECTOR destination);
-
+		void Rotate(XMMATRIX rotation);
 
 		void PushNewBoundingBox(BoundingBox* bbox);
 		void PushNewOrientedBoundingBox(BoundingOrientedBox* obbox);

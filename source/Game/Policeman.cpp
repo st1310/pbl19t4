@@ -8,14 +8,12 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: AnimatedGameObject(game, camera,
 			"Policeman",
-			"Content\\Models\\Policeman.fbx",
 			L"Content\\Effects\\SkinnedModel.cso",
-			"Content\\Textures\\PolicemanDiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale)
 	{
-		this->SetVisible(true);
+		SetAnimations();
 	}
 
 
@@ -26,21 +24,22 @@ namespace Rendering
 	void Policeman::Initialize()
 	{
 		AnimatedGameObject::Initialize();
-		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.25f, 10.5f, 3.25f));
-		this->mCollider->setTriggerReaction(POLICE_CATCHING, mPosition, { 2.25f, 5.0f, 2.25f });
-		this->mCollider->setTriggerReaction(POLICE_ALLIES, mPosition, { 6.f, 5.0f, 6.f });
+		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.f, 12.f, 3.f));
+		this->mCollider->setTriggerReaction(POLICE_CATCHING, mPosition, { 8.f, 12.f, 8.f });
+		this->mCollider->setTriggerReaction(POLICE_ALLIES, mPosition, { 15.f, 12.f, 15.f });
 	}
 
 	void Policeman::CheckTriggers()
 	{
 		std::vector<TypesTriggerReactions> helper;
-		if (inNode != nullptr) 
+		if (inNode != nullptr)
 			helper = inNode->trippedTriggers(this->getPosition());
 
 		if (helper.empty())
 			return;
 
-		policeNearby = 0;
+		//It sees it's own triggers, so consider it
+		policeNearby = -1;
 		for (TypesTriggerReactions chck : helper)
 		{
 			switch (chck)
@@ -62,5 +61,17 @@ namespace Rendering
 				break;
 			}
 		}
+	}
+
+	void Policeman::SetAnimations()
+	{
+		mAnimations.insert(std::pair<std::string, int>("Idle", 0));
+		mAnimations.insert(std::pair<std::string, int>("StartRunning", 1));
+		mAnimations.insert(std::pair<std::string, int>("Run", 2));
+		mAnimations.insert(std::pair<std::string, int>("StopRunning", 3));
+		mAnimations.insert(std::pair<std::string, int>("StartAttack", 4));
+		mAnimations.insert(std::pair<std::string, int>("Attack", 5));
+		mAnimations.insert(std::pair<std::string, int>("StopAttack", 6));
+		mAnimations.insert(std::pair<std::string, int>("Patrol", 7));
 	}
 }

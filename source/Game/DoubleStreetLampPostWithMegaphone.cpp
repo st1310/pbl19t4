@@ -8,9 +8,7 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: StaticGameObject(game, camera,
 			"DoubleStreetLampPostWithMegaphone",
-			"Content\\Models\\DoubleStreetLampPostWithMegaphone.fbx",
 			L"Content\\Effects\\TextureMapping.cso",
-			"Content\\Textures\\DoubleStreetLampPostWithMegaphoneDiffuseMap.jpg",
 			startPosition,
 			startRotation,
 			startScale, true)

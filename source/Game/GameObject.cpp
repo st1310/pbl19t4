@@ -25,17 +25,18 @@ namespace Rendering
 	RTTI_DEFINITIONS(GameObject)
 
 		GameObject::GameObject(Game& game, Camera& camera, const char *className,
-			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,
+			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
 		: DrawableGameComponent(game, camera),
 		mEffect(nullptr), mWorldMatrix(MatrixHelper::Identity),
 		mClassName(className),
 		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(),
-		mShaderName(shaderName), mModelName(modelName), mDiffuseMap(diffuseMap),
+		mShaderName(shaderName),
 		mSkinnedModel(nullptr), mAnimationPlayer(nullptr),
 		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false),
 		mKeyboard(nullptr),
-		mPosition(startPosition), mRotation(startRotation), mScale(startScale), mCollider(), inNode(nullptr), mustBeDestroyed(false)
+		mPosition(startPosition), mRotation(startRotation), mScale(startScale), mCollider(), inNode(nullptr), 
+		mustBeDestroyed(false), mState(new State()), objectToMove(false)
 	{
 	}
 
@@ -61,6 +62,24 @@ namespace Rendering
 	void GameObject::Draw(const GameTime& gameTime)
 	{
 	}
+
+	void GameObject::ChangeTexture(std::string diffuseMap)
+	{
+		if (diffuseMap == "")
+			return;
+
+		ID3D11ShaderResourceView* colorTexture = nullptr;
+		std::wostringstream textureName;
+		textureName << diffuseMap.c_str();
+
+		HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &colorTexture);
+
+		if (FAILED(hr))
+			throw GameException("CreateWICTextureFromFile() failed.", hr);
+
+		mColorTextures[0] = colorTexture;
+	}
+
 
 	// Transformation
 	void GameObject::Scale(float x, float y, float z)
@@ -90,6 +109,12 @@ namespace Rendering
 		mRotation.x += x;
 		mRotation.y += y;
 		mRotation.z += z;
+
+		StandarizeRotationVectorValue();
+
+		XMFLOAT3 originalTransation = XMFLOAT3(-mOriginalPosition.x, -mOriginalPosition.y, -mOriginalPosition.z);
+		Translate(originalTransation);
+
 		XMMATRIX transformX = XMMatrixRotationX(XMConvertToRadians(x));
 		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformX);
 
@@ -98,22 +123,13 @@ namespace Rendering
 
 		XMMATRIX transformZ = XMMatrixRotationZ(XMConvertToRadians(z));
 		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformZ);
+
+		Translate(XMFLOAT3(-originalTransation.x, -originalTransation.y, -originalTransation.z));
 	}
 
 	void GameObject::Rotate(XMFLOAT3 rotation)
 	{
-		mRotation.x += rotation.x;
-		mRotation.y += rotation.y;
-		mRotation.z += rotation.z;
-
-		XMMATRIX transformX = XMMatrixRotationX(XMConvertToRadians(rotation.x));
-		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformX);
-
-		XMMATRIX transformY = XMMatrixRotationY(XMConvertToRadians(rotation.y));
-		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformY);
-
-		XMMATRIX transformZ = XMMatrixRotationZ(XMConvertToRadians(rotation.z));
-		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformZ);
+		Rotate(rotation.x, rotation.y, rotation.z);
 	}
 
 	void GameObject::FirstRotation()
@@ -128,19 +144,57 @@ namespace Rendering
 		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * transformZ);
 	}
 
+	void GameObject::FirstTranslation(XMFLOAT3 translation)
+	{
+		mOriginalPosition.x += translation.x;
+		mOriginalPosition.y += translation.y;
+		mOriginalPosition.z += translation.z;
+
+		XMMATRIX translate = XMMatrixTranslation(translation.x, translation.y, translation.z);
+		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
+	}
+
 	void GameObject::Translate(float x, float y, float z)
 	{
 		mPosition.x += x;
 		mPosition.y += y;
 		mPosition.z += z;
+
+		mOriginalPosition.x += x;
+		mOriginalPosition.y += y;
+		mOriginalPosition.z += z;
+
 		XMMATRIX translate = XMMatrixTranslation(x, y, z);
 		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
 	}
 
 	void GameObject::Translate(XMFLOAT3 translation)
 	{
-		XMMATRIX translate = XMMatrixTranslation(translation.x, translation.y, translation.z);
-		XMStoreFloat4x4(&mWorldMatrix, XMLoadFloat4x4(&mWorldMatrix) * translate);
+		Translate(translation.x, translation.y, translation.z);
+	}
+
+	void GameObject::StandarizeRotationVectorValue()
+	{
+		// X
+		if (mRotation.x >= 360)
+			mRotation.x -= 360;
+
+		if (mRotation.x <= -360)
+			mRotation.x += 360;
+
+		// Y
+		if (mRotation.y >= 360)
+			mRotation.y -= 360;
+
+		if (mRotation.y <= -360)
+			mRotation.y += 360;
+
+		// Z
+		if (mRotation.z >= 360)
+			mRotation.z -= 360;
+
+		if (mRotation.z <= -360)
+			mRotation.z += 360;
 	}
 
 	// Creation Kit
@@ -546,8 +600,6 @@ namespace Rendering
 		helpLabel << "\nRotation: " << mRotation.x << ", " << mRotation.y << ", " << mRotation.z;
 		helpLabel << "\nScale: " << mScale.x << ", " << mScale.y << ", " << mScale.z;
 
-
-
 		return helpLabel;
 	}
 
@@ -566,6 +618,14 @@ namespace Rendering
 		return inNode;
 	}
 
+	void GameObject::setIsSelected(bool value) {
+		mIsSelected = value;
+	}
+
+	bool GameObject::getIsSelected() {
+		return mIsSelected;
+	}
+
 	void GameObject::BuildBoundingBox(XMFLOAT3 radius)
 	{
 	}
@@ -576,11 +636,36 @@ namespace Rendering
 		helper = XMVector3Transform(XMLoadFloat3(&radius), XMLoadFloat4x4(&mWorldMatrix));
 		XMStoreFloat3(&radius, helper);
 		mCollider->BuildOBB(mPosition, radius, orientation);
+
 		if (inNode != nullptr)
 			inNode->AddStaticCollider(mCollider);
 	}
 
 	void GameObject::CheckTriggers()
+	{}
+
+	void GameObject::Move()
 	{
+		Translate(mState->Move());
+		Rotate(mState->Rotate());
+
+	}
+
+	void GameObject::StartMoving(std::vector<XMFLOAT2> positions)
+	{
+		XMFLOAT2 currentPosition = XMFLOAT2(mPosition.x, mPosition.z);
+
+		mState->MoveInit(currentPosition, positions, mRotation.y, mTranslationSpeed*2, mRotationSpeed, mCollider, inNode);
+
+		ChangeTexture(mIsBusyDiffuseMap);
+		mIsBusy = true;
+	}
+
+	void GameObject::SetPathFindingMoveFlag(bool value) {
+		objectToMove = value;
+	}
+
+	bool GameObject::GetPathFindingMoveFlag() {
+		return objectToMove;
 	}
 }

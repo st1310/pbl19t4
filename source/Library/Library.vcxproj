@@ -180,10 +180,12 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
   <ItemGroup>
     <ClInclude Include="AnimationClip.h" />
     <ClInclude Include="AnimationPlayer.h" />
+    <ClInclude Include="AnimationSequence.h" />
     <ClInclude Include="BasicMaterial.h" />
     <ClInclude Include="Bone.h" />
     <ClInclude Include="BoneAnimation.h" />
     <ClInclude Include="BoneVertexWeights.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Colliders.h" />
     <ClInclude Include="ColorHelper.h" />
@@ -193,10 +195,12 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="FpsComponent.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameClock.h" />
     <ClInclude Include="GameComponent.h" />
     <ClInclude Include="GameException.h" />
     <ClInclude Include="GameTime.h" />
+    <ClInclude Include="GUI.h" />
     <ClInclude Include="KeyboardComponent.h" />
     <ClInclude Include="Keyframe.h" />
     <ClInclude Include="Material.h" />
@@ -217,6 +221,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="SkinnedModelMaterial.h" />
     <ClInclude Include="SkyboxComponent.h" />
     <ClInclude Include="SkyboxMaterial.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Technique.h" />
@@ -228,10 +233,12 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
   <ItemGroup>
     <ClCompile Include="AnimationClip.cpp" />
     <ClCompile Include="AnimationPlayer.cpp" />
+    <ClCompile Include="AnimationSequence.cpp" />
     <ClCompile Include="BasicMaterial.cpp" />
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BoneAnimation.cpp" />
     <ClCompile Include="BoneVertexWeights.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Colliders.cpp" />
     <ClCompile Include="ColorHelper.cpp" />
@@ -240,10 +247,12 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="FirstPersonCamera.cpp" />
     <ClCompile Include="FpsComponent.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GameComponent.cpp" />
     <ClCompile Include="GameException.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="GUI.cpp" />
     <ClCompile Include="KeyboardComponent.cpp" />
     <ClCompile Include="Keyframe.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -263,6 +272,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="SkinnedModelMaterial.cpp" />
     <ClCompile Include="SkyboxComponent.cpp" />
     <ClCompile Include="SkyboxMaterial.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

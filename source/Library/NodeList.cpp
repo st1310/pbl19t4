@@ -30,8 +30,6 @@ namespace Library
 			if (newColl == nullptr)
 			{
 				orgPosNode->RemoveDynamicCollider(coll);
-				if(!coll->getTriggers().empty())
-					orgPosNode->RemoveTriggerCollider(coll);
 				orgPosNode = nullptr;
 				return true;
 			}
@@ -39,13 +37,7 @@ namespace Library
 			if (!newColl->CheckCollisionWhenEntering(coll))
 			{
 				orgPosNode->RemoveDynamicCollider(coll);
-				newColl->AddDynamicCollider(coll);
-				if (!coll->getTriggers().empty())
-				{
-					orgPosNode->RemoveTriggerCollider(coll);
-					newColl->AddTriggerCollider(coll);
-				}
-					
+				newColl->AddDynamicCollider(coll);					
 				orgPosNode = newColl;
 				return true;
 			}

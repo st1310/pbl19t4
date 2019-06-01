@@ -18,6 +18,7 @@ namespace Library
 	class KeyboardComponent;
 	class MouseComponent;
 	class FirstPersonCamera;
+	class GameCamera;
 	class RenderStateHelper;
 	class SkyboxComponent;
 }
@@ -52,7 +53,8 @@ namespace Rendering
 		LPDIRECTINPUT8 mDirectInput;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
-		FirstPersonCamera* mCamera;
+		GameCamera* mCamera;
+		//FirstPersonCamera* mCamera;
 		FpsComponent* mFpsComponent;
 		SkyboxComponent* mSkybox;
 
@@ -61,10 +63,14 @@ namespace Rendering
 
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
+		ID3D11ShaderResourceView* mUnitGuiTexture;
+		ID3D11ShaderResourceView* mUnitGuiTextureBlack;
+		ID3D11ShaderResourceView* mSelectionRectangleTexture;
 		XMFLOAT2 mMouseTextPosition;
 	
 		XMFLOAT2 mouse1Pos;
 		XMFLOAT2 mouse2Pos;
+		GameTime timeFromPressed;
 		bool selectedOnce;
 
 		Colliders* mCollC;

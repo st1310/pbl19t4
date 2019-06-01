@@ -10,7 +10,7 @@ namespace Rendering
 	{
 	public:
 		GreenSoldier(Game& game, Camera& camera,
-			XMFLOAT3 startPosition = XMFLOAT3(0, 0, 0),
+			XMFLOAT3 startPosition = XMFLOAT3(0, -9.7, 0),
 			XMFLOAT3 startRotation = XMFLOAT3(-90, 0, 0),
 			XMFLOAT3 startScale = XMFLOAT3(0.05, 0.05, 0.05));
 		~GreenSoldier();
@@ -20,6 +20,8 @@ namespace Rendering
 		void setSelection(bool selection);
 		bool getIsSelected();
 		virtual void CheckTriggers() override;
+		virtual void SetAnimations() override;
+
 	private:
 		bool isSelected = false;
 	};

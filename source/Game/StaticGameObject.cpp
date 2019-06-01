@@ -27,10 +27,10 @@ namespace Rendering
 	RTTI_DEFINITIONS(StaticGameObject)
 
 		StaticGameObject::StaticGameObject(Game& game, Camera& camera, const char *className, 
-			const char *modelName, LPCWSTR shaderName, std::string diffuseMap,			
+			LPCWSTR shaderName,	
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale, bool needCollision)
 		: GameObject(game, camera, className,
-			modelName, shaderName, diffuseMap,
+			shaderName, 
 			startPosition, startRotation, startScale),
 		mMaterial(nullptr), needsCollision(needCollision)
 	{
@@ -65,7 +65,8 @@ namespace Rendering
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
 		// Load the model
-		mSkinnedModel = new Model(*mGame, mModelName, true);
+		std::string modelName = "Content\\Models\\" + (std::string)mClassName + ".fbx";
+		mSkinnedModel = new Model(*mGame, modelName, true);
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
@@ -97,22 +98,8 @@ namespace Rendering
 			ID3D11ShaderResourceView* colorTexture = nullptr;
 			ModelMaterial* material = mesh->GetMaterial();
 
-			if (material != nullptr && material->Textures().find(TextureTypeDifffuse) != material->Textures().cend())
-			{
-				std::vector<std::wstring>* diffuseTextures = material->Textures().at(TextureTypeDifffuse);
-				std::wstring filename = PathFindFileName(diffuseTextures->at(0).c_str());
-				std::wostringstream textureName;
-
-				SetCurrentDirectory(Utility::LibraryDirectory().c_str());
-				textureName << mDiffuseMap.c_str();
-				//textureName << L"Content\\Textures\\" << filename;
-				HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &colorTexture);
-				if (FAILED(hr))
-				{
-					throw GameException("CreateWICTextureFromFile() failed.", hr);
-				}
-			}
-			mColorTextures[i] = colorTexture;
+			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
+			ChangeTexture(modelName);
 		}
 
 		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
@@ -122,11 +109,11 @@ namespace Rendering
 		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
 
 		// Initial transform
-
-		StaticGameObject::Scale(0, 0, 0);
-		StaticGameObject::FirstRotation();
-		StaticGameObject::Translate(mPosition);
+		Scale(0, 0, 0);
+		FirstRotation();
+		FirstTranslation(mPosition);
 		mCollider = new Colliders();
+		this->mCollider->Transform(XMLoadFloat4x4(&mWorldMatrix), XMLoadFloat3(&mPosition));
 	}
 
 	void StaticGameObject::Update(const GameTime& gameTime)
@@ -199,6 +186,7 @@ namespace Rendering
 			XMStoreFloat3(&radius, helper);
 			mCollider = new Colliders();
 			mCollider->BuildBoundingBox(mPosition, radius);
+
 			if (inNode != nullptr)
 				inNode->AddStaticCollider(mCollider);
 		}

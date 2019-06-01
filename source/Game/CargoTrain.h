@@ -10,9 +10,9 @@ namespace Rendering
 	{
 	public:
 		CargoTrain(Game& game, Camera& camera,
-			XMFLOAT3 startPosition = XMFLOAT3(0, 9.6, 0),
+			XMFLOAT3 startPosition = XMFLOAT3(0, -5.5, 0),
 			XMFLOAT3 startRotation = XMFLOAT3(180, -90, 0),
-			XMFLOAT3 startScale = XMFLOAT3(0.2, 0.2, 0.2));
+			XMFLOAT3 startScale = XMFLOAT3(0.3, 0.2, 0.2));
 		~CargoTrain();
 
 		virtual void Initialize() override;

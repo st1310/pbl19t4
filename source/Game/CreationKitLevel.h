@@ -18,20 +18,33 @@ namespace Rendering
 	private:
 		bool mEditAsset = false;
 		int mCurrentAssetIndex = 0;
-		const std::string mAssets[14] =
+		const int mSpeedlyIterationFactor = 5;
+
+		// Little work around - size() get wrong value
+		const int mAssetsSize = 23;
+		const std::string mAssets[23] =
 		{
-			"Pathcircles",
 			"Bench",
 			"CargoTrain",
 			"ConcreteWall",
 			"DoubleStreetLampPostWithMegaphone",
+			"FarbaMan",
 			"GrassGround",
-			"GreenSoldier",
+			"GrassGroundNew",
+			"Information",
+			"InformationBoard",
+			"OverheadLines",
 			"PassengerTrain",
+			"Pathcircles",
 			"PlatformGround1",
 			"PlatformGround2",
+			"PlatformNumber1",
+			"PlatformNumber2And3",
+			"PlatformNumber4",
+			"PoliceCar",
 			"Policeman",
 			"SingleStreetLampPost",
+			"Soldier",
 			"StoneGround",
 			"Track"
 		};

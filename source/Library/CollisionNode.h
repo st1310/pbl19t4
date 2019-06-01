@@ -17,6 +17,7 @@ namespace Library
 		void AddStaticCollider(Colliders* staticCollider);
 		void AddDynamicCollider(Colliders* dynamicCollider);
 		void RemoveDynamicCollider(Colliders* dynamicCollider);
+
 		void AddTriggerCollider(Colliders* trigercCollider);
 		void RemoveTriggerCollider(Colliders* trigercCollider);
 
@@ -33,6 +34,7 @@ namespace Library
 
 		bool CheckCollisionInNode(Colliders* movingCollider);
 		bool CheckCollisionWhenEntering(Colliders* movingCollider);
+		
 
 		bool CustomPlaneIntersection(std::vector<XMVECTOR> planes);
 		std::vector<TypesTriggerReactions> trippedTriggers(XMFLOAT3 objectPos);
