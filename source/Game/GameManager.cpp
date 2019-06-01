@@ -84,6 +84,9 @@ namespace Rendering
 			mScenes.at(mCurrentScene)->GetUnitList().at(i)->SetUnitID(i);
 			guiButtons.push_back(new Button(*game, *camera, XMFLOAT2(0 + 50 * i, 660.0f), XMFLOAT2(120.f, 120.f), "cos"));
 		}
+
+		GameCamera* gmCam = camera->As<GameCamera>();
+		gmCam->SceneLoad();
 	}
 
 	std::vector<DrawableGameComponent*> GameManager::GetListOfUnits() {

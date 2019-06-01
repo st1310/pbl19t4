@@ -37,6 +37,8 @@ namespace Library
 		float& RotationRate();
 		float& MovementRate();
 
+		void SceneLoad();
+
 		virtual void Initialize() override;
 		virtual void Update(const GameTime& gameTime) override;
 

@@ -60,7 +60,7 @@ namespace Rendering
 	void FarbaMan::CheckTriggers()
 	{
 		std::vector<TypesTriggerReactions> helper;
-		helper = mNode->trippedTriggers(this->getPosition());
+		helper = inNode->trippedTriggers(this->getPosition());
 
 		if (helper.empty())
 			return;

@@ -97,6 +97,11 @@ namespace Library
 		mLastWheelPosition = mMouse->Wheel();
 	}
 
+	void GameCamera::SceneLoad()
+	{
+		firstTime = false;
+	}
+
 	void GameCamera::Update(const GameTime& gameTime)
 	{
 		bool moved = false;

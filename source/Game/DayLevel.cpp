@@ -30,7 +30,7 @@ namespace Rendering
 		for (DrawableGameComponent* drwGm : trigerrableObjects)
 		{
 			GameObject* gmObj = drwGm->As<GameObject>();
-			gmObj->getNode()->AddTriggerCollider(gmObj->getCollider());
+			this->getListOfNode().at(0)->AddTriggerCollider(gmObj->getCollider());
 		}
 	}
 }
