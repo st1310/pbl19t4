@@ -23,6 +23,7 @@
 #include "FullScreenQuad.h"
 #include "ColorFilterMaterial.h"
 
+
 namespace Rendering
 {
 	const XMVECTORF32 RenderingGame::BackgroundColor = ColorHelper::CornflowerBlue;
@@ -35,10 +36,11 @@ namespace Rendering
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
 		mGameManager(nullptr), buttonClicked(false), unitActiveFlag(false), mUnitGuiTexture(nullptr),
-		mUnitGuiTextureBlack(nullptr), mSelectionRectangleTexture(nullptr)
+		mUnitGuiTextureBlack(nullptr), mSelectionRectangleTexture(nullptr), mOptionActionsBanner(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
+		indexSelectedGuiButtons.clear();
 	}
 
 	RenderingGame::~RenderingGame()
@@ -48,9 +50,7 @@ namespace Rendering
 	void RenderingGame::Initialize()
 	{
 		if (FAILED(DirectInput8Create(mInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (LPVOID*)&mDirectInput, nullptr)))
-		{
 			throw GameException("DirectInput8Create() failed");
-		}
 
 		mKeyboard = new KeyboardComponent(*this, mDirectInput);
 		mComponents.push_back(mKeyboard);
@@ -67,7 +67,6 @@ namespace Rendering
 		mComponents.push_back(mCamera);
 		mServices.AddService(GameCamera::TypeIdClass(), mCamera);
 
-//=======
 		mSkybox = new SkyboxComponent(*this, *mCamera, L"Content\\Textures\\Maskonaive2_1024.dds", 100.0f);
 		mComponents.push_back(mSkybox);
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
@@ -77,7 +76,6 @@ namespace Rendering
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
-		//mFpsComponent->SetAlwaysDrawn(true);
 
 		mRenderStateHelper = new RenderStateHelper(*this);
 
@@ -95,16 +93,89 @@ namespace Rendering
 		std::wostringstream textureForRactangle;
 		textureForRactangle << L"content\\Textures\\whiteRect75.png";
 
+		std::wostringstream textureOptionActionsBanner;
+		textureOptionActionsBanner << L"content\\Textures\\optionsFrame.png";
+
+		std::wostringstream texturePortraitBanner;
+		texturePortraitBanner << L"content\\Textures\\characterPortraitFrame.png";
+
+		std::wostringstream textureUnitsBanner;
+		textureUnitsBanner << L"content\\Textures\\UnitsBanner.png";
+
+		std::wostringstream mPaintIconYEStexture;
+		mPaintIconYEStexture << L"content\\Textures\\sprayYES.png";
+
+		std::wostringstream mPaintIconNOtexture;
+		mPaintIconNOtexture << L"content\\Textures\\sprayNO.png";
+
+		std::wostringstream mCleanIconYEStexture;
+		mCleanIconYEStexture << L"content\\Textures\\cleanYES.png";
+
+		std::wostringstream mCleanIconNOtexture;
+		mCleanIconNOtexture << L"content\\Textures\\cleanNO.png";
+
+		std::wostringstream mPatrolIconYEStexture;
+		mPatrolIconYEStexture << L"content\\Textures\\patrolYES.png";
+
+		std::wostringstream mPatrolIconNOtexture;
+		mPatrolIconNOtexture << L"content\\Textures\\patrolNO.png";
+
+		std::wostringstream mStopIconNOtexture;
+		mStopIconNOtexture << L"content\\Textures\\stopNO.png";
+
+		std::wostringstream mStopIconYEStexture;
+		mStopIconYEStexture << L"content\\Textures\\stopYES.png";
+
+		std::wostringstream mHideIconNOtexture;
+		mHideIconNOtexture << L"content\\Textures\\hideNO.png";
+
+		std::wostringstream mHideIconYEStexture;
+		mHideIconYEStexture << L"content\\Textures\\hideYES.png";
+
+		std::wostringstream mNoiseIconYEStexture;
+		mNoiseIconYEStexture << L"content\\Textures\\noiseYES1.png";
+
+		std::wostringstream mNoiseIconNOtexture;
+		mNoiseIconNOtexture << L"content\\Textures\\noiseNO1.png";
+
+		std::wostringstream mMultiSelectionPortraittexture;
+		mMultiSelectionPortraittexture << L"content\\Textures\\multiSelectionPortrait.png";
+		
 
 		HRESULT hr = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &mUnitGuiTexture);
 		HRESULT hr1 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName1.str().c_str(), nullptr, &mUnitGuiTextureBlack);
 		HRESULT hr2 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureForRactangle.str().c_str(), nullptr, &mSelectionRectangleTexture);
-
+		HRESULT hr3 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureOptionActionsBanner.str().c_str(), nullptr, &mOptionActionsBanner);
+		HRESULT hr4 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), texturePortraitBanner.str().c_str(), nullptr, &mPortraitBanner);
+		HRESULT hr5 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureUnitsBanner.str().c_str(), nullptr, &mUnitsBanner);
+		HRESULT hr6 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintIconYEStexture.str().c_str(), nullptr, &mPaintIconYES);
+		HRESULT hr7 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintIconNOtexture.str().c_str(), nullptr, &mPaintIconNO);
+		HRESULT hr8 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mCleanIconYEStexture.str().c_str(), nullptr, &mCleanIconYES);
+		HRESULT hr9 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mCleanIconNOtexture.str().c_str(), nullptr, &mCleanIconNO);
+		HRESULT hr10 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolIconYEStexture.str().c_str(), nullptr, &mPatrolIconYES);
+		HRESULT hr11 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolIconNOtexture.str().c_str(), nullptr, &mPatrolIconNO);
+		HRESULT hr12 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStopIconNOtexture.str().c_str(), nullptr, &mStopIconNO);
+		HRESULT hr13 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStopIconYEStexture.str().c_str(), nullptr, &mStopIconYES);
+		HRESULT hr14 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mHideIconNOtexture.str().c_str(), nullptr, &mHideIconNO);
+		HRESULT hr15 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mHideIconYEStexture.str().c_str(), nullptr, &mHideIconYES);
+		HRESULT hr16 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconNOtexture.str().c_str(), nullptr, &mNoiseIconNO);
+		HRESULT hr17 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconYEStexture.str().c_str(), nullptr, &mNoiseIconYES);
+		HRESULT hr18 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mMultiSelectionPortraittexture.str().c_str(), nullptr, &mMultiSelectionPortrait);
+		
 		if (FAILED(hr))
 			throw GameException("CreateWICTextureFromFile() failed.", hr);
 
-		Game::Initialize();
+		if (FAILED(hr3))
+			throw GameException("CreateWICTextureFromFile() failed.", hr3);
 
+		if (FAILED(hr8))
+			throw GameException("CreateWICTextureFromFile() failed.", hr8);
+
+		if (FAILED(hr9))
+			throw GameException("CreateWICTextureFromFile() failed.", hr9);
+		
+
+		Game::Initialize();
 	}
 
 	void RenderingGame::Shutdown()
@@ -149,6 +220,23 @@ namespace Rendering
 
 		if(mKeyboard->WasKeyPressedThisFrame(DIK_6))
 			mGameManager->StartScene(PATHFINDER_TEST);	
+
+		float diffBetweenUnitsIcons = (250.0f / mGameManager->GetListOfUnits().size());
+
+		
+	
+		if (showUnitsGui == false) {
+			if (mMouse->X() > 320.0f  && mMouse->X() < 720.0f && mMouse->Y() > 680.0f) {
+				showUnitsGui = true;
+			}
+		}
+		else if (showUnitsGui == true) {
+			if (mMouse->X() < 320.0f  || mMouse->X() > 720.0f || mMouse->Y() < 570.0f) {
+				showUnitsGui = false;
+			}
+		}
+		
+		
 
 		if (mMouse->Y() > 640.0f && mMouse->X() > 20.0f  && mMouse->X() < 369.0f) {
 
@@ -198,32 +286,110 @@ namespace Rendering
 	{
 		mDirect3DDeviceContext->ClearRenderTargetView(mRenderTargetView,
 			reinterpret_cast<const float*>(&BackgroundColor));
+
 		mDirect3DDeviceContext->ClearDepthStencilView(mDepthStencilView,
 			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
 		
 		Game::Draw(gameTime);
-
 		
 		mRenderStateHelper->SaveAll();
 		mSpriteBatch->Begin();
-
+		int posOffset = 0;
 		std::wostringstream mouseLabel;
 		mouseLabel << L"Mouse Position: " << mMouse->X() << ", "
 			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition);
 
-		if (true) 
-		{
-			for (int i = 0; i < mGameManager->GetListOfUnits().size(); i++) 
-			{
-				if (mGameManager->GetListOfUnits().at(i)->GetUnitID()==mGameManager->unitID) 
-					mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(0.f + 50 * i, 630.0f, 150.0f, 150.0f));
+		if (showUnitsGui) {
+			mSpriteBatch->Draw(mUnitsBanner, SimpleMath::Rectangle(320.0f, 570.0f, 400.0f, 220.0f));
+			posOffset = 1;
 
-				else 
-					mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(0.f + 50 * i, 660.0f, 120.0f, 120.0f));			
+		}
+		else if (!showUnitsGui) 
+		{
+			mSpriteBatch->Draw(mUnitsBanner, SimpleMath::Rectangle(320.0f, 650.0f, 400.0f, 220.0f));
+			posOffset = 0;
+		}
+		
+
+		if (true)
+		{
+			for (int i = 0; i < mGameManager->GetListOfUnits().size(); i++)
+			{
+
+				if (mGameManager->GetListOfUnits().at(i)->GetUnitID() == mGameManager->unitID) 
+					mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * i, 630.0f - posOffset * 80, 100.0f, 100.0f));					
+
+				else
+				{
+					if (mMouse->X() > (360 + i * 60) && (mMouse->X() < (360 + i * 60 + 60) && mMouse->Y() > 680 ))
+					{
+						mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * i, 630.0f - posOffset * 80, 100.0f, 100.0f));
+
+						if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {			
+							showUnitDetail = true;
+							bool checkCopy = false;
+
+							for (int x = 0; x < indexSelectedGuiButtons.size() ;x++) {	//sprawdzanie czy juz raz kliknieto na ikone, jesli tak to nie zapisuj do wektora indeksow zaznaczonych drugi raz
+								if (indexSelectedGuiButtons.at(x) == i) {
+									checkCopy = true;
+								}
+							}
+							if (!checkCopy) {
+								indexSelectedGuiButtons.push_back(i);
+							}
+						}						
+					}
+					else
+					{
+						mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(360.f + 50 * i, 700.0f - posOffset * 80, 80.0f, 80.0f));
+					}
+				}
 			}
 		}
+
+		if (!(indexSelectedGuiButtons.empty())) {
+			for (int i = 0; i < indexSelectedGuiButtons.size(); i++) {
+				mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * indexSelectedGuiButtons.at(i), 630.0f - posOffset * 80, 100.0f, 100.0f));
+			}
+		}
+
+		if (showUnitDetail == true) {
+			
+			
+			mSpriteBatch->Draw(mPortraitBanner, SimpleMath::Rectangle(765.0f, 330.0f, 250.0f, 250.0f), Colors::White);
+			mSpriteBatch->Draw(mOptionActionsBanner, SimpleMath::Rectangle(720.0f, 560.0f, 300.0f, 250.0f));
+
+			mSpriteBatch->Draw(mPaintIconYES, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
+			mSpriteBatch->Draw(mCleanIconYES, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
+			mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+			mSpriteBatch->Draw(mStopIconYES, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+			mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(830.0f, 660.0f, 90.0f, 90.0f));
+			mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 670.0f, 85.0f, 85.0f));
+
+			if (indexSelectedGuiButtons.size() > 1) {
+				mSpriteBatch->Draw(mMultiSelectionPortrait, SimpleMath::Rectangle(800, 350, 200.0f, 200.0f));
+				mSpriteBatch->Draw(mPaintIconNO, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
+				mSpriteBatch->Draw(mCleanIconNO, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
+				mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+				mSpriteBatch->Draw(mStopIconYES, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+				mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(830.0f, 660.0f, 90.0f, 90.0f));
+				mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 670.0f, 85.0f, 85.0f));
+			}
+			else {
+				mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(800, 350, 200.0f, 200.0f));
+				mSpriteBatch->Draw(mPaintIconYES, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
+				mSpriteBatch->Draw(mCleanIconYES, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
+				mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+				mSpriteBatch->Draw(mStopIconYES, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+				mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(830.0f, 660.0f, 90.0f, 90.0f));
+				mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 670.0f, 85.0f, 85.0f));
+			}
+			
+		}
+			
+		
+		
 
 		if (mGameManager->GetunitsReadyToMove()) {
 			std::wostringstream tmp;

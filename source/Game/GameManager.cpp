@@ -228,6 +228,7 @@ namespace Rendering
 			{
 				greenSold->setSelection(true);
 				greenSold->setIsSelected(true);
+				greenSold->SetComponentSelected(true);
 				//Will remove this later
 				wasSelected = true;
 				unitsReadyToMove = true;
@@ -237,6 +238,7 @@ namespace Rendering
 			{
 				greenSold->setSelection(false);
 				greenSold->setIsSelected(false);
+				greenSold->SetComponentSelected(false);
 				unitsReadyToMove = false;
 			}
 		}
@@ -288,6 +290,7 @@ namespace Rendering
 					{
 						greenSold->setSelection(true);
 						greenSold->setIsSelected(true);
+						greenSold->SetComponentSelected(true);
 						unitsReadyToMove = true;
 					}
 				}

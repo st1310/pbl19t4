@@ -59,12 +59,12 @@ namespace Library
 	{
 		mRenderStateHelper->SaveAll();
 		mSpriteBatch->Begin();
-
+		/*
 		std::wostringstream fpsLabel;
 		fpsLabel << std::setprecision(4) << L"Frame Rate: " << mFrameRate
 			<< L"  Total Elapsed Time: " << gameTime.TotalGameTime();
 		mSpriteFont->DrawString(mSpriteBatch, fpsLabel.str().c_str(), mTextPosition);
-
+		*/
 		mSpriteBatch->End();
 		mRenderStateHelper->RestoreAll();
 	}

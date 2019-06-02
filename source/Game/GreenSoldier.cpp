@@ -75,9 +75,11 @@ namespace Rendering
 				mustBeDestroyed = true;
 				return;
 				break;
+
 			case Library::PAINT:
 				//It'll be sent to Paint object 
 				break;
+
 			default:
 				break;
 			}
