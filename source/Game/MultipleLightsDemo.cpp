@@ -16,6 +16,7 @@
 #include "FullScreenQuad.h"
 #include "ColorFilterMaterial.h"
 
+
 #include <WICTextureLoader.h>
 #include <DirectXColors.h>
 #include <SpriteBatch.h>
@@ -38,7 +39,9 @@ namespace Rendering
 		mKeyboard(nullptr), mBlendState(), mRenderStateHelper(game),
 		mDirectLights(), mPointLights(), mSpotLights(), mProxyModels(),
 		mAmbientColor(1.0f, 1.0f, 1.0f, 0.2f)/*mAmbientColor(reinterpret_cast<const float*>(&Colors::White))*/,
-		mSpecularColor(1.0f, 1.0f, 1.0f, 0.5f), mSpecularPower(25.0f), mModel(nullptr)
+		mSpecularColor(1.0f, 1.0f, 1.0f, 0.5f), mSpecularPower(25.0f), mModel(nullptr),
+		mRenderTarget(nullptr), mFullScreenQuad(nullptr), mColorFilterEffect(nullptr),
+		mColorFilterMaterial(nullptr), mActiveColorFilter(ColorFilterGrayScale), mGenericColorFilter(SimpleMath::Matrix::Identity)
 	{
 	}
 
@@ -83,6 +86,11 @@ namespace Rendering
 		DeleteObject(mMaterial);
 		DeleteObject(mEffect);
 
+		DeleteObject(mColorFilterMaterial);
+		DeleteObject(mColorFilterEffect);
+		DeleteObject(mFullScreenQuad);
+		DeleteObject(mRenderTarget);
+
 		ReleaseObject(mBlendState);
 	}
 
@@ -91,8 +99,8 @@ namespace Rendering
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
 		// Load the model
-		mModel = new Model(*mGame, "Content\\Models\\Sponza\\Sponza.fbx", true);
-		//mModel = new Model(*mGame, "Content\\Models\\Sphere.obj", true);
+		//mModel = new Model(*mGame, "Content\\Models\\Sponza\\Sponza.fbx", true);
+		mModel = new Model(*mGame, "Content\\Models\\Sphere.obj", true);
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
@@ -124,7 +132,7 @@ namespace Rendering
 			ID3D11ShaderResourceView* normalTexture = nullptr;
 			ModelMaterial* material = mesh->GetMaterial();
 
-			if (material != nullptr && material->Textures().find(TextureTypeDifffuse) != material->Textures().cend())
+			/*if (material != nullptr && material->Textures().find(TextureTypeDifffuse) != material->Textures().cend())
 			{
 				std::vector<std::wstring>* diffuseTextures = material->Textures().at(TextureTypeDifffuse);
 				std::wstring filename = PathFindFileName(diffuseTextures->at(0).c_str());
@@ -150,23 +158,23 @@ namespace Rendering
 				{
 					throw GameException("CreateWICTextureFromFile() failed.", hr);
 				}
+			}*/
+			std::wostringstream textureName;
+			//textureName << L"Content\\Textures\\" << L"EarthComposite" << L".jpg";
+			textureName << L"Content\\Models\\Sponza\\" << L"Lion_Albedo" << L".png";
+			HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &colorTexture);
+			if (FAILED(hr))
+			{
+				throw GameException("CreateWICTextureFromFile() failed.", hr);
 			}
-			//std::wostringstream textureName;
-			////textureName << L"Content\\Textures\\" << L"EarthComposite" << L".jpg";
-			//textureName << L"Content\\Models\\Sponza\\" << L"Lion_Albedo" << L".png";
-			//HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &colorTexture);
-			//if (FAILED(hr))
-			//{
-			//	throw GameException("CreateWICTextureFromFile() failed.", hr);
-			//}
 
-			//textureName.str(L"");
-			//textureName << L"Content\\Models\\Sponza\\" << L"Lion_Normal" << L".png";
-			//hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &normalTexture);
-			//if (FAILED(hr))
-			//{
-			//	throw GameException("CreateWICTextureFromFile() failed.", hr);
-			//}
+			textureName.str(L"");
+			textureName << L"Content\\Models\\Sponza\\" << L"Lion_Normal" << L".png";
+			hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &normalTexture);
+			if (FAILED(hr))
+			{
+				throw GameException("CreateWICTextureFromFile() failed.", hr);
+			}
 
 			mColorTextures[i] = colorTexture;
 			mNormalTextures[i] = normalTexture;
@@ -236,11 +244,27 @@ namespace Rendering
 		{
 			proxy->Initialize();
 		}
+
+		// Initialize post-process
+		mRenderTarget = new FullScreenRenderTarget(*mGame);
+
+		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
+		mColorFilterEffect = new Effect(*mGame);
+		mColorFilterEffect->LoadCompiledEffect(L"Content\\Effects\\ColorFilter.cso");
+
+		mColorFilterMaterial = new ColorFilterMaterial();
+		mColorFilterMaterial->Initialize(mColorFilterEffect);
+
+		mFullScreenQuad = new FullScreenQuad(*mGame, *mColorFilterMaterial);
+		mFullScreenQuad->Initialize();
+		//mFullScreenQuad->SetActiveTechnique(ColorFilterTechniqueNames[mActiveColorFilter], "p0");
+		mFullScreenQuad->SetActiveTechnique(ColorFilterTechniqueNames[ColorFilter::ColorFilterGeneric], "p0");
+		mFullScreenQuad->SetCustomUpdateMaterial(std::bind(&MultipleLightsDemo::UpdateColorFilterMaterial, this));
 	}
 
 	void MultipleLightsDemo::Update(const GameTime& gameTime)
 	{
-		mPointLights.back()->SetPosition(mPointLights.back()->Position() + XMFLOAT3((float)(sin(gameTime.TotalGameTime()) / 10), 0.0f, 0.0f));
+		mPointLights.back()->SetPosition(mPointLights.back()->Position() + XMFLOAT3((float)(sin(gameTime.TotalGameTime()) / 100), 0.0f, 0.0f));
 		mProxyModels.back()->SetPosition(mPointLights.back()->Position());
 
 		for (ProxyModel* proxy : mProxyModels)
@@ -251,6 +275,11 @@ namespace Rendering
 
 	void MultipleLightsDemo::Draw(const GameTime& gameTime)
 	{
+		mRenderTarget->Begin();
+
+		mGame->Direct3DDeviceContext()->ClearRenderTargetView(mRenderTarget->RenderTargetView(), reinterpret_cast<const float*>(&Colors::CornflowerBlue));
+		mGame->Direct3DDeviceContext()->ClearDepthStencilView(mRenderTarget->DepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
 		ID3D11DeviceContext* direct3DDeviceContext = mGame->Direct3DDeviceContext();
 		direct3DDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -329,6 +358,45 @@ namespace Rendering
 		for (ProxyModel* proxy : mProxyModels)
 		{
 			proxy->Draw(gameTime);
+		}
+		//
+		mRenderTarget->End();
+
+		mGame->Direct3DDeviceContext()->ClearRenderTargetView(mGame->RenderTargetView(),
+			reinterpret_cast<const float*>(&Colors::CornflowerBlue));
+		mGame->Direct3DDeviceContext()->ClearDepthStencilView(mGame->DepthStencilView(),
+			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+		mFullScreenQuad->Draw(gameTime);
+	}
+
+	void MultipleLightsDemo::UpdateColorFilterMaterial()
+	{
+		XMMATRIX colorFilter = XMLoadFloat4x4(&mGenericColorFilter);
+
+		mColorFilterMaterial->ColorTexture() << mRenderTarget->OutputTexture();
+		mColorFilterMaterial->ColorFilter() << colorFilter;
+	}
+
+	void MultipleLightsDemo::UpdateGenericColorFilter(const GameTime& gameTime)
+	{
+		static float brightness = 1.0f;
+
+		if (mKeyboard != nullptr)
+		{
+			if (mKeyboard->IsKeyDown(DIK_COMMA) && brightness < 1.0f)
+			{
+				brightness += (float)gameTime.ElapsedGameTime();
+				brightness = XMMin<float>(brightness, 1.0f);
+				XMStoreFloat4x4(&mGenericColorFilter, XMMatrixScaling(brightness, brightness, brightness));
+			}
+
+			if (mKeyboard->IsKeyDown(DIK_PERIOD) && brightness > 0.0f)
+			{
+				brightness -= (float)gameTime.ElapsedGameTime();
+				brightness = XMMax<float>(brightness, 0.0f);
+				XMStoreFloat4x4(&mGenericColorFilter, XMMatrixScaling(brightness, brightness, brightness));
+			}
 		}
 	}
 }

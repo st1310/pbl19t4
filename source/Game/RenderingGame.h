@@ -3,6 +3,7 @@
 #include "Common.h"
 #include "Game.h"
 #include "Colliders.h"
+#include "RenderStateHelper.h"
 
 using namespace Library;
 
@@ -20,6 +21,10 @@ namespace Library
 	class FirstPersonCamera;
 	class RenderStateHelper;
 	class SkyboxComponent;
+	class Effect;
+	class FullScreenRenderTarget;
+	class FullScreenQuad;
+	class ColorFilterMaterial;
 }
 
 namespace Rendering
@@ -44,8 +49,6 @@ namespace Rendering
 		virtual void Shutdown() override;
 
 	private:
-
-
 		static const XMVECTORF32 BackgroundColor;
 
 		bool buttonClicked;
@@ -62,7 +65,6 @@ namespace Rendering
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mMouseTextPosition;
-	
 
 		Colliders* mCollC;
 		Colliders* mCollTM;

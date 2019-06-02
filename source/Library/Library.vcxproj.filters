@@ -195,6 +195,18 @@
     <ClInclude Include="VertexDeclarations.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DepthMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthMapMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Projector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MultipleShadowLightsMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -359,6 +371,18 @@
     <ClCompile Include="ColorFilterMaterial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DepthMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthMapMaterial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Projector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MultipleShadowLightsMaterial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -380,6 +404,12 @@
       <Filter>Content\Effects</Filter>
     </FxCompile>
     <FxCompile Include="Content\Effects\ColorFilter.fx">
+      <Filter>Content\Effects</Filter>
+    </FxCompile>
+    <FxCompile Include="Content\Effects\DepthMap.fx">
+      <Filter>Content\Effects</Filter>
+    </FxCompile>
+    <FxCompile Include="Content\Effects\MultipleShadowLights .fx">
       <Filter>Content\Effects</Filter>
     </FxCompile>
   </ItemGroup>

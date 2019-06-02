@@ -28,6 +28,18 @@ namespace DirectX
 
 namespace Rendering
 {
+	enum ColorFilter
+	{
+		ColorFilterGrayScale = 0,
+		ColorFilterInverse,
+		ColorFilterSepia,
+		ColorFilterGeneric,
+		ColorFilterEnd
+	};
+
+	const std::string ColorFilterTechniqueNames[] = { "grayscale_filter", "inverse_filter", "sepia_filter", "generic_filter" };
+	const std::string ColorFilterDisplayNames[] = { "Grayscale", "Inverse", "Sepia", "Generic" };
+
 	class MultipleLightsDemo :
 		public DrawableGameComponent
 	{
@@ -88,5 +100,12 @@ namespace Rendering
 		RenderStateHelper mRenderStateHelper;
 
 		Model* mModel;
+
+		FullScreenRenderTarget* mRenderTarget;
+		FullScreenQuad* mFullScreenQuad;
+		Effect* mColorFilterEffect;
+		ColorFilterMaterial* mColorFilterMaterial;
+		ColorFilter mActiveColorFilter;
+		XMFLOAT4X4 mGenericColorFilter;
 	};
 }

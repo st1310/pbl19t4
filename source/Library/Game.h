@@ -34,6 +34,8 @@ namespace Library
 		ID3D11Device1* Direct3DDevice() const;
 		ID3D11DeviceContext1* Direct3DDeviceContext() const;
 		bool DepthBufferEnabled() const;
+		ID3D11RenderTargetView* RenderTargetView() const;
+		ID3D11DepthStencilView* DepthStencilView() const;
 		float AspectRatio() const;
 		bool IsFullScreen() const;
 		const D3D11_TEXTURE2D_DESC& BackBufferDesc() const;
