@@ -1,7 +1,7 @@
 #include "include\\Common.fxh"
 
 /************* Resources *************/
-
+#define MaxBones 60
 #define NUM_LIGHTS 10
 
 cbuffer CBufferPerFrame
@@ -25,8 +25,14 @@ cbuffer CBufferPerObject
     float SpecularPower : SPECULARPOWER = {25.0f};
 }
 
+cbuffer CBufferSkinning
+{
+	float4x4 BoneTransforms[MaxBones];
+}
+
 Texture2D ColorTexture;
 Texture2D NormalTexture;
+Texture2D SpecularTexture;
 
 SamplerState TrilinearSampler
 {
@@ -62,6 +68,16 @@ struct VS_INPUT
 	float3 Tangent : TANGENT;
 };
 
+struct VS_BONES_INPUT
+{
+	float4 ObjectPosition : POSITION;
+	float2 TextureCoordinate : TEXCOORD;
+	float3 Normal : NORMAL;
+	float3 Tangent : TANGENT;
+	uint4 BoneIndices : BONEINDICES;
+	float4 BoneWeights : WEIGHTS;
+};
+
 struct VS_OUTPUT
 {
     float4 Position : SV_Position;
@@ -88,9 +104,30 @@ VS_OUTPUT vertex_shader(VS_INPUT IN)
     return OUT;
 }
 
+VS_OUTPUT vertex_bones_shader(VS_BONES_INPUT IN)
+{
+	VS_OUTPUT OUT = (VS_OUTPUT)0;
+
+	float4x4 skinTransform = (float4x4)0;
+	skinTransform += BoneTransforms[IN.BoneIndices.x] * IN.BoneWeights.x;
+	skinTransform += BoneTransforms[IN.BoneIndices.y] * IN.BoneWeights.y;
+	skinTransform += BoneTransforms[IN.BoneIndices.z] * IN.BoneWeights.z;
+	skinTransform += BoneTransforms[IN.BoneIndices.w] * IN.BoneWeights.w;
+
+	float4 position = mul(IN.ObjectPosition, skinTransform);
+	OUT.Position = mul(position, WorldViewProjection);
+	OUT.WorldPosition = mul(IN.ObjectPosition, World).xyz;
+	OUT.TextureCoordinate = IN.TextureCoordinate;
+	OUT.Normal = normalize(mul(float4(IN.Normal, 0), World).xyz);
+	OUT.Tangent = normalize(mul(float4(IN.Tangent, 0), World).xyz);
+	OUT.Binormal = cross(OUT.Normal, OUT.Tangent);
+
+	return OUT;
+}
+
 /************* Pixel Shader *************/
 
-float4 pixel_shader(VS_OUTPUT IN) : SV_Target
+float4 pixel_shader(VS_OUTPUT IN, uniform bool normalMap, uniform bool specularMap) : SV_Target
 {
     float4 OUT = (float4)0;
         
@@ -101,7 +138,12 @@ float4 pixel_shader(VS_OUTPUT IN) : SV_Target
     float4 color = ColorTexture.Sample(TrilinearSampler, IN.TextureCoordinate);
     float3 ambient = get_vector_color_contribution(AmbientColor, color.rgb);
 
-	float3 sampledNormal = (2 * NormalTexture.Sample(TrilinearSampler, IN.TextureCoordinate).xyz) - 1.0; // Map normal from [0..1] to [-1..1]
+	float3 sampledNormal = normal;
+	if (normalMap)
+	{
+		sampledNormal = (2 * NormalTexture.Sample(TrilinearSampler, IN.TextureCoordinate).xyz) - 1.0; // Map normal from [0..1] to [-1..1]
+	}
+
 	float3x3 tbn = float3x3(tangent, binormal, normal);
 	sampledNormal = mul(sampledNormal, tbn); // Transform normal to world space
         
@@ -110,7 +152,12 @@ float4 pixel_shader(VS_OUTPUT IN) : SV_Target
 	lightContributionData.Normal = sampledNormal; //sampledNormal;
     lightContributionData.ViewDirection = viewDirection;
     lightContributionData.SpecularColor = SpecularColor;
-    lightContributionData.SpecularPower = SpecularPower;
+	lightContributionData.SpecularPower = SpecularPower;
+
+	if (specularMap)
+	{
+		lightContributionData.SpecularPower *= SpecularTexture.Sample(TrilinearSampler, IN.TextureCoordinate).x;
+	}
     
     float3 totalLightContribution = (float3)0;
 
@@ -147,15 +194,99 @@ float4 pixel_shader(VS_OUTPUT IN) : SV_Target
 
 /************* Techniques *************/
 
-technique11 main11
+technique11 Lights
 {
     pass p0
     {
         SetVertexShader(CompileShader(vs_5_0, vertex_shader()));
         SetGeometryShader(NULL);
-        SetPixelShader(CompileShader(ps_5_0, pixel_shader()));
+        SetPixelShader(CompileShader(ps_5_0, pixel_shader(false, false)));
             
         SetRasterizerState(DisableCulling);
 		//SetBlendState(EnableAlphaBlending, (float4)0, 0xFFFFFFFF);
     }
+}
+
+technique11 LightsNormal
+{
+	pass p0
+	{
+		SetVertexShader(CompileShader(vs_5_0, vertex_shader()));
+		SetGeometryShader(NULL);
+		SetPixelShader(CompileShader(ps_5_0, pixel_shader(true, false)));
+
+		SetRasterizerState(DisableCulling);
+	}
+}
+
+technique11 LightsSpecular
+{
+	pass p0
+	{
+		SetVertexShader(CompileShader(vs_5_0, vertex_shader()));
+		SetGeometryShader(NULL);
+		SetPixelShader(CompileShader(ps_5_0, pixel_shader(false, true)));
+
+		SetRasterizerState(DisableCulling);
+	}
+}
+
+technique11 LightsNormalSpecular
+{
+	pass p0
+	{
+		SetVertexShader(CompileShader(vs_5_0, vertex_shader()));
+		SetGeometryShader(NULL);
+		SetPixelShader(CompileShader(ps_5_0, pixel_shader(true, true)));
+
+		SetRasterizerState(DisableCulling);
+	}
+}
+
+technique11 BonesLights
+{
+	pass p0
+	{
+		SetVertexShader(CompileShader(vs_5_0, vertex_bones_shader()));
+		SetGeometryShader(NULL);
+		SetPixelShader(CompileShader(ps_5_0, pixel_shader(false, false)));
+
+		SetRasterizerState(DisableCulling);
+	}
+}
+
+technique11 BonesLightsNormal
+{
+	pass p0
+	{
+		SetVertexShader(CompileShader(vs_5_0, vertex_bones_shader()));
+		SetGeometryShader(NULL);
+		SetPixelShader(CompileShader(ps_5_0, pixel_shader(true, false)));
+
+		SetRasterizerState(DisableCulling);
+	}
+}
+
+technique11 BonesLightsSpecular
+{
+	pass p0
+	{
+		SetVertexShader(CompileShader(vs_5_0, vertex_bones_shader()));
+		SetGeometryShader(NULL);
+		SetPixelShader(CompileShader(ps_5_0, pixel_shader(false, true)));
+
+		SetRasterizerState(DisableCulling);
+	}
+}
+
+technique11 BonesLightsNormalSpecular
+{
+	pass p0
+	{
+		SetVertexShader(CompileShader(vs_5_0, vertex_bones_shader()));
+		SetGeometryShader(NULL);
+		SetPixelShader(CompileShader(ps_5_0, pixel_shader(true, true)));
+
+		SetRasterizerState(DisableCulling);
+	}
 }

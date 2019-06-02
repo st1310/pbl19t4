@@ -14,10 +14,12 @@ namespace Library
 	class ProxyModel;
 	class Effect;
 	class MultipleLightsMaterial;
+	class MultipleLightsBonesMaterial;
 	class Model;
 	class FullScreenRenderTarget;
 	class FullScreenQuad;
 	class ColorFilterMaterial;
+	class AnimationPlayer;
 }
 
 namespace DirectX
@@ -75,7 +77,8 @@ namespace Rendering
 		void UpdateGenericColorFilter(const GameTime& gameTime);
 
 		Effect* mEffect;
-		MultipleLightsMaterial* mMaterial;
+		//MultipleLightsMaterial* mMaterial;
+		MultipleLightsBonesMaterial* mMaterial;
 
 		KeyboardComponent* mKeyboard;
 
@@ -95,11 +98,13 @@ namespace Rendering
 		std::vector<UINT> mIndexCounts;
 		std::vector<ID3D11ShaderResourceView*> mColorTextures;
 		std::vector<ID3D11ShaderResourceView*> mNormalTextures;
+		std::vector<ID3D11ShaderResourceView*> mSpecularTextures;
 
 		ID3D11BlendState* mBlendState;
 		RenderStateHelper mRenderStateHelper;
 
 		Model* mModel;
+		AnimationPlayer* mAnimationPlayer;
 
 		FullScreenRenderTarget* mRenderTarget;
 		FullScreenQuad* mFullScreenQuad;

@@ -15,9 +15,11 @@
 #include "FullScreenRenderTarget.h"
 #include "FullScreenQuad.h"
 #include "ColorFilterMaterial.h"
+#include "AnimationPlayer.h"
 
 
 #include <WICTextureLoader.h>
+#include <DDSTextureLoader.h>
 #include <DirectXColors.h>
 #include <SpriteBatch.h>
 #include <SpriteFont.h>
@@ -35,11 +37,11 @@ namespace Rendering
 	MultipleLightsDemo::MultipleLightsDemo(Game& game, Camera& camera) :
 		DrawableGameComponent(game, camera),
 		mMaterial(nullptr), mEffect(nullptr), mWorldMatrix(Matrix::Identity),
-		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(), mNormalTextures(),
+		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(), mNormalTextures(), mSpecularTextures(),
 		mKeyboard(nullptr), mBlendState(), mRenderStateHelper(game),
 		mDirectLights(), mPointLights(), mSpotLights(), mProxyModels(),
 		mAmbientColor(1.0f, 1.0f, 1.0f, 0.2f)/*mAmbientColor(reinterpret_cast<const float*>(&Colors::White))*/,
-		mSpecularColor(1.0f, 1.0f, 1.0f, 0.5f), mSpecularPower(25.0f), mModel(nullptr),
+		mSpecularColor(1.0f, 1.0f, 1.0f, 0.5f), mSpecularPower(25.0f), mModel(nullptr), mAnimationPlayer(nullptr),
 		mRenderTarget(nullptr), mFullScreenQuad(nullptr), mColorFilterEffect(nullptr),
 		mColorFilterMaterial(nullptr), mActiveColorFilter(ColorFilterGrayScale), mGenericColorFilter(SimpleMath::Matrix::Identity)
 	{
@@ -60,6 +62,16 @@ namespace Rendering
 		for (ID3D11ShaderResourceView* colorTexture : mColorTextures)
 		{
 			ReleaseObject(colorTexture);
+		}
+
+		for (ID3D11ShaderResourceView* normalTexture : mNormalTextures)
+		{
+			ReleaseObject(normalTexture);
+		}
+
+		for (ID3D11ShaderResourceView* specularTexture : mSpecularTextures)
+		{
+			ReleaseObject(specularTexture);
 		}
 
 		for (DirectionalLight* directLight : mDirectLights)
@@ -100,13 +112,19 @@ namespace Rendering
 
 		// Load the model
 		//mModel = new Model(*mGame, "Content\\Models\\Sponza\\Sponza.fbx", true);
-		mModel = new Model(*mGame, "Content\\Models\\Sphere.obj", true);
+		//mModel = new Model(*mGame, "Content\\Models\\Sphere.obj", true);
+		mModel = new Model(*mGame, "Content\\Models\\GreenSoldier.fbx", true);
+
+		mAnimationPlayer = new AnimationPlayer(*mGame, *mModel);
+		mAnimationPlayer->StartClip(*(mModel->Animations().at(0)));
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
 		mEffect->LoadCompiledEffect(L"Content\\Effects\\MultipleLights.cso");
-		mMaterial = new MultipleLightsMaterial();
+		//mMaterial = new MultipleLightsMaterial();
+		mMaterial = new MultipleLightsBonesMaterial();
 		mMaterial->Initialize(mEffect);
+		mMaterial->SetCurrentTechnique(mEffect->TechniquesByName().at("BonesLights"));
 
 		// Create the vertex and index buffers
 		mVertexBuffers.resize(mModel->Meshes().size());
@@ -114,6 +132,7 @@ namespace Rendering
 		mIndexCounts.resize(mModel->Meshes().size());
 		mColorTextures.resize(mModel->Meshes().size());
 		mNormalTextures.resize(mModel->Meshes().size());
+		mSpecularTextures.resize(mModel->Meshes().size());
 		for (UINT i = 0; i < mModel->Meshes().size(); i++)
 		{
 			Mesh* mesh = mModel->Meshes().at(i);
@@ -130,6 +149,7 @@ namespace Rendering
 
 			ID3D11ShaderResourceView* colorTexture = nullptr;
 			ID3D11ShaderResourceView* normalTexture = nullptr;
+			ID3D11ShaderResourceView* specularTexture = nullptr;
 			ModelMaterial* material = mesh->GetMaterial();
 
 			/*if (material != nullptr && material->Textures().find(TextureTypeDifffuse) != material->Textures().cend())
@@ -176,8 +196,17 @@ namespace Rendering
 				throw GameException("CreateWICTextureFromFile() failed.", hr);
 			}
 
+			textureName.str(L"");
+			textureName << L"Content\\Textures\\" << L"checker" << L".dds";
+			hr = DirectX::CreateDDSTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &specularTexture);
+			if (FAILED(hr))
+			{
+				throw GameException("CreateWICTextureFromFile() failed.", hr);
+			}
+
 			mColorTextures[i] = colorTexture;
 			mNormalTextures[i] = normalTexture;
+			mSpecularTextures[i] = specularTexture;
 		}
 
 		XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(0.06f, 0.06f, 0.06f));
@@ -271,6 +300,8 @@ namespace Rendering
 		{
 			proxy->Update(gameTime);
 		}
+
+		mAnimationPlayer->Update(gameTime);
 	}
 
 	void MultipleLightsDemo::Draw(const GameTime& gameTime)
@@ -302,6 +333,7 @@ namespace Rendering
 			UINT indexCount = mIndexCounts[i];
 			ID3D11ShaderResourceView* colorTexture = mColorTextures[i];
 			ID3D11ShaderResourceView* normalTexture = mNormalTextures[i];
+			ID3D11ShaderResourceView* specularTexture = mSpecularTextures[i];
 
 			direct3DDeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 			direct3DDeviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
@@ -313,7 +345,9 @@ namespace Rendering
 			mMaterial->AmbientColor() << ambientColor;
 			mMaterial->ColorTexture() << colorTexture;
 			mMaterial->NormalTexture() << normalTexture;
+			mMaterial->SpecularTexture() << specularTexture;
 			mMaterial->CameraPosition() << mCamera->PositionVector();
+			mMaterial->BoneTransforms() << mAnimationPlayer->BoneTransforms();
 
 			for (size_t i = 0; i < mDirectLights.size(); i++)
 			{

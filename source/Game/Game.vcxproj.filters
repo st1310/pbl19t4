@@ -129,6 +129,12 @@
     <ClCompile Include="MultipleLightsDemo.cpp">
       <Filter>Assets\Abstract\Source</Filter>
     </ClCompile>
+    <ClCompile Include="PathFinder_Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PassengerTrain.h">
@@ -214,6 +220,12 @@
     </ClInclude>
     <ClInclude Include="MultipleLightsDemo.h">
       <Filter>Assets\Abstract\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinder_Test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
