@@ -53,8 +53,8 @@ namespace Rendering
 		LPDIRECTINPUT8 mDirectInput;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
-		GameCamera* mCamera;
-		//FirstPersonCamera* mCamera;
+		//GameCamera* mCamera;
+		FirstPersonCamera* mCamera;
 		FpsComponent* mFpsComponent;
 		SkyboxComponent* mSkybox;
 

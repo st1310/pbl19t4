@@ -56,12 +56,12 @@ namespace Rendering
 		mServices.AddService(MouseComponent::TypeIdClass(), mMouse);
 
 		mCollC = new Colliders();
-		mCamera = new GameCamera(*this);
+		mCamera = new FirstPersonCamera(*this);
 		CollisionNode* newNode = new CollisionNode({-5.f, -20.f, 0.f}, { 5.f, 20.f, 50.f });
 
 		//For debug
 		mComponents.push_back(mCamera);
-		mServices.AddService(GameCamera::TypeIdClass(), mCamera);
+		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
 		//mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
 
 		// For game

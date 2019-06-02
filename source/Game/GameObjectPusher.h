@@ -20,6 +20,10 @@ namespace Rendering
 
 		std::vector<CollisionNode*> listNode;
 		std::vector<DrawableGameComponent*> listOfSoldiers;
+		std::vector<DrawableGameComponent*> triggerableObjects;
+
+		XMFLOAT3 GetPosA();
+		XMFLOAT3 GetPosC();
 
 	private:
 		//x - max, y i z - min

@@ -4,13 +4,17 @@
 
 namespace Rendering
 {
-	GameObjectPusher::GameObjectPusher()
+	GameObjectPusher::GameObjectPusher() :
+		listNode(), listOfSoldiers(), triggerableObjects()
 	{
 	}
 
 
 	GameObjectPusher::~GameObjectPusher()
 	{
+		listNode.clear();
+		listOfSoldiers.clear();
+		triggerableObjects.clear();
 	}
 
 	std::vector<GameComponent*> GameObjectPusher::CreateAssets(Game& game, Camera& camera, std::vector<SerializableGameObject> gameObjects, bool needToFindCoord)
@@ -27,16 +31,19 @@ namespace Rendering
 
 				if (posit.x > PosA.x)
 					PosA.x = posit.x;
+
 				if (posit.x < PosC.x)
 					PosC.x = posit.x;
 
 				if (posit.y < PosA.y)
 					PosA.y = posit.y;
+
 				if (posit.y > PosC.y)
 					PosC.y = posit.y;
 
 				if (posit.z < PosA.z)
 					PosA.z = posit.z;
+
 				if (posit.z > PosC.z)
 					PosC.z = posit.z;
 			}
@@ -85,7 +92,6 @@ namespace Rendering
 					gameObjects.at(i).GetScale());
 
 				doubleStreetLampPost->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-
 				assets.push_back(doubleStreetLampPost);
 			}
 
@@ -97,7 +103,6 @@ namespace Rendering
 					gameObjects.at(i).GetScale());
 
 				doubleStreetLampPostWithMegaphone->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-
 				assets.push_back(doubleStreetLampPostWithMegaphone);
 			}
 
@@ -109,7 +114,8 @@ namespace Rendering
 					gameObjects.at(i).GetScale());
 
 				farbaMan->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
-
+				triggerableObjects.push_back(farbaMan);
+				listOfSoldiers.push_back(farbaMan);
 				assets.push_back(farbaMan);
 			}
 
@@ -144,6 +150,7 @@ namespace Rendering
 
 				greenSoldier->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(greenSoldier);
+				triggerableObjects.push_back(greenSoldier);
 				listOfSoldiers.push_back(greenSoldier);
 			}
 
@@ -169,6 +176,28 @@ namespace Rendering
 				assets.push_back(informationBoard);
 			}
 
+			if (className == "LongBuilding")
+			{
+				LongBuilding* longBuilding = new LongBuilding(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				longBuilding->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(longBuilding);
+			}
+
+			if (className == "OldBuilding")
+			{
+				OldBuilding* oldBuilding = new OldBuilding(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				oldBuilding->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(oldBuilding);
+			}
+
 			if (className == "OverheadLines")
 			{
 				OverheadLines* overheadLines = new OverheadLines(game, camera,
@@ -178,7 +207,6 @@ namespace Rendering
 
 				overheadLines->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(overheadLines);
-				listOfSoldiers.push_back(overheadLines);
 			}
 
 			if (className == "PassengerTrain")
@@ -277,7 +305,19 @@ namespace Rendering
 					gameObjects.at(i).GetScale());
 
 				policeman->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				triggerableObjects.push_back(policeman);
 				assets.push_back(policeman);
+			}
+
+			if (className == "PoliceStation")
+			{
+				PoliceStation* policeStation = new PoliceStation(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				policeStation->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(policeStation);
 			}
 
 			if (className == "SingleStreetLampPost")
@@ -385,6 +425,18 @@ namespace Rendering
 			return informationBoard;
 		}
 
+		if (className == "LongBuilding")
+		{
+			LongBuilding* longBuilding = new LongBuilding(game, camera);
+			return longBuilding;
+		}
+
+		if (className == "OldBuilding")
+		{
+			OldBuilding* oldBuilding = new OldBuilding(game, camera);
+			return oldBuilding;
+		}
+
 		if (className == "OverheadLines")
 		{
 			OverheadLines* overheadLines = new OverheadLines(game, camera);
@@ -445,6 +497,12 @@ namespace Rendering
 			return policeman;
 		}
 
+		if (className == "PoliceStation")
+		{
+			PoliceStation* policeStation = new PoliceStation(game, camera);
+			return policeStation;
+		}
+
 		if (className == "SingleStreetLampPost")
 		{
 			SingleStreetLampPost* singleStreetLampPost = new SingleStreetLampPost(game, camera);
@@ -468,5 +526,15 @@ namespace Rendering
 			Bench* bench = new Bench(game, camera);
 			return bench;
 		}
+	}
+
+	XMFLOAT3 GameObjectPusher::GetPosA()
+	{
+		return PosA;
+	}
+
+	XMFLOAT3 GameObjectPusher::GetPosC()
+	{
+		return PosC;
 	}
 }

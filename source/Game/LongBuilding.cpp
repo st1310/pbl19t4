@@ -1,13 +1,13 @@
-#include "PoliceCar.h"
+#include "LongBuilding.h"
 
 namespace Rendering
 {
-	PoliceCar::PoliceCar(Game& game, Camera& camera,
+	LongBuilding::LongBuilding(Game& game, Camera& camera,
 		XMFLOAT3 startPosition,
 		XMFLOAT3 startRotation,
 		XMFLOAT3 startScale)
 		: StaticGameObject(game, camera,
-			"PoliceCar",
+			"LongBuilding",
 			L"Content\\Effects\\TextureMapping.cso",
 			startPosition,
 			startRotation,
@@ -15,11 +15,12 @@ namespace Rendering
 	{
 	}
 
-	PoliceCar::~PoliceCar()
+
+	LongBuilding::~LongBuilding()
 	{
 	}
 
-	void PoliceCar::Initialize()
+	void LongBuilding::Initialize()
 	{
 		StaticGameObject::Initialize();
 		StaticGameObject::BuildBoundingBox(XMFLOAT3(6.3f, 8.f, 9.f));

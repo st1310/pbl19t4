@@ -1,13 +1,13 @@
-#include "PoliceCar.h"
+#include "OldBuilding.h"
 
 namespace Rendering
 {
-	PoliceCar::PoliceCar(Game& game, Camera& camera,
+	OldBuilding::OldBuilding(Game& game, Camera& camera,
 		XMFLOAT3 startPosition,
 		XMFLOAT3 startRotation,
 		XMFLOAT3 startScale)
 		: StaticGameObject(game, camera,
-			"PoliceCar",
+			"OldBuilding",
 			L"Content\\Effects\\TextureMapping.cso",
 			startPosition,
 			startRotation,
@@ -15,11 +15,12 @@ namespace Rendering
 	{
 	}
 
-	PoliceCar::~PoliceCar()
+
+	OldBuilding::~OldBuilding()
 	{
 	}
 
-	void PoliceCar::Initialize()
+	void OldBuilding::Initialize()
 	{
 		StaticGameObject::Initialize();
 		StaticGameObject::BuildBoundingBox(XMFLOAT3(6.3f, 8.f, 9.f));
