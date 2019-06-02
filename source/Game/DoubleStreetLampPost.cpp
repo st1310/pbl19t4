@@ -13,12 +13,18 @@ namespace Rendering
 			"Content\\Textures\\DoubleStreetLampPostDiffuseMap.jpg",
 			startPosition,
 			startRotation,
-			startScale)
+			startScale, true)
 	{
 	}
 
 
 	DoubleStreetLampPost::~DoubleStreetLampPost()
 	{
+	}
+
+	void DoubleStreetLampPost::Initialize()
+	{
+		StaticGameObject::Initialize();
+		StaticGameObject::BuildBoundingBox(XMFLOAT3(2.f, 15.f, 2.f));
 	}
 }

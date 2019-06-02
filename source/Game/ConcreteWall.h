@@ -14,5 +14,7 @@ namespace Rendering
 			XMFLOAT3 startRotation = XMFLOAT3(90, 0, 0),
 			XMFLOAT3 startScale = XMFLOAT3(0.5, 0.25, 0.3));
 		~ConcreteWall();
+
+		virtual void Initialize() override;
 	};
 }

@@ -23,7 +23,7 @@
     <ProjectGuid>{15D00748-B489-49F1-8BB5-4226A89DDB67}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Game</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -188,6 +188,8 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="MultipleLightsDemo.cpp" />
     <ClCompile Include="PassengerTrain.cpp" />
     <ClCompile Include="AnimatedGameObject.cpp" />
+    <ClCompile Include="PathFinder_Test.cpp" />
+    <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="PlatformGround1.cpp" />
     <ClCompile Include="PlatformGround2.cpp" />
     <ClCompile Include="Policeman.cpp" />
@@ -219,6 +221,8 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClInclude Include="MultipleLightsDemo.h" />
     <ClInclude Include="PassengerTrain.h" />
     <ClInclude Include="AnimatedGameObject.h" />
+    <ClInclude Include="PathFinder_Test.h" />
+    <ClInclude Include="PathFinding.h" />
     <ClInclude Include="PlatformGround1.h" />
     <ClInclude Include="PlatformGround2.h" />
     <ClInclude Include="Policeman.h" />

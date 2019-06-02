@@ -14,5 +14,7 @@ namespace Rendering
 			XMFLOAT3 startRotation = XMFLOAT3(180, -90, 0),
 			XMFLOAT3 startScale = XMFLOAT3(0.2, 0.2, 0.2));
 		~CargoTrain();
+
+		virtual void Initialize() override;
 	};
 }

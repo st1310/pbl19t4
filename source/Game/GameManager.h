@@ -1,10 +1,12 @@
 #pragma once
+#include "FirstPersonCamera.h"
 #include "Scene.h"
 #include "MenuLevel.h"
 #include "DayLevel.h"
 #include "TrainLevel.h"
 #include "CityLevel.h"
 #include "CreationKitLevel.h"
+#include "PathFinder_Test.h"
 
 namespace Rendering
 {
@@ -22,6 +24,9 @@ namespace Rendering
 		virtual void Draw(const GameTime& gameTime) override;
 
 		void StartScene(int sceneId);
+		std::vector<CollisionNode*> GetCurrentListOfNodes();
+		void SelectingUnits(long mouseX, long mouseY, bool selectSeveral);
+		void SelectingGround(long mouseX, long mouseY);
 
 	private:
 		Game* game;

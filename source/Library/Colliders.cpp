@@ -4,12 +4,12 @@ namespace Library
 {
 
 	Colliders::Colliders() :
-		BoundingBoxes(), TriggerBoxes()
+		OrrBoundingBox(), BoundingBoxes(), TriggerBoxes()
 	{
 	}
 
 	Colliders::Colliders(BoundingBox* colliderBox) :
-		BoundingBoxes(), TriggerBoxes()
+		OrrBoundingBox(), BoundingBoxes(), TriggerBoxes()
 	{
 		BoundingBoxes.push_back(colliderBox);
 	}
@@ -25,8 +25,35 @@ namespace Library
 		BoundingBoxes.push_back(bbox);
 	}
 
+	void Colliders::PushNewOrientedBoundingBox(BoundingOrientedBox* obbox)
+	{
+		OrrBoundingBox.push_back(obbox);
+	}
+
+
+	//Internal method - it is used in 2 others for building (oriented)boundingboxes
+	void Colliders::FindMax(Mesh* meshes, XMFLOAT3* minVec, XMFLOAT3* maxVec)
+	{
+
+		for (XMFLOAT3 meshPart : meshes->Vertices())
+		{
+			if (minVec->x > meshPart.x)
+				minVec->x = meshPart.x;
+			if (minVec->y > meshPart.y)
+				minVec->y = meshPart.y;
+			if (minVec->z > meshPart.z)
+				minVec->z = meshPart.z;
+
+			if (maxVec->x < meshPart.x)
+				maxVec->x = meshPart.x;
+			if (maxVec->y < meshPart.y)
+				maxVec->y = meshPart.y;
+			if (maxVec->z < meshPart.z)
+				maxVec->z = meshPart.z;
+		}
+	}
 	
-	BoundingBox* Colliders::BuildBoundingBox(Mesh* meshes)
+	void Colliders::BuildBoundingBox(Mesh* meshes)
 	{
 		XMFLOAT3 minVec;
 		XMFLOAT3 maxVec;
@@ -34,23 +61,9 @@ namespace Library
 		minVec = meshes->Vertices().at(0);
 		maxVec = meshes->Vertices().at(0);
 
-		for (XMFLOAT3 meshPart : meshes->Vertices())
-		{
-			if (minVec.x > meshPart.x)
-				minVec.x = meshPart.x;
-			if (minVec.y > meshPart.y)
-				minVec.y = meshPart.y;
-			if (minVec.z > meshPart.z)
-				minVec.z = meshPart.z;
-
-			if (maxVec.x < meshPart.x)
-				maxVec.x = meshPart.x;
-			if (maxVec.y < meshPart.y)
-				maxVec.y = meshPart.y;
-			if (maxVec.z < meshPart.z)
-				maxVec.z = meshPart.z;
-		}
-		BoundingBox* newBox;
+		FindMax(meshes, &minVec, &maxVec);
+		
+		
 		XMFLOAT3 center, rad;
 		center.x = (maxVec.x + minVec.x) / 2;
 		center.y = (maxVec.y + minVec.y) / 2;
@@ -60,16 +73,84 @@ namespace Library
 		rad.y = abs(maxVec.y - center.y);
 		rad.z = abs(maxVec.z - center.z);
 		
+		BoundingBox* newBox;
 		newBox = new BoundingBox(center, rad);
-		//Check how it will create such collider - if needed, will write moving to model position
-		return newBox;
+
+		PushNewBoundingBox(newBox);
+	}
+
+	//If models vertexes are messed, use this
+	void Colliders::BuildBoundingBox(XMFLOAT3 position, XMFLOAT3 radius)
+	{
+		BoundingBox* newBox = new BoundingBox(position, radius);
+		PushNewBoundingBox(newBox);
 	}
 	
+	void Colliders::BuildOBB(Mesh* meshes, XMFLOAT4 orientation)
+	{
+		XMFLOAT3 minVec;
+		XMFLOAT3 maxVec;
+
+		minVec = meshes->Vertices().at(0);
+		maxVec = meshes->Vertices().at(0);
+
+		FindMax(meshes, &minVec, &maxVec);
+
+		XMFLOAT3 center, rad;
+		center.x = (maxVec.x + minVec.x) / 2;
+		center.y = (maxVec.y + minVec.y) / 2;
+		center.z = (maxVec.z + minVec.z) / 2;
+
+		rad.x = abs(maxVec.x - center.x);
+		rad.y = abs(maxVec.y - center.y);
+		rad.z = abs(maxVec.z - center.z);
+
+		BoundingOrientedBox* newBox;
+		newBox = new BoundingOrientedBox(center, rad, orientation);
+
+		PushNewOrientedBoundingBox(newBox);
+	}
+
+	//If models vertexes are messed, use this
+	void Colliders::BuildOBB(XMFLOAT3 position, XMFLOAT3 radius, XMFLOAT4 orientation)
+	{
+		BoundingOrientedBox* newBox = new BoundingOrientedBox(position, radius, orientation);
+		PushNewOrientedBoundingBox(newBox);
+	}
+
 	bool Colliders::IsEmpty()
 	{
-		if (BoundingBoxes.empty() && TriggerBoxes.empty())
+		if (BoundingBoxes.empty() && TriggerBoxes.empty() && OrrBoundingBox.empty())
 			return true;
 		else return false;
+	}
+
+	void Colliders::setTriggerReaction(TypesTriggerReactions trg, XMFLOAT3 centerOf, XMFLOAT3 radOfTrig)
+	{
+		if (TriggerBoxes.empty())
+		{
+			TriggerBoxes.push_back({ trg, new BoundingBox(centerOf, radOfTrig) });
+		}
+		else 
+		{
+			//if (std::find(TriggerBoxes.begin(), TriggerBoxes.end(), trg) == TriggerBoxes.end())
+			for (int i = 0; i < TriggerBoxes.size(); i++)
+			{
+				if (trg == TriggerBoxes[i].first)
+					return;
+			}
+			TriggerBoxes.push_back({ trg, new BoundingBox(centerOf, radOfTrig) });
+		}
+	}
+
+	void Colliders::AddBoundingBox(BoundingBox* added)
+	{
+		BoundingBoxes.push_back(added);
+	}
+
+	std::vector<BoundingBox*> Colliders::GetBoundingBox()
+	{
+		return BoundingBoxes;
 	}
 
 	void Colliders::Transform(CXMMATRIX rotation, XMVECTOR destination)
@@ -91,19 +172,44 @@ namespace Library
 			bbox->Transform(*bbox, trMatr);
 		}
 
+		for (BoundingOrientedBox* obbox : OrrBoundingBox)
+		{
+			XMStoreFloat3(&movm, destination);
+			movm.x = movm.x - obbox->Center.x;
+			movm.y = movm.y - obbox->Center.y;
+			movm.z = movm.z - obbox->Center.z;
+
+			trMatr.r[3] = XMLoadFloat3(&movm);
+			trMatr.r[3].m128_f32[3] = 1.0f;
+			trMatr = XMMatrixMultiply(rotation, trMatr);
+
+			obbox->Transform(*obbox, trMatr);
+		}
+
 		if (!TriggerBoxes.empty())
 		{
-			for (BoundingBox* tbox : TriggerBoxes)
+			for (std::pair<TypesTriggerReactions, BoundingBox*> tbox : TriggerBoxes)
 			{
-				tbox->Transform(*tbox, trMatr);
+				XMStoreFloat3(&movm, destination);
+				movm.x = movm.x - tbox.second->Center.x;
+				movm.y = movm.y - tbox.second->Center.y;
+				movm.z = movm.z - tbox.second->Center.z;
+
+				trMatr.r[3] = XMLoadFloat3(&movm);
+				trMatr.r[3].m128_f32[3] = 1.0f;
+				trMatr = XMMatrixMultiply(rotation, trMatr);
+
+				tbox.second->Transform(*tbox.second, trMatr);
 			}
 		}
 	}
 
+
+	//Check collision of this MOVABLE collider with list of static colliders
 	bool Colliders::CheckCollision(std::vector<Colliders*>& CollidableObjects)
 	{
 		bool colidable = false;
-		if (BoundingBoxes.empty() || CollidableObjects.empty())
+		if ( (BoundingBoxes.empty() && OrrBoundingBox.empty() ) || CollidableObjects.empty())
 			return false;
 
 		for (Colliders* coll : CollidableObjects)
@@ -114,14 +220,19 @@ namespace Library
 				{
 					for (BoundingBox* tbbox : coll->BoundingBoxes)
 					{
-							if (bbox->Intersects(*tbbox))
-								colidable = true;
+						if (bbox->Intersects(*tbbox))
+							return true;
 					}
-				}
+
+					for (BoundingOrientedBox* tbbox : coll->OrrBoundingBox)
+					{
+						if (bbox->Intersects(*tbbox))
+							return true;
+					}
+				}		
 			}
 		}
-
-		return colidable;
+		return false;
 	}
 
 	//All trigers must be given to TriggerBoxes during OnTriggerEnter and taken during OnTriggerExit 
@@ -141,5 +252,51 @@ namespace Library
 		}
 
 		return colided;
+	}
+
+	bool Colliders::CheckColliderIntersecteByRay(XMVECTOR origin, XMVECTOR direct, float distance)
+	{
+		for (BoundingBox* bbox : BoundingBoxes)
+		{
+			if (bbox->Intersects(origin, direct, distance))
+				return true;
+		}
+		if (!OrrBoundingBox.empty())
+		{
+			for (BoundingOrientedBox* obbox : OrrBoundingBox)
+			{
+				if (obbox->Intersects(origin, direct, distance))
+					return true;
+			}
+		}
+		return false;
+	}
+
+	void Colliders::removeTrigger(TypesTriggerReactions trg)
+	{
+		for (int i = 0; i < TriggerBoxes.size(); i++)
+		{
+			if (TriggerBoxes[i].first == trg)
+			{
+				TriggerBoxes.erase(TriggerBoxes.begin() + i);
+				return;
+			}
+		}
+	}
+
+	std::vector<TypesTriggerReactions> Colliders::getTriggeredReactions(XMFLOAT3 checkPos)
+	{
+		std::vector<TypesTriggerReactions> answer;
+		for (int i = 0; i < TriggerBoxes.size(); i++)
+		{
+			if (TriggerBoxes[i].second->Contains(XMLoadFloat3(&checkPos)))
+				answer.push_back(TriggerBoxes[i].first);
+		}
+		return answer;
+	}
+	
+	std::vector< std::pair<TypesTriggerReactions, BoundingBox*> > Colliders::getTriggers()
+	{
+		return TriggerBoxes;
 	}
 }

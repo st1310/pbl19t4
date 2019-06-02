@@ -24,7 +24,7 @@ namespace Library
 		void SetCamera(Camera* camera);
 
 		virtual void Draw(const GameTime& gameTime);
-
+		virtual CollisionNode* getNode();
 	protected:
 		CollisionNode* mNode;
 		bool mVisible;

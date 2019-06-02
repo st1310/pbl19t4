@@ -32,23 +32,6 @@
       <z= 0.50/>
    </Scale>
 </GrassGround>
-<GreenSoldier>
-   <Position>
-      <x= -15.00/>
-      <y= 0.00/>
-      <z= 5.00/>
-   </Position>
-   <Rotation>
-      <x= -90.00/>
-      <y= 99.00/>
-      <z= 0.00/>
-   </Rotation>
-   <Scale>
-      <x= 0.05/>
-      <y= 0.05/>
-      <z= 0.05/>
-   </Scale>
-</GreenSoldier>
 <ConcreteWall>
    <Position>
       <x= 24.00/>

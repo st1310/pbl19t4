@@ -6,6 +6,7 @@
 #include "RenderStateHelper.h"
 #include "SpriteBatch.h"
 #include "SpriteFont.h"
+#include "CollisionNode.h"
 #include "Game.h"
 #include <iomanip> 
 #include <fstream>
@@ -13,9 +14,8 @@
 
 namespace Library
 {
-	class Scene :
-		public DrawableGameComponent
-	{
+	class Scene : public DrawableGameComponent
+{
 		RTTI_DECLARATIONS(Scene, DrawableGameComponent)
 
 	public:
@@ -32,6 +32,15 @@ namespace Library
 		void SaveToFile();
 		std::vector<SerializableGameObject> LoadFromFile();
 
+		void rewriteListOfNodes(std::vector<CollisionNode*>& list);
+		std::vector<CollisionNode*> getListOfNode();
+
+		void ClearUnitList();
+		void AddUnitToList(GameComponent* unit);
+		void RewriteUnitList(std::vector<GameComponent*> newListOfUnits);
+		void RemoveUnitFromList(GameComponent* unit);
+		std::vector<GameComponent*> GetUnitList();
+
 	protected:
 		KeyboardComponent* mKeyboard;
 		RenderStateHelper mRenderStateHelper;
@@ -39,8 +48,11 @@ namespace Library
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mTextPosition;
 
+		std::vector<GameComponent*> listOfUnits;
+
 	private:
 		std::string mFileName;
+		std::vector<CollisionNode*> listOfNodes;
 	};
 }
 

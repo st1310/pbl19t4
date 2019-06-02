@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "RenderStateHelper.h"
+#include "CollisionNode.h"
 
 using namespace Library;
 
@@ -35,6 +36,9 @@ namespace Rendering
 		virtual void Initialize() override;
 		virtual void Update(const GameTime& gameTime) override;
 		virtual void Draw(const GameTime& gameTime) override;
+
+		virtual void BuildBoundingBox(XMFLOAT3 radius) override;
+		virtual void CheckTriggers();
 
 	private:
 		AnimatedGameObject();

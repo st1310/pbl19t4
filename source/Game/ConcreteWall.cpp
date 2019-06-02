@@ -13,12 +13,18 @@ namespace Rendering
 			"Content\\Textures\\ConcreteWallDiffuseMap.jpg",
 			startPosition,
 			startRotation,
-			startScale)
+			startScale, true)
 	{
 	}
 
 
 	ConcreteWall::~ConcreteWall()
 	{
+	}
+
+	void ConcreteWall::Initialize()
+	{
+		StaticGameObject::Initialize();
+		StaticGameObject::BuildBoundingBox(XMFLOAT3(6.3f, 8.f, 9.f));
 	}
 }

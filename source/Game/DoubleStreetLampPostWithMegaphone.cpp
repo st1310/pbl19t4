@@ -13,12 +13,18 @@ namespace Rendering
 			"Content\\Textures\\DoubleStreetLampPostWithMegaphoneDiffuseMap.jpg",
 			startPosition,
 			startRotation,
-			startScale)
+			startScale, true)
 	{
 	}
 
 
 	DoubleStreetLampPostWithMegaphone::~DoubleStreetLampPostWithMegaphone()
 	{
+	}
+
+	void DoubleStreetLampPostWithMegaphone::Initialize()
+	{
+		StaticGameObject::Initialize();
+		StaticGameObject::BuildBoundingBox(XMFLOAT3(2.f, 15.f, 2.f));
 	}
 }

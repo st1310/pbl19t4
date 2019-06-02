@@ -14,11 +14,18 @@ namespace Rendering
 			"Content\\Textures\\BenchDiffuseMap.jpg",
 			startPosition,
 			startRotation,
-			startScale)
+			startScale, true)
 	{
 	}
 
 	Bench::~Bench()
 	{
+	}
+
+	void Bench::Initialize()
+	{
+		StaticGameObject::Initialize();
+		//TODO: apply rotation
+		StaticGameObject::BuildBoundingBox(XMFLOAT3(6.f, 3.9f, 3.f));
 	}
 }

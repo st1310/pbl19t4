@@ -35,7 +35,7 @@ namespace Rendering
 		mSkinnedModel(nullptr), mAnimationPlayer(nullptr),
 		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false),
 		mKeyboard(nullptr),
-		mPosition(startPosition), mRotation(startRotation), mScale(startScale)
+		mPosition(startPosition), mRotation(startRotation), mScale(startScale), mCollider(), inNode(nullptr)
 	{
 	}
 
@@ -159,6 +159,11 @@ namespace Rendering
 		result.push_back(std::to_string(mScale.z));
 
 		return result;
+	}
+
+	XMFLOAT3 GameObject::getPosition()
+	{
+		return mPosition;
 	}
 
 	void GameObject::EditModel()
@@ -539,4 +544,32 @@ namespace Rendering
 		return helpLabel;
 	}
 
+	Colliders* GameObject::getCollider()
+	{
+		return mCollider;
+	}
+
+	void  GameObject::SetNode(CollisionNode* colNode)
+	{
+		inNode = colNode;
+	}
+
+	CollisionNode*  GameObject::getNode()
+	{
+		return inNode;
+	}
+
+	void GameObject::BuildBoundingBox(XMFLOAT3 radius)
+	{
+	}
+
+	void GameObject::BuildOrientedBoundingBox(XMFLOAT3 radius, XMFLOAT4 orientation)
+	{
+		XMVECTOR helper;
+		helper = XMVector3Transform(XMLoadFloat3(&radius), XMLoadFloat4x4(&mWorldMatrix));
+		XMStoreFloat3(&radius, helper);
+		mCollider->BuildOBB(mPosition, radius, orientation);
+		if (inNode != nullptr)
+			inNode->AddStaticCollider(mCollider);
+	}
 }

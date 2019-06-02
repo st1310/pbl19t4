@@ -2,7 +2,6 @@
 
 #include "CollisionNode.h"
 #include "DrawableGameComponent.h"
-//include some sort of entity.h which contains model with collision?
 
 namespace Library
 {
@@ -13,7 +12,7 @@ namespace Library
 		static CollisionNode* MovedToChildNode(XMFLOAT3 ObjectPosition, CollisionNode* startinglNode);
 		static CollisionNode* MovedToNode(XMFLOAT3 ObjectPosition, CollisionNode* originalNode);
 		static CollisionNode* MovedToNode(XMFLOAT3 ObjectPosition, std::vector<CollisionNode*> nodeList);
-		static std::vector<CollisionNode*> CheckNodesInsideCamera(BoundingFrustum* bFrst, std::vector<CollisionNode*> listOfNode);
+		static std::vector<CollisionNode*> CheckNodesInsideCamera(std::vector<XMVECTOR> planes, std::vector<CollisionNode*> listOfNode);
 		static bool IsNodeInsideList(CollisionNode* checkedNode, std::vector<CollisionNode*> listOfNode);
 	private:
 		NodeList();

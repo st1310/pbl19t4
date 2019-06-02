@@ -14,5 +14,7 @@ namespace Rendering
 			XMFLOAT3 startRotation = XMFLOAT3(-90, 0, 0),
 			XMFLOAT3 startScale = XMFLOAT3(0.15, 0.15, 0.15));
 		~SingleStreetLampPost();
+
+		virtual void Initialize() override;
 	};
 }

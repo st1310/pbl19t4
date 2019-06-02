@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "DrawableGameComponent.h"
 #include "GameException.h"
+#include "NodeList.h"
 
 namespace Library
 {
@@ -192,8 +193,11 @@ namespace Library
 		{
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
-			{				
-				drawableGameComponent->Draw(gameTime);
+			{		
+				//if(drawableGameComponent->getNode() == nullptr)
+				//	drawableGameComponent->Draw(gameTime);
+				//else if(NodeList::IsNodeInsideList(drawableGameComponent->getNode(), mNodesInFructum))
+					drawableGameComponent->Draw(gameTime);
 			}
 		}
 	}
@@ -464,5 +468,10 @@ namespace Library
 		center.y = (screenHeight - windowHeight) / 2;
 
 		return center;
+	}
+
+	void Game::ChangeCameraMovementStatus(bool newStat)
+	{
+		cameraHasMoved = newStat;
 	}
 }
