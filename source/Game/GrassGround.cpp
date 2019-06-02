@@ -8,7 +8,6 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: StaticGameObject(game, camera,
 			"GrassGround",
-			L"Content\\Effects\\TextureMapping.cso",
 			startPosition,
 			startRotation,
 			startScale)

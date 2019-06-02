@@ -191,6 +191,8 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="ColorFilterMaterial.h" />
     <ClInclude Include="ColorHelper.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="DepthMap.h" />
+    <ClInclude Include="DepthMapMaterial.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DrawableGameComponent.h" />
     <ClInclude Include="Effect.h" />
@@ -216,10 +218,12 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClInclude Include="MouseComponent.h" />
     <ClInclude Include="CollisionNode.h" />
     <ClInclude Include="MultipleLightsMaterial.h" />
+    <ClInclude Include="MultipleShadowLightsMaterial.h" />
     <ClInclude Include="NodeList.h" />
     <ClInclude Include="Pass.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="PostProcessingMaterial.h" />
+    <ClInclude Include="Projector.h" />
     <ClInclude Include="ProxyModel.h" />
     <ClInclude Include="RenderStateHelper.h" />
     <ClInclude Include="RenderTarget.h" />
@@ -256,6 +260,8 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="Colliders.cpp" />
     <ClCompile Include="ColorFilterMaterial.cpp" />
     <ClCompile Include="ColorHelper.cpp" />
+    <ClCompile Include="DepthMap.cpp" />
+    <ClCompile Include="DepthMapMaterial.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DrawableGameComponent.cpp" />
     <ClCompile Include="Effect.cpp" />
@@ -281,10 +287,12 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="MouseComponent.cpp" />
     <ClCompile Include="CollisionNode.cpp" />
     <ClCompile Include="MultipleLightsMaterial.cpp" />
+    <ClCompile Include="MultipleShadowLightsMaterial.cpp" />
     <ClCompile Include="NodeList.cpp" />
     <ClCompile Include="Pass.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="PostProcessingMaterial.cpp" />
+    <ClCompile Include="Projector.cpp" />
     <ClCompile Include="ProxyModel.cpp" />
     <ClCompile Include="RenderStateHelper.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
@@ -314,6 +322,10 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Content\Effects\BasicEffect.fx" />
+    <FxCompile Include="Content\Effects\ColorFilter.fx" />
+    <FxCompile Include="Content\Effects\DepthMap.fx" />
+    <FxCompile Include="Content\Effects\MultipleLights.fx" />
+    <FxCompile Include="Content\Effects\MultipleShadowLights.fx" />
     <FxCompile Include="Content\Effects\SkinnedModel.fx" />
     <FxCompile Include="Content\Effects\Skybox.fx" />
     <FxCompile Include="Content\Effects\TextureMapping.fx" />

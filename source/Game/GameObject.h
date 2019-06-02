@@ -9,10 +9,18 @@ using namespace Library;
 namespace Library
 {
 	class KeyboardComponent;
+	class DirectionalLight;
+	class PointLight;
+	class SpotLight;
+	class ProxyModel;
 	class Effect;
 	class SkinnedModelMaterial;
+	class MultipleLightsMaterial;
 	class Model;
 	class AnimationPlayer;
+	class FullScreenRenderTarget;
+	class FullScreenQuad;
+	class ColorFilterMaterial;
 }
 
 namespace DirectX
@@ -23,13 +31,37 @@ namespace DirectX
 
 namespace Rendering
 {
+	enum ColorFilter
+	{
+		ColorFilterGrayScale = 0,
+		ColorFilterInverse,
+		ColorFilterSepia,
+		ColorFilterGeneric,
+		ColorFilterEnd
+	};
+
+	const std::string ColorFilterTechniqueNames[] = { "grayscale_filter", "inverse_filter", "sepia_filter", "generic_filter" };
+	const std::string ColorFilterDisplayNames[] = { "Grayscale", "Inverse", "Sepia", "Generic" };
+
 	class GameObject : public DrawableGameComponent
 	{
 		RTTI_DECLARATIONS(GameObject, DrawableGameComponent)
 
+		typedef struct _POINT_LIGHT
+		{
+			XMFLOAT3 Position;
+			FLOAT LightRadius;
+			XMFLOAT4 Color;
+			bool Enabled;
+
+			_POINT_LIGHT() {}
+
+			_POINT_LIGHT(const XMFLOAT3& position, FLOAT radius, const XMFLOAT4& color, bool enabled) :
+				Position(position), LightRadius(radius), Color(color), Enabled(enabled) {}
+		} POINT_LIGHT;
+
 	public:
 		GameObject(Game& game, Camera& camera, const char *className,
-			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
 		~GameObject();
 
@@ -38,6 +70,24 @@ namespace Rendering
 		virtual void Initialize() override;
 		virtual void Update(const GameTime& gameTime) override;
 		virtual void Draw(const GameTime& gameTime) override;
+
+		std::vector<DirectionalLight*> mDirectLights;
+		std::vector<PointLight*> mPointLights;
+		std::vector<SpotLight*> mSpotLights;
+		std::vector<ProxyModel*> mProxyModels;
+
+		XMCOLOR mAmbientColor;
+		XMCOLOR mSpecularColor;
+		float mSpecularPower;
+
+		ID3D11BlendState* mBlendState;
+
+		FullScreenRenderTarget* mRenderTarget;
+		FullScreenQuad* mFullScreenQuad;
+		Effect* mColorFilterEffect;
+		ColorFilterMaterial* mColorFilterMaterial;
+		ColorFilter mActiveColorFilter;
+		XMFLOAT4X4 mGenericColorFilter;
 
 		// Transformations etc
 		void Scale(float x, float y, float z);
@@ -83,7 +133,6 @@ namespace Rendering
 		void ChangeTexture(std::string textureName);
 
 		Effect* mEffect;
-		LPCWSTR mShaderName;
 
 		XMFLOAT3 mPosition;
 		XMFLOAT3 mRotation;
@@ -110,8 +159,8 @@ namespace Rendering
 		std::vector<ID3D11Buffer*> mIndexBuffers;
 		std::vector<UINT> mIndexCounts;
 		std::vector<ID3D11ShaderResourceView*> mColorTextures;
-
-		Model* mSkinnedModel;
+		std::vector<ID3D11ShaderResourceView*> mNormalTextures;
+		Model* mModel;
 		AnimationPlayer* mAnimationPlayer;
 
 		RenderStateHelper mRenderStateHelper;

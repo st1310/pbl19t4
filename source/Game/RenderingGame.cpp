@@ -18,10 +18,15 @@
 #include "Utility.h"
 #include "NodeList.h"
 #include <WICTextureLoader.h>
+#include "MultipleLightsMaterial.h"
+#include "FullScreenRenderTarget.h"
+#include "FullScreenQuad.h"
+#include "ColorFilterMaterial.h"
 
 namespace Rendering
 {
 	const XMVECTORF32 RenderingGame::BackgroundColor = ColorHelper::CornflowerBlue;
+	//const XMVECTORF32 RenderingGame::BackgroundColor = Colors::CornflowerBlue;
 	
 	RenderingGame::RenderingGame(HINSTANCE instance, const std::wstring & windowClass, const std::wstring & windowTitle, int showCommand)
 		: Game(instance, windowClass, windowTitle, showCommand),
@@ -59,14 +64,8 @@ namespace Rendering
 		mCamera = new GameCamera(*this);
 		CollisionNode* newNode = new CollisionNode({-5.f, -20.f, 0.f}, { 5.f, 20.f, 50.f });
 
-		//For debug
 		mComponents.push_back(mCamera);
 		mServices.AddService(GameCamera::TypeIdClass(), mCamera);
-		//mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
-
-		// For game
-		//mComponents.push_back(mGameCamera);
-		//mServices.AddService(GameCamera::TypeIdClass(), mGameCamera);
 
 //=======
 		mSkybox = new SkyboxComponent(*this, *mCamera, L"Content\\Textures\\Maskonaive2_1024.dds", 100.0f);
@@ -105,10 +104,6 @@ namespace Rendering
 			throw GameException("CreateWICTextureFromFile() failed.", hr);
 
 		Game::Initialize();
-
-
-		//mCamera->SetPosition(0.0f, 10.0f, 20.0f);		
-		mCamera->SetPosition(0.0f, 70.0f, 20.0f);
 
 	}
 
@@ -151,10 +146,9 @@ namespace Rendering
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_5))
 			mGameManager->StartScene(CREATION_KIT_LEVEL);
-		if(mKeyboard->WasKeyPressedThisFrame(DIK_6))
-			mGameManager->StartScene(PATHFINDER_TEST);
 
-		
+		if(mKeyboard->WasKeyPressedThisFrame(DIK_6))
+			mGameManager->StartScene(PATHFINDER_TEST);	
 
 		if (mMouse->Y() > 640.0f && mMouse->X() > 20.0f  && mMouse->X() < 369.0f) {
 
@@ -237,29 +231,6 @@ namespace Rendering
 			mSpriteFont->DrawString(mSpriteBatch, tmp.str().c_str(), XMFLOAT2(25.0f, 200.0f), Colors::Blue);
 		}
 
-		if (mMouse->Y() > 295.0f && mMouse->Y() < 307.0f && mMouse->X() > 104.0f  && mMouse->X() < 200.0f) 
-		{
-			std::wostringstream startGame;
-			startGame << "Start Game";
-			mSpriteFont->DrawString(mSpriteBatch, startGame.str().c_str(), XMFLOAT2(100.0f, 300.0f), Colors::Blue);
-		}
-		else {
-			std::wostringstream startGame;
-			startGame << "Start Game";
-			mSpriteFont->DrawString(mSpriteBatch, startGame.str().c_str(), XMFLOAT2(100.0f, 300.0f), Colors::White);
-		}
-		
-		if (mMouse->Y() > 313.0f && mMouse->Y() < 327.0f && mMouse->X() > 104.0f  && mMouse->X() < 200.0f) {
-			std::wostringstream endGame;
-			endGame << "Quit Game";
-			mSpriteFont->DrawString(mSpriteBatch, endGame.str().c_str(), XMFLOAT2(100.0f, 320.0f), Colors::Blue);
-		}
-		else {
-			std::wostringstream endGame;
-			endGame << "Quit Game";
-			mSpriteFont->DrawString(mSpriteBatch, endGame.str().c_str(), XMFLOAT2(100.0f, 320.0f), Colors::White);
-		}
- 
 		if (selectedOnce)
 		{
 			float x1, x2, y1, y2;

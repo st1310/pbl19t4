@@ -28,10 +28,8 @@ namespace Rendering
 	RTTI_DEFINITIONS(AnimatedGameObject)
 
 		AnimatedGameObject::AnimatedGameObject(Game& game, Camera& camera, const char *className,
-			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
 		: GameObject(game, camera, className, 
-			shaderName,
 			startPosition, startRotation, startScale),
 		mMaterial(nullptr), mAnimationPlayer(nullptr)
 	{		
@@ -60,7 +58,7 @@ namespace Rendering
 
 		DeleteObject(mSpriteFont);
 		DeleteObject(mSpriteBatch);
-		DeleteObject(mSkinnedModel);
+		DeleteObject(mModel);
 		DeleteObject(mAnimationPlayer);
 		DeleteObject(mMaterial);
 		DeleteObject(mEffect);
@@ -72,24 +70,24 @@ namespace Rendering
 
 		// Load the model
 		std::string modelName = "Content\\Models\\" + (std::string)mClassName + ".fbx";
-		mSkinnedModel = new Model(*mGame, modelName, true);
+		mModel = new Model(*mGame, modelName, true);
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
-		mEffect->LoadCompiledEffect(mShaderName);
+		mEffect->LoadCompiledEffect(L"Content\\Effects\\SkinnedModel.cso");
 
 		mMaterial = new SkinnedModelMaterial();
 		mMaterial->Initialize(mEffect);
 
 		// Create the vertex and index buffers
-		mVertexBuffers.resize(mSkinnedModel->Meshes().size());
-		mIndexBuffers.resize(mSkinnedModel->Meshes().size());
-		mIndexCounts.resize(mSkinnedModel->Meshes().size());
-		mColorTextures.resize(mSkinnedModel->Meshes().size());
+		mVertexBuffers.resize(mModel->Meshes().size());
+		mIndexBuffers.resize(mModel->Meshes().size());
+		mIndexCounts.resize(mModel->Meshes().size());
+		mColorTextures.resize(mModel->Meshes().size());
 
-		for (UINT i = 0; i < mSkinnedModel->Meshes().size(); i++)
+		for (UINT i = 0; i < mModel->Meshes().size(); i++)
 		{
-			Mesh* mesh = mSkinnedModel->Meshes().at(i);
+			Mesh* mesh = mModel->Meshes().at(i);
 
 			ID3D11Buffer* vertexBuffer = nullptr;
 			mMaterial->CreateVertexBuffer(mGame->Direct3DDevice(), *mesh, &vertexBuffer);
@@ -111,8 +109,8 @@ namespace Rendering
 		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
 		assert(mKeyboard != nullptr);
 
-		mAnimationPlayer = new AnimationPlayer(*mGame, *mSkinnedModel, false);
-		mAnimationPlayer->StartClip(*(mSkinnedModel->Animations().at(0)));
+		mAnimationPlayer = new AnimationPlayer(*mGame, *mModel, false);
+		mAnimationPlayer->StartClip(*(mModel->Animations().at(0)));
 
 		mSpriteBatch = new SpriteBatch(mGame->Direct3DDeviceContext());
 		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
@@ -190,18 +188,6 @@ namespace Rendering
 
 		std::wostringstream helpLabel;
 		
-		helpLabel << std::setprecision(5) << L"\nAnimation Time: " << mAnimationPlayer->CurrentTime()
-			<< "\nFrame Interpolation (I): " << (mAnimationPlayer->InterpolationEnabled() ? "On" : "Off");
-		
-		if (mManualAdvanceMode)
-		{
-			helpLabel << "\nCurrent Keyframe (Space): " << mAnimationPlayer->CurrentKeyframe();
-		}
-		else
-		{
-			helpLabel << "\nPause / Resume(P)";
-		}
-		
 		if (mIsSelected && mIsEdited)
 			helpLabel = GetCreationKitInfo();
 		
@@ -227,7 +213,7 @@ namespace Rendering
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_B))
 			{
 				// Reset the animation clip to the bind pose
-				mAnimationPlayer->StartClip(*(mSkinnedModel->Animations().at(0)));
+				mAnimationPlayer->StartClip(*(mModel->Animations().at(0)));
 			}
 
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_I))
@@ -312,7 +298,7 @@ namespace Rendering
 			return;
 
 		int animationNumber = mAnimations.at(animationName);
-		mAnimationPlayer->StartClip(*(mSkinnedModel->Animations().at(animationNumber)));
+		mAnimationPlayer->StartClip(*(mModel->Animations().at(animationNumber)));
 	}
 
 	void AnimatedGameObject::SetAnimations()

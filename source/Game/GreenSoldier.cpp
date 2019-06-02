@@ -8,7 +8,6 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: AnimatedGameObject(game, camera, 
 			"Soldier",
-			L"Content\\Effects\\SkinnedModel.cso",
 			startPosition,
 			startRotation,
 			startScale)

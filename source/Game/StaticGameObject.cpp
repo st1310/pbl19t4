@@ -21,16 +21,21 @@
 #include <iomanip>
 #include "Shlwapi.h"
 #include "Colliders.h"
+#include "MultipleLightsMaterial.h"
+#include "SpotLight.h"
+#include "ProxyModel.h"
+#include "DirectionalLight.h"
+#include "FullScreenRenderTarget.h"
+#include "ColorFilterMaterial.h"
+#include "FullScreenQuad.h"
 
 namespace Rendering
 {
 	RTTI_DEFINITIONS(StaticGameObject)
 
 		StaticGameObject::StaticGameObject(Game& game, Camera& camera, const char *className, 
-			LPCWSTR shaderName,	
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale, bool needCollision)
 		: GameObject(game, camera, className,
-			shaderName, 
 			startPosition, startRotation, startScale),
 		mMaterial(nullptr), needsCollision(needCollision)
 	{
@@ -55,7 +60,7 @@ namespace Rendering
 
 		DeleteObject(mSpriteFont);
 		DeleteObject(mSpriteBatch);
-		DeleteObject(mSkinnedModel);
+		DeleteObject(mModel);
 		DeleteObject(mMaterial);
 		DeleteObject(mEffect);
 	}
@@ -66,24 +71,26 @@ namespace Rendering
 
 		// Load the model
 		std::string modelName = "Content\\Models\\" + (std::string)mClassName + ".fbx";
-		mSkinnedModel = new Model(*mGame, modelName, true);
+		mModel = new Model(*mGame, modelName, true);
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
-		mEffect->LoadCompiledEffect(mShaderName);
+		mEffect->LoadCompiledEffect(L"Content\\Effects\\MultipleLights.cso");
 
-		mMaterial = new TextureMappingMaterial();
+		mMaterial = new MultipleLightsMaterial();
 		mMaterial->Initialize(mEffect);
+		mMaterial->SetCurrentTechnique(mEffect->TechniquesByName().at("Lights"));
 
 		// Create the vertex and index buffers
-		mVertexBuffers.resize(mSkinnedModel->Meshes().size());
-		mIndexBuffers.resize(mSkinnedModel->Meshes().size());
-		mIndexCounts.resize(mSkinnedModel->Meshes().size());
-		mColorTextures.resize(mSkinnedModel->Meshes().size());
+		mVertexBuffers.resize(mModel->Meshes().size());
+		mIndexBuffers.resize(mModel->Meshes().size());
+		mIndexCounts.resize(mModel->Meshes().size());
+		mColorTextures.resize(mModel->Meshes().size());
+		mNormalTextures.resize(mModel->Meshes().size());
 
-		for (UINT i = 0; i < mSkinnedModel->Meshes().size(); i++)
+		for (UINT i = 0; i < mModel->Meshes().size(); i++)
 		{
-			Mesh* mesh = mSkinnedModel->Meshes().at(i);
+			Mesh* mesh = mModel->Meshes().at(i);
 
 			ID3D11Buffer* vertexBuffer = nullptr;
 			mMaterial->CreateVertexBuffer(mGame->Direct3DDevice(), *mesh, &vertexBuffer);
@@ -96,6 +103,7 @@ namespace Rendering
 			mIndexCounts[i] = mesh->Indices().size();
 
 			ID3D11ShaderResourceView* colorTexture = nullptr;
+			ID3D11ShaderResourceView* normalTexture = nullptr;
 			ModelMaterial* material = mesh->GetMaterial();
 
 			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
@@ -108,6 +116,82 @@ namespace Rendering
 		mSpriteBatch = new SpriteBatch(mGame->Direct3DDeviceContext());
 		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
 
+		// Blend state
+		D3D11_BLEND_DESC blendStateDesc{ 0 };
+		blendStateDesc.RenderTarget[0].BlendEnable = true;
+		blendStateDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		blendStateDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+		blendStateDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		blendStateDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO; // or _ONE
+		blendStateDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+		blendStateDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		blendStateDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+		mGame->Direct3DDevice()->CreateBlendState(&blendStateDesc, &mBlendState);
+
+		// Spot Lights
+		mSpotLights.push_back(new SpotLight(*mGame));
+		mSpotLights.at(0)->SetPosition(-15.0f, 5.0f, -10.0f);
+		mSpotLights.at(0)->SetRadius(30.0f);
+		mSpotLights.at(0)->SetColor(Colors::Purple - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
+		mSpotLights.at(0)->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(45.0f)));
+		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\DirectionalLightProxy.obj"));
+		mProxyModels.back()->SetPosition(mSpotLights.back()->Position());
+		mProxyModels.back()->ApplyRotation(XMMatrixRotationY(XMConvertToRadians(90.0f))); // Init rotation to allign with Vector3::Forward
+		mProxyModels.back()->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(45.0f)));
+
+		// Directional Lights
+		mDirectLights.push_back(new DirectionalLight(*mGame));
+		mDirectLights.back()->SetColor(Colors::AntiqueWhite - SimpleMath::Vector3(0.0f, 0.0f, 0.8f));
+		mDirectLights.back()->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(-90.0f)));
+		mDirectLights.back()->ApplyRotation(XMMatrixRotationZ(XMConvertToRadians(45.0f)));
+		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\DirectionalLightProxy.obj"));
+		mProxyModels.back()->SetPosition(XMFLOAT3(0.0f, 10.0f, 0.0f));
+		mProxyModels.back()->ApplyRotation(XMMatrixRotationY(XMConvertToRadians(90.0f))); // Init rotation to allign with Vector3::Forward
+		mProxyModels.back()->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(-90.0f)));
+		mProxyModels.back()->ApplyRotation(XMMatrixRotationZ(XMConvertToRadians(45.0f)));
+
+		/*mDirectLights.push_back(new DirectionalLight(*mGame));
+
+		mDirectLights.at(1)->ApplyRotation(XMMatrixRotationY(-90.0f));
+		mDirectLights.at(1)->SetColor(Colors::Red);*/
+
+		// Point Lights
+		mPointLights.push_back(new PointLight(*mGame));
+		mPointLights.at(0)->SetRadius(30.0f);
+		mPointLights.at(0)->SetPosition(5.0f, 10.0f, -5.0f);
+		mPointLights.at(0)->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
+		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\PointLightProxy.obj"));
+		mProxyModels.back()->SetPosition(mPointLights.back()->Position());
+
+		mPointLights.push_back(new PointLight(*mGame));
+		mPointLights.at(1)->SetRadius(30.0f);
+		mPointLights.at(1)->SetPosition(-5.0f, 10.0f, 5.0f);
+		mPointLights.at(1)->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
+		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\PointLightProxy.obj"));
+		mProxyModels.back()->SetPosition(mPointLights.back()->Position());
+
+		for (ProxyModel* proxy : mProxyModels)
+		{
+			proxy->Initialize();
+		}
+
+		// Initialize post-process
+		mRenderTarget = new FullScreenRenderTarget(*mGame);
+
+		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
+		mColorFilterEffect = new Effect(*mGame);
+		mColorFilterEffect->LoadCompiledEffect(L"Content\\Effects\\ColorFilter.cso");
+
+		mColorFilterMaterial = new ColorFilterMaterial();
+		mColorFilterMaterial->Initialize(mColorFilterEffect);
+		/*
+		mFullScreenQuad = new FullScreenQuad(*mGame, *mColorFilterMaterial);
+		mFullScreenQuad->Initialize();
+		//mFullScreenQuad->SetActiveTechnique(ColorFilterTechniqueNames[mActiveColorFilter], "p0");
+		mFullScreenQuad->SetActiveTechnique(ColorFilterTechniqueNames[ColorFilter::ColorFilterGeneric], "p0");
+		mFullScreenQuad->SetCustomUpdateMaterial(std::bind(&StaticGameObject::UpdateColorFilterMaterial, this));
+		*/
 		// Initial transform
 		Scale(0, 0, 0);
 		FirstRotation();
@@ -119,10 +203,27 @@ namespace Rendering
 	void StaticGameObject::Update(const GameTime& gameTime)
 	{
 		UpdateOptions();
+
+		float pointLightX = mPointLights.back()->Position().x + (float)(sin(gameTime.TotalGameTime()) / 100);
+		float pointLightY = mPointLights.back()->Position().y;
+		float pointLightZ = mPointLights.back()->Position().z;
+
+		mPointLights.back()->SetPosition(pointLightX, pointLightY, pointLightZ);
+		mProxyModels.back()->SetPosition(mPointLights.back()->Position());
+
+		for (ProxyModel* proxy : mProxyModels)
+		{
+			proxy->Update(gameTime);
+		}
 	}
 
 	void StaticGameObject::Draw(const GameTime& gameTime)
 	{
+		//mRenderTarget->Begin();
+
+		//mGame->Direct3DDeviceContext()->ClearRenderTargetView(mRenderTarget->RenderTargetView(), reinterpret_cast<const float*>(&Colors::CornflowerBlue));
+		//mGame->Direct3DDeviceContext()->ClearDepthStencilView(mRenderTarget->DepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
 		ID3D11DeviceContext* direct3DDeviceContext = mGame->Direct3DDeviceContext();
 		direct3DDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -132,6 +233,8 @@ namespace Rendering
 
 		XMMATRIX worldMatrix = XMLoadFloat4x4(&mWorldMatrix);
 		XMMATRIX wvp = worldMatrix * mCamera->ViewMatrix() * mCamera->ProjectionMatrix();
+		XMVECTOR ambientColor = XMLoadColor(&mAmbientColor);
+		XMVECTOR specularColor = XMLoadColor(&mSpecularColor);
 
 		UINT stride = mMaterial->VertexSize();
 		UINT offset = 0;
@@ -142,17 +245,73 @@ namespace Rendering
 			ID3D11Buffer* indexBuffer = mIndexBuffers[i];
 			UINT indexCount = mIndexCounts[i];
 			ID3D11ShaderResourceView* colorTexture = mColorTextures[i];
+			ID3D11ShaderResourceView* normalTexture = mNormalTextures[i];
 
 			direct3DDeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 			direct3DDeviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
 			mMaterial->WorldViewProjection() << wvp;
+			mMaterial->World() << worldMatrix;
+			mMaterial->SpecularColor() << specularColor;
+			mMaterial->SpecularPower() << mSpecularPower;
+			mMaterial->AmbientColor() << ambientColor;
 			mMaterial->ColorTexture() << colorTexture;
+			mMaterial->NormalTexture() << normalTexture;
+			mMaterial->CameraPosition() << mCamera->PositionVector();
+
+			for (size_t i = 0; i < mDirectLights.size(); i++)
+			{
+				ID3DX11EffectVariable* variable = mMaterial->DirectLights().GetVariable()->GetElement(i);
+				variable->GetMemberByName("Direction")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mDirectLights.at(i)->DirectionVector()));
+				variable->GetMemberByName("Color")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mDirectLights.at(i)->ColorVector()));
+				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
+			}
+
+			for (size_t i = 0; i < mPointLights.size(); i++)
+			{
+				ID3DX11EffectVariable* variable = mMaterial->PointLights().GetVariable()->GetElement(i);
+				variable->GetMemberByName("Position")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mPointLights.at(i)->PositionVector()));
+				variable->GetMemberByName("LightRadius")->AsScalar()->SetFloat(mPointLights.at(i)->Radius());
+				variable->GetMemberByName("Color")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mPointLights.at(i)->ColorVector()));
+				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
+			}
+
+			for (size_t i = 0; i < mSpotLights.size(); i++)
+			{
+				ID3DX11EffectVariable* variable = mMaterial->SpotLights().GetVariable()->GetElement(i);
+				variable->GetMemberByName("Position")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mSpotLights.at(i)->PositionVector()));
+				variable->GetMemberByName("Direction")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mSpotLights.at(i)->DirectionVector()));
+				variable->GetMemberByName("OuterAngle")->AsScalar()->SetFloat(mSpotLights.at(i)->OuterAngle());
+				variable->GetMemberByName("InnerAngle")->AsScalar()->SetFloat(mSpotLights.at(i)->InnerAngle());
+				variable->GetMemberByName("LightRadius")->AsScalar()->SetFloat(mSpotLights.at(i)->Radius());
+				variable->GetMemberByName("Color")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mSpotLights.at(i)->ColorVector()));
+				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
+			}
+
+			//mRenderStateHelper.SaveAll();
+
+			//direct3DDeviceContext->OMSetBlendState(mBlendState, 0, 0xffffffff);
 
 			pass->Apply(0, direct3DDeviceContext);
 
 			direct3DDeviceContext->DrawIndexed(indexCount, 0, 0);
+
+			//mRenderStateHelper.RestoreAll();
 		}
+
+		for (ProxyModel* proxy : mProxyModels)
+		{
+			proxy->Draw(gameTime);
+		}
+		//
+		//mRenderTarget->End();
+		/*
+		mGame->Direct3DDeviceContext()->ClearRenderTargetView(mGame->RenderTargetView(),
+			reinterpret_cast<const float*>(&Colors::CornflowerBlue));
+		mGame->Direct3DDeviceContext()->ClearDepthStencilView(mGame->DepthStencilView(),
+			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+*/
+		//mFullScreenQuad->Draw(gameTime);
 
 		mRenderStateHelper.SaveAll();
 		mSpriteBatch->Begin();
@@ -189,6 +348,36 @@ namespace Rendering
 
 			if (inNode != nullptr)
 				inNode->AddStaticCollider(mCollider);
+		}
+	}
+
+	void StaticGameObject::UpdateColorFilterMaterial()
+	{
+		XMMATRIX colorFilter = XMLoadFloat4x4(&mGenericColorFilter);
+
+		mColorFilterMaterial->ColorTexture() << mRenderTarget->OutputTexture();
+		mColorFilterMaterial->ColorFilter() << colorFilter;
+	}
+
+	void StaticGameObject::UpdateGenericColorFilter(const GameTime& gameTime)
+	{
+		static float brightness = 1.0f;
+
+		if (mKeyboard != nullptr)
+		{
+			if (mKeyboard->IsKeyDown(DIK_COMMA) && brightness < 1.0f)
+			{
+				brightness += (float)gameTime.ElapsedGameTime();
+				brightness = XMMin<float>(brightness, 1.0f);
+				XMStoreFloat4x4(&mGenericColorFilter, XMMatrixScaling(brightness, brightness, brightness));
+			}
+
+			if (mKeyboard->IsKeyDown(DIK_PERIOD) && brightness > 0.0f)
+			{
+				brightness -= (float)gameTime.ElapsedGameTime();
+				brightness = XMMax<float>(brightness, 0.0f);
+				XMStoreFloat4x4(&mGenericColorFilter, XMMatrixScaling(brightness, brightness, brightness));
+			}
 		}
 	}
 }

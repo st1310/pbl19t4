@@ -30,7 +30,6 @@ namespace Rendering
 
 	public:
 		AnimatedGameObject(Game& game, Camera& camera, const char *className,
-			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
 		~AnimatedGameObject();
 		

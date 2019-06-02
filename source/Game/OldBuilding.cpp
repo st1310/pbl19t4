@@ -8,7 +8,6 @@ namespace Rendering
 		XMFLOAT3 startScale)
 		: StaticGameObject(game, camera,
 			"OldBuilding",
-			L"Content\\Effects\\TextureMapping.cso",
 			startPosition,
 			startRotation,
 			startScale, true)

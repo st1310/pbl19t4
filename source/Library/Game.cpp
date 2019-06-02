@@ -78,6 +78,16 @@ namespace Library
 		return mDepthStencilBufferEnabled;
 	}
 
+	ID3D11RenderTargetView* Game::RenderTargetView() const
+	{
+		return mRenderTargetView;
+	}
+
+	ID3D11DepthStencilView* Game::DepthStencilView() const
+	{
+		return mDepthStencilView;
+	}
+
 	float Game::AspectRatio() const
 	{
 		return static_cast<float>(mScreenWidth) / mScreenHeight;

@@ -25,19 +25,23 @@ namespace Rendering
 	RTTI_DEFINITIONS(GameObject)
 
 		GameObject::GameObject(Game& game, Camera& camera, const char *className,
-			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale)
 		: DrawableGameComponent(game, camera),
 		mEffect(nullptr), mWorldMatrix(MatrixHelper::Identity),
 		mClassName(className),
-		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(),
-		mShaderName(shaderName),
-		mSkinnedModel(nullptr), mAnimationPlayer(nullptr),
+		mVertexBuffers(), mIndexBuffers(), mIndexCounts(), mColorTextures(), mNormalTextures(),
+		mModel(nullptr), mAnimationPlayer(nullptr),
 		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), mManualAdvanceMode(false),
-		mKeyboard(nullptr),
+		mKeyboard(nullptr), mBlendState(),
+		mDirectLights(), mPointLights(), mSpotLights(), mProxyModels(),
+		mAmbientColor(1.0f, 1.0f, 1.0f, 0.2f)/*mAmbientColor(reinterpret_cast<const float*>(&Colors::White))*/,
+		mSpecularColor(1.0f, 1.0f, 1.0f, 0.5f), mSpecularPower(25.0f), 
 		mPosition(startPosition), mRotation(startRotation), mScale(startScale), mCollider(), inNode(nullptr), 
-		mustBeDestroyed(false), mState(new State()), objectToMove(false)
+		mustBeDestroyed(false), mState(new State()), objectToMove(false),
+		mRenderTarget(nullptr), mFullScreenQuad(nullptr), mColorFilterEffect(nullptr),
+		mColorFilterMaterial(nullptr), mActiveColorFilter(ColorFilterGrayScale), mGenericColorFilter(SimpleMath::Matrix::Identity)
 	{
+		XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(0.06f, 0.06f, 0.06f));
 	}
 
 	GameObject::~GameObject()

@@ -14,6 +14,7 @@ namespace Library
 	class TextureMappingMaterial;
 	class SkinnedModelMaterial;
 	class AnimationPlayer;
+	class MultipleLightsMaterial;
 }
 
 namespace DirectX
@@ -30,7 +31,6 @@ namespace Rendering
 
 	public:
 		StaticGameObject(Game& game, Camera& camera, const char *className, 
-			LPCWSTR shaderName,
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale, bool needCollision = false);
 		~StaticGameObject();
 
@@ -39,6 +39,9 @@ namespace Rendering
 		virtual void Draw(const GameTime& gameTime) override;
 
 		virtual void BuildBoundingBox(XMFLOAT3 radius) override;
+
+		void UpdateColorFilterMaterial();
+		void UpdateGenericColorFilter(const GameTime& gameTime);
 	private:
 		StaticGameObject();
 		StaticGameObject(const StaticGameObject& rhs);
@@ -46,7 +49,7 @@ namespace Rendering
 
 		void UpdateOptions();
 
-		TextureMappingMaterial* mMaterial;
+		MultipleLightsMaterial* mMaterial;
 
 		bool needsCollision;
 	};

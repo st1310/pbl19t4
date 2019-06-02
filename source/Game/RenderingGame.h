@@ -3,6 +3,7 @@
 #include "Common.h"
 #include "Game.h"
 #include "Colliders.h"
+#include "RenderStateHelper.h"
 
 using namespace Library;
 
@@ -21,6 +22,10 @@ namespace Library
 	class GameCamera;
 	class RenderStateHelper;
 	class SkyboxComponent;
+	class Effect;
+	class FullScreenRenderTarget;
+	class FullScreenQuad;
+	class ColorFilterMaterial;
 }
 
 namespace Rendering

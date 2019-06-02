@@ -58,18 +58,4 @@ namespace Library
 		_VertexPositionTextureNormal(const XMFLOAT4& position, const XMFLOAT2& textureCoordinates, const XMFLOAT3& normal)
 			: Position(position), TextureCoordinates(textureCoordinates), Normal(normal) { }
 	} VertexPositionTextureNormal;
-
-	typedef struct _VertexSkinnedPositionTextureNormal
-	{
-		XMFLOAT4 Position;
-		XMFLOAT2 TextureCoordinates;
-		XMFLOAT3 Normal;
-		XMUINT4 BoneIndices;
-		XMFLOAT4 BoneWeights;
-
-		_VertexSkinnedPositionTextureNormal() { }
-
-		_VertexSkinnedPositionTextureNormal(const XMFLOAT4& position, const XMFLOAT2& textureCoordinates, const XMFLOAT3& normal, const XMUINT4& boneIndices, const XMFLOAT4& boneWeights)
-			: Position(position), TextureCoordinates(textureCoordinates), Normal(normal), BoneIndices(boneIndices), BoneWeights(boneWeights) { }
-	} VertexSkinnedPositionTextureNormal;
 }
