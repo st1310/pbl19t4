@@ -1,4 +1,5 @@
 #include "DayLevel.h"
+#include "Camera.h"
 
 namespace Rendering
 {
@@ -14,6 +15,9 @@ namespace Rendering
 	void DayLevel::Start(Game& game, Camera& camera)
 	{
 		Initialize();
+
+		camera.SetPosition(0.0f, 70.0f, 20.0f);
+
 		GameObjectPusher pusher = GameObjectPusher();
 		pusher.listNode = this->getListOfNode();
 		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile());

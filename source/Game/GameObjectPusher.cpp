@@ -31,16 +31,19 @@ namespace Rendering
 
 				if (posit.x > PosA.x)
 					PosA.x = posit.x;
+
 				if (posit.x < PosC.x)
 					PosC.x = posit.x;
 
 				if (posit.y < PosA.y)
 					PosA.y = posit.y;
+
 				if (posit.y > PosC.y)
 					PosC.y = posit.y;
 
 				if (posit.z < PosA.z)
 					PosA.z = posit.z;
+
 				if (posit.z > PosC.z)
 					PosC.z = posit.z;
 			}
@@ -173,6 +176,28 @@ namespace Rendering
 				assets.push_back(informationBoard);
 			}
 
+			if (className == "LongBuilding")
+			{
+				LongBuilding* longBuilding = new LongBuilding(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				longBuilding->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(longBuilding);
+			}
+
+			if (className == "OldBuilding")
+			{
+				OldBuilding* oldBuilding = new OldBuilding(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				oldBuilding->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(oldBuilding);
+			}
+
 			if (className == "OverheadLines")
 			{
 				OverheadLines* overheadLines = new OverheadLines(game, camera,
@@ -284,6 +309,17 @@ namespace Rendering
 				assets.push_back(policeman);
 			}
 
+			if (className == "PoliceStation")
+			{
+				PoliceStation* policeStation = new PoliceStation(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				policeStation->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(policeStation);
+			}
+
 			if (className == "SingleStreetLampPost")
 			{
 				SingleStreetLampPost* singleStreetLampPost = new SingleStreetLampPost(game, camera,
@@ -389,6 +425,18 @@ namespace Rendering
 			return informationBoard;
 		}
 
+		if (className == "LongBuilding")
+		{
+			LongBuilding* longBuilding = new LongBuilding(game, camera);
+			return longBuilding;
+		}
+
+		if (className == "OldBuilding")
+		{
+			OldBuilding* oldBuilding = new OldBuilding(game, camera);
+			return oldBuilding;
+		}
+
 		if (className == "OverheadLines")
 		{
 			OverheadLines* overheadLines = new OverheadLines(game, camera);
@@ -447,6 +495,12 @@ namespace Rendering
 		{
 			Policeman* policeman = new Policeman(game, camera);
 			return policeman;
+		}
+
+		if (className == "PoliceStation")
+		{
+			PoliceStation* policeStation = new PoliceStation(game, camera);
+			return policeStation;
 		}
 
 		if (className == "SingleStreetLampPost")

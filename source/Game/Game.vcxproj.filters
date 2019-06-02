@@ -162,6 +162,15 @@
     <ClCompile Include="PoliceCar.cpp">
       <Filter>Assets\Source</Filter>
     </ClCompile>
+    <ClCompile Include="OldBuilding.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LongBuilding.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PoliceStation.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PassengerTrain.h">
@@ -279,6 +288,15 @@
       <Filter>Assets\Header</Filter>
     </ClInclude>
     <ClInclude Include="PoliceCar.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="OldBuilding.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="LongBuilding.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PoliceStation.h">
       <Filter>Assets\Header</Filter>
     </ClInclude>
   </ItemGroup>

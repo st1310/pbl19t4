@@ -1,4 +1,5 @@
 #include "PathFinder_Test.h"
+#include "Camera.h"
 
 namespace Rendering
 {
@@ -15,6 +16,8 @@ namespace Rendering
 	{
 		Initialize();
 		ClearUnitList();
+
+		camera.SetPosition(0.0f, 70.0f, 20.0f);
 
 		GameObjectPusher pusher = GameObjectPusher();
 		pusher.listNode = this->getListOfNode();
