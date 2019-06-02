@@ -160,6 +160,7 @@ namespace Rendering
 		std::vector<UINT> mIndexCounts;
 		std::vector<ID3D11ShaderResourceView*> mColorTextures;
 		std::vector<ID3D11ShaderResourceView*> mNormalTextures;
+		std::vector<ID3D11ShaderResourceView*> mSpecularTextures;
 		Model* mModel;
 		AnimationPlayer* mAnimationPlayer;
 

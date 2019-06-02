@@ -1,5 +1,9 @@
 #include "Scene.h"
 #include "Utility.h"
+#include "SpotLight.h"
+#include "ProxyModel.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
 
 namespace Library
 {
@@ -9,7 +13,9 @@ namespace Library
 		DrawableGameComponent(game, camera), mFileName(fileName), SceneId(sceneId), mKeyboard(nullptr),
 		mRenderStateHelper(game), mSpriteBatch(nullptr), mSpriteFont(nullptr), mTextPosition(0.0f, 400.0f), listOfNodes(), listOfUnits(), trigerrableObjects()
 	{
-		
+		mDirectLights = std::vector<DirectionalLight*>();
+		mPointLights = std::vector<PointLight*>();
+		mSpotLights = std::vector<SpotLight*>();
 	}
 
 	Scene::~Scene()
@@ -212,5 +218,20 @@ namespace Library
 
 		BuildNodesRec(mainColl);
 			
+	}
+
+	std::vector<DirectionalLight*> Scene::GetDirectionalLights()
+	{
+		return mDirectLights;
+	}
+
+	std::vector<PointLight*> Scene::GetPointLights()
+	{
+		return mPointLights;
+	}
+
+	std::vector<SpotLight*> Scene::GetSpotLights()
+	{
+		return mSpotLights;
 	}
 }

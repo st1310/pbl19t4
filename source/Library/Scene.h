@@ -14,6 +14,11 @@
 
 namespace Library
 {
+	class DirectionalLight;
+	class PointLight;
+	class SpotLight;
+	class ProxyModel;
+
 	class Scene : public DrawableGameComponent
 {
 		RTTI_DECLARATIONS(Scene, DrawableGameComponent)
@@ -48,9 +53,12 @@ namespace Library
 
 		Colliders* GetGroundCollider();
 		void SetGroudndCollider(Colliders* collider);
-
 		
 		void BuildNodesStart(XMFLOAT3 posA, XMFLOAT3 posC);
+
+		std::vector<DirectionalLight*> GetDirectionalLights();
+		std::vector<PointLight*> GetPointLights();
+		std::vector<SpotLight*> GetSpotLights();
 	protected:
 		KeyboardComponent* mKeyboard;
 		RenderStateHelper mRenderStateHelper;
@@ -59,6 +67,11 @@ namespace Library
 		XMFLOAT2 mTextPosition;
 		std::vector<DrawableGameComponent*> listOfUnits;
 		std::vector<DrawableGameComponent*> trigerrableObjects;
+
+		std::vector<DirectionalLight*> mDirectLights;
+		std::vector<PointLight*> mPointLights;
+		std::vector<SpotLight*> mSpotLights;
+
 		Colliders* groundCollider;
 		
 	private:
