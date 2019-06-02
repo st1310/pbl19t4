@@ -35,7 +35,8 @@ namespace Library
 		Material& operator=(const Material& rhs);
 
 		virtual void CreateInputLayout(const std::string& techniqueName, const std::string& passName, D3D11_INPUT_ELEMENT_DESC* inputElementDescriptions, UINT inputElementDescriptionCount);
-	
+		virtual void CreateInputLayout(Pass& pass, D3D11_INPUT_ELEMENT_DESC* inputElementDescriptions, UINT inputElementDescriptionCount);
+
 		Effect* mEffect;
 		Technique* mCurrentTechnique;
 		std::string mDefaultTechniqueName;

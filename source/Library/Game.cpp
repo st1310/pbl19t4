@@ -1,25 +1,26 @@
 #include "Game.h"
 #include "DrawableGameComponent.h"
 #include "GameException.h"
-#include "NodeList.h"
 
 namespace Library
 {
-	const UINT Game::DefaultScreenWidth = 1024;
+	RTTI_DEFINITIONS(Game)
+
+		const UINT Game::DefaultScreenWidth = 1024;
 	const UINT Game::DefaultScreenHeight = 768;
 	const UINT Game::DefaultFrameRate = 60;
 	const UINT Game::DefaultMultiSamplingCount = 4;
 
 	Game::Game(HINSTANCE instance, const std::wstring& windowClass, const std::wstring& windowTitle, int showCommand)
-		: mInstance(instance), mWindowClass(windowClass), mWindowTitle(windowTitle), mShowCommand(showCommand),
+		: RenderTarget(), mInstance(instance), mWindowClass(windowClass), mWindowTitle(windowTitle), mShowCommand(showCommand),
 		mWindowHandle(), mWindow(),
 		mScreenWidth(DefaultScreenWidth), mScreenHeight(DefaultScreenHeight),
 		mGameClock(), mGameTime(),
-		mFeatureLevel(D3D_FEATURE_LEVEL_9_1), mDirect3DDevice(nullptr), mDirect3DDeviceContext(nullptr),
+		mFeatureLevel(D3D_FEATURE_LEVEL_9_1), mDirect3DDevice(nullptr), mDirect3DDeviceContext(nullptr), mSwapChain(nullptr),
 		mFrameRate(DefaultFrameRate), mIsFullScreen(false),
-		mDepthStencilBufferEnabled(false), mMultiSamplingEnabled(false), mMultiSamplingCount(DefaultMultiSamplingCount),
+		mDepthStencilBufferEnabled(false), mMultiSamplingEnabled(false), mMultiSamplingCount(DefaultMultiSamplingCount), mMultiSamplingQualityLevels(0),
 		mDepthStencilBuffer(nullptr), mRenderTargetView(nullptr), mDepthStencilView(nullptr), mViewport(),
-		mComponents(), mServices(), mNode()
+		mComponents(), mServices(), mNode(), mNodesInFructum()
 	{
 	}
 
@@ -74,7 +75,7 @@ namespace Library
 
 	bool Game::DepthBufferEnabled() const
 	{
-		return mDepthStencilBufferEnabled; 
+		return mDepthStencilBufferEnabled;
 	}
 
 	float Game::AspectRatio() const
@@ -118,14 +119,14 @@ namespace Library
 		mNode = nodes;
 	}
 
-	std::vector<CollisionNode*> Game::GetNodesInFructum()
-	{
-		return mNodesInFructum;
-	}
-
 	void Game::SetNodesInFructum(std::vector<CollisionNode*> NodesInFructum)
 	{
 		mNodesInFructum = NodesInFructum;
+	}
+
+	const std::vector<CollisionNode*>& Game::GetNodesInFructum() const
+	{
+		return mNodesInFructum;
 	}
 
 	void Game::Run()
@@ -187,13 +188,20 @@ namespace Library
 		{
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
-			{		
-				//if(drawableGameComponent->getNode() == nullptr)
-				//	drawableGameComponent->Draw(gameTime);
-				//else if(NodeList::IsNodeInsideList(drawableGameComponent->getNode(), mNodesInFructum))
-					drawableGameComponent->Draw(gameTime);
+			{
+				drawableGameComponent->Draw(gameTime);
 			}
 		}
+	}
+
+	void Game::Begin()
+	{
+		RenderTarget::Begin(mDirect3DDeviceContext, 1, &mRenderTargetView, mDepthStencilView, mViewport);
+	}
+
+	void Game::End()
+	{
+		RenderTarget::End(mDirect3DDeviceContext);
 	}
 
 	void Game::InitializeWindow()
@@ -385,9 +393,6 @@ namespace Library
 			}
 		}
 
-		// Step 6: Bind the render target and depth-stencil views to OM stage
-		mDirect3DDeviceContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
-
 		mViewport.TopLeftX = 0.0f;
 		mViewport.TopLeftY = 0.0f;
 		mViewport.Width = static_cast<float>(mScreenWidth);
@@ -395,8 +400,8 @@ namespace Library
 		mViewport.MinDepth = 0.0f;
 		mViewport.MaxDepth = 1.0f;
 
-		// Step 7: Set the viewoprt
-		mDirect3DDeviceContext->RSSetViewports(1, &mViewport);
+		// Step 6: Set render targets and viewport through render target stack	
+		Begin();
 	}
 
 	void Game::Shutdown()
@@ -463,9 +468,9 @@ namespace Library
 	}
 
 	void Game::RemoveComponent(GameComponent* removableGM)
-	{	
-			auto itrGmGO = std::find(mComponents.begin(), mComponents.end(), removableGM);
-			if (itrGmGO != mComponents.end())
-				mComponents.erase(itrGmGO);
+	{
+		auto itrGmGO = std::find(mComponents.begin(), mComponents.end(), removableGM);
+		if (itrGmGO != mComponents.end())
+			mComponents.erase(itrGmGO);
 	}
 }

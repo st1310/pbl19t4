@@ -2,13 +2,14 @@
 
 #ifndef DIRECTINPUT_VERSION
 #define DIRECTINPUT_VERSION 0x0800
+#endif
+
 #define MENU_LEVEL 0
 #define DAY_LEVEL 1
 #define TRAIN_LEVEL 2
 #define CITY_LEVEL 3
 #define CREATION_KIT_LEVEL 4
 #define PATHFINDER_TEST 5
-
 
 // For CreationKit
 #define ROTATION "Rotation"
@@ -30,7 +31,6 @@
 #define CARGO_TRAIN "CargoTrain"
 #define PASSENGER_TRAIN "PassengerTrain"
 #define TRACK "Track"
-#endif
 
 #define NOMINMAX // This define fixes assimp std::min/max error
 //#define UNICODE
@@ -41,6 +41,7 @@
 #include <cassert>
 #include <string>
 #include <vector>
+#include <stack>
 #include <map>
 #include <memory>
 #include <algorithm>

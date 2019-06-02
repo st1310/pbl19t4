@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <string>
+#include "RenderTarget.h"
 #include "Colliders.h"
 #include "Common.h"
 #include "GameClock.h"
@@ -12,8 +13,11 @@
 
 namespace Library
 {
-	class Game
+	class Game :
+		public RenderTarget
 	{
+		RTTI_DECLARATIONS(Game, RenderTarget)
+
 	public:
 		Game(HINSTANCE instance, const std::wstring& windowClass,
 			const std::wstring& windowTitle, int showCommand);
@@ -40,9 +44,8 @@ namespace Library
 		const std::vector<CollisionNode*>& NodeList() const;
 
 		void ClearAndSetNodes(std::vector<CollisionNode*> nodes);
-
 		void SetNodesInFructum(std::vector<CollisionNode*> NodesInFructum);
-		std::vector<CollisionNode*> GetNodesInFructum();
+		const std::vector<CollisionNode*>& GetNodesInFructum() const;
 		void ChangeCameraMovementStatus(bool newStat);
 
 		virtual void Run();
@@ -53,6 +56,8 @@ namespace Library
 
 		void RemoveComponent(GameComponent* removableGM);
 	protected:
+		virtual void Begin() override;
+		virtual void End() override;
 		virtual void InitializeWindow();
 		virtual void InitializeDirectX();
 		virtual void Shutdown();
@@ -99,7 +104,6 @@ namespace Library
 		D3D11_VIEWPORT mViewport;
 
 		bool cameraHasMoved;
-
 	private:
 		Game(const Game& rhs);
 		Game& operator=(const Game& rhs);

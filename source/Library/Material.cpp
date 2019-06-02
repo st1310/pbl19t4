@@ -6,7 +6,7 @@ namespace Library
 {
 	RTTI_DEFINITIONS(Material)
 
-	Material::Material() :
+		Material::Material() :
 		mEffect(nullptr), mCurrentTechnique(nullptr), mDefaultTechniqueName(), mInputLayouts()
 	{
 	}
@@ -101,5 +101,13 @@ namespace Library
 		pass->CreateInputLayout(inputElementDescriptions, inputElementDescriptionCount, &inputLayout);
 
 		mInputLayouts.insert(std::pair<Pass*, ID3D11InputLayout*>(pass, inputLayout));
+	}
+
+	void Material::CreateInputLayout(Pass& pass, D3D11_INPUT_ELEMENT_DESC* inputElementDescriptions, UINT inputElementDescriptionCount)
+	{
+		ID3D11InputLayout* inputLayout;
+		pass.CreateInputLayout(inputElementDescriptions, inputElementDescriptionCount, &inputLayout);
+
+		mInputLayouts.insert(std::pair<Pass*, ID3D11InputLayout*>(&pass, inputLayout));
 	}
 }
