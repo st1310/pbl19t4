@@ -28,6 +28,8 @@ namespace Library
 
 		void SetUnitID(int id);
 		int GetUnitID();
+		void SetComponentSelected(bool value);
+		bool GetComponentSelected();
 
 	protected:
 		CollisionNode* mNode;
@@ -38,5 +40,6 @@ namespace Library
 		DrawableGameComponent(const DrawableGameComponent& rhs);
 		DrawableGameComponent& operator=(const DrawableGameComponent& rhs);
 		int unitID;
+		bool componentSelected = false;
 	};
 }

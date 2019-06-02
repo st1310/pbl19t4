@@ -61,4 +61,11 @@ namespace Library
 	int DrawableGameComponent::GetUnitID() {
 		return unitID;
 	}
+
+	void DrawableGameComponent::SetComponentSelected(bool value) {
+		componentSelected = value;
+	}
+	bool DrawableGameComponent::GetComponentSelected() {
+		return componentSelected;
+	}
 }
