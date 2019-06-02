@@ -185,6 +185,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="GrassGround.cpp" />
     <ClCompile Include="GreenSoldier.cpp" />
     <ClCompile Include="MenuLevel.cpp" />
+    <ClCompile Include="MultipleLightsDemo.cpp" />
     <ClCompile Include="PassengerTrain.cpp" />
     <ClCompile Include="AnimatedGameObject.cpp" />
     <ClCompile Include="PlatformGround1.cpp" />
@@ -215,6 +216,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClInclude Include="GrassGround.h" />
     <ClInclude Include="GreenSoldier.h" />
     <ClInclude Include="MenuLevel.h" />
+    <ClInclude Include="MultipleLightsDemo.h" />
     <ClInclude Include="PassengerTrain.h" />
     <ClInclude Include="AnimatedGameObject.h" />
     <ClInclude Include="PlatformGround1.h" />

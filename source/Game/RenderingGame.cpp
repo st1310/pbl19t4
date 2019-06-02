@@ -11,14 +11,19 @@
 #include "ColorHelper.h"
 #include "RenderStateHelper.h"
 #include "TexturedModelMaterialDemo.h"
+#include "MultipleLightsDemo.h"
 #include "GameManager.h"
 #include "AnimatedGameObject.h"
 #include "Utility.h"
 #include "NodeList.h"
+#include "MultipleLightsMaterial.h"
+#include "FullScreenRenderTarget.h"
+#include "FullScreenQuad.h"
+#include "ColorFilterMaterial.h"
 
 namespace Rendering
 {
-	const XMVECTORF32 RenderingGame::BackgroundColor = ColorHelper::CornflowerBlue;
+	const XMVECTORF32 RenderingGame::BackgroundColor = Colors::CornflowerBlue;
 	
 	RenderingGame::RenderingGame(HINSTANCE instance, const std::wstring & windowClass, const std::wstring & windowTitle, int showCommand)
 		: Game(instance, windowClass, windowTitle, showCommand),
@@ -26,7 +31,7 @@ namespace Rendering
 		mRenderStateHelper(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mGameManager(nullptr), buttonClicked(false)
+		mGameManager(nullptr), buttonClicked(false), mMLDemo(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -66,8 +71,11 @@ namespace Rendering
 		mComponents.push_back(mSkybox);
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
-		mGameManager = new GameManager(*this, *mCamera);
-		mComponents.push_back(mGameManager);
+		/*mGameManager = new GameManager(*this, *mCamera);
+		mComponents.push_back(mGameManager);*/
+
+		mMLDemo = new MultipleLightsDemo(*this, *mCamera);
+		mComponents.push_back(mMLDemo);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
@@ -82,16 +90,13 @@ namespace Rendering
 
 		Game::Initialize();
 
-
 		mCamera->SetPosition(0.0f, 0.0f, 20.0f);
 
-		CollisionNode* additionalCheckNode = new CollisionNode({ -1000.f, -200.f, 0.f }, { 900.f, 190.f, 20.f });
+		/*CollisionNode* additionalCheckNode = new CollisionNode({ -1000.f, -200.f, 0.f }, { 900.f, 190.f, 20.f });
 		newNode->AddDynamicCollider(mCollC);
 		newNode->AddStaticCollider(mCollTM);
 		additionalCheckNode->AddNewChild(newNode);
-		mNode.push_back(additionalCheckNode);
-		
-
+		mNode.push_back(additionalCheckNode);*/
 	}
 
 	void RenderingGame::Shutdown()
@@ -105,6 +110,7 @@ namespace Rendering
 		DeleteObject(mSpriteFont);
 		DeleteObject(mCamera);
 		DeleteObject(mRenderStateHelper);
+		DeleteObject(mMLDemo);
 
 		ReleaseObject(mDirectInput);
 
@@ -144,9 +150,7 @@ namespace Rendering
 		mDirect3DDeviceContext->ClearDepthStencilView(mDepthStencilView,
 			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-		
 		Game::Draw(gameTime);
-
 		
 		mRenderStateHelper->SaveAll();
 		mSpriteBatch->Begin();
@@ -155,28 +159,6 @@ namespace Rendering
 		mouseLabel << L"Mouse Position: " << mMouse->X() << ", "
 			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition);
-
-		if (mMouse->Y() > 295.0f && mMouse->Y() < 307.0f && mMouse->X() > 104.0f  && mMouse->X() < 200.0f) {
-			std::wostringstream startGame;
-			startGame << "Start Game";
-			mSpriteFont->DrawString(mSpriteBatch, startGame.str().c_str(), XMFLOAT2(100.0f, 300.0f), Colors::Blue);
-		}
-		else {
-			std::wostringstream startGame;
-			startGame << "Start Game";
-			mSpriteFont->DrawString(mSpriteBatch, startGame.str().c_str(), XMFLOAT2(100.0f, 300.0f), Colors::White);
-		}
-		
-		if (mMouse->Y() > 313.0f && mMouse->Y() < 327.0f && mMouse->X() > 104.0f  && mMouse->X() < 200.0f) {
-			std::wostringstream endGame;
-			endGame << "Quit Game";
-			mSpriteFont->DrawString(mSpriteBatch, endGame.str().c_str(), XMFLOAT2(100.0f, 320.0f), Colors::Blue);
-		}
-		else {
-			std::wostringstream endGame;
-			endGame << "Quit Game";
-			mSpriteFont->DrawString(mSpriteBatch, endGame.str().c_str(), XMFLOAT2(100.0f, 320.0f), Colors::White);
-		}
 
 		mSpriteBatch->End();
 		mRenderStateHelper->RestoreAll();

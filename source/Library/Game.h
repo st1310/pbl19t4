@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <string>
+#include "RenderTarget.h"
 #include "Colliders.h"
 #include "Common.h"
 #include "GameClock.h"
@@ -12,8 +13,11 @@
 
 namespace Library
 {
-	class Game
+	class Game :
+		public RenderTarget
 	{
+		RTTI_DECLARATIONS(Game, RenderTarget)
+
 	public:
 		Game(HINSTANCE instance, const std::wstring& windowClass,
 			const std::wstring& windowTitle, int showCommand);
@@ -30,6 +34,8 @@ namespace Library
 		ID3D11Device1* Direct3DDevice() const;
 		ID3D11DeviceContext1* Direct3DDeviceContext() const;
 		bool DepthBufferEnabled() const;
+		ID3D11RenderTargetView* RenderTargetView() const;
+		ID3D11DepthStencilView* DepthStencilView() const;
 		float AspectRatio() const;
 		bool IsFullScreen() const;
 		const D3D11_TEXTURE2D_DESC& BackBufferDesc() const;
@@ -49,6 +55,8 @@ namespace Library
 		virtual void Draw(const GameTime& gameTime);
 
 	protected:
+		virtual void Begin() override;
+		virtual void End() override;
 		virtual void InitializeWindow();
 		virtual void InitializeDirectX();
 		virtual void Shutdown();

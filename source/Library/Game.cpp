@@ -4,19 +4,21 @@
 
 namespace Library
 {
+	RTTI_DEFINITIONS(Game)
+
 	const UINT Game::DefaultScreenWidth = 1024;
 	const UINT Game::DefaultScreenHeight = 768;
 	const UINT Game::DefaultFrameRate = 60;
 	const UINT Game::DefaultMultiSamplingCount = 4;
 
 	Game::Game(HINSTANCE instance, const std::wstring& windowClass, const std::wstring& windowTitle, int showCommand)
-		: mInstance(instance), mWindowClass(windowClass), mWindowTitle(windowTitle), mShowCommand(showCommand),
+		: RenderTarget(), mInstance(instance), mWindowClass(windowClass), mWindowTitle(windowTitle), mShowCommand(showCommand),
 		mWindowHandle(), mWindow(),
 		mScreenWidth(DefaultScreenWidth), mScreenHeight(DefaultScreenHeight),
 		mGameClock(), mGameTime(),
-		mFeatureLevel(D3D_FEATURE_LEVEL_9_1), mDirect3DDevice(nullptr), mDirect3DDeviceContext(nullptr),
+		mFeatureLevel(D3D_FEATURE_LEVEL_9_1), mDirect3DDevice(nullptr), mDirect3DDeviceContext(nullptr), mSwapChain(nullptr),
 		mFrameRate(DefaultFrameRate), mIsFullScreen(false),
-		mDepthStencilBufferEnabled(false), mMultiSamplingEnabled(false), mMultiSamplingCount(DefaultMultiSamplingCount),
+		mDepthStencilBufferEnabled(false), mMultiSamplingEnabled(false), mMultiSamplingCount(DefaultMultiSamplingCount), mMultiSamplingQualityLevels(0),
 		mDepthStencilBuffer(nullptr), mRenderTargetView(nullptr), mDepthStencilView(nullptr), mViewport(),
 		mComponents(), mServices(), mNode(), mNodesInFructum()
 	{
@@ -74,6 +76,16 @@ namespace Library
 	bool Game::DepthBufferEnabled() const
 	{
 		return mDepthStencilBufferEnabled; 
+	}
+
+	ID3D11RenderTargetView* Game::RenderTargetView() const
+	{
+		return mRenderTargetView;
+	}
+
+	ID3D11DepthStencilView* Game::DepthStencilView() const
+	{
+		return mDepthStencilView;
 	}
 
 	float Game::AspectRatio() const
@@ -184,6 +196,16 @@ namespace Library
 				drawableGameComponent->Draw(gameTime);
 			}
 		}
+	}
+
+	void Game::Begin()
+	{
+		RenderTarget::Begin(mDirect3DDeviceContext, 1, &mRenderTargetView, mDepthStencilView, mViewport);
+	}
+
+	void Game::End()
+	{
+		RenderTarget::End(mDirect3DDeviceContext);
 	}
 
 	void Game::InitializeWindow()
@@ -375,9 +397,6 @@ namespace Library
 			}
 		}
 
-		// Step 6: Bind the render target and depth-stencil views to OM stage
-		mDirect3DDeviceContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
-
 		mViewport.TopLeftX = 0.0f;
 		mViewport.TopLeftY = 0.0f;
 		mViewport.Width = static_cast<float>(mScreenWidth);
@@ -385,8 +404,8 @@ namespace Library
 		mViewport.MinDepth = 0.0f;
 		mViewport.MaxDepth = 1.0f;
 
-		// Step 7: Set the viewoprt
-		mDirect3DDeviceContext->RSSetViewports(1, &mViewport);
+		// Step 6: Set render targets and viewport through render target stack	
+		Begin();
 	}
 
 	void Game::Shutdown()
