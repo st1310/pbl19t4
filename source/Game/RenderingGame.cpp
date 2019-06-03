@@ -163,16 +163,16 @@ namespace Rendering
 		HRESULT hr18 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mMultiSelectionPortraittexture.str().c_str(), nullptr, &mMultiSelectionPortrait);
 		
 		if (FAILED(hr))
-			throw GameException("CreateWICTextureFromFile() failed.", hr);
+			throw GameException("CreateWICTextureFromFile1() failed.", hr);
 
 		if (FAILED(hr3))
-			throw GameException("CreateWICTextureFromFile() failed.", hr3);
+			throw GameException("CreateWICTextureFromFile3() failed.", hr3);
 
 		if (FAILED(hr8))
-			throw GameException("CreateWICTextureFromFile() failed.", hr8);
+			throw GameException("CreateWICTextureFromFile8() failed.", hr8);
 
 		if (FAILED(hr9))
-			throw GameException("CreateWICTextureFromFile() failed.", hr9);
+			throw GameException("CreateWICTextureFromFile9() failed.", hr9);
 		
 
 		Game::Initialize();
