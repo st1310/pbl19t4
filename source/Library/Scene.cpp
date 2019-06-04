@@ -220,18 +220,33 @@ namespace Library
 			
 	}
 
-	std::vector<DirectionalLight*> Scene::GetDirectionalLights()
+	std::vector<DirectionalLight*>& Scene::GetDirectionalLights()
 	{
 		return mDirectLights;
 	}
 
-	std::vector<PointLight*> Scene::GetPointLights()
+	std::vector<PointLight*>& Scene::GetPointLights()
 	{
 		return mPointLights;
 	}
 
-	std::vector<SpotLight*> Scene::GetSpotLights()
+	std::vector<SpotLight*>& Scene::GetSpotLights()
 	{
 		return mSpotLights;
+	}
+
+	void Scene::InitializeLights()
+	{
+		mDirectLights.push_back(new DirectionalLight(*mGame));
+		mDirectLights.back()->SetColor(Colors::White - SimpleMath::Vector3(0.0f, 00.0f, 0.8f));
+		mDirectLights.back()->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(-90.0f)));
+		mDirectLights.back()->ApplyRotation(XMMatrixRotationZ(XMConvertToRadians(45.0f)));
+	}
+
+	void Scene::ResetLights()
+	{
+		mDirectLights.clear();
+		mSpotLights.clear();
+		mPointLights.clear();
 	}
 }

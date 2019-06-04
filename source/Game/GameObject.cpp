@@ -672,4 +672,16 @@ namespace Rendering
 	bool GameObject::GetPathFindingMoveFlag() {
 		return objectToMove;
 	}
+
+	void GameObject::SetLightsReferences(std::vector<DirectionalLight*>& directionalLights, std::vector<PointLight*>& pointLights, std::vector<SpotLight*>& spotLights)
+	{
+		mDirectLights = directionalLights;
+		mPointLights = pointLights;
+		mSpotLights = spotLights;
+	}
+
+	const char* GameObject::GetName()
+	{
+		return mClassName;
+	}
 }

@@ -28,6 +28,7 @@
 #include "FullScreenRenderTarget.h"
 #include "ColorFilterMaterial.h"
 #include "FullScreenQuad.h"
+#include <DDSTextureLoader.h>
 
 namespace Rendering
 {
@@ -87,6 +88,7 @@ namespace Rendering
 		mIndexCounts.resize(mModel->Meshes().size());
 		mColorTextures.resize(mModel->Meshes().size());
 		mNormalTextures.resize(mModel->Meshes().size());
+		mSpecularTextures.resize(mModel->Meshes().size());
 
 		for (UINT i = 0; i < mModel->Meshes().size(); i++)
 		{
@@ -104,12 +106,28 @@ namespace Rendering
 
 			ID3D11ShaderResourceView* colorTexture = nullptr;
 			ID3D11ShaderResourceView* normalTexture = nullptr;
+			ID3D11ShaderResourceView* specularTexture = nullptr;
 			ModelMaterial* material = mesh->GetMaterial();
 
 			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
 			ChangeTexture(modelName);
 		}
 
+		// Load specular map
+
+		/*
+		ID3D11ShaderResourceView* specularTexture = nullptr;
+		std::string textureName = "Content\\Textures\\" + (std::string)mClassName + "SpecularMap.jpg";
+		std::wostringstream specular; 
+		specular  << textureName.c_str();
+
+		HRESULT hr = DirectX::CreateDDSTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), specular.str().c_str(), nullptr, &specularTexture);
+
+		if (FAILED(hr))
+			throw GameException("CreateWICTextureFromFile() failed.", hr);
+
+		mSpecularTextures[0] = specularTexture;
+		*/
 		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
 		assert(mKeyboard != nullptr);
 
@@ -129,48 +147,6 @@ namespace Rendering
 
 		mGame->Direct3DDevice()->CreateBlendState(&blendStateDesc, &mBlendState);
 
-		// Spot Lights
-		mSpotLights.push_back(new SpotLight(*mGame));
-		mSpotLights.at(0)->SetPosition(-15.0f, 5.0f, -10.0f);
-		mSpotLights.at(0)->SetRadius(30.0f);
-		mSpotLights.at(0)->SetColor(Colors::Purple - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
-		mSpotLights.at(0)->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(45.0f)));
-		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\DirectionalLightProxy.obj"));
-		mProxyModels.back()->SetPosition(mSpotLights.back()->Position());
-		mProxyModels.back()->ApplyRotation(XMMatrixRotationY(XMConvertToRadians(90.0f))); // Init rotation to allign with Vector3::Forward
-		mProxyModels.back()->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(45.0f)));
-
-		// Directional Lights
-		mDirectLights.push_back(new DirectionalLight(*mGame));
-		mDirectLights.back()->SetColor(Colors::AntiqueWhite - SimpleMath::Vector3(0.0f, 0.0f, 0.8f));
-		mDirectLights.back()->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(-90.0f)));
-		mDirectLights.back()->ApplyRotation(XMMatrixRotationZ(XMConvertToRadians(45.0f)));
-		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\DirectionalLightProxy.obj"));
-		mProxyModels.back()->SetPosition(XMFLOAT3(0.0f, 10.0f, 0.0f));
-		mProxyModels.back()->ApplyRotation(XMMatrixRotationY(XMConvertToRadians(90.0f))); // Init rotation to allign with Vector3::Forward
-		mProxyModels.back()->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(-90.0f)));
-		mProxyModels.back()->ApplyRotation(XMMatrixRotationZ(XMConvertToRadians(45.0f)));
-
-		/*mDirectLights.push_back(new DirectionalLight(*mGame));
-
-		mDirectLights.at(1)->ApplyRotation(XMMatrixRotationY(-90.0f));
-		mDirectLights.at(1)->SetColor(Colors::Red);*/
-
-		// Point Lights
-		mPointLights.push_back(new PointLight(*mGame));
-		mPointLights.at(0)->SetRadius(30.0f);
-		mPointLights.at(0)->SetPosition(5.0f, 10.0f, -5.0f);
-		mPointLights.at(0)->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
-		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\PointLightProxy.obj"));
-		mProxyModels.back()->SetPosition(mPointLights.back()->Position());
-
-		mPointLights.push_back(new PointLight(*mGame));
-		mPointLights.at(1)->SetRadius(30.0f);
-		mPointLights.at(1)->SetPosition(-5.0f, 10.0f, 5.0f);
-		mPointLights.at(1)->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
-		mProxyModels.push_back(new ProxyModel(*mGame, *mCamera, "Content\\Models\\Proxy\\PointLightProxy.obj"));
-		mProxyModels.back()->SetPosition(mPointLights.back()->Position());
-
 		for (ProxyModel* proxy : mProxyModels)
 		{
 			proxy->Initialize();
@@ -185,13 +161,7 @@ namespace Rendering
 
 		mColorFilterMaterial = new ColorFilterMaterial();
 		mColorFilterMaterial->Initialize(mColorFilterEffect);
-		/*
-		mFullScreenQuad = new FullScreenQuad(*mGame, *mColorFilterMaterial);
-		mFullScreenQuad->Initialize();
-		//mFullScreenQuad->SetActiveTechnique(ColorFilterTechniqueNames[mActiveColorFilter], "p0");
-		mFullScreenQuad->SetActiveTechnique(ColorFilterTechniqueNames[ColorFilter::ColorFilterGeneric], "p0");
-		mFullScreenQuad->SetCustomUpdateMaterial(std::bind(&StaticGameObject::UpdateColorFilterMaterial, this));
-		*/
+
 		// Initial transform
 		Scale(0, 0, 0);
 		FirstRotation();
@@ -203,13 +173,6 @@ namespace Rendering
 	void StaticGameObject::Update(const GameTime& gameTime)
 	{
 		UpdateOptions();
-
-		float pointLightX = mPointLights.back()->Position().x + (float)(sin(gameTime.TotalGameTime()) / 100);
-		float pointLightY = mPointLights.back()->Position().y;
-		float pointLightZ = mPointLights.back()->Position().z;
-
-		mPointLights.back()->SetPosition(pointLightX, pointLightY, pointLightZ);
-		mProxyModels.back()->SetPosition(mPointLights.back()->Position());
 
 		for (ProxyModel* proxy : mProxyModels)
 		{
@@ -258,7 +221,7 @@ namespace Rendering
 			mMaterial->ColorTexture() << colorTexture;
 			mMaterial->NormalTexture() << normalTexture;
 			mMaterial->CameraPosition() << mCamera->PositionVector();
-
+			
 			for (size_t i = 0; i < mDirectLights.size(); i++)
 			{
 				ID3DX11EffectVariable* variable = mMaterial->DirectLights().GetVariable()->GetElement(i);
@@ -266,7 +229,7 @@ namespace Rendering
 				variable->GetMemberByName("Color")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mDirectLights.at(i)->ColorVector()));
 				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
 			}
-
+			
 			for (size_t i = 0; i < mPointLights.size(); i++)
 			{
 				ID3DX11EffectVariable* variable = mMaterial->PointLights().GetVariable()->GetElement(i);
@@ -275,7 +238,8 @@ namespace Rendering
 				variable->GetMemberByName("Color")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mPointLights.at(i)->ColorVector()));
 				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
 			}
-
+			
+			
 			for (size_t i = 0; i < mSpotLights.size(); i++)
 			{
 				ID3DX11EffectVariable* variable = mMaterial->SpotLights().GetVariable()->GetElement(i);

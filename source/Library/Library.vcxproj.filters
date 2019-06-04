@@ -19,6 +19,9 @@
     <Filter Include="Content\Effects">
       <UniqueIdentifier>{dc1c2ff5-a47d-4fc3-998b-0cdc8dda56a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Effects\include">
+      <UniqueIdentifier>{24c924f5-5039-45c2-aac8-1cbab4f93b7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -419,6 +422,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Content\Effects\include\Common.fxh">
+      <Filter>Content\Effects\include</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Content\Effects\BasicEffect.fx">

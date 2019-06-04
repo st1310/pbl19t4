@@ -75,6 +75,7 @@ namespace Rendering
 
 		mCurrentScene = sceneId;
 
+		mScenes.at(sceneId)->ResetLights();
 		mScenes.at(sceneId)->Start(*game, *camera);
 		mScenes.at(sceneId)->SetGroudndCollider(pathfinding->collider);
 

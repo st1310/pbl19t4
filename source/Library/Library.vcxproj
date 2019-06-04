@@ -318,6 +318,7 @@ IF EXIST "$(TargetDir)Content" xcopy /E /Y "$(TargetDir)Content" "$(SolutionDir)
     <ClCompile Include="VectorHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\Effects\include\Common.fxh" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

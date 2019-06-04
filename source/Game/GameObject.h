@@ -124,6 +124,9 @@ namespace Rendering
 		void SetPathFindingMoveFlag(bool value);
 		bool GetPathFindingMoveFlag();
 
+		void SetLightsReferences(std::vector<DirectionalLight*>& directionalLights, std::vector<PointLight*>& pointLights, std::vector<SpotLight*>& spotLights);
+		const char* GetName();
+
 	protected:
 		GameObject();
 		GameObject(const GameObject& rhs);

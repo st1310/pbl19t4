@@ -11,6 +11,7 @@
 #include <iomanip> 
 #include <fstream>
 #include <sstream>
+#include "SpotLight.h"
 
 namespace Library
 {
@@ -56,9 +57,10 @@ namespace Library
 		
 		void BuildNodesStart(XMFLOAT3 posA, XMFLOAT3 posC);
 
-		std::vector<DirectionalLight*> GetDirectionalLights();
-		std::vector<PointLight*> GetPointLights();
-		std::vector<SpotLight*> GetSpotLights();
+		std::vector<DirectionalLight*>& GetDirectionalLights();
+		std::vector<PointLight*>& GetPointLights();
+		std::vector<SpotLight*>& GetSpotLights();
+		void ResetLights();
 	protected:
 		KeyboardComponent* mKeyboard;
 		RenderStateHelper mRenderStateHelper;
@@ -73,7 +75,7 @@ namespace Library
 		std::vector<SpotLight*> mSpotLights;
 
 		Colliders* groundCollider;
-		
+		void InitializeLights();
 	private:
 		void BuildNodesRec(CollisionNode* parNode);
 
