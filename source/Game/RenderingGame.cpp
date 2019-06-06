@@ -438,33 +438,64 @@ namespace Rendering
 			mSpriteBatch->Draw(mPortraitBanner, SimpleMath::Rectangle(765.0f, 330.0f, 250.0f, 250.0f), Colors::White);
 			mSpriteBatch->Draw(mOptionActionsBanner, SimpleMath::Rectangle(720.0f, 560.0f, 300.0f, 250.0f));
 
-			mSpriteBatch->Draw(mPaintIconYES, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
-			mSpriteBatch->Draw(mCleanIconYES, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
-			mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
-			mSpriteBatch->Draw(mStopIconYES, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
-			mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(830.0f, 660.0f, 90.0f, 90.0f));
-			mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 670.0f, 85.0f, 85.0f));
-
 			if (indexSelectedGuiButtons.size() > 1) {
 				mSpriteBatch->Draw(mMultiSelectionPortrait, SimpleMath::Rectangle(800, 350, 200.0f, 200.0f));
 				mSpriteBatch->Draw(mPaintIconNO, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
 				mSpriteBatch->Draw(mCleanIconNO, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
-				mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
-				mSpriteBatch->Draw(mStopIconYES, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
-				mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(830.0f, 660.0f, 90.0f, 90.0f));
-				mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 670.0f, 85.0f, 85.0f));
+				if (mMouse->X() > 925.0f && mMouse->X() < 995.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f)
+					mSpriteBatch->Draw(mPatrolIconMAYBE, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+				else
+					mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+
+				if (mMouse->X() > 750.0f && mMouse->X() < 815.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f)
+					mSpriteBatch->Draw(mHideIconMAYBE, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+				else
+					mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+
+				if (mMouse->X() > 840.0f && mMouse->X() < 905.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f)
+					mSpriteBatch->Draw(mStopIconMAYBE, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
+				else
+					mSpriteBatch->Draw(mStopIconYES, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
+
+				if (mMouse->X() > 925.0f && mMouse->X() < 995.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f)
+					mSpriteBatch->Draw(mNoiseIconMAYBE, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
+				else
+					mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
 			}
 			else {
 				mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(800, 350, 200.0f, 200.0f));
-				mSpriteBatch->Draw(mPaintIconYES, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
-				mSpriteBatch->Draw(mCleanIconYES, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
-				mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
-				mSpriteBatch->Draw(mStopIconYES, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
-				mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(830.0f, 660.0f, 90.0f, 90.0f));
-				mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 670.0f, 85.0f, 85.0f));
+				if(mMouse->X() > 750.0f && mMouse->X() < 815.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f)
+					mSpriteBatch->Draw(mPaintIconMAYBE, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
+				else
+					mSpriteBatch->Draw(mPaintIconYES, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
+				
+				if (mMouse->X() > 840.0f && mMouse->X() < 905.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f)
+					mSpriteBatch->Draw(mCleanIconMAYBE, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
+				else
+					mSpriteBatch->Draw(mCleanIconYES, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
+				
+				if(mMouse->X() > 925.0f && mMouse->X() < 995.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f)
+					mSpriteBatch->Draw(mPatrolIconMAYBE, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+				else
+					mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+				
+				if (mMouse->X() > 750.0f && mMouse->X() < 815.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f)
+					mSpriteBatch->Draw(mHideIconMAYBE, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+				else
+					mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+
+				if (mMouse->X() > 840.0f && mMouse->X() < 905.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f)
+					mSpriteBatch->Draw(mStopIconMAYBE, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
+				else
+					mSpriteBatch->Draw(mStopIconYES, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
+				
+				if(mMouse->X() > 925.0f && mMouse->X() < 995.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f)
+					mSpriteBatch->Draw(mNoiseIconMAYBE, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
+				else
+					mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
 			}
 			
-		}
+		}/*mStopIconMAYBE*/
 			
 		
 		
