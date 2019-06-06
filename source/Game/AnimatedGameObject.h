@@ -11,6 +11,7 @@ namespace Library
 	class KeyboardComponent;
 	class Effect;
 	class SkinnedModelMaterial;
+	class MultipleLightsBonesMaterial;
 	class Model;
 	class AnimationPlayer;
 	class AnimationSequence;
@@ -55,7 +56,7 @@ namespace Rendering
 		void UpdateOptions();
 
 		AnimationPlayer* mAnimationPlayer;
-		SkinnedModelMaterial* mMaterial;
+		MultipleLightsBonesMaterial* mMaterial;
 
 		//Animation sequence
 		AnimationSequence* mAnimationSequence;

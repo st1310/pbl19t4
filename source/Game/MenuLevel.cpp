@@ -38,9 +38,30 @@ namespace Rendering
 			{
 				// Point Lights
 				mPointLights.push_back(new PointLight(*mGame));
-				mPointLights.at(0)->SetRadius(30.0f);
-				mPointLights.at(0)->SetPosition(gameObject->getPosition().x, gameObject->getPosition().y + 5, gameObject->getPosition().z);
-				mPointLights.at(0)->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
+				int lastIndex = mPointLights.size() - 1;
+
+				mPointLights.at(lastIndex)->SetRadius(30.0f);
+				mPointLights.at(lastIndex)->SetPosition(gameObject->getPosition().x, gameObject->getPosition().y + 5, gameObject->getPosition().z);
+				mPointLights.at(lastIndex)->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
+			}
+		}
+
+		// Add spot Lights to lamps
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
+			std::string className = gameObject->GetName();
+
+			if (className == "SingleStreetLampPost")
+			{
+				// Point Lights
+				mSpotLights.push_back(new SpotLight(*mGame));
+				int lastIndex = mSpotLights.size() - 1;
+
+				mSpotLights.at(lastIndex)->SetPosition(gameObject->getPosition().x, gameObject->getPosition().y + 5, gameObject->getPosition().z);
+				mSpotLights.at(lastIndex)->SetRadius(30.0f);
+				mSpotLights.at(lastIndex)->SetColor(Colors::Purple - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
+				mSpotLights.at(lastIndex)->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(-90.0f)));
 			}
 		}
 

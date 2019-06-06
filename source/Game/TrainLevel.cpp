@@ -40,9 +40,11 @@ namespace Rendering
 			{
 				// Point Lights
 				mPointLights.push_back(new PointLight(*mGame));
-				mPointLights.at(0)->SetRadius(30.0f);
-				mPointLights.at(0)->SetPosition(gameObject->getPosition().x, gameObject->getPosition().y + 5, gameObject->getPosition().z);
-				mPointLights.at(0)->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
+				int lastIndex = mPointLights.size() - 1;
+
+				mPointLights.at(lastIndex)->SetRadius(30.0f);
+				mPointLights.at(lastIndex)->SetPosition(gameObject->getPosition().x, gameObject->getPosition().y + 5, gameObject->getPosition().z);
+				mPointLights.at(lastIndex)->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
 			}
 		}
 
