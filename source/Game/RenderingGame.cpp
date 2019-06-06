@@ -84,6 +84,7 @@ namespace Rendering
 		mSpriteBatch = new SpriteBatch(mDirect3DDeviceContext);
 		mSpriteFont = new SpriteFont(mDirect3DDevice, L"Content\\Fonts\\Arial_14_Regular.spritefont");
 
+
 		std::wostringstream textureName;
 		textureName << L"content\\Textures\\pepeColor.png";
 
@@ -105,20 +106,32 @@ namespace Rendering
 		std::wostringstream mPaintIconYEStexture;
 		mPaintIconYEStexture << L"content\\Textures\\sprayYES.png";
 
+		std::wostringstream mPaintIconMAYBEtexture;
+		mPaintIconMAYBEtexture << L"content\\Textures\\sprayMAYBE.png";
+
 		std::wostringstream mPaintIconNOtexture;
 		mPaintIconNOtexture << L"content\\Textures\\sprayNO.png";
 
 		std::wostringstream mCleanIconYEStexture;
 		mCleanIconYEStexture << L"content\\Textures\\cleanYES.png";
 
+		std::wostringstream mCleanIconMAYBEtexture;
+		mCleanIconMAYBEtexture << L"content\\Textures\\cleanMAYBE.png";
+
 		std::wostringstream mCleanIconNOtexture;
 		mCleanIconNOtexture << L"content\\Textures\\cleanNO.png";
+
+		std::wostringstream mPatrolIconMAYBEtexture;
+		mPatrolIconMAYBEtexture << L"content\\Textures\\patrolMAYBE.png";
 
 		std::wostringstream mPatrolIconYEStexture;
 		mPatrolIconYEStexture << L"content\\Textures\\patrolYES.png";
 
 		std::wostringstream mPatrolIconNOtexture;
 		mPatrolIconNOtexture << L"content\\Textures\\patrolNO.png";
+
+		std::wostringstream mStopIconMAYBEtexture;
+		mStopIconMAYBEtexture << L"content\\Textures\\stopMAYBE.png";
 
 		std::wostringstream mStopIconNOtexture;
 		mStopIconNOtexture << L"content\\Textures\\stopNO.png";
@@ -129,14 +142,20 @@ namespace Rendering
 		std::wostringstream mHideIconNOtexture;
 		mHideIconNOtexture << L"content\\Textures\\hideNO.png";
 
+		std::wostringstream mHideIconMAYBEtexture;
+		mHideIconMAYBEtexture << L"content\\Textures\\hideMAYBE.png";
+
 		std::wostringstream mHideIconYEStexture;
 		mHideIconYEStexture << L"content\\Textures\\hideYES.png";
 
 		std::wostringstream mNoiseIconYEStexture;
-		mNoiseIconYEStexture << L"content\\Textures\\noiseYES1.png";
+		mNoiseIconYEStexture << L"content\\Textures\\noiseYES.png";
+
+		std::wostringstream mNoiseIconMAYBEtexture;
+		mNoiseIconMAYBEtexture << L"content\\Textures\\noiseMAYBE.png";
 
 		std::wostringstream mNoiseIconNOtexture;
-		mNoiseIconNOtexture << L"content\\Textures\\noiseNO1.png";
+		mNoiseIconNOtexture << L"content\\Textures\\noiseNO.png";
 
 		std::wostringstream mMultiSelectionPortraittexture;
 		mMultiSelectionPortraittexture << L"content\\Textures\\multiSelectionPortrait.png";
@@ -161,18 +180,69 @@ namespace Rendering
 		HRESULT hr16 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconNOtexture.str().c_str(), nullptr, &mNoiseIconNO);
 		HRESULT hr17 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconYEStexture.str().c_str(), nullptr, &mNoiseIconYES);
 		HRESULT hr18 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mMultiSelectionPortraittexture.str().c_str(), nullptr, &mMultiSelectionPortrait);
+		HRESULT hr19 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconMAYBEtexture.str().c_str(), nullptr, &mNoiseIconMAYBE);
+		HRESULT hr20 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mHideIconMAYBEtexture.str().c_str(), nullptr, &mHideIconMAYBE);
+		HRESULT hr21 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStopIconMAYBEtexture.str().c_str(), nullptr, &mStopIconMAYBE);
+		HRESULT hr22 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolIconMAYBEtexture.str().c_str(), nullptr, &mPatrolIconMAYBE);
+		HRESULT hr23 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mCleanIconMAYBEtexture.str().c_str(), nullptr, &mCleanIconMAYBE);
+		HRESULT hr24 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintIconMAYBEtexture.str().c_str(), nullptr, &mPaintIconMAYBE);
 		
 		if (FAILED(hr))
 			throw GameException("CreateWICTextureFromFile1() failed.", hr);
 
+		if (FAILED(hr2))
+			throw GameException("CreateWICTextureFromFile1(2) failed.", hr);
+
 		if (FAILED(hr3))
 			throw GameException("CreateWICTextureFromFile3() failed.", hr3);
+
+		if (FAILED(hr4))
+			throw GameException("CreateWICTextureFromFile4() failed.", hr);
+
+		if (FAILED(hr5))
+			throw GameException("CreateWICTextureFromFile5() failed.", hr);
+
+		if (FAILED(hr6))
+			throw GameException("CreateWICTextureFromFile6() failed.", hr);
+
+		if (FAILED(hr7))
+			throw GameException("CreateWICTextureFromFile7() failed.", hr);
 
 		if (FAILED(hr8))
 			throw GameException("CreateWICTextureFromFile8() failed.", hr8);
 
 		if (FAILED(hr9))
 			throw GameException("CreateWICTextureFromFile9() failed.", hr9);
+
+		if (FAILED(hr10))
+			throw GameException("CreateWICTextureFromFile01() failed.", hr);
+
+
+		if (FAILED(hr11))
+			throw GameException("CreateWICTextureFromFile11() failed.", hr);
+
+		if (FAILED(hr12))
+			throw GameException("CreateWICTextureFromFile12() failed.", hr);
+
+
+		if (FAILED(hr13))
+			throw GameException("CreateWICTextureFromFile13() failed.", hr);
+
+
+		if (FAILED(hr14))
+			throw GameException("CreateWICTextureFromFile14() failed.", hr);
+
+		if (FAILED(hr18))
+			throw GameException("CreateWICTextureFromFile18() failed.", hr);
+
+		if (FAILED(hr15))
+			throw GameException("CreateWICTextureFromFile15() failed.", hr);
+
+		if (FAILED(hr16))
+			throw GameException("CreateWICTextureFromFile16() failed.", hr);
+
+		if (FAILED(hr17))
+			throw GameException("CreateWICTextureFromFile17() failed.", hr);
 		
 
 		Game::Initialize();
@@ -261,12 +331,16 @@ namespace Rendering
 		}
 		else if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft))
 		{
-			if (selectedOnce)
-			{
-				mGameManager->SelectingUnits(mouse1Pos.x, mouse1Pos.y, mouse2Pos.x, mouse2Pos.y);
-				selectedOnce = false;
+			if (!(mMouse->Y() > 610.0f && mMouse->X() > 330.0f )) {
+				if (selectedOnce)
+				{
+					mGameManager->SelectingUnits(mouse1Pos.x, mouse1Pos.y, mouse2Pos.x, mouse2Pos.y);
+					selectedOnce = false;
+				}
+				else  
+					mGameManager->SelectingUnits(mouse1Pos.x, mouse1Pos.y);
 			}
-			else  mGameManager->SelectingUnits(mouse1Pos.x, mouse1Pos.y);
+			
 		}
 
 		if (mMouse->WasButtonPressedThisFrame(MouseButtonsRight))
@@ -337,12 +411,16 @@ namespace Rendering
 							}
 							if (!checkCopy) {
 								indexSelectedGuiButtons.push_back(i);
+								GreenSoldier* greenSold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
+								greenSold->setSelection(true);
+								greenSold->setIsSelected(true);								//zaznaczanie jednostek w grze przez gui
 							}
 						}						
 					}
 					else
 					{
 						mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(360.f + 50 * i, 700.0f - posOffset * 80, 80.0f, 80.0f));
+
 					}
 				}
 			}

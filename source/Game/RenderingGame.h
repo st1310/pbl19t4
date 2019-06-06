@@ -78,21 +78,27 @@ namespace Rendering
 		ID3D11ShaderResourceView* mMultiSelectionPortrait;
 
 		ID3D11ShaderResourceView* mPaintIconYES;
+		ID3D11ShaderResourceView* mPaintIconMAYBE;
 		ID3D11ShaderResourceView* mPaintIconNO;
 
 		ID3D11ShaderResourceView* mCleanIconYES;
+		ID3D11ShaderResourceView* mCleanIconMAYBE;
 		ID3D11ShaderResourceView* mCleanIconNO;
 
 		ID3D11ShaderResourceView* mPatrolIconYES;
+		ID3D11ShaderResourceView* mPatrolIconMAYBE;
 		ID3D11ShaderResourceView* mPatrolIconNO;
 
 		ID3D11ShaderResourceView* mStopIconYES;
+		ID3D11ShaderResourceView* mStopIconMAYBE;
 		ID3D11ShaderResourceView* mStopIconNO;
 
 		ID3D11ShaderResourceView* mHideIconYES;
+		ID3D11ShaderResourceView* mHideIconMAYBE;
 		ID3D11ShaderResourceView* mHideIconNO;
 
 		ID3D11ShaderResourceView* mNoiseIconYES;
+		ID3D11ShaderResourceView* mNoiseIconMAYBE;
 		ID3D11ShaderResourceView* mNoiseIconNO;
 
 		XMFLOAT2 mMouseTextPosition;
@@ -110,5 +116,7 @@ namespace Rendering
 		bool showUnitsGui = false;
 		bool showUnitDetail = false;
 		std::vector<int> indexSelectedGuiButtons;
+
+		
 	};
 }
