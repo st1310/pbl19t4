@@ -1,4 +1,7 @@
 #include "GreenSoldier.h"
+#include "SpotLight.h"
+#include "PointLight.h"
+#include "AssetList.h"
 
 namespace Rendering
 {
@@ -19,12 +22,16 @@ namespace Rendering
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
 
 		SetAnimations();
+
+		mSpotLight = new SpotLight(game);
+		mPointLight = new PointLight(game);
 	}
 
 
 	GreenSoldier::~GreenSoldier()
 	{
-	
+		DeleteObject(mSpotLight);
+		DeleteObject(mPointLight);
 	}
 
 	void GreenSoldier::Initialize()
@@ -32,6 +39,19 @@ namespace Rendering
 		AnimatedGameObject::Initialize();
 		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.f, 12.f, 3.f));
 		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 15.f, 12.f, 15.f });
+
+		mPointLight->SetRadius(30.0f);
+		mPointLight->SetPosition(mPosition);
+		mPointLight->SetColor(Colors::White - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
+	}
+
+	void GreenSoldier::Update(const GameTime& gameTime)
+	{
+		AnimatedGameObject::Update(gameTime);
+		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x, mPosition.y + 5, mPosition.z - 10);
+
+		mPointLight->SetPosition(pointLightPosition);
+		mSpotLight->SetPosition(mPosition);
 	}
 
 	void GreenSoldier::setSelection(bool selection)
@@ -92,6 +112,16 @@ namespace Rendering
 		mAnimations.insert(std::pair<std::string, int>("StartRunning", 1));
 		mAnimations.insert(std::pair<std::string, int>("Run", 2));
 		mAnimations.insert(std::pair<std::string, int>("StopRunning", 3));
+	}
+
+	PointLight* GreenSoldier::GetPointLight()
+	{
+		return mPointLight;
+	}
+
+	SpotLight* GreenSoldier::GetSpotLight()
+	{
+		return mSpotLight;
 	}
 }
 

@@ -21,7 +21,7 @@ namespace Rendering
 		const int mSpeedlyIterationFactor = 5;
 
 		// Little work around - size() get wrong value
-		const static int mAssetsSize = 26;
+		const static int mAssetsSize = 27;
 		const std::string mAssets[mAssetsSize] =
 		{
 			"Bench",
@@ -40,6 +40,7 @@ namespace Rendering
 			"Pathcircles",
 			"PlatformGround1",
 			"PlatformGround2",
+			"PlatformGroundPlain",
 			"PlatformNumber1",
 			"PlatformNumber2And3",
 			"PlatformNumber4",

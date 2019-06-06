@@ -253,6 +253,17 @@ namespace Rendering
 				assets.push_back(platformGround2);
 			}
 
+			if (className == "PlatformGroundPlain")
+			{
+				PlatformGroundPlain* platformGroundPlain = new PlatformGroundPlain(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				platformGroundPlain->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(platformGroundPlain);
+			}
+
 			if (className == "PlatformNumber1")
 			{
 				PlatformNumber1* platformNumber1 = new PlatformNumber1(game, camera,
@@ -465,6 +476,12 @@ namespace Rendering
 		{
 			PlatformGround2* platformGround2 = new PlatformGround2(game, camera);
 			return platformGround2;
+		}
+
+		if (className == "PlatformGroundPlain")
+		{
+			PlatformGroundPlain* platformGroundPlain = new PlatformGroundPlain(game, camera);
+			return platformGroundPlain;
 		}
 
 		if (className == "PlatformNumber1")
