@@ -79,26 +79,32 @@ namespace Rendering
 
 		ID3D11ShaderResourceView* mPaintIconYES;
 		ID3D11ShaderResourceView* mPaintIconMAYBE;
+		ID3D11ShaderResourceView* mPaintIconCLICKED;
 		ID3D11ShaderResourceView* mPaintIconNO;
 
 		ID3D11ShaderResourceView* mCleanIconYES;
 		ID3D11ShaderResourceView* mCleanIconMAYBE;
+		ID3D11ShaderResourceView* mCleanIconCLICKED;
 		ID3D11ShaderResourceView* mCleanIconNO;
 
 		ID3D11ShaderResourceView* mPatrolIconYES;
 		ID3D11ShaderResourceView* mPatrolIconMAYBE;
+		ID3D11ShaderResourceView* mPatrolIconCLICKED;
 		ID3D11ShaderResourceView* mPatrolIconNO;
 
 		ID3D11ShaderResourceView* mStopIconYES;
 		ID3D11ShaderResourceView* mStopIconMAYBE;
+		ID3D11ShaderResourceView* mStopIconCLICKED;
 		ID3D11ShaderResourceView* mStopIconNO;
 
 		ID3D11ShaderResourceView* mHideIconYES;
 		ID3D11ShaderResourceView* mHideIconMAYBE;
+		ID3D11ShaderResourceView* mHideIconCLICKED;
 		ID3D11ShaderResourceView* mHideIconNO;
 
 		ID3D11ShaderResourceView* mNoiseIconYES;
 		ID3D11ShaderResourceView* mNoiseIconMAYBE;
+		ID3D11ShaderResourceView* mNoiseIconCLICKED;
 		ID3D11ShaderResourceView* mNoiseIconNO;
 
 		XMFLOAT2 mMouseTextPosition;
@@ -115,6 +121,7 @@ namespace Rendering
 
 		bool showUnitsGui = false;
 		bool showUnitDetail = false;
+		int whichUnitButtonIsClicking = -1;
 		std::vector<int> indexSelectedGuiButtons;
 
 		
