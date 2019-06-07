@@ -21,6 +21,7 @@
 #include "Pathcircles.h"
 #include "PlatformGround1.h"
 #include "PlatformGround2.h"
+#include "PlatformGroundPlain.h"
 #include "PlatformNumber1.h"
 #include "PlatformNumber2And3.h"
 #include "PlatformNumber4.h"
