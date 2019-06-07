@@ -77,6 +77,11 @@ namespace Rendering
 		ID3D11ShaderResourceView* mUnitsBanner;
 		ID3D11ShaderResourceView* mMultiSelectionPortrait;
 
+		ID3D11ShaderResourceView* mOptionButtonYES;
+		ID3D11ShaderResourceView* mOptionButtonMAYBE;
+		ID3D11ShaderResourceView* mOptionButtonCLICKED;
+		ID3D11ShaderResourceView* mOptionButtonNO;
+
 		ID3D11ShaderResourceView* mPaintIconYES;
 		ID3D11ShaderResourceView* mPaintIconMAYBE;
 		ID3D11ShaderResourceView* mPaintIconCLICKED;

@@ -177,6 +177,18 @@ namespace Rendering
 
 		std::wostringstream mMultiSelectionPortraittexture;
 		mMultiSelectionPortraittexture << L"content\\Textures\\multiSelectionPortrait.png";
+
+		std::wostringstream mOptionButtonYEStexture;
+		mOptionButtonYEStexture << L"content\\Textures\\menuYES.png";
+
+		std::wostringstream mOptionButtonMAYBEtexture;
+		mOptionButtonMAYBEtexture << L"content\\Textures\\menuMAYBE.png";
+
+		std::wostringstream mOptionButtonCLICKEDtexture;
+		mOptionButtonCLICKEDtexture << L"content\\Textures\\menuCLICKED.png";
+
+		std::wostringstream mOptionButtonNOtexture;
+		mOptionButtonNOtexture << L"content\\Textures\\menuNO.png";
 		
 
 		HRESULT hr = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &mUnitGuiTexture);
@@ -210,6 +222,10 @@ namespace Rendering
 		HRESULT hr28 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStopIconCLICKEDtexture.str().c_str(), nullptr, &mStopIconCLICKED);
 		HRESULT hr29 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mHideIconCLICKEDtexture.str().c_str(), nullptr, &mHideIconCLICKED);
 		HRESULT hr30 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconCLICKEDtexture.str().c_str(), nullptr, &mNoiseIconCLICKED);
+		HRESULT hr31 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonYEStexture.str().c_str(), nullptr, &mOptionButtonYES);
+		HRESULT hr32 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonMAYBEtexture.str().c_str(), nullptr, &mOptionButtonMAYBE);
+		HRESULT hr33 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonCLICKEDtexture.str().c_str(), nullptr, &mOptionButtonCLICKED);
+		HRESULT hr34 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonNOtexture.str().c_str(), nullptr, &mOptionButtonNO);
 		
 		if (FAILED(hr))
 			throw GameException("CreateWICTextureFromFile1() failed.", hr);
@@ -286,6 +302,8 @@ namespace Rendering
 		if (FAILED(hr23))
 			throw GameException("CreateWICTextureFromFile23() failed.", hr23);
 		
+
+
 
 		Game::Initialize();
 	}
@@ -476,6 +494,17 @@ namespace Rendering
 			for (int i = 0; i < indexSelectedGuiButtons.size(); i++) {
 				mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * indexSelectedGuiButtons.at(i), 630.0f - posOffset * 80, 100.0f, 100.0f));
 			}
+		}
+
+																	//menu button
+		if (mMouse->X() > 0.0f && mMouse->X() < 35.0f  && mMouse->Y() > 0.0f  && mMouse->Y() < 35.0f) {
+			mSpriteBatch->Draw(mOptionButtonMAYBE, SimpleMath::Rectangle(0, 0, 50.0f, 50.0f));
+			if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+				mSpriteBatch->Draw(mOptionButtonCLICKED, SimpleMath::Rectangle(0, 0, 50.0f, 50.0f));
+			}
+		}
+		else {
+			mSpriteBatch->Draw(mOptionButtonYES, SimpleMath::Rectangle(0, 0, 35.0f, 35.0f));
 		}
 
 		if (showUnitDetail == true) {
