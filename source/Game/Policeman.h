@@ -20,8 +20,13 @@ namespace Rendering
 
 		virtual void CheckTriggers() override;
 		virtual void SetAnimations() override;
+
+		void addPointToPatrolPath(XMFLOAT2 point);
+		void StartFollow();
+
 	private:
 		int policeNearby;
 		int playerNearby;
+		std::vector<XMFLOAT2> patrolPath;
 	};
 }

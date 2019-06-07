@@ -26,6 +26,20 @@ namespace Rendering
 		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.f, 12.f, 3.f));
 		this->mCollider->setTriggerReaction(POLICE_CATCHING, mPosition, { 8.f, 12.f, 8.f });
 		this->mCollider->setTriggerReaction(POLICE_ALLIES, mPosition, { 15.f, 12.f, 15.f });
+		patrolPath.clear();
+		patrolPath.push_back(XMFLOAT2(100.0f, 100.0f));
+		this->StartFollow();
+
+	}
+
+	void Policeman::addPointToPatrolPath(XMFLOAT2 point) {
+		patrolPath.push_back(point);
+	}
+
+	void Policeman::StartFollow() {
+		if (!(patrolPath.empty())) {
+			this->StartMoving(patrolPath);
+		}
 	}
 
 	void Policeman::CheckTriggers()

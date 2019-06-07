@@ -51,7 +51,7 @@
 </ConcreteWall>
 <Soldier>
    <Position>
-      <x= -30.00/>
+      <x= -55.00/>
       <y= -7.00/>
       <z= 15.00/>
    </Position>
@@ -68,9 +68,9 @@
 </Soldier>
 <Soldier>
    <Position>
-      <x= 56.50/>
+      <x= -62.00/>
       <y= -7.00/>
-      <z= 28.00/>
+      <z= 15.00/>
    </Position>
    <Rotation>
       <x= -90.00/>
@@ -85,7 +85,7 @@
 </Soldier>
 <Soldier>
    <Position>
-      <x= 45.50/>
+      <x= -70.50/>
       <y= -7.00/>
       <z= 14.00/>
    </Position>
@@ -459,7 +459,7 @@
 </GrassGround>
 <Soldier>
    <Position>
-      <x= -1.00/>
+      <x= -60.00/>
       <y= -7.00/>
       <z= 10.50/>
    </Position>
@@ -476,9 +476,9 @@
 </Soldier>
 <Soldier>
    <Position>
-      <x= 8.50/>
+      <x= -62.50/>
       <y= -7.00/>
-      <z= 3.50/>
+      <z= 21.00/>
    </Position>
    <Rotation>
       <x= -90.00/>
@@ -510,9 +510,9 @@
 </Bench>
 <Soldier>
    <Position>
-      <x= 21.50/>
+      <x= -65.00/>
       <y= -7.00/>
-      <z= 0.00/>
+      <z= 18.00/>
    </Position>
    <Rotation>
       <x= -90.00/>

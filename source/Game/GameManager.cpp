@@ -88,6 +88,8 @@ namespace Rendering
 
 		GameCamera* gmCam = camera->As<GameCamera>();
 		gmCam->SceneLoad();
+
+
 	}
 
 	std::vector<DrawableGameComponent*> GameManager::GetListOfUnits() {
