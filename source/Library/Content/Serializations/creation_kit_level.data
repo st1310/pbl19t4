@@ -306,7 +306,7 @@
 </StoneGround>
 <StoneGround>
    <Position>
-      <x= 93.88/>
+      <x= 93.87/>
       <y= -12.00/>
       <z= -70.69/>
    </Position>
@@ -323,7 +323,7 @@
 </StoneGround>
 <StoneGround>
    <Position>
-      <x= 93.88/>
+      <x= 93.87/>
       <y= -12.00/>
       <z= -99.90/>
    </Position>
@@ -340,7 +340,7 @@
 </StoneGround>
 <StoneGround>
    <Position>
-      <x= 93.88/>
+      <x= 93.87/>
       <y= -12.00/>
       <z= -129.08/>
    </Position>
@@ -376,7 +376,7 @@
    <Position>
       <x= -3.90/>
       <y= -12.00/>
-      <z= -99.88/>
+      <z= -99.87/>
    </Position>
    <Rotation>
       <x= -90.00/>
@@ -425,7 +425,7 @@
 </Track>
 <Track>
    <Position>
-      <x= 118.09/>
+      <x= 118.08/>
       <y= -9.00/>
       <z= -90.25/>
    </Position>
@@ -457,3 +457,54 @@
       <z= 0.05/>
    </Scale>
 </Track>
+<Soldier>
+   <Position>
+      <x= -24.00/>
+      <y= -9.70/>
+      <z= -1.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
+   </Scale>
+</Soldier>
+<Soldier>
+   <Position>
+      <x= -18.00/>
+      <y= -9.70/>
+      <z= 13.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
+   </Scale>
+</Soldier>
+<Soldier>
+   <Position>
+      <x= 30.00/>
+      <y= -9.70/>
+      <z= 17.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
+   </Scale>
+</Soldier>
