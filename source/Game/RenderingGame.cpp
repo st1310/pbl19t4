@@ -333,23 +333,85 @@ namespace Rendering
 			Exit();
 		}
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_1))
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_F1))
 			mGameManager->StartScene(MENU_LEVEL);
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_2))
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_F2))
 			mGameManager->StartScene(DAY_LEVEL);
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_3))
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_F3))
 			mGameManager->StartScene(TRAIN_LEVEL);
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_4))
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_F4))
 			mGameManager->StartScene(CITY_LEVEL);
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_5))
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_F5))
 			mGameManager->StartScene(CREATION_KIT_LEVEL);
 
-		if(mKeyboard->WasKeyPressedThisFrame(DIK_6))
+		if(mKeyboard->WasKeyPressedThisFrame(DIK_F6))
 			mGameManager->StartScene(PATHFINDER_TEST);	
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_1)) {
+			if (mGameManager->GetListOfUnits().size() >= 1) {
+				keybordButtonSelectUnit = 0;
+			}
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_2)) {
+			if (mGameManager->GetListOfUnits().size() >= 2) {
+				keybordButtonSelectUnit = 1;
+			}
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_3)) {
+			if (mGameManager->GetListOfUnits().size() >= 3) {
+				keybordButtonSelectUnit = 2;
+			}
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_4)) {
+			if (mGameManager->GetListOfUnits().size() >= 4) {
+				keybordButtonSelectUnit = 3;
+			}
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_5)) {
+			if (mGameManager->GetListOfUnits().size() >= 5) {
+				keybordButtonSelectUnit = 4;
+			}
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_6)) {
+			if (mGameManager->GetListOfUnits().size() >= 6) {
+				keybordButtonSelectUnit = 5;
+			}
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_7)) {
+			if (mGameManager->GetListOfUnits().size() >= 7) {
+				keybordButtonSelectUnit = 6;
+			}
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_8)) {
+			if (mGameManager->GetListOfUnits().size() >= 8) {
+				keybordButtonSelectUnit = 7;
+			}
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_9)) {
+			if (mGameManager->GetListOfUnits().size() >= 9) {
+				keybordButtonSelectUnit = 8;
+			}
+		}
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_0)) {
+			if (mGameManager->GetListOfUnits().size() >= 10) {
+				keybordButtonSelectUnit = 9;
+			}
+		}
+
+
 
 		float diffBetweenUnitsIcons = (250.0f / mGameManager->GetListOfUnits().size());
 
@@ -460,13 +522,15 @@ namespace Rendering
 
 				else
 				{
-					if (mMouse->X() > (360 + i * 60) && (mMouse->X() < (360 + i * 60 + 60) && mMouse->Y() > 680 ))
+					if (mMouse->X() > (360 + i * 60) && (mMouse->X() < (360 + i * 60 + 60) && mMouse->Y() > 680 ) || keybordButtonSelectUnit ==i)
 					{
 						mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * i, 630.0f - posOffset * 80, 100.0f, 100.0f));
 
-						if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {			
+						if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft) || keybordButtonSelectUnit == i) {
 							showUnitDetail = true;
 							bool checkCopy = false;
+
+							keybordButtonSelectUnit = -1;
 
 							for (int x = 0; x < indexSelectedGuiButtons.size() ;x++) {	//sprawdzanie czy juz raz kliknieto na ikone, jesli tak to nie zapisuj do wektora indeksow zaznaczonych drugi raz
 								if (indexSelectedGuiButtons.at(x) == i) {
@@ -478,6 +542,20 @@ namespace Rendering
 								GreenSoldier* greenSold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
 								greenSold->setSelection(true);
 								greenSold->setIsSelected(true);								//zaznaczanie jednostek w grze przez gui
+							}
+							else {
+								std::vector<int> buffor;
+								buffor.clear();
+								for (int z = 0; z < indexSelectedGuiButtons.size(); z++) {
+									if (indexSelectedGuiButtons.at(z) != i) {
+										buffor.push_back(indexSelectedGuiButtons.at(z));
+									}
+								}
+								indexSelectedGuiButtons.clear();
+								indexSelectedGuiButtons = buffor;
+								GreenSoldier* greenSold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
+								greenSold->setSelection(false);
+								greenSold->setIsSelected(false);
 							}
 						}						
 					}

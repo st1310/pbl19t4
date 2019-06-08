@@ -85,7 +85,7 @@
 </Soldier>
 <Soldier>
    <Position>
-      <x= -70.50/>
+      <x= -70.00/>
       <y= -7.00/>
       <z= 14.00/>
    </Position>
@@ -476,7 +476,7 @@
 </Soldier>
 <Soldier>
    <Position>
-      <x= -62.50/>
+      <x= -62.00/>
       <y= -7.00/>
       <z= 21.00/>
    </Position>

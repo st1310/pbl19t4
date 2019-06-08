@@ -27,8 +27,8 @@ namespace Rendering
 		this->mCollider->setTriggerReaction(POLICE_CATCHING, mPosition, { 8.f, 12.f, 8.f });
 		this->mCollider->setTriggerReaction(POLICE_ALLIES, mPosition, { 15.f, 12.f, 15.f });
 		patrolPath.clear();
-		patrolPath.push_back(XMFLOAT2(100.0f, 100.0f));
-		this->StartFollow();
+		//patrolPath.push_back(XMFLOAT2(100.0f, 100.0f));
+		//this->StartFollow();
 
 	}
 

@@ -127,6 +127,7 @@ namespace Rendering
 		bool showUnitsGui = false;
 		bool showUnitDetail = false;
 		int whichUnitButtonIsClicking = -1;
+		int keybordButtonSelectUnit = -1;
 		std::vector<int> indexSelectedGuiButtons;
 
 		
