@@ -30,7 +30,7 @@ namespace Rendering
 	void FarbaMan::Initialize()
 	{
 		AnimatedGameObject::Initialize();
-		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.f, 12.f, 3.f));
+		AnimatedGameObject::BuildSphere(4.5f);
 		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 9.f, 12.f, 9.f });
 	}
 

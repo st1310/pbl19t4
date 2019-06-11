@@ -37,7 +37,7 @@ namespace Rendering
 	void GreenSoldier::Initialize()
 	{
 		AnimatedGameObject::Initialize();
-		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.f, 12.f, 3.f));
+		AnimatedGameObject::BuildSphere(4.5f);
 		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 15.f, 12.f, 15.f });
 
 		mPointLight->SetRadius(30.0f);

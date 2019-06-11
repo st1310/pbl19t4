@@ -11,7 +11,7 @@ namespace Library
 		State();
 		~State();
 
-		void MoveInit(XMFLOAT2 currentPosition, std::vector<XMFLOAT2> positions, float rotation, float translationSpeed, float rotationSpeed, Colliders* collider, CollisionNode* collNode);
+		void MoveInit(XMFLOAT2 currentPosition, std::vector<XMFLOAT2> positions, float mHeight, float rotation, float translationSpeed, float rotationSpeed, Colliders* collider, CollisionNode* collNode);
 
 		XMFLOAT3 Move();
 		XMFLOAT3 Rotate();
@@ -24,6 +24,7 @@ namespace Library
 		double GetFixedFloat(float value);
 
 		bool mIsInActiveState = false;
+		float height;
 
 		std::vector<XMFLOAT2> mPositions;
 		Colliders* mCollider;

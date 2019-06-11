@@ -370,6 +370,13 @@ namespace Rendering
 				inNode->AddDynamicCollider(mCollider);
 	}
 
+	void AnimatedGameObject::BuildSphere(float radius)
+	{
+		mCollider->BuildSphere(mPosition, radius);
+		if (inNode != nullptr)
+			inNode->AddDynamicCollider(mCollider);
+	}
+
 	void AnimatedGameObject::ChangeAnimation(std::string animationName)
 	{
 		if (mAnimations.find(animationName) == std::end(mAnimations))

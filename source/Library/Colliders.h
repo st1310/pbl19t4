@@ -28,6 +28,7 @@ namespace Library
 
 		void BuildOBB(Mesh* meshes, XMFLOAT4 orientation);
 		void BuildOBB(XMFLOAT3 position, XMFLOAT3 radius, XMFLOAT4 orientation);
+		void BuildSphere(XMFLOAT3 position, float radius);
 
 		bool IsEmpty();
 		void setTriggerReaction(TypesTriggerReactions trg, XMFLOAT3 centerOf, XMFLOAT3 radOfTrig);
@@ -37,9 +38,9 @@ namespace Library
 
 		void PushNewBoundingBox(BoundingBox* bbox);
 		void PushNewOrientedBoundingBox(BoundingOrientedBox* obbox);
+		void PushNewSphere(BoundingSphere* bbSph);
 
 		bool CheckCollision(std::vector<Colliders*>& CollidableObjects);
-		bool CheckTriggerCollision(Colliders& TriggerCollider);
 
 		bool CheckColliderIntersecteByRay(XMVECTOR origin, XMVECTOR direct, float distance);
 		bool CheckColliderIntersectsByPlanes(XMVECTOR ray1, XMVECTOR ray2, XMVECTOR camPos, XMVECTOR camDir);
@@ -55,6 +56,7 @@ namespace Library
 
 		std::vector<BoundingOrientedBox*> OrrBoundingBox;
 		std::vector<BoundingBox*> BoundingBoxes;
+		std::vector<BoundingSphere*> BoundingSpheres;
 		std::vector< std::pair<TypesTriggerReactions, BoundingBox*> > TriggerBoxes;
 	};
 }

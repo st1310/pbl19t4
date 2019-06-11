@@ -23,10 +23,9 @@ namespace Library
 		if (mCurrentFrameNumber < mFramesCountInState)
 		{
 			XMFLOAT3 result = XMFLOAT3(mXDistancePerFrame, 0, mYDistancePerFrame);
-
 			XMMATRIX matrixRotation = XMMATRIX({ 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f });
 
-			if (NodeList::TryToMoveInNode(mCollider, XMVECTOR({ mCurrentXPosition, -7.0f, mCurrentYPosition, 1.0f }), matrixRotation, XMVECTOR({ mCurrentXPosition + mXDistancePerFrame, -7.0f, mCurrentYPosition + mYDistancePerFrame, 1.0f }), mCollNode))
+			if (NodeList::TryToMoveInNode(mCollider, XMVECTOR({ mCurrentXPosition, height, mCurrentYPosition, 1.0f }), matrixRotation, XMVECTOR({ mCurrentXPosition + mXDistancePerFrame, height, mCurrentYPosition + mYDistancePerFrame, 1.0f }), mCollNode) )
 			{
 				mCurrentFrameNumber++;
 				mCurrentXPosition += mXDistancePerFrame;
@@ -52,9 +51,10 @@ namespace Library
 				float rotation = mTargetRotation - mCurrentRotation;
 				result = XMFLOAT3(0, rotation, 0);
 			}
-
 			else
+			{
 				result = XMFLOAT3(0, mRotationSpeed, 0);
+			}
 		}
 
 		else if (mCurrentRotation > mTargetRotation)
@@ -64,21 +64,25 @@ namespace Library
 				float rotation = mTargetRotation - mCurrentRotation;
 				result = XMFLOAT3(0, rotation, 0);
 			}
-
 			else
+			{
 				result = XMFLOAT3(0, -mRotationSpeed, 0);
+			}
+
+			
 		}
 
+		
 		mCurrentRotation += result.y;
 		return result;
 	}
 
-	void State::MoveInit(XMFLOAT2 currentPosition,  std::vector<XMFLOAT2> positions, float rotation, float translationSpeed, float rotationSpeed, Colliders* collider, CollisionNode* collNode)
+	void State::MoveInit(XMFLOAT2 currentPosition,  std::vector<XMFLOAT2> positions, float mHeight, float rotation, float translationSpeed, float rotationSpeed, Colliders* collider, CollisionNode* collNode)
 	{
 		mCollider = collider;
 		mCollNode = collNode;
 		mIsInActiveState = true;
-
+		height = mHeight;
 		mCurrentXPosition = currentPosition.x;
 		mCurrentYPosition = currentPosition.y;
 
