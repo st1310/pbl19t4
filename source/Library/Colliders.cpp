@@ -231,6 +231,18 @@ namespace Library
 		return false;
 	}
 
+	bool Colliders::CheckTriggerCollisionPaintingPosition(XMFLOAT3 position)
+	{
+		for (int i = 0; i < TriggerBoxes.size(); i++)
+		{
+			if ((TriggerBoxes[i].second->Intersects(XMLoadFloat3(&position)) != DISJOINT) || (TriggerBoxes[i].first == PAINTING_POSITION))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	//All trigers must be given to TriggerBoxes during OnTriggerEnter and taken during OnTriggerExit 
 	bool Colliders::CheckTriggerCollision(Colliders& TriggerCollider)
 	{

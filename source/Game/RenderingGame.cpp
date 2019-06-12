@@ -73,6 +73,7 @@ namespace Rendering
 
 		mGameManager = new GameManager(*this, *mCamera);
 		mComponents.push_back(mGameManager);
+		mGameManager->SetKeyboard(mKeyboard);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
@@ -511,7 +512,6 @@ namespace Rendering
 			posOffset = 0;
 		}
 		
-
 		if (true)
 		{
 			for (int i = 0; i < mGameManager->GetListOfUnits().size(); i++)

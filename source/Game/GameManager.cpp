@@ -122,6 +122,21 @@ namespace Rendering
 				mScenes[mCurrentScene]->RemoveTriggerableObjectFromList(trgObj);
 				remCmp->~GameComponent();
 			}
+
+			/*FarbaMan* frbMn = trgObj->As<FarbaMan>();
+
+			if (frbMn != nullptr)
+			{
+				if (mKeyboard->WasKeyPressedThisFrame(DIK_E) && frbMn->mAllowPainting)
+				{
+					frbMn->StartPainting();
+					if (frbMn->destroyPaintedPosition)
+					{
+						GetCurrentListOfNodes().at(0)->DestroyPaintedPosition(frbMn->getPosition());
+					}
+				}
+			}*/
+			
 		}
 
 		for(int i =0; i <  GetSizeOfCurrentScene(); i++)
@@ -135,9 +150,6 @@ namespace Rendering
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
 
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
-				if(drawableGameComponent->getNode() == nullptr)
-					drawableGameComponent->Draw(gameTime);
-				else if(NodeList::IsNodeInsideList(drawableGameComponent->getNode(), this->game->GetNodesInFructum()))
 					drawableGameComponent->Draw(gameTime);
 		}
 
@@ -311,6 +323,10 @@ namespace Rendering
 		return ShowMousePosition;
 	}
 
+	void GameManager::SetKeyboard(KeyboardComponent* newKeyboard)
+	{
+		mKeyboard = newKeyboard;
+	}
 	
 }
 

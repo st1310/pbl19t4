@@ -1,3 +1,20 @@
+<FarbaMan>
+	<Position>
+      <x= 40.00/>
+      <y= -7.00/>
+      <z= 25.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 90.0/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
+   </Scale>
+</FarbaMan>
 <PassengerTrain>
    <Position>
       <x= 95.00/>

@@ -175,6 +175,18 @@ namespace Library
 		return collided;
 	}
 
+	void CollisionNode::DestroyPaintedPosition(XMFLOAT3 positionOfPainter)
+	{
+		for (Colliders* cld : mTriggers)
+		{
+			if (cld->CheckTriggerCollisionPaintingPosition(positionOfPainter))
+			{
+				RemoveTriggerCollider(cld);
+			}
+		}
+	}
+
+
 	bool CollisionNode::CustomPlaneIntersection(std::vector<XMVECTOR> planes)
 	{
 		bool intersection = false;

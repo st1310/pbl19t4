@@ -51,18 +51,47 @@ namespace Rendering
 			ChangeTexture(mIsBusyDiffuseMap);
 	}
 
+	void FarbaMan::Update(const GameTime& gameTime)
+	{
+		if (painting)
+		{
+			if (paintingTime == -1.f)
+			{
+				paintingTime = gameTime.TotalGameTime();
+				AnimatedGameObject::ChangeAnimation("Paint");
+			}
+			else if (gameTime.TotalGameTime() - paintingTime >= 5)
+			{
+				//You win, zog off
+				painting = false;
+				destroyPaintedPosition = true;
+				AnimatedGameObject::ChangeAnimation("Idle");
+			}
+		}
+
+		AnimatedGameObject::Update(gameTime);
+	}
+
 	bool FarbaMan::getIsSelected()
 	{
 		return isSelected;
 	}
 
+	void FarbaMan::StartPainting()
+	{
+		painting = true;
+	}
+
 	void FarbaMan::CheckTriggers()
 	{
 		std::vector<TypesTriggerReactions> helper;
-		helper = inNode->trippedTriggers(this->getPosition());
+		if (inNode != nullptr)
+			helper = inNode->trippedTriggers(this->getPosition());
 
 		if (helper.empty())
 			return;
+
+		mAllowPainting = false;
 
 		for (TypesTriggerReactions chck : helper)
 		{
@@ -73,6 +102,8 @@ namespace Rendering
 				mustBeDestroyed = true;
 				break;
 			case Library::PAINTING_POSITION:
+				if (!painting)
+					mAllowPainting = true;
 				//Allow painting if right unit
 				break;
 			default:

@@ -29,10 +29,9 @@ namespace Rendering
 		for (int i = 0; i < gameObjects.size(); i++)
 			this->GameObjects.push_back(gameObjects.at(i));
 
-		// Add point Lights to soldiers
 		for (int i = 0; i < gameObjects.size(); i++)
 		{
-			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
+			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
 			std::string className = gameObject->GetName();
 
 			if (className == "Soldier")
@@ -40,7 +39,23 @@ namespace Rendering
 				GreenSoldier* soldier = gameObjects.at(i)->As<GreenSoldier>();
 				mPointLights.push_back(soldier->GetPointLight());
 			}
+
+			gameObject->Initialize();
+			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());
 		}
+
+		for (DrawableGameComponent* drawableGameComponent : trigerrableObjects)
+		{
+			GameObject* gameObject = drawableGameComponent->As<GameObject>();
+			this->getListOfNode().at(0)->AddTriggerCollider(gameObject->getCollider());
+		}
+
+		// Add point Lights to soldiers
+		/*for (int i = 0; i < gameObjects.size(); i++)
+		{
+			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
+			
+		}*/
 
 		// Add spot Lights to lamps
 		for (int i = 0; i < gameObjects.size(); i++)
@@ -78,17 +93,8 @@ namespace Rendering
 			}
 		}
 
-		for (int i = 0; i < gameObjects.size(); i++)
-		{
-			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
-			gameObject->Initialize();
-			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());	
-		}	
-
-		for (DrawableGameComponent* drawableGameComponent : trigerrableObjects)
-		{
-			GameObject* gameObject = drawableGameComponent->As<GameObject>();
-			this->getListOfNode().at(0)->AddTriggerCollider(gameObject->getCollider());
-		}
+		//Colliders* collD;
+		//collD->setTriggerReaction(PAINTING_POSITION, { 45.f, -7.f, 25.f }, {5.f, 2.f, 5.f});
+		//this->getListOfNode().at(0)->AddTriggerCollider(collD);
 	}
 }

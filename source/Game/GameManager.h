@@ -38,6 +38,8 @@ namespace Rendering
 			void SelectingUnits(float mouseX, float mouseY);
 			void SelectingUnits(float mouse1X, float mouse1Y, float mouse2X, float mouse2Y);
 
+			void SetKeyboard(KeyboardComponent* newKeyboard);
+
 			std::vector<DrawableGameComponent*> GetListOfUnits();
 			int unitID = -1;
 		private:
@@ -52,10 +54,13 @@ namespace Rendering
 			int GetSizeOfCurrentScene();
 			bool unitsReadyToMove;
 
+			KeyboardComponent* mKeyboard;
 			//tests-remove after
 			bool ShowMousePosition;
 			XMFLOAT3 targetPos;
 			PathFinding* pathfinding;
+
+			//int Painted;
 
 			std::vector<Button*> guiButtons;
 			

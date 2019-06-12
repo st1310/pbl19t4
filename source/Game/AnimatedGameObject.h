@@ -57,6 +57,7 @@ namespace Rendering
 		AnimationPlayer* mAnimationPlayer;
 		SkinnedModelMaterial* mMaterial;
 
+		
 		//Animation sequence
 		AnimationSequence* mAnimationSequence;
 		std::string mCurrentAnimation = "Idle";

@@ -32,6 +32,8 @@ namespace Library
 		bool IsInsideThisNode(XMFLOAT3 position);
 		bool IsStaticOnTheWay(Colliders* pathCollider);
 
+		void DestroyPaintedPosition(XMFLOAT3 positionOfPainter);
+
 		bool CheckCollisionInNode(Colliders* movingCollider);
 		bool CheckCollisionWhenEntering(Colliders* movingCollider);
 		

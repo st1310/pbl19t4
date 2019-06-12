@@ -93,7 +93,9 @@ namespace Rendering
 			case Library::PAINT:
 				//It'll be sent to Paint object 
 				break;
-
+			case Library::PAINTING_POSITION:
+			
+				break;
 			default:
 				break;
 			}

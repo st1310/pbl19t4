@@ -30,6 +30,19 @@ namespace Rendering
 		for (int i = 0; i < gameObjects.size(); i++)
 			this->GameObjects.push_back(gameObjects.at(i));
 
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
+			gameObject->Initialize();
+			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());
+		}
+
+		for (DrawableGameComponent* drwGm : trigerrableObjects)
+		{
+			GameObject* gmObj = drwGm->As<GameObject>();
+			this->getListOfNode().at(0)->AddTriggerCollider(gmObj->getCollider());
+		}
+
 		// Add point Lights to soldiers
 		for (int i = 0; i < gameObjects.size(); i++)
 		{
@@ -61,19 +74,6 @@ namespace Rendering
 				policeman->Patrol(patrolPoints);
 				mPointLights.push_back(policeman->GetPointLight());
 			}
-		}
-
-		for (int i = 0; i < gameObjects.size(); i++)
-		{
-			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
-			gameObject->Initialize();
-			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());
-		}
-
-		for (DrawableGameComponent* drwGm : trigerrableObjects)
-		{
-			GameObject* gmObj = drwGm->As<GameObject>();
-			this->getListOfNode().at(0)->AddTriggerCollider(gmObj->getCollider());
 		}
 	}
 }

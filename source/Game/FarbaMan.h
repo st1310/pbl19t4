@@ -2,6 +2,7 @@
 
 #include "DrawableGameComponent.h"
 #include "AnimatedGameObject.h"
+#include "GameTime.h"
 
 namespace Rendering
 {
@@ -16,13 +17,20 @@ namespace Rendering
 		~FarbaMan();
 
 		virtual void Initialize() override;
+		virtual void Update(const GameTime& gameTime) override;
 
 		void setSelection(bool selection);
 		bool getIsSelected();
 		virtual void CheckTriggers() override;
 		virtual void SetAnimations() override;
 
+		void StartPainting();
+
+		bool mAllowPainting;
+		bool destroyPaintedPosition;
 	private:
 		bool isSelected = false;
+		bool painting;
+		float paintingTime = -1.f;
 	};
 }

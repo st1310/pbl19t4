@@ -40,6 +40,7 @@ namespace Library
 
 		bool CheckCollision(std::vector<Colliders*>& CollidableObjects);
 		bool CheckTriggerCollision(Colliders& TriggerCollider);
+		bool CheckTriggerCollisionPaintingPosition(XMFLOAT3 position);
 
 		bool CheckColliderIntersecteByRay(XMVECTOR origin, XMVECTOR direct, float distance);
 		bool CheckColliderIntersectsByPlanes(XMVECTOR ray1, XMVECTOR ray2, XMVECTOR camPos, XMVECTOR camDir);
@@ -49,6 +50,7 @@ namespace Library
 		void removeTrigger(TypesTriggerReactions trg);
 		std::vector<TypesTriggerReactions> getTriggeredReactions(XMFLOAT3 checkPos);
 		std::vector< std::pair<TypesTriggerReactions, BoundingBox*> > getTriggers();
+
 
 	private:
 		void FindMax(Mesh* meshes, XMFLOAT3* minVec, XMFLOAT3* maxVec);
