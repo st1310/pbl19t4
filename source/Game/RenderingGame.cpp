@@ -573,6 +573,9 @@ namespace Rendering
 				mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * indexSelectedGuiButtons.at(i), 630.0f - posOffset * 80, 100.0f, 100.0f));
 			}
 		}
+		else {
+			showUnitDetail = false;
+		}
 
 																	//menu button
 		if (mMouse->X() > 0.0f && mMouse->X() < 35.0f  && mMouse->Y() > 0.0f  && mMouse->Y() < 35.0f) {

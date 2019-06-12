@@ -231,6 +231,11 @@ namespace Rendering
 		return mPosition;
 	}
 
+	 void GameObject::setPosition(XMFLOAT3 position)
+	{
+		 mPosition = position;
+	}
+
 	void GameObject::EditModel()
 	{
 		ChangeEditFactor();

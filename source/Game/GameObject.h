@@ -104,6 +104,7 @@ namespace Rendering
 		virtual std::vector<std::string> Serialize() override;
 
 		XMFLOAT3 getPosition();
+		void setPosition(XMFLOAT3 position);
 
 		Colliders* getCollider();
 		void SetNode(CollisionNode* colNode);

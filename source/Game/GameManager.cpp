@@ -180,10 +180,11 @@ namespace Rendering
 
 							AnimatedGameObject* gameObject = (AnimatedGameObject*)(mScenes.at(mCurrentScene)->GetUnitList().at(i));
 
+
 							if (gameObject->getIsSelected()) {
 
 								for (int x = 0; x < pathFindingMapSize; x++) {
-									if (gameObject->getPosition().x == pathfinding->nodes[x].x && gameObject->getPosition().z == pathfinding->nodes[x].y) {
+									if ((gameObject->getPosition().x == pathfinding->nodes[x].x || (gameObject->getPosition().x > pathfinding->nodes[x].x-0.05f && gameObject->getPosition().x < pathfinding->nodes[x].x + 0.05f)) && (gameObject->getPosition().z == pathfinding->nodes[x].y || (gameObject->getPosition().z > pathfinding->nodes[x].y - 0.05f && gameObject->getPosition().z < pathfinding->nodes[x].y + 0.05f))) {
 										pathfinding->nodeStart = &pathfinding->nodes[x];
 										pathfinding->nodeEnd = &pathfinding->nodes[j];
 										pathfinding->currentNode = pathfinding->nodeEnd;
