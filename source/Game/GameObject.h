@@ -121,7 +121,7 @@ namespace Rendering
 		bool mIsSelected = false;
 		bool mIsEdited = false;
 
-		void StartMoving(std::vector<XMFLOAT2> positions);
+		void StartMoving(std::vector<XMFLOAT2> positions, bool isLoopable = false);
 		void SetPathFindingMoveFlag(bool value);
 		bool GetPathFindingMoveFlag();
 

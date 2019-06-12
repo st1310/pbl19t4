@@ -73,11 +73,13 @@ namespace Library
 		return result;
 	}
 
-	void State::MoveInit(XMFLOAT2 currentPosition,  std::vector<XMFLOAT2> positions, float rotation, float translationSpeed, float rotationSpeed, Colliders* collider, CollisionNode* collNode)
+	void State::MoveInit(XMFLOAT2 currentPosition,  std::vector<XMFLOAT2> positions, float rotation, float translationSpeed, float rotationSpeed, 
+		Colliders* collider, CollisionNode* collNode, bool isLoopable)
 	{
 		mCollider = collider;
 		mCollNode = collNode;
 		mIsInActiveState = true;
+		mIsLoopable = isLoopable;
 
 		mCurrentXPosition = currentPosition.x;
 		mCurrentYPosition = currentPosition.y;
@@ -92,7 +94,14 @@ namespace Library
 
 	void State::ChangeToNextNode()
 	{
-		mPositions.erase(mPositions.begin());
+		if (mIsLoopable)
+		{
+			mPositions.push_back(mPositions.at(0));
+			mPositions.erase(mPositions.begin());
+		}
+
+		else
+			mPositions.erase(mPositions.begin());
 
 		mCurrentFrameNumber = 0;
 

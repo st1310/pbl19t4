@@ -16,13 +16,19 @@ namespace Rendering
 		~GreenSoldier();
 
 		virtual void Initialize() override;
+		virtual void Update(const GameTime& gameTime) override;
 
 		void setSelection(bool selection);
 		bool getIsSelected();
 		virtual void CheckTriggers() override;
 		virtual void SetAnimations() override;
 
+		PointLight* GetPointLight();
+		SpotLight* GetSpotLight();
+
 	private:
 		bool isSelected = false;
+		PointLight* mPointLight;
+		SpotLight* mSpotLight;
 	};
 }

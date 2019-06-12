@@ -6,6 +6,9 @@ namespace Library
 	//If true - move position of object containing this Collider to targetPosition
 	bool NodeList::TryToMoveInNode(Colliders* coll, XMVECTOR originalPosition, CXMMATRIX rotation, XMVECTOR targetPosition, CollisionNode* orgPosNode)
 	{
+		if (coll == NULL)
+			return true;
+
 		if (coll->IsEmpty())
 			return true;
 

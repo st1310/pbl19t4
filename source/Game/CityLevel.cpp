@@ -32,23 +32,20 @@ namespace Rendering
 		// Add point Lights to soldiers
 		for (int i = 0; i < gameObjects.size(); i++)
 		{
-			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
+			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
 			std::string className = gameObject->GetName();
 
 			if (className == "Soldier")
 			{
-				// Point Lights
-				mPointLights.push_back(new PointLight(*mGame));
-				mPointLights.at(0)->SetRadius(30.0f);
-				mPointLights.at(0)->SetPosition(gameObject->getPosition().x, gameObject->getPosition().y + 5, gameObject->getPosition().z);
-				mPointLights.at(0)->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
+				GreenSoldier* soldier = gameObjects.at(i)->As<GreenSoldier>();
+				mPointLights.push_back(soldier->GetPointLight());
 			}
 		}
 
 		// Add spot Lights to lamps
 		for (int i = 0; i < gameObjects.size(); i++)
 		{
-			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
+			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
 			std::string className = gameObject->GetName();
 
 			if (className == "SingleStreetLampPost")
@@ -59,6 +56,25 @@ namespace Rendering
 				mSpotLights.at(0)->SetRadius(30.0f);
 				mSpotLights.at(0)->SetColor(Colors::Purple - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
 				mSpotLights.at(0)->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(-90.0f)));
+			}
+		}
+
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
+			std::string className = gameObject->GetName();
+
+			if (className == "Policeman")
+			{
+				Policeman* policeman = gameObjects.at(i)->As<Policeman>();
+
+				std::vector<XMFLOAT2> patrolPoints = std::vector<XMFLOAT2>();
+				patrolPoints.push_back(XMFLOAT2(-62, -178));
+				patrolPoints.push_back(XMFLOAT2(182, -178));
+				patrolPoints.push_back(XMFLOAT2(182, -326));
+				patrolPoints.push_back(XMFLOAT2(-62, -326));
+
+				policeman->Patrol(patrolPoints);
 			}
 		}
 

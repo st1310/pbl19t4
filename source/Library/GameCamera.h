@@ -32,6 +32,7 @@ namespace Library
 		void SetCollisionNode(CollisionNode* node);
 
 		void SendColliderList(std::vector<CollisionNode*> newNodeList);
+		void SetMinimalAndMaximalPoint(XMFLOAT2 minimalPoint, XMFLOAT2 maximalPoint);
 
 		float& MouseSensitivity();
 		float& RotationRate();
@@ -60,7 +61,10 @@ namespace Library
 		GameCamera(const GameCamera& rhs);
 		GameCamera& operator=(const GameCamera& rhs);
 
-		const float mMoveCameraFactor = 0.12;
+		XMFLOAT2 mMinimalPointAtMap = XMFLOAT2(-100,-270);
+		XMFLOAT2 mMaximalPointAtMap = XMFLOAT2(200, 200);
+
+		const float mMoveCameraFactor = 0.25; //0.12;
 		const float mStartYPosition = 70;
 		float mCurrentYPosition = mStartYPosition;
 		const float mMinYPosition = 30;

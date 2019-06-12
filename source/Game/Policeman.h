@@ -17,16 +17,24 @@ namespace Rendering
 		~Policeman();
 
 		virtual void Initialize() override;
+		virtual void Update(const GameTime& gameTime) override;
 
 		virtual void CheckTriggers() override;
 		virtual void SetAnimations() override;
 
+		void Patrol(std::vector<XMFLOAT2> patrolPoints);
+
 		void addPointToPatrolPath(XMFLOAT2 point);
 		void StartFollow();
+
+		PointLight* GetPointLight();
+		SpotLight* GetSpotLight();
 
 	private:
 		int policeNearby;
 		int playerNearby;
 		std::vector<XMFLOAT2> patrolPath;
+		PointLight* mPointLight;
+		SpotLight* mSpotLight;
 	};
 }

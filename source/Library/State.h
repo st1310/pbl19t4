@@ -11,7 +11,8 @@ namespace Library
 		State();
 		~State();
 
-		void MoveInit(XMFLOAT2 currentPosition, std::vector<XMFLOAT2> positions, float rotation, float translationSpeed, float rotationSpeed, Colliders* collider, CollisionNode* collNode);
+		void MoveInit(XMFLOAT2 currentPosition, std::vector<XMFLOAT2> positions, float rotation, float translationSpeed, float rotationSpeed, 
+			Colliders* collider, CollisionNode* collNode, bool isLoopable = false);
 
 		XMFLOAT3 Move();
 		XMFLOAT3 Rotate();
@@ -43,5 +44,7 @@ namespace Library
 
 		float mCurrentRotation = 0.0;
 		float mTargetRotation = 0.0;
+
+		bool mIsLoopable = false;
 	};
 }
