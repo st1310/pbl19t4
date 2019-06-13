@@ -93,8 +93,8 @@ namespace Rendering
 			}
 		}
 
-		//Colliders* collD;
-		//collD->setTriggerReaction(PAINTING_POSITION, { 45.f, -7.f, 25.f }, {5.f, 2.f, 5.f});
-		//this->getListOfNode().at(0)->AddTriggerCollider(collD);
+		Colliders* collD = new Colliders();
+		collD->setTriggerReaction(PAINTING_POSITION, { 45.f, -7.f, 22.f }, { 9.f, 2.f, 9.f});
+		this->getListOfNode().at(0)->AddTriggerCollider(collD);
 	}
 }

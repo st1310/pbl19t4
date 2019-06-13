@@ -59,13 +59,16 @@ namespace Rendering
 			{
 				paintingTime = gameTime.TotalGameTime();
 				AnimatedGameObject::ChangeAnimation("Paint");
+				mIsBusy = true;
 			}
-			else if (gameTime.TotalGameTime() - paintingTime >= 5)
+			else if (gameTime.TotalGameTime() - paintingTime >= 25.f)
 			{
 				//You win, zog off
 				painting = false;
 				destroyPaintedPosition = true;
 				AnimatedGameObject::ChangeAnimation("Idle");
+				paintingTime = -1.f;
+				mIsBusy = false;
 			}
 		}
 

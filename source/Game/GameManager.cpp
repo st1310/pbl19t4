@@ -123,7 +123,7 @@ namespace Rendering
 				remCmp->~GameComponent();
 			}
 
-			/*FarbaMan* frbMn = trgObj->As<FarbaMan>();
+			FarbaMan* frbMn = trgObj->As<FarbaMan>();
 
 			if (frbMn != nullptr)
 			{
@@ -135,7 +135,7 @@ namespace Rendering
 						GetCurrentListOfNodes().at(0)->DestroyPaintedPosition(frbMn->getPosition());
 					}
 				}
-			}*/
+			}
 			
 		}
 

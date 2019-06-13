@@ -209,20 +209,23 @@ namespace Library
 		{
 			return this->GetParent()->trippedTriggers(objectPos);
 		}
-		else for (Colliders* coll : mTriggers)
+		else 
 		{
 			if (mTriggers.empty())
 				return answer;
 
-			std::vector<TypesTriggerReactions> helper;
-			if (!coll->getTriggers().empty())
+			for (Colliders* coll : mTriggers)
 			{
-				helper = coll->getTriggeredReactions(objectPos);
-				if (!helper.empty())
+				std::vector<TypesTriggerReactions> helper;
+				if (!coll->getTriggers().empty())
 				{
-					for (TypesTriggerReactions react : helper)
+					helper = coll->getTriggeredReactions(objectPos);
+					if (!helper.empty())
 					{
-						answer.push_back(react);
+						for (TypesTriggerReactions react : helper)
+						{
+							answer.push_back(react);
+						}
 					}
 				}
 			}
