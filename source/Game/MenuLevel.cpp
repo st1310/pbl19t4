@@ -2,6 +2,8 @@
 #include "TexturedModelMaterialDemo.h"
 #include "Camera.h"
 #include "PointLight.h"
+#include <WICTextureLoader.h>
+#include "GameException.h"
 
 namespace Rendering
 {
@@ -50,5 +52,13 @@ namespace Rendering
 			gameObject->Initialize();
 			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());
 		}
+
+		
 	}
+
+	void MenuLevel::Update(const GameTime& gameTime) {
+		
+
+	}
+
 }

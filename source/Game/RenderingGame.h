@@ -112,6 +112,20 @@ namespace Rendering
 		ID3D11ShaderResourceView* mNoiseIconCLICKED;
 		ID3D11ShaderResourceView* mNoiseIconNO;
 
+		ID3D11ShaderResourceView* mTacticalMap;
+
+		ID3D11ShaderResourceView* mTacticalButton1NO;
+		ID3D11ShaderResourceView* mTacticalButton1MAYBE;
+		ID3D11ShaderResourceView* mTacticalButton1YES;
+		ID3D11ShaderResourceView* mTacticalButton1CLICKED;
+
+		ID3D11ShaderResourceView* mTacticalButton2NO;
+		ID3D11ShaderResourceView* mTacticalButton3NO;
+
+		ID3D11ShaderResourceView* mStartButtonNO;
+		ID3D11ShaderResourceView* mStartButtonMAYBE;
+		ID3D11ShaderResourceView* mStartButtonCLICKED;
+
 		XMFLOAT2 mMouseTextPosition;
 
 		XMFLOAT2 mouse1Pos;
@@ -126,7 +140,10 @@ namespace Rendering
 
 		bool showUnitsGui = false;
 		bool showUnitDetail = false;
+		bool mapLevel = true;
+		bool buttonWasHold = false;
 		int whichUnitButtonIsClicking = -1;
+		int whichTacticalMapButtonIsClicking = -1;
 		int keybordButtonSelectUnit = -1;
 		std::vector<int> indexSelectedGuiButtons;
 
