@@ -78,7 +78,6 @@ namespace Rendering
 		Initialize();
 		GameObjectPusher pusher = GameObjectPusher();
 
-
 		camera.SetPosition(0.0f, 70.0f, 20.0f);
 
 		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile(), true);

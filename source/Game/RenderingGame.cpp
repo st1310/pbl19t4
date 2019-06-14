@@ -330,9 +330,7 @@ namespace Rendering
 	{
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_ESCAPE))
-		{
 			Exit();
-		}
 
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_F1))
 			mGameManager->StartScene(MENU_LEVEL);
@@ -412,10 +410,7 @@ namespace Rendering
 			}
 		}
 
-
-
 		float diffBetweenUnitsIcons = (250.0f / mGameManager->GetListOfUnits().size());
-
 		
 	
 		if (showUnitsGui == false) {

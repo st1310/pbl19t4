@@ -199,6 +199,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="PlatformGround1.cpp" />
     <ClCompile Include="PlatformGround2.cpp" />
+    <ClCompile Include="PlatformGroundPlain.cpp" />
     <ClCompile Include="PlatformNumber1.cpp" />
     <ClCompile Include="PlatformNumber2And3.cpp" />
     <ClCompile Include="PlatformNumber4.cpp" />
@@ -244,6 +245,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="PlatformGround1.h" />
     <ClInclude Include="PlatformGround2.h" />
+    <ClInclude Include="PlatformGroundPlain.h" />
     <ClInclude Include="PlatformNumber1.h" />
     <ClInclude Include="PlatformNumber2And3.h" />
     <ClInclude Include="PlatformNumber4.h" />

@@ -40,44 +40,12 @@ namespace Rendering
 				mPointLights.push_back(soldier->GetPointLight());
 			}
 
-			gameObject->Initialize();
-			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());
-		}
-
-		for (DrawableGameComponent* drawableGameComponent : trigerrableObjects)
-		{
-			GameObject* gameObject = drawableGameComponent->As<GameObject>();
-			this->getListOfNode().at(0)->AddTriggerCollider(gameObject->getCollider());
-		}
-
-		// Add point Lights to soldiers
-		/*for (int i = 0; i < gameObjects.size(); i++)
-		{
-			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
-			
-		}*/
-
-		// Add spot Lights to lamps
-		for (int i = 0; i < gameObjects.size(); i++)
-		{
-			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
-			std::string className = gameObject->GetName();
-
 			if (className == "SingleStreetLampPost")
 			{
-				// Point Lights
-				mSpotLights.push_back(new SpotLight(*mGame));
-				mSpotLights.at(0)->SetPosition(gameObject->getPosition().x, gameObject->getPosition().y + 5, gameObject->getPosition().z);
-				mSpotLights.at(0)->SetRadius(30.0f);
-				mSpotLights.at(0)->SetColor(Colors::Purple - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
-				mSpotLights.at(0)->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(-90.0f)));
+				SingleStreetLampPost* singleStreetLampPost = gameObjects.at(i)->As<SingleStreetLampPost>();
+				//mSpotLights.push_back(singleStreetLampPost->GetSpotLight());
+				mPointLights.push_back(singleStreetLampPost->GetPointLight());
 			}
-		}
-
-		for (int i = 0; i < gameObjects.size(); i++)
-		{
-			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
-			std::string className = gameObject->GetName();
 
 			if (className == "Policeman")
 			{
@@ -90,7 +58,17 @@ namespace Rendering
 				patrolPoints.push_back(XMFLOAT2(-62, -326));
 
 				policeman->Patrol(patrolPoints);
+				mPointLights.push_back(policeman->GetPointLight());
 			}
+
+			gameObject->Initialize();
+			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());
+		}
+
+		for (DrawableGameComponent* drawableGameComponent : trigerrableObjects)
+		{
+			GameObject* gameObject = drawableGameComponent->As<GameObject>();
+			this->getListOfNode().at(0)->AddTriggerCollider(gameObject->getCollider());
 		}
 
 		Colliders* collD = new Colliders();

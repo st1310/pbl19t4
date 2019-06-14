@@ -30,11 +30,10 @@ namespace Rendering
 		for (int i = 0; i < gameObjects.size(); i++)
 			this->GameObjects.push_back(gameObjects.at(i));
 
-		for (int i = 0; i < gameObjects.size(); i++)
+		for (int i = 0; i < GameObjects.size(); i++)
 		{
 			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
 			gameObject->Initialize();
-			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());
 		}
 
 		for (DrawableGameComponent* drwGm : trigerrableObjects)
@@ -54,12 +53,6 @@ namespace Rendering
 				GreenSoldier* soldier = gameObjects.at(i)->As<GreenSoldier>();
 				mPointLights.push_back(soldier->GetPointLight());
 			}
-		}
-
-		for (int i = 0; i < gameObjects.size(); i++)
-		{
-			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
-			std::string className = gameObject->GetName();
 
 			if (className == "Policeman")
 			{
@@ -74,6 +67,31 @@ namespace Rendering
 				policeman->Patrol(patrolPoints);
 				mPointLights.push_back(policeman->GetPointLight());
 			}
+
+			if (className == "SingleStreetLampPost")
+			{
+				SingleStreetLampPost* singleStreetLampPost = gameObjects.at(i)->As<SingleStreetLampPost>();
+				//mSpotLights.push_back(singleStreetLampPost->GetSpotLight());
+				mPointLights.push_back(singleStreetLampPost->GetPointLight());
+			}
+
+			if (className == "DoubleStreetLampPostWithMegaphone")
+			{
+				DoubleStreetLampPostWithMegaphone* doubleStreetLampPostWithMegaphone = gameObjects.at(i)->As<DoubleStreetLampPostWithMegaphone>();
+				//mSpotLights.push_back(doubleStreetLampPostWithMegaphone->GetSpotLight());
+				mPointLights.push_back(doubleStreetLampPostWithMegaphone->GetPointLight());
+			}
 		}
+
+
+		for (int i = 0; i < GameObjects.size(); i++)
+		{
+			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
+			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());
+		}
+
+		Colliders* collD = new Colliders();
+		collD->setTriggerReaction(PAINTING_POSITION, { 45.f, -7.f, 22.f }, { 9.f, 2.f, 9.f });
+		this->getListOfNode().at(0)->AddTriggerCollider(collD);
 	}
 }

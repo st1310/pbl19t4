@@ -35,8 +35,6 @@ namespace Rendering
 	{		
 		mAnimations = std::map<std::string, int>();
 		mAnimationSequence = new AnimationSequence("Idle");
-
-		//mAnimationSequence = std::vector<std::string>();
 	}
 
 	AnimatedGameObject::~AnimatedGameObject()
@@ -308,5 +306,10 @@ namespace Rendering
 	void AnimatedGameObject::RunInit()
 	{
 		mAnimationSequence->InitLoopAnimationSequence("StartRunning", "Run", "StopRunning");
+	}
+
+	void AnimatedGameObject::PatrolInit()
+	{
+		mAnimationSequence->InitLoopAnimationSequence("Patrol", "Patrol", "Patrol");
 	}
 }

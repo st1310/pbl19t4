@@ -16,5 +16,12 @@ namespace Rendering
 		~SingleStreetLampPost();
 
 		virtual void Initialize() override;
+		virtual void Update(const GameTime& gameTime) override;
+
+		SpotLight* GetSpotLight();
+		PointLight* GetPointLight();
+	private:
+		SpotLight* mSpotLight;
+		PointLight* mPointLight;
 	};
 }

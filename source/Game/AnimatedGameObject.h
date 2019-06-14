@@ -43,6 +43,7 @@ namespace Rendering
 		void ChangeAnimation(std::string animationName);
 
 		void RunInit();
+		void PatrolInit();
 
 	protected:
 		std::map<std::string, int> mAnimations;

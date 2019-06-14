@@ -53,7 +53,7 @@ namespace Library
 		std::vector<XMFLOAT4X4> mFinalTransforms;
 		XMFLOAT4X4 mInverseRootTransform;
 
-		bool mInterpolationEnabled;
+		bool mInterpolationEnabled = true;
 		bool mIsPlayingClip;
 		bool mIsClipLooped;
 	};
