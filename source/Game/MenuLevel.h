@@ -12,6 +12,10 @@ namespace Rendering
 		~MenuLevel();
 
 		virtual void Start(Game& game, Camera& camera) override;
+		virtual void Update(const GameTime& gameTime) override;
+
+	private:
+		ID3D11ShaderResourceView* mTacticalMap;
 	};
 }
 

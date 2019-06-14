@@ -191,6 +191,35 @@ namespace Rendering
 		std::wostringstream mOptionButtonNOtexture;
 		mOptionButtonNOtexture << L"content\\Textures\\menuNO.png";
 		
+		std::wostringstream mTacticalMapTexture;
+		mTacticalMapTexture << L"content\\Textures\\TacticalMap.png";
+
+		std::wostringstream mTacticalButton1NOtexture;
+		mTacticalButton1NOtexture << L"content\\Textures\\TacticalButton1NO.png";
+
+		std::wostringstream mTacticalButton1YEStexture;
+		mTacticalButton1YEStexture << L"content\\Textures\\TacticalButton1YES.png";
+
+		std::wostringstream mTacticalButton1MAYBEtexture;
+		mTacticalButton1MAYBEtexture << L"content\\Textures\\TacticalButton1MAYBE.png";
+
+		std::wostringstream mTacticalButton1CLICKEDtexture;
+		mTacticalButton1CLICKEDtexture << L"content\\Textures\\TacticalButton1CLICKED.png";
+
+		std::wostringstream mTacticalButton2NOtexture;
+		mTacticalButton2NOtexture << L"content\\Textures\\TacticalButton2NO.png";
+
+		std::wostringstream mTacticalButton3NOtexture;
+		mTacticalButton3NOtexture << L"content\\Textures\\TacticalButton3NO.png";
+
+		std::wostringstream mStartButtonNOtexture;
+		mStartButtonNOtexture << L"content\\Textures\\StartButtonNO.png";
+
+		std::wostringstream mStartButtonMAYBEtexture;
+		mStartButtonMAYBEtexture << L"content\\Textures\\StartButtonMAYBE.png";
+
+		std::wostringstream mStartButtonCLICKEDtexture;
+		mStartButtonCLICKEDtexture << L"content\\Textures\\StartButtonCLICKED.png";
 
 		HRESULT hr = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &mUnitGuiTexture);
 		HRESULT hr1 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName1.str().c_str(), nullptr, &mUnitGuiTextureBlack);
@@ -227,6 +256,16 @@ namespace Rendering
 		HRESULT hr32 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonMAYBEtexture.str().c_str(), nullptr, &mOptionButtonMAYBE);
 		HRESULT hr33 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonCLICKEDtexture.str().c_str(), nullptr, &mOptionButtonCLICKED);
 		HRESULT hr34 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonNOtexture.str().c_str(), nullptr, &mOptionButtonNO);
+		HRESULT hr35 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalMapTexture.str().c_str(), nullptr, &mTacticalMap);
+		HRESULT hr36 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton1NOtexture.str().c_str(), nullptr, &mTacticalButton1NO);
+		HRESULT hr37 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton1YEStexture.str().c_str(), nullptr, &mTacticalButton1YES);
+		HRESULT hr38 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton1MAYBEtexture.str().c_str(), nullptr, &mTacticalButton1MAYBE);
+		HRESULT hr39 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton1CLICKEDtexture.str().c_str(), nullptr, &mTacticalButton1CLICKED);
+		HRESULT hr40 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton2NOtexture.str().c_str(), nullptr, &mTacticalButton2NO);
+		HRESULT hr41 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton3NOtexture.str().c_str(), nullptr, &mTacticalButton3NO);
+		HRESULT hr42 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStartButtonNOtexture.str().c_str(), nullptr, &mStartButtonNO);
+		HRESULT hr43 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStartButtonMAYBEtexture.str().c_str(), nullptr, &mStartButtonMAYBE);
+		HRESULT hr44 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStartButtonCLICKEDtexture.str().c_str(), nullptr, &mStartButtonCLICKED);
 		
 		if (FAILED(hr))
 			throw GameException("CreateWICTextureFromFile1() failed.", hr);
@@ -303,6 +342,8 @@ namespace Rendering
 		if (FAILED(hr23))
 			throw GameException("CreateWICTextureFromFile23() failed.", hr23);
 		
+		if (FAILED(hr35))
+			throw GameException("CreateWICTextureFromFile1() failed.", hr35);
 
 
 
@@ -499,252 +540,291 @@ namespace Rendering
 		std::wostringstream mouseLabel;
 		mouseLabel << L"Mouse Position: " << mMouse->X() << ", "
 			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
-		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition);
+		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition, Colors::White);
 
-		if (showUnitsGui) {
-			mSpriteBatch->Draw(mUnitsBanner, SimpleMath::Rectangle(320.0f, 570.0f, 400.0f, 220.0f));
-			posOffset = 1;
+		if (mapLevel == true) {
+			mSpriteBatch->Draw(mTacticalMap, SimpleMath::Rectangle(0, 0, 1028.0f, 780.0f));
+			
 
+			mSpriteBatch->Draw(mTacticalButton1NO, SimpleMath::Rectangle(500.0f, 650.0f, 80.0f, 80.0f));
+
+			if (mMouse->X() > 515.0f && mMouse->X() < 570.0f  && mMouse->Y() > 665.0f  && mMouse->Y() < 720.0f) {
+				mSpriteBatch->Draw(mTacticalButton1CLICKED, SimpleMath::Rectangle(500.0f, 650.0f, 80.0f, 80.0f));
+				if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+					mSpriteBatch->Draw(mTacticalButton1MAYBE, SimpleMath::Rectangle(500.0f, 650.0f, 80.0f, 80.0f));
+					whichTacticalMapButtonIsClicking = 1;
+				}
+				
+			}
+
+			mSpriteBatch->Draw(mTacticalButton2NO, SimpleMath::Rectangle(60.0f, 300.0f, 80.0f, 80.0f));
+			mSpriteBatch->Draw(mTacticalButton3NO, SimpleMath::Rectangle(400.0f, 40.0f, 80.0f, 80.0f));
+
+			if (whichTacticalMapButtonIsClicking == 1) {
+				mSpriteBatch->Draw(mTacticalButton1YES, SimpleMath::Rectangle(500.0f, 650.0f, 80.0f, 80.0f));
+				mSpriteBatch->Draw(mStartButtonNO, SimpleMath::Rectangle(700.0f, 640.0f, 300.0f, 100.0f));
+				if (mMouse->X() > 700.0f && mMouse->X() < 1000.0f  && mMouse->Y() > 645.0f  && mMouse->Y() < 725.0f) {
+					mSpriteBatch->Draw(mStartButtonMAYBE, SimpleMath::Rectangle(700.0f, 640.0f, 300.0f, 100.0f));
+					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+						mSpriteBatch->Draw(mStartButtonCLICKED, SimpleMath::Rectangle(700.0f, 640.0f, 300.0f, 100.0f));
+						buttonWasHold = true;
+					}
+					if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft) && buttonWasHold) {
+						mapLevel = false;
+						buttonWasHold = false;
+					}
+				}
+			}
 		}
-		else if (!showUnitsGui) 
-		{
-			mSpriteBatch->Draw(mUnitsBanner, SimpleMath::Rectangle(320.0f, 650.0f, 400.0f, 220.0f));
-			posOffset = 0;
-		}
-		
-		if (true)
-		{
-			for (int i = 0; i < mGameManager->GetListOfUnits().size(); i++)
+	
+
+		else {
+			if (showUnitsGui) {
+				mSpriteBatch->Draw(mUnitsBanner, SimpleMath::Rectangle(320.0f, 570.0f, 400.0f, 220.0f));
+				posOffset = 1;
+
+			}
+			else if (!showUnitsGui)
 			{
+				mSpriteBatch->Draw(mUnitsBanner, SimpleMath::Rectangle(320.0f, 650.0f, 400.0f, 220.0f));
+				posOffset = 0;
+			}
 
-				if (mGameManager->GetListOfUnits().at(i)->GetUnitID() == mGameManager->unitID) 
-					mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * i, 630.0f - posOffset * 80, 100.0f, 100.0f));					
-
-				else
+			if (true)
+			{
+				for (int i = 0; i < mGameManager->GetListOfUnits().size(); i++)
 				{
-					if (mMouse->X() > (360 + i * 60) && (mMouse->X() < (360 + i * 60 + 60) && mMouse->Y() > 680 ) || keybordButtonSelectUnit ==i)
-					{
+
+					if (mGameManager->GetListOfUnits().at(i)->GetUnitID() == mGameManager->unitID)
 						mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * i, 630.0f - posOffset * 80, 100.0f, 100.0f));
 
-						if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft) || keybordButtonSelectUnit == i) {
-							showUnitDetail = true;
-							bool checkCopy = false;
-
-							keybordButtonSelectUnit = -1;
-
-							for (int x = 0; x < indexSelectedGuiButtons.size() ;x++) {	//sprawdzanie czy juz raz kliknieto na ikone, jesli tak to nie zapisuj do wektora indeksow zaznaczonych drugi raz
-								if (indexSelectedGuiButtons.at(x) == i) {
-									checkCopy = true;
-								}
-							}
-							if (!checkCopy) {
-								indexSelectedGuiButtons.push_back(i);
-								GreenSoldier* greenSold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
-								greenSold->setSelection(true);
-								greenSold->setIsSelected(true);								//zaznaczanie jednostek w grze przez gui
-							}
-							else {
-								std::vector<int> buffor;
-								buffor.clear();
-								for (int z = 0; z < indexSelectedGuiButtons.size(); z++) {
-									if (indexSelectedGuiButtons.at(z) != i) {
-										buffor.push_back(indexSelectedGuiButtons.at(z));
-									}
-								}
-								indexSelectedGuiButtons.clear();
-								indexSelectedGuiButtons = buffor;
-								GreenSoldier* greenSold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
-								greenSold->setSelection(false);
-								greenSold->setIsSelected(false);
-							}
-						}						
-					}
 					else
 					{
-						mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(360.f + 50 * i, 700.0f - posOffset * 80, 80.0f, 80.0f));
+						if (mMouse->X() > (360 + i * 60) && (mMouse->X() < (360 + i * 60 + 60) && mMouse->Y() > 680) || keybordButtonSelectUnit == i)
+						{
+							mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * i, 630.0f - posOffset * 80, 100.0f, 100.0f));
 
+							if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft) || keybordButtonSelectUnit == i) {
+								showUnitDetail = true;
+								bool checkCopy = false;
+
+								keybordButtonSelectUnit = -1;
+
+								for (int x = 0; x < indexSelectedGuiButtons.size(); x++) {	//sprawdzanie czy juz raz kliknieto na ikone, jesli tak to nie zapisuj do wektora indeksow zaznaczonych drugi raz
+									if (indexSelectedGuiButtons.at(x) == i) {
+										checkCopy = true;
+									}
+								}
+								if (!checkCopy) {
+									indexSelectedGuiButtons.push_back(i);
+									GreenSoldier* greenSold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
+									greenSold->setSelection(true);
+									greenSold->setIsSelected(true);								//zaznaczanie jednostek w grze przez gui
+								}
+								else {
+									std::vector<int> buffor;
+									buffor.clear();
+									for (int z = 0; z < indexSelectedGuiButtons.size(); z++) {
+										if (indexSelectedGuiButtons.at(z) != i) {
+											buffor.push_back(indexSelectedGuiButtons.at(z));
+										}
+									}
+									indexSelectedGuiButtons.clear();
+									indexSelectedGuiButtons = buffor;
+									GreenSoldier* greenSold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
+									greenSold->setSelection(false);
+									greenSold->setIsSelected(false);
+								}
+							}
+						}
+						else
+						{
+							mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(360.f + 50 * i, 700.0f - posOffset * 80, 80.0f, 80.0f));
+
+						}
 					}
 				}
 			}
-		}
 
-		if (!(indexSelectedGuiButtons.empty())) {
-			for (int i = 0; i < indexSelectedGuiButtons.size(); i++) {
-				mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * indexSelectedGuiButtons.at(i), 630.0f - posOffset * 80, 100.0f, 100.0f));
-			}
-		}
-		else {
-			showUnitDetail = false;
-		}
-
-																	//menu button
-		if (mMouse->X() > 0.0f && mMouse->X() < 35.0f  && mMouse->Y() > 0.0f  && mMouse->Y() < 35.0f) {
-			mSpriteBatch->Draw(mOptionButtonMAYBE, SimpleMath::Rectangle(0, 0, 50.0f, 50.0f));
-			if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-				mSpriteBatch->Draw(mOptionButtonCLICKED, SimpleMath::Rectangle(0, 0, 50.0f, 50.0f));
-			}
-		}
-		else {
-			mSpriteBatch->Draw(mOptionButtonYES, SimpleMath::Rectangle(0, 0, 35.0f, 35.0f));
-		}
-
-		if (showUnitDetail == true) {
-			
-			
-			mSpriteBatch->Draw(mPortraitBanner, SimpleMath::Rectangle(765.0f, 330.0f, 250.0f, 250.0f), Colors::White);
-			mSpriteBatch->Draw(mOptionActionsBanner, SimpleMath::Rectangle(720.0f, 560.0f, 300.0f, 250.0f));
-
-			if (indexSelectedGuiButtons.size() > 1) {
-				mSpriteBatch->Draw(mMultiSelectionPortrait, SimpleMath::Rectangle(800, 350, 200.0f, 200.0f));
-				mSpriteBatch->Draw(mPaintIconNO, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
-				mSpriteBatch->Draw(mCleanIconNO, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
-				if (mMouse->X() > 925.0f && mMouse->X() < 995.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f) {
-					mSpriteBatch->Draw(mPatrolIconMAYBE, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
-					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mPatrolIconCLICKED, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
-					}
+			if (!(indexSelectedGuiButtons.empty())) {
+				for (int i = 0; i < indexSelectedGuiButtons.size(); i++) {
+					mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * indexSelectedGuiButtons.at(i), 630.0f - posOffset * 80, 100.0f, 100.0f));
 				}
-					
-				else
-					mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
-
-				if (mMouse->X() > 750.0f && mMouse->X() < 815.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f) {
-					mSpriteBatch->Draw(mHideIconMAYBE, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
-					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mHideIconCLICKED, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
-					}
-				}
-					
-				else
-					mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
-
-				if (mMouse->X() > 840.0f && mMouse->X() < 905.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f)
-				{
-					mSpriteBatch->Draw(mStopIconMAYBE, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
-					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mStopIconCLICKED, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
-					}
-				}
-					
-				else
-					mSpriteBatch->Draw(mStopIconYES, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
-
-				if (mMouse->X() > 925.0f && mMouse->X() < 995.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f) {
-					mSpriteBatch->Draw(mNoiseIconMAYBE, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
-					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mNoiseIconCLICKED, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
-					}
-				}
-					
-				else
-					mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
 			}
 			else {
-				mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(800, 350, 200.0f, 200.0f));
-				if (mMouse->X() > 750.0f && mMouse->X() < 815.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f) {
-					mSpriteBatch->Draw(mPaintIconMAYBE, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
-					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mPaintIconCLICKED, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));	
-					}
-					
-				}
-					
-				else
-					mSpriteBatch->Draw(mPaintIconYES, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
-				
-				if (mMouse->X() > 840.0f && mMouse->X() < 905.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f) {
-					mSpriteBatch->Draw(mCleanIconMAYBE, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
-					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mCleanIconCLICKED, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
-					}
-				}
-					
-				else
-					mSpriteBatch->Draw(mCleanIconYES, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
-				
-				if (mMouse->X() > 925.0f && mMouse->X() < 995.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f) {
-					mSpriteBatch->Draw(mPatrolIconMAYBE, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
-					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mPatrolIconCLICKED, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
-					}
-				}
-					
-				else
-					mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
-				
-				if (mMouse->X() > 750.0f && mMouse->X() < 815.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f) {
-					mSpriteBatch->Draw(mHideIconMAYBE, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
-					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mHideIconCLICKED, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
-					}
-				}
-					
-				else
-					mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
-
-				if (mMouse->X() > 840.0f && mMouse->X() < 905.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f) {
-					mSpriteBatch->Draw(mStopIconMAYBE, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
-					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mStopIconCLICKED, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
-					}
-				}
-					
-				else
-					mSpriteBatch->Draw(mStopIconYES, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
-				
-				if (mMouse->X() > 925.0f && mMouse->X() < 995.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f) {
-					mSpriteBatch->Draw(mNoiseIconMAYBE, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
-					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mNoiseIconCLICKED, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
-					}
-				}
-					
-				else
-					mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
+				showUnitDetail = false;
 			}
-			
-		}/*mStopIconMAYBE*/
-			
-		
-		
 
-		if (mGameManager->GetunitsReadyToMove()) {
-			std::wostringstream tmp;
-			tmp << "GroundActive";
-			mSpriteFont->DrawString(mSpriteBatch, tmp.str().c_str(), XMFLOAT2(25.0f, 200.0f), Colors::Blue);
+			//menu button
+			if (mMouse->X() > 0.0f && mMouse->X() < 35.0f  && mMouse->Y() > 0.0f  && mMouse->Y() < 35.0f) {
+				mSpriteBatch->Draw(mOptionButtonMAYBE, SimpleMath::Rectangle(0, 0, 50.0f, 50.0f));
+				if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+					mSpriteBatch->Draw(mOptionButtonCLICKED, SimpleMath::Rectangle(0, 0, 50.0f, 50.0f));
+				}
+			}
+			else {
+				mSpriteBatch->Draw(mOptionButtonYES, SimpleMath::Rectangle(0, 0, 35.0f, 35.0f));
+			}
+
+			if (showUnitDetail == true) {
+
+
+				mSpriteBatch->Draw(mPortraitBanner, SimpleMath::Rectangle(765.0f, 330.0f, 250.0f, 250.0f), Colors::White);
+				mSpriteBatch->Draw(mOptionActionsBanner, SimpleMath::Rectangle(720.0f, 560.0f, 300.0f, 250.0f));
+
+				if (indexSelectedGuiButtons.size() > 1) {
+					mSpriteBatch->Draw(mMultiSelectionPortrait, SimpleMath::Rectangle(800, 350, 200.0f, 200.0f));
+					mSpriteBatch->Draw(mPaintIconNO, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
+					mSpriteBatch->Draw(mCleanIconNO, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
+					if (mMouse->X() > 925.0f && mMouse->X() < 995.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f) {
+						mSpriteBatch->Draw(mPatrolIconMAYBE, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mPatrolIconCLICKED, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+						}
+					}
+
+					else
+						mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+
+					if (mMouse->X() > 750.0f && mMouse->X() < 815.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f) {
+						mSpriteBatch->Draw(mHideIconMAYBE, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mHideIconCLICKED, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+						}
+					}
+
+					else
+						mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+
+					if (mMouse->X() > 840.0f && mMouse->X() < 905.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f)
+					{
+						mSpriteBatch->Draw(mStopIconMAYBE, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
+						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mStopIconCLICKED, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
+						}
+					}
+
+					else
+						mSpriteBatch->Draw(mStopIconYES, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
+
+					if (mMouse->X() > 925.0f && mMouse->X() < 995.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f) {
+						mSpriteBatch->Draw(mNoiseIconMAYBE, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
+						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mNoiseIconCLICKED, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
+						}
+					}
+
+					else
+						mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
+				}
+				else {
+					mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(800, 350, 200.0f, 200.0f));
+					if (mMouse->X() > 750.0f && mMouse->X() < 815.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f) {
+						mSpriteBatch->Draw(mPaintIconMAYBE, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
+						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mPaintIconCLICKED, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
+						}
+
+					}
+
+					else
+						mSpriteBatch->Draw(mPaintIconYES, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
+
+					if (mMouse->X() > 840.0f && mMouse->X() < 905.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f) {
+						mSpriteBatch->Draw(mCleanIconMAYBE, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
+						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mCleanIconCLICKED, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
+						}
+					}
+
+					else
+						mSpriteBatch->Draw(mCleanIconYES, SimpleMath::Rectangle(830.0f, 597.0f, 80.0f, 80.0f));
+
+					if (mMouse->X() > 925.0f && mMouse->X() < 995.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f) {
+						mSpriteBatch->Draw(mPatrolIconMAYBE, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mPatrolIconCLICKED, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+						}
+					}
+
+					else
+						mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(920.0f, 595.0f, 80.0f, 80.0f));
+
+					if (mMouse->X() > 750.0f && mMouse->X() < 815.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f) {
+						mSpriteBatch->Draw(mHideIconMAYBE, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mHideIconCLICKED, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+						}
+					}
+
+					else
+						mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(740.0f, 670.0f, 90.0f, 90.0f));
+
+					if (mMouse->X() > 840.0f && mMouse->X() < 905.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f) {
+						mSpriteBatch->Draw(mStopIconMAYBE, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
+						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mStopIconCLICKED, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
+						}
+					}
+
+					else
+						mSpriteBatch->Draw(mStopIconYES, SimpleMath::Rectangle(830.0f, 680.0f, 90.0f, 90.0f));
+
+					if (mMouse->X() > 925.0f && mMouse->X() < 995.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 745.0f) {
+						mSpriteBatch->Draw(mNoiseIconMAYBE, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
+						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mNoiseIconCLICKED, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
+						}
+					}
+
+					else
+						mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
+				}
+
+			}/*mStopIconMAYBE*/
+
+
+
+
+			if (mGameManager->GetunitsReadyToMove()) {
+				std::wostringstream tmp;
+				tmp << "GroundActive";
+				mSpriteFont->DrawString(mSpriteBatch, tmp.str().c_str(), XMFLOAT2(25.0f, 200.0f), Colors::Blue);
+			}
+
+			if (selectedOnce)
+			{
+				float x1, x2, y1, y2;
+				if (mouse1Pos.x > mouse2Pos.x)
+				{
+					x1 = mouse2Pos.x;
+					x2 = mouse1Pos.x;
+				}
+				else
+				{
+					x1 = mouse1Pos.x;
+					x2 = mouse2Pos.x;
+				}
+
+				if (mouse1Pos.y > mouse2Pos.y)
+				{
+					y1 = mouse2Pos.y;
+					y2 = mouse1Pos.y;
+				}
+				else
+				{
+					y1 = mouse1Pos.y;
+					y2 = mouse2Pos.y;
+				}
+
+				mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x1, y1, abs(x2 - x1), 1.5f));
+				mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x1, y2, abs(x2 - x1), 1.5f));
+
+				mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x1, y1, 1.5f, abs(y2 - y1)));
+				mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x2, y1, 1.5f, abs(y2 - y1)));
+			}
 		}
-
-		if (selectedOnce)
-		{
-			float x1, x2, y1, y2;
-			if (mouse1Pos.x > mouse2Pos.x)
-			{
-				x1 = mouse2Pos.x;
-				x2 = mouse1Pos.x;
-			}
-			else
-			{
-				x1 = mouse1Pos.x;
-				x2 = mouse2Pos.x;
-			}
-
-			if (mouse1Pos.y > mouse2Pos.y)
-			{
-				y1 = mouse2Pos.y;
-				y2 = mouse1Pos.y;
-			}
-			else
-			{
-				y1 = mouse1Pos.y;
-				y2 = mouse2Pos.y;
-			}
-
-			mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x1, y1, abs(x2-x1), 1.5f));
-			mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x1, y2, abs(x2 - x1), 1.5f));
-
-			mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x1, y1, 1.5f, abs(y2 - y1)));
-			mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x2, y1, 1.5f, abs(y2 - y1)));
-		}
+		
 
 		mSpriteBatch->End();
 		mRenderStateHelper->RestoreAll();
