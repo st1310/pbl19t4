@@ -40,7 +40,7 @@ namespace Rendering
 		mScenes.push_back(dayLevel);
 
 		TrainLevel* trainLevel = new TrainLevel(*game, *camera);
-		trainLevel->BuildNodesStart({ 400.f, -100.f, -400.f }, { -400.f, 100.f, 400.f });
+		trainLevel->BuildNodesStart({ 1000.f, -100.f, -1000.f }, { -1000.f, 100.f, 1000.f });
 		mScenes.push_back(trainLevel);
 
 		CityLevel* cityLevel = new CityLevel(*game, *camera);

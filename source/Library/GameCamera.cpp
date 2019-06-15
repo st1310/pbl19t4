@@ -190,7 +190,7 @@ namespace Library
 
 			mLastWheelPosition = mMouse->Wheel();
 		}
-
+		/*
 		// left
 		if (mMouse->X() < 100)
 		{
@@ -258,7 +258,7 @@ namespace Library
 				moved = true;
 			}
 		}
-
+		*/
 		XMFLOAT2 rotationAmount = Vector2Helper::Zero;
 		/*
 		if ((mMouse != nullptr) && (mMouse->IsButtonHeldDown(MouseButtonsLeft) && cameraMode))

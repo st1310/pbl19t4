@@ -57,14 +57,8 @@ namespace Rendering
 			if (className == "Policeman")
 			{
 				Policeman* policeman = gameObjects.at(i)->As<Policeman>();
+				GetPolicemans().push_back(policeman);
 
-				std::vector<XMFLOAT2> patrolPoints = std::vector<XMFLOAT2>();
-				patrolPoints.push_back(XMFLOAT2(-62, -178));
-				patrolPoints.push_back(XMFLOAT2(182, -178));
-				patrolPoints.push_back(XMFLOAT2(182, -326));
-				patrolPoints.push_back(XMFLOAT2(-62, -326));
-
-				policeman->Patrol(patrolPoints);
 				mPointLights.push_back(policeman->GetPointLight());
 			}
 
@@ -88,10 +82,36 @@ namespace Rendering
 		{
 			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
 			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());
+			gameObject->Initialize();
 		}
 
 		Colliders* collD = new Colliders();
 		collD->setTriggerReaction(PAINTING_POSITION, { 45.f, -7.f, 22.f }, { 9.f, 2.f, 9.f });
 		this->getListOfNode().at(0)->AddTriggerCollider(collD);
+
+		//SetPatrol();
+	}
+
+	void TrainLevel::SetPatrol()
+	{
+		std::vector<XMFLOAT2> patrolPoints1 = std::vector<XMFLOAT2>();
+		patrolPoints1.push_back(XMFLOAT2(-62, -178));
+		patrolPoints1.push_back(XMFLOAT2(182, -178));
+		patrolPoints1.push_back(XMFLOAT2(182, -326));
+		patrolPoints1.push_back(XMFLOAT2(-62, -326));
+
+		std::vector<XMFLOAT2> patrolPoints2 = std::vector<XMFLOAT2>();
+		patrolPoints1.push_back(XMFLOAT2(-62, -178));
+		patrolPoints1.push_back(XMFLOAT2(182, -178));
+		patrolPoints1.push_back(XMFLOAT2(182, -326));
+		patrolPoints1.push_back(XMFLOAT2(-62, -326));
+
+		GetPolicemans().at(2)->As<Policeman>()->Patrol(patrolPoints1);
+		GetPolicemans().at(3)->As<Policeman>()->Patrol(patrolPoints1);
+		GetPolicemans().at(4)->As<Policeman>()->Patrol(patrolPoints1);
+		GetPolicemans().at(5)->As<Policeman>()->Patrol(patrolPoints1);
+
+		GetPolicemans().at(6)->As<Policeman>()->Patrol(patrolPoints1);
+		GetPolicemans().at(7)->As<Policeman>()->Patrol(patrolPoints1);
 	}
 }

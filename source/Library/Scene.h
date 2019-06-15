@@ -41,6 +41,7 @@ namespace Library
 
 		void rewriteListOfNodes(std::vector<CollisionNode*>& list);
 		std::vector<CollisionNode*> getListOfNode();
+		std::vector<DrawableGameComponent*> GetPolicemans();
 		 
 		void ClearUnitList();
 		void AddUnitToList(DrawableGameComponent* unit);
@@ -67,7 +68,9 @@ namespace Library
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mTextPosition;
+
 		std::vector<DrawableGameComponent*> listOfUnits;
+		std::vector<DrawableGameComponent*> mPolicemans;
 		std::vector<DrawableGameComponent*> trigerrableObjects;
 
 		std::vector<DirectionalLight*> mDirectLights;

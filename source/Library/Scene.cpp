@@ -22,6 +22,7 @@ namespace Library
 	{
 		listOfNodes.clear();
 		listOfUnits.clear();
+		mPolicemans.clear();
 		trigerrableObjects.clear();
 	}
 
@@ -248,5 +249,10 @@ namespace Library
 		mDirectLights.clear();
 		mSpotLights.clear();
 		mPointLights.clear();
+	}
+
+	std::vector<DrawableGameComponent*> Scene::GetPolicemans()
+	{
+		return mPolicemans;
 	}
 }

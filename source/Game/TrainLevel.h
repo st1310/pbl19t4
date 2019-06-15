@@ -14,7 +14,7 @@ namespace Rendering
 		virtual void Start(Game& game, Camera& camera) override;
 
 	private:
-		
+		void SetPatrol();
 	};
 
 }

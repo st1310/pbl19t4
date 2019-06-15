@@ -50,6 +50,7 @@ namespace Rendering
 			if (className == "Policeman")
 			{
 				Policeman* policeman = gameObjects.at(i)->As<Policeman>();
+				GetPolicemans().push_back(policeman);
 
 				std::vector<XMFLOAT2> patrolPoints = std::vector<XMFLOAT2>();
 				patrolPoints.push_back(XMFLOAT2(-62, -178));
