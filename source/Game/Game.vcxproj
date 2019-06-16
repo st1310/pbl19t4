@@ -180,6 +180,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="DoubleStreetLampPost.cpp" />
     <ClCompile Include="DoubleStreetLampPostWithMegaphone.cpp" />
     <ClCompile Include="FarbaMan.cpp" />
+    <ClCompile Include="Fence.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectPusher.cpp" />
@@ -199,6 +200,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="PlatformGround1.cpp" />
     <ClCompile Include="PlatformGround2.cpp" />
+    <ClCompile Include="PlatformGroundPlain.cpp" />
     <ClCompile Include="PlatformNumber1.cpp" />
     <ClCompile Include="PlatformNumber2And3.cpp" />
     <ClCompile Include="PlatformNumber4.cpp" />
@@ -207,6 +209,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="PoliceStation.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="RenderingGame.cpp" />
+    <ClCompile Include="SimpleBuilding.cpp" />
     <ClCompile Include="SingleStreetLampPost.cpp" />
     <ClCompile Include="StaticGameObject.cpp" />
     <ClCompile Include="StoneGround.cpp" />
@@ -226,6 +229,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClInclude Include="DoubleStreetLampPost.h" />
     <ClInclude Include="DoubleStreetLampPostWithMegaphone.h" />
     <ClInclude Include="FarbaMan.h" />
+    <ClInclude Include="Fence.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectPusher.h" />
@@ -245,6 +249,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="PlatformGround1.h" />
     <ClInclude Include="PlatformGround2.h" />
+    <ClInclude Include="PlatformGroundPlain.h" />
     <ClInclude Include="PlatformNumber1.h" />
     <ClInclude Include="PlatformNumber2And3.h" />
     <ClInclude Include="PlatformNumber4.h" />
@@ -252,6 +257,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClInclude Include="Policeman.h" />
     <ClInclude Include="PoliceStation.h" />
     <ClInclude Include="RenderingGame.h" />
+    <ClInclude Include="SimpleBuilding.h" />
     <ClInclude Include="SingleStreetLampPost.h" />
     <ClInclude Include="StaticGameObject.h" />
     <ClInclude Include="StoneGround.h" />

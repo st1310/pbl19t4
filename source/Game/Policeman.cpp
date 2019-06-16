@@ -28,6 +28,8 @@ namespace Rendering
 
 	Policeman::~Policeman()
 	{
+		DeleteObject(mSpotLight);
+		DeleteObject(mPointLight);
 	}
 
 	void Policeman::Initialize()

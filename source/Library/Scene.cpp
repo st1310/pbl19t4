@@ -22,6 +22,7 @@ namespace Library
 	{
 		listOfNodes.clear();
 		listOfUnits.clear();
+		mPolicemans.clear();
 		trigerrableObjects.clear();
 	}
 
@@ -237,10 +238,10 @@ namespace Library
 
 	void Scene::InitializeLights()
 	{
-		mDirectLights.push_back(new DirectionalLight(*mGame));
-		mDirectLights.back()->SetColor(Colors::White - SimpleMath::Vector4(0.0f, 0.0f, 0.2f, 0.8f));
-		mDirectLights.back()->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(-90.0f)));
-		mDirectLights.back()->ApplyRotation(XMMatrixRotationZ(XMConvertToRadians(45.0f)));
+		//mDirectLights.push_back(new DirectionalLight(*mGame));
+		//mDirectLights.back()->SetColor(Colors::White - SimpleMath::Vector4(0.0f, 0.0f, 0.2f, 0.8f));
+		//mDirectLights.back()->ApplyRotation(XMMatrixRotationX(XMConvertToRadians(-90.0f)));
+		//mDirectLights.back()->ApplyRotation(XMMatrixRotationZ(XMConvertToRadians(45.0f)));
 	}
 
 	void Scene::ResetLights()
@@ -248,5 +249,10 @@ namespace Library
 		mDirectLights.clear();
 		mSpotLights.clear();
 		mPointLights.clear();
+	}
+
+	std::vector<DrawableGameComponent*> Scene::GetPolicemans()
+	{
+		return mPolicemans;
 	}
 }

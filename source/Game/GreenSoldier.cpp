@@ -1,6 +1,7 @@
 #include "GreenSoldier.h"
 #include "SpotLight.h"
 #include "PointLight.h"
+#include "AssetList.h"
 
 namespace Rendering
 {
@@ -22,6 +23,8 @@ namespace Rendering
 
 		mSpotLight = new SpotLight(game);
 		mPointLight = new PointLight(game);
+		mPointLight->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
+		mPointLight->SetRadius(30.0f);
 
 		SetAnimations();
 	}
@@ -42,7 +45,7 @@ namespace Rendering
 	void GreenSoldier::Update(const GameTime& gameTime)
 	{
 		AnimatedGameObject::Update(gameTime);
-		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x, mPosition.y + 5, mPosition.z - 10);
+		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x , mPosition.y + 5, mPosition.z - 10);
 
 		mPointLight->SetPosition(pointLightPosition);
 		mSpotLight->SetPosition(mPosition);

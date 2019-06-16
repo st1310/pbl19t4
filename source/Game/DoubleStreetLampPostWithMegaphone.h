@@ -16,5 +16,11 @@ namespace Rendering
 		~DoubleStreetLampPostWithMegaphone();
 
 		virtual void Initialize() override;
+		virtual void Update(const GameTime& gameTime) override;
+
+		PointLight* GetPointLight();
+
+	private:
+		PointLight* mPointLight;
 	};
 }

@@ -131,6 +131,17 @@ namespace Rendering
 				assets.push_back(farbaMan);
 			}
 
+			if (className == "Fence")
+			{
+				Fence* fence = new Fence(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				fence->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(fence);
+			}
+
 			if (className == "GrassGround")
 			{
 				GrassGround* grassGround = new GrassGround(game, camera,
@@ -265,6 +276,17 @@ namespace Rendering
 				assets.push_back(platformGround2);
 			}
 
+			if (className == "PlatformGroundPlain")
+			{
+				PlatformGroundPlain* platformGroundPlain = new PlatformGroundPlain(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				platformGroundPlain->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(platformGroundPlain);
+			}
+
 			if (className == "PlatformNumber1")
 			{
 				PlatformNumber1* platformNumber1 = new PlatformNumber1(game, camera,
@@ -330,6 +352,17 @@ namespace Rendering
 
 				policeStation->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(policeStation);
+			}
+
+			if (className == "SimpleBuilding")
+			{
+				SimpleBuilding* simpleBuilding = new SimpleBuilding(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				simpleBuilding->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(simpleBuilding);
 			}
 
 			if (className == "SingleStreetLampPost")
@@ -413,6 +446,12 @@ namespace Rendering
 			return farbaMan;
 		}
 
+		if (className == "Fence")
+		{
+			Fence* fence = new Fence(game, camera);
+			return fence;
+		}
+
 		if (className == "GrassGround")
 		{
 			GrassGround* grassGround = new GrassGround(game, camera);
@@ -485,6 +524,12 @@ namespace Rendering
 			return platformGround2;
 		}
 
+		if (className == "PlatformGroundPlain")
+		{
+			PlatformGroundPlain* platformGroundPlain = new PlatformGroundPlain(game, camera);
+			return platformGroundPlain;
+		}
+
 		if (className == "PlatformNumber1")
 		{
 			PlatformNumber1* platformNumber1 = new PlatformNumber1(game, camera);
@@ -519,6 +564,12 @@ namespace Rendering
 		{
 			PoliceStation* policeStation = new PoliceStation(game, camera);
 			return policeStation;
+		}
+
+		if (className == "SimpleBuilding")
+		{
+			SimpleBuilding* simpleBuilding = new SimpleBuilding(game, camera);
+			return simpleBuilding;
 		}
 
 		if (className == "SingleStreetLampPost")

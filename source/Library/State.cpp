@@ -26,7 +26,8 @@ namespace Library
 
 			XMMATRIX matrixRotation = XMMATRIX({ 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f });
 
-			if (NodeList::TryToMoveInNode(mCollider, XMVECTOR({ mCurrentXPosition, -7.0f, mCurrentYPosition, 1.0f }), matrixRotation, XMVECTOR({ mCurrentXPosition + mXDistancePerFrame, -7.0f, mCurrentYPosition + mYDistancePerFrame, 1.0f }), mCollNode))
+			if (NodeList::TryToMoveInNode(mCollider, XMVECTOR({ mCurrentXPosition, -7.0f, mCurrentYPosition, 1.0f }), matrixRotation, 
+				XMVECTOR({ mCurrentXPosition + mXDistancePerFrame, -7.0f, mCurrentYPosition + mYDistancePerFrame, 1.0f }), mCollNode))
 			{
 				mCurrentFrameNumber++;
 				mCurrentXPosition += mXDistancePerFrame;
