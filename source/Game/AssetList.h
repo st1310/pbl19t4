@@ -3,6 +3,7 @@
 #include "DrawableGameComponent.h"
 #include "Scene.h"
 
+#include "Barrier.h"
 #include "Bench.h"
 #include "CargoTrain.h"
 #include "ConcreteWall.h"

@@ -180,6 +180,9 @@
     <ClCompile Include="SimpleBuilding.cpp">
       <Filter>Assets\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Barrier.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PassengerTrain.h">
@@ -315,6 +318,9 @@
       <Filter>Assets\Header</Filter>
     </ClInclude>
     <ClInclude Include="SimpleBuilding.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Barrier.h">
       <Filter>Assets\Header</Filter>
     </ClInclude>
   </ItemGroup>

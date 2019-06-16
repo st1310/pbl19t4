@@ -8415,7 +8415,7 @@
 </GrassGroundNew>
 <GrassGroundNew>
    <Position>
-      <x= 329.80/>
+      <x= 329.79/>
       <y= -11.25/>
       <z= 416.50/>
    </Position>
@@ -8449,7 +8449,7 @@
 </GrassGroundNew>
 <GrassGroundNew>
    <Position>
-      <x= 411.59/>
+      <x= 411.57/>
       <y= -11.25/>
       <z= 416.50/>
    </Position>
@@ -8466,7 +8466,7 @@
 </GrassGroundNew>
 <GrassGroundNew>
    <Position>
-      <x= 452.49/>
+      <x= 452.48/>
       <y= -11.25/>
       <z= 416.50/>
    </Position>
@@ -8500,7 +8500,7 @@
 </GrassGroundNew>
 <GrassGroundNew>
    <Position>
-      <x= 534.30/>
+      <x= 534.28/>
       <y= -11.25/>
       <z= 416.50/>
    </Position>
@@ -8534,7 +8534,7 @@
 </GrassGroundNew>
 <GrassGroundNew>
    <Position>
-      <x= 616.10/>
+      <x= 616.09/>
       <y= -11.25/>
       <z= 416.50/>
    </Position>
@@ -8585,7 +8585,7 @@
 </GrassGroundNew>
 <GrassGroundNew>
    <Position>
-      <x= 738.79/>
+      <x= 738.78/>
       <y= -11.25/>
       <z= 416.50/>
    </Position>
@@ -8770,3 +8770,1856 @@
       <z= 0.75/>
    </Scale>
 </PlatformGroundPlain>
+<Barrier>
+   <Position>
+      <x= 181.00/>
+      <y= -9.75/>
+      <z= 393.48/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 146.69/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 112.37/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 78.08/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 43.79/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 9.50/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= -24.79/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= -59.09/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= -93.40/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= -127.69/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 244.50/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 278.79/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 313.07/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 347.39/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 381.69/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 415.98/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 450.29/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 484.60/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 518.90/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 553.20/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 587.50/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 621.78/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 656.09/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 690.40/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 710.00/>
+      <y= -9.75/>
+      <z= 379.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 270.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 710.00/>
+      <y= -9.75/>
+      <z= 344.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 270.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 724.50/>
+      <y= -9.75/>
+      <z= 325.10/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 758.78/>
+      <y= -9.75/>
+      <z= 324.98/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 778.46/>
+      <y= -9.75/>
+      <z= 339.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 778.50/>
+      <y= -9.75/>
+      <z= 374.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 793.20/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<Barrier>
+   <Position>
+      <x= 827.50/>
+      <y= -9.75/>
+      <z= 393.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.15/>
+      <z= 0.50/>
+   </Scale>
+</Barrier>
+<PlatformGroundPlain>
+   <Position>
+      <x= 786.00/>
+      <y= -24.75/>
+      <z= 391.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 426.00/>
+      <y= -24.75/>
+      <z= 382.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<InformationBoard>
+   <Position>
+      <x= 232.00/>
+      <y= -8.75/>
+      <z= 404.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 180.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.40/>
+      <y= 0.40/>
+      <z= 0.40/>
+   </Scale>
+</InformationBoard>
+<SingleStreetLampPost>
+   <Position>
+      <x= 179.00/>
+      <y= -9.00/>
+      <z= 380.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.15/>
+      <y= 0.15/>
+      <z= 0.15/>
+   </Scale>
+</SingleStreetLampPost>
+<GrassGroundNew>
+   <Position>
+      <x= 728.25/>
+      <y= -11.25/>
+      <z= 375.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</GrassGroundNew>
+<GrassGroundNew>
+   <Position>
+      <x= 728.25/>
+      <y= -12.25/>
+      <z= 334.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</GrassGroundNew>
+<GrassGroundNew>
+   <Position>
+      <x= 760.50/>
+      <y= -11.50/>
+      <z= 375.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</GrassGroundNew>
+<GrassGroundNew>
+   <Position>
+      <x= 769.20/>
+      <y= -12.25/>
+      <z= 334.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</GrassGroundNew>
+<PlatformGroundPlain>
+   <Position>
+      <x= 795.00/>
+      <y= -24.25/>
+      <z= 347.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 786.00/>
+      <y= -24.75/>
+      <z= 303.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 456.00/>
+      <y= -24.75/>
+      <z= 382.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 486.00/>
+      <y= -24.75/>
+      <z= 382.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 516.00/>
+      <y= -24.75/>
+      <z= 382.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 546.00/>
+      <y= -24.75/>
+      <z= 382.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 576.00/>
+      <y= -24.75/>
+      <z= 382.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 606.00/>
+      <y= -24.75/>
+      <z= 382.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 636.00/>
+      <y= -24.75/>
+      <z= 382.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 666.00/>
+      <y= -24.75/>
+      <z= 382.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 696.00/>
+      <y= -24.75/>
+      <z= 382.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 696.00/>
+      <y= -24.75/>
+      <z= 338.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 666.00/>
+      <y= -24.75/>
+      <z= 338.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 636.00/>
+      <y= -24.75/>
+      <z= 338.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 606.00/>
+      <y= -24.75/>
+      <z= 338.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 576.00/>
+      <y= -24.75/>
+      <z= 338.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 546.00/>
+      <y= -24.75/>
+      <z= 338.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 516.00/>
+      <y= -24.75/>
+      <z= 338.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 486.00/>
+      <y= -24.75/>
+      <z= 338.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 456.00/>
+      <y= -24.75/>
+      <z= 338.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 426.00/>
+      <y= -24.75/>
+      <z= 338.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<PlatformGroundPlain>
+   <Position>
+      <x= 396.00/>
+      <y= -24.75/>
+      <z= 338.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= -90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.75/>
+   </Scale>
+</PlatformGroundPlain>
+<StoneGround>
+   <Position>
+      <x= -199.50/>
+      <y= -12.00/>
+      <z= -41.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= -199.50/>
+      <y= -12.00/>
+      <z= -70.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= -199.50/>
+      <y= -12.00/>
+      <z= -99.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= -199.50/>
+      <y= -12.00/>
+      <z= -128.50/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<Track>
+   <Position>
+      <x= -164.50/>
+      <y= -9.00/>
+      <z= -35.75/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
+   </Scale>
+</Track>
+<Track>
+   <Position>
+      <x= -165.38/>
+      <y= -9.00/>
+      <z= -90.25/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
+   </Scale>
+</Track>
+<StoneGround>
+   <Position>
+      <x= 221.19/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 172.30/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 123.39/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 74.49/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 25.59/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= -23.30/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= -72.20/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 221.19/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 172.30/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 123.39/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 74.49/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 25.59/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= -23.30/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= -72.19/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 299.29/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 299.30/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 348.19/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 348.20/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 397.09/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 397.10/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 446.00/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 445.99/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 494.89/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 494.89/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 543.80/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 543.80/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 592.70/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 592.70/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 641.60/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 641.60/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 690.49/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 690.50/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 739.39/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 739.39/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 788.30/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 788.29/>
+      <y= 2.30/>
+      <z= 478.90/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 837.20/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 837.20/>
+      <y= 2.30/>
+      <z= 478.89/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 886.10/>
+      <y= 2.30/>
+      <z= 449.70/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 886.10/>
+      <y= 2.30/>
+      <z= 478.90/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>
+<StoneGround>
+   <Position>
+      <x= 210.99/>
+      <y= 2.30/>
+      <z= 422.10/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 90.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</StoneGround>

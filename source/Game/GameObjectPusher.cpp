@@ -50,6 +50,17 @@ namespace Rendering
 
 			std::string className = gameObjects.at(i).GetAssetClassName();
 
+			if (className == "Barrier")
+			{
+				Barrier* barrier = new Barrier(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				barrier->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(barrier);
+			}
+
 			if (className == "Bench")
 			{
 				Bench* bench = new Bench(game, camera,
@@ -392,6 +403,12 @@ namespace Rendering
 
 	GameObject* GameObjectPusher::GetGameObjectByName(Game& game, Camera& camera, std::string className)
 	{
+		if (className == "Barrier")
+		{
+			Barrier* barrier = new Barrier(game, camera);
+			return barrier;
+		}
+
 		if (className == "Bench")
 		{
 			Bench* bench = new Bench(game, camera);
