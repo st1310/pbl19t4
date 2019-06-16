@@ -2,7 +2,7 @@
 
 /************* Resources *************/
 #define MaxBones 60
-#define NUM_LIGHTS 10
+#define NUM_LIGHTS 100
 
 cbuffer CBufferPerFrame
 {
