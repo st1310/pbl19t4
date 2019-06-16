@@ -16,7 +16,8 @@ namespace Library
 	void Button::Init() {
 
 		std::wostringstream textureName;
-		textureName << L"content\\Textures\\pepeBlack.png";
+		textureName << texture.c_str();
+		//textureName << L"content\\Textures\\pepeBlack.png";
 		HRESULT hr = DirectX::CreateWICTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &currentButtonTexture);
 
 	}

@@ -68,8 +68,16 @@ namespace Rendering
 
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
-		ID3D11ShaderResourceView* mUnitGuiTexture;
-		ID3D11ShaderResourceView* mUnitGuiTextureBlack;
+		ID3D11ShaderResourceView* mGreenSoldierNO;
+		ID3D11ShaderResourceView* mGreenSoldierMAYBE;
+		ID3D11ShaderResourceView* mGreenSoldierCLICKED;
+		ID3D11ShaderResourceView* mGreenSoldierYES;
+
+		ID3D11ShaderResourceView* mPaintSoldierNO;
+		ID3D11ShaderResourceView* mPaintSoldierMAYBE;
+		ID3D11ShaderResourceView* mPaintSoldierCLICKED;
+		ID3D11ShaderResourceView* mPaintSoldierYES;
+
 		ID3D11ShaderResourceView* mSelectionRectangleTexture;
 
 		ID3D11ShaderResourceView* mOptionActionsBanner;

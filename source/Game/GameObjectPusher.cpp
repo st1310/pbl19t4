@@ -84,6 +84,18 @@ namespace Rendering
 				assets.push_back(concreteWall);
 			}
 
+			if (className == "TrainStationMap")
+			{
+				TrainStationMap* trainStationMap = new TrainStationMap(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				trainStationMap->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+
+				assets.push_back(trainStationMap);
+			}
+
 			if (className == "DoubleStreetLampPost")
 			{
 				DoubleStreetLampPost* doubleStreetLampPost = new DoubleStreetLampPost(game, camera,
@@ -375,6 +387,12 @@ namespace Rendering
 		{
 			ConcreteWall* concreteWall = new ConcreteWall(game, camera);
 			return concreteWall;
+		}
+
+		if (className == "TrainStationMap")
+		{
+			TrainStationMap* trainStationMap = new TrainStationMap(game, camera);
+			return trainStationMap;
 		}
 
 		if (className == "DoubleStreetLampPost")

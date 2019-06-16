@@ -61,8 +61,8 @@ namespace Library
 		GameCamera(const GameCamera& rhs);
 		GameCamera& operator=(const GameCamera& rhs);
 
-		XMFLOAT2 mMinimalPointAtMap = XMFLOAT2(-100,-270);
-		XMFLOAT2 mMaximalPointAtMap = XMFLOAT2(200, 200);
+		XMFLOAT2 mMinimalPointAtMap = XMFLOAT2(-10000,-270000);
+		XMFLOAT2 mMaximalPointAtMap = XMFLOAT2(200000, 200000);
 
 		const float mMoveCameraFactor = 0.25; //0.12;
 		const float mStartYPosition = 70;
