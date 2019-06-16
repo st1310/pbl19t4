@@ -20,7 +20,7 @@ namespace Library
 	private:
 		XMFLOAT2 position;
 		XMFLOAT2 size;
-		std::string texture = nullptr;
+		std::string texture = "";
 		ID3D11ShaderResourceView* currentButtonTexture;
 
 		Game* mGame;

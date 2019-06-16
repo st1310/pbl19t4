@@ -217,6 +217,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="TexturedModelMaterialDemo.cpp" />
     <ClCompile Include="Track.cpp" />
     <ClCompile Include="TrainLevel.cpp" />
+    <ClCompile Include="TrainStationMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetList.h" />
@@ -265,6 +266,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClInclude Include="TexturedModelMaterialDemo.h" />
     <ClInclude Include="Track.h" />
     <ClInclude Include="TrainLevel.h" />
+    <ClInclude Include="TrainStationMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

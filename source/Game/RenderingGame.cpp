@@ -22,7 +22,7 @@
 #include "FullScreenRenderTarget.h"
 #include "FullScreenQuad.h"
 #include "ColorFilterMaterial.h"
-
+#include <CommonStates.h>
 
 namespace Rendering
 {
@@ -35,8 +35,7 @@ namespace Rendering
 		mRenderStateHelper(nullptr),
 		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mGameManager(nullptr), buttonClicked(false), unitActiveFlag(false), mUnitGuiTexture(nullptr),
-		mUnitGuiTextureBlack(nullptr), mSelectionRectangleTexture(nullptr), mOptionActionsBanner(nullptr)
+		mGameManager(nullptr), buttonClicked(false), unitActiveFlag(false), mSelectionRectangleTexture(nullptr), mOptionActionsBanner(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -86,11 +85,31 @@ namespace Rendering
 		mSpriteFont = new SpriteFont(mDirect3DDevice, L"Content\\Fonts\\Arial_14_Regular.spritefont");
 
 
-		std::wostringstream textureName;
-		textureName << L"content\\Textures\\pepeColor.png";
 
-		std::wostringstream textureName1;
-		textureName1 << L"content\\Textures\\pepeBlack.png";
+
+		std::wostringstream mGreenSoldierNOtexture;
+		mGreenSoldierNOtexture << L"content\\Textures\\GreenSoldierNO.png";
+
+		std::wostringstream mGreenSoldierYEStexture;
+		mGreenSoldierYEStexture << L"content\\Textures\\GreenSoldierYES.png";
+
+		std::wostringstream mGreenSoldierMAYBEtexture;
+		mGreenSoldierMAYBEtexture << L"content\\Textures\\GreenSoldierMAYBE.png";
+
+		std::wostringstream mGreenSoldierCLICKEDtexture;
+		mGreenSoldierCLICKEDtexture << L"content\\Textures\\GreenSoldierCLICKED.png";
+
+		std::wostringstream mPaintSoldierNOtexture;
+		mPaintSoldierNOtexture << L"content\\Textures\\PaintSoldierNO.png";
+		
+		std::wostringstream mPaintSoldierYEStexture;
+		mPaintSoldierYEStexture << L"content\\Textures\\PaintSoldierYES.png";
+
+		std::wostringstream mPaintSoldierMAYBEtexture;
+		mPaintSoldierMAYBEtexture << L"content\\Textures\\PaintSoldierMAYBE.png";
+
+		std::wostringstream mPaintSoldierCLICKEDtexture;
+		mPaintSoldierCLICKEDtexture << L"content\\Textures\\PaintSoldierCLICKED.png";
 
 		std::wostringstream textureForRactangle;
 		textureForRactangle << L"content\\Textures\\whiteRect75.png";
@@ -221,8 +240,10 @@ namespace Rendering
 		std::wostringstream mStartButtonCLICKEDtexture;
 		mStartButtonCLICKEDtexture << L"content\\Textures\\StartButtonCLICKED.png";
 
-		HRESULT hr = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName.str().c_str(), nullptr, &mUnitGuiTexture);
-		HRESULT hr1 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureName1.str().c_str(), nullptr, &mUnitGuiTextureBlack);
+		HRESULT hr = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierNOtexture.str().c_str(), nullptr, &mGreenSoldierNO);
+		HRESULT hr1 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierYEStexture.str().c_str(), nullptr, &mGreenSoldierYES);
+		HRESULT hr01 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierMAYBEtexture.str().c_str(), nullptr, &mGreenSoldierMAYBE);
+		HRESULT hr00 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierCLICKEDtexture.str().c_str(), nullptr, &mGreenSoldierCLICKED);
 		HRESULT hr2 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureForRactangle.str().c_str(), nullptr, &mSelectionRectangleTexture);
 		HRESULT hr3 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureOptionActionsBanner.str().c_str(), nullptr, &mOptionActionsBanner);
 		HRESULT hr4 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), texturePortraitBanner.str().c_str(), nullptr, &mPortraitBanner);
@@ -266,7 +287,12 @@ namespace Rendering
 		HRESULT hr42 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStartButtonNOtexture.str().c_str(), nullptr, &mStartButtonNO);
 		HRESULT hr43 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStartButtonMAYBEtexture.str().c_str(), nullptr, &mStartButtonMAYBE);
 		HRESULT hr44 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStartButtonCLICKEDtexture.str().c_str(), nullptr, &mStartButtonCLICKED);
-		
+		HRESULT hr45 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintSoldierNOtexture.str().c_str(), nullptr, &mPaintSoldierNO);
+		HRESULT hr46 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintSoldierYEStexture.str().c_str(), nullptr, &mPaintSoldierYES);
+		HRESULT hr47 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintSoldierMAYBEtexture.str().c_str(), nullptr, &mPaintSoldierMAYBE);
+		HRESULT hr48 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintSoldierCLICKEDtexture.str().c_str(), nullptr, &mPaintSoldierCLICKED);
+
+
 		if (FAILED(hr))
 			throw GameException("CreateWICTextureFromFile1() failed.", hr);
 
@@ -455,12 +481,12 @@ namespace Rendering
 		
 	
 		if (showUnitsGui == false) {
-			if (mMouse->X() > 320.0f  && mMouse->X() < 720.0f && mMouse->Y() > 680.0f) {
+			if (mMouse->X() > 320.0f  && mMouse->X() < 750.0f && mMouse->Y() > 680.0f) {
 				showUnitsGui = true;
 			}
 		}
 		else if (showUnitsGui == true) {
-			if (mMouse->X() < 320.0f  || mMouse->X() > 720.0f || mMouse->Y() < 570.0f) {
+			if (mMouse->X() < 320.0f  || mMouse->X() > 750.0f || mMouse->Y() < 570.0f) {
 				showUnitsGui = false;
 			}
 		}
@@ -529,8 +555,9 @@ namespace Rendering
 		
 		Game::Draw(gameTime);
 		
+		static auto m_states = std::make_unique<CommonStates>(Direct3DDevice());
 		mRenderStateHelper->SaveAll();
-		mSpriteBatch->Begin();
+		mSpriteBatch->Begin(SpriteSortMode_Deferred, m_states->NonPremultiplied());
 		int posOffset = 0;
 		std::wostringstream mouseLabel;
 		mouseLabel << L"Mouse Position: " << mMouse->X() << ", "
@@ -574,14 +601,14 @@ namespace Rendering
 	
 
 		else {
-			if (showUnitsGui) {
-				mSpriteBatch->Draw(mUnitsBanner, SimpleMath::Rectangle(320.0f, 570.0f, 400.0f, 220.0f));
+			if (showUnitsGui || !(indexSelectedGuiButtons.empty())) {
+				//mSpriteBatch->Draw(mUnitsBanner, SimpleMath::Rectangle(320.0f, 570.0f, 400.0f, 220.0f));
 				posOffset = 1;
 
 			}
 			else if (!showUnitsGui)
 			{
-				mSpriteBatch->Draw(mUnitsBanner, SimpleMath::Rectangle(320.0f, 650.0f, 400.0f, 220.0f));
+				//mSpriteBatch->Draw(mUnitsBanner, SimpleMath::Rectangle(320.0f, 650.0f, 400.0f, 220.0f));
 				posOffset = 0;
 			}
 
@@ -590,14 +617,17 @@ namespace Rendering
 				for (int i = 0; i < mGameManager->GetListOfUnits().size(); i++)
 				{
 
-					if (mGameManager->GetListOfUnits().at(i)->GetUnitID() == mGameManager->unitID)
-						mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * i, 630.0f - posOffset * 80, 100.0f, 100.0f));
+					if (mGameManager->GetListOfUnits().at(i)->GetUnitID() == mGameManager->unitID) {
+						//mSpriteBatch->Draw(mGreenSoldierNO, SimpleMath::Rectangle(360.f + 30 * i, 630.0f - posOffset * 80, 150.0f, 100.0f));
+					}
+						
 
 					else
 					{
 						if (mMouse->X() > (360 + i * 60) && (mMouse->X() < (360 + i * 60 + 60) && mMouse->Y() > 680) || keybordButtonSelectUnit == i)
 						{
-							mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * i, 630.0f - posOffset * 80, 100.0f, 100.0f));
+							
+							mSpriteBatch->Draw(mGreenSoldierMAYBE, SimpleMath::Rectangle(360.f + 40 * i, 700.0f - posOffset *60, 150.0f, 120.0f));
 
 							if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft) || keybordButtonSelectUnit == i) {
 								showUnitDetail = true;
@@ -632,9 +662,10 @@ namespace Rendering
 								}
 							}
 						}
-						else
+
+						else 
 						{
-							mSpriteBatch->Draw(mUnitGuiTextureBlack, SimpleMath::Rectangle(360.f + 50 * i, 700.0f - posOffset * 80, 80.0f, 80.0f));
+							mSpriteBatch->Draw(mGreenSoldierNO, SimpleMath::Rectangle(360.f + 40 * i, 700.0f - posOffset * 60, 150.0f, 120.0f));
 
 						}
 					}
@@ -643,7 +674,7 @@ namespace Rendering
 
 			if (!(indexSelectedGuiButtons.empty())) {
 				for (int i = 0; i < indexSelectedGuiButtons.size(); i++) {
-					mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(360.f + 50 * indexSelectedGuiButtons.at(i), 630.0f - posOffset * 80, 100.0f, 100.0f));
+					mSpriteBatch->Draw(mGreenSoldierYES, SimpleMath::Rectangle(360.f + 40 * indexSelectedGuiButtons.at(i), 700.0f - posOffset * 60, 150.0f, 120.0f));
 				}
 			}
 			else {
@@ -713,7 +744,7 @@ namespace Rendering
 						mSpriteBatch->Draw(mNoiseIconYES, SimpleMath::Rectangle(920.0f, 680.0f, 85.0f, 85.0f));
 				}
 				else {
-					mSpriteBatch->Draw(mUnitGuiTexture, SimpleMath::Rectangle(800, 350, 200.0f, 200.0f));
+					mSpriteBatch->Draw(mGreenSoldierNO, SimpleMath::Rectangle(800, 350, 200.0f, 200.0f));
 					if (mMouse->X() > 750.0f && mMouse->X() < 815.0f  && mMouse->Y() > 605.0f  && mMouse->Y() < 665.0f) {
 						mSpriteBatch->Draw(mPaintIconMAYBE, SimpleMath::Rectangle(750.0f, 600.0f, 70.0f, 70.0f));
 						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
