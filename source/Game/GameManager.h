@@ -31,6 +31,7 @@ namespace Rendering
 			void StartScene(int sceneId);
 			std::vector<CollisionNode*> GetCurrentListOfNodes();
 			void SelectingGrounds(long mouseX, long mouseY);
+			void SelectingGroundsFake(long mouseX, long mouseY);
 			int GetCurrentSceneId();
 			bool GetunitsReadyToMove();
 			bool GetShowMousePosition();

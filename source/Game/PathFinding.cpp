@@ -20,12 +20,12 @@ bool PathFinding::OnUserCreate() {
 	//grid of nodes
 	for (int x = 0; x < nMapWidth; x++) {
 		for (int y = 0; y < nMapHeight; y++) {
-			nodes[y*nMapWidth + x].x = -75 + y;
-			nodes[y*nMapWidth + x].y = 5 + x;
+			nodes[y*nMapWidth + x].x = -180 + y;
+			nodes[y*nMapWidth + x].y = -500 + x;
 			nodes[y*nMapWidth + x].bObstacle = false;
 			nodes[y*nMapWidth + x].bVisited = false;
 			nodes[y*nMapWidth + x].parent = nullptr;
-			nodes[y*nMapWidth + x].bbox = new BoundingBox(XMFLOAT3(nodes[y*nMapWidth + x].x, .0f, nodes[y*nMapWidth + x].y), XMFLOAT3(1.f, 1.f, 1.f));
+			nodes[y*nMapWidth + x].bbox = new BoundingBox(XMFLOAT3(nodes[y*nMapWidth + x].x, 70.0f, nodes[y*nMapWidth + x].y), XMFLOAT3(1.f, 1.f, 1.f));
 			collider->PushNewBoundingBox(nodes[y*nMapWidth + x].bbox);
 		}
 	}

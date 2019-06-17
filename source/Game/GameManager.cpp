@@ -69,8 +69,8 @@ namespace Rendering
 		mScenes.at(mCurrentScene)->Clear();
 
 		pathfinding = new PathFinding();
-		pathfinding->setMapWidth(27);
-		pathfinding->setMapHeight(145);
+		pathfinding->setMapWidth(1000);		//gora dol
+		pathfinding->setMapHeight(1000);		//prawo lewo
 		pathfinding->OnUserCreate();
 
 		mCurrentScene = sceneId;
@@ -122,6 +122,8 @@ namespace Rendering
 				mScenes[mCurrentScene]->RemoveTriggerableObjectFromList(trgObj);
 				remCmp->~GameComponent();
 			}
+
+			//if(trgObj)
 
 			FarbaMan* frbMn = trgObj->As<FarbaMan>();
 
@@ -217,6 +219,39 @@ namespace Rendering
 				}
 			}
 		}
+	}
+
+	void GameManager::SelectingGroundsFake(long mouseX, long mouseY) {
+		XMMATRIX viewProj = camera->ViewProjectionMatrix();
+		XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);
+
+		float x = (((2.0f * mouseX) / (float)game->ScreenWidth()) - 1.0f);
+		float y = (((2.0f * mouseY) / (float)game->ScreenHeight()) - 1.0f) * (-1.0f);
+
+		XMVECTOR farPoint = XMVECTOR({ x, y, 1.0f, 0.0f });
+		XMVECTOR TrF = XMVector3Transform(farPoint, invProjectionView);
+		TrF = XMVector3Normalize(TrF);
+
+		if (mScenes.at(mCurrentScene) != nullptr)
+			for (BoundingBox* bbx : mScenes.at(mCurrentScene)->GetGroundCollider()->GetBoundingBox()) {
+				float farPlaneDistance = camera->FarPlaneDistance();
+				if (bbx->Intersects(camera->PositionVector(), TrF, farPlaneDistance)) {
+
+					targetPos = bbx->Center;
+					for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
+						AnimatedGameObject* gameObject = (AnimatedGameObject*)(mScenes.at(mCurrentScene)->GetUnitList().at(i));
+						if (gameObject->getIsSelected()) {
+							std::vector<XMFLOAT2> nextPositions = std::vector<XMFLOAT2>();
+							nextPositions.push_back(XMFLOAT2(targetPos.x, targetPos.z));
+							gameObject->StartMoving(nextPositions);
+							gameObject->RunInit();
+
+							gameObject->setIsSelected(false);
+						}
+					}
+
+				}
+			}
 	}
 
 	void GameManager::SelectingUnits(float mouseX, float mouseY)

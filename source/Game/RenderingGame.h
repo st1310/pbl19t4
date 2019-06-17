@@ -134,6 +134,17 @@ namespace Rendering
 		ID3D11ShaderResourceView* mStartButtonMAYBE;
 		ID3D11ShaderResourceView* mStartButtonCLICKED;
 
+		ID3D11ShaderResourceView* mPaintCutsceenPortrait1;
+		ID3D11ShaderResourceView* mPaintCutsceenPortrait2;
+		ID3D11ShaderResourceView* mPaintCutsceenPortrait3;
+		ID3D11ShaderResourceView* mPaintCutsceenPortrait4;
+
+		ID3D11ShaderResourceView* mbuttonXNO;
+		ID3D11ShaderResourceView* mbuttonXMAYBE;
+		ID3D11ShaderResourceView* mbuttonXCLICKED;
+
+		ID3D11ShaderResourceView* mcloud1;
+
 		XMFLOAT2 mMouseTextPosition;
 
 		XMFLOAT2 mouse1Pos;
@@ -154,7 +165,7 @@ namespace Rendering
 		int whichTacticalMapButtonIsClicking = -1;
 		int keybordButtonSelectUnit = -1;
 		std::vector<int> indexSelectedGuiButtons;
-
+		int cutSceneId=0;
 		
 	};
 }

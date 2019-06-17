@@ -7225,6 +7225,23 @@
 </Policeman>
 <Soldier>
    <Position>
+      <x= 830.00/>
+      <y= -9.70/>
+      <z= 420.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.05/>
+      <y= 0.05/>
+      <z= 0.05/>
+   </Scale>
+</Soldier>
+<Soldier>
+   <Position>
       <x= -76.00/>
       <y= -9.70/>
       <z= -460.00/>

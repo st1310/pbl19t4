@@ -36,5 +36,6 @@ namespace Rendering
 		std::vector<XMFLOAT2> patrolPath;
 		PointLight* mPointLight;
 		SpotLight* mSpotLight;
+		bool mRunAndCatchUnit = false;
 	};
 }
