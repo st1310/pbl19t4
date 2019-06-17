@@ -144,6 +144,9 @@ namespace Rendering
 		ID3D11ShaderResourceView* mbuttonXCLICKED;
 
 		ID3D11ShaderResourceView* mcloud1;
+		ID3D11ShaderResourceView* mcloud2;
+		ID3D11ShaderResourceView* mcloud3;
+		ID3D11ShaderResourceView* mcloud4;
 
 		XMFLOAT2 mMouseTextPosition;
 
