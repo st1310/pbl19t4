@@ -15,8 +15,8 @@ namespace Rendering
 			startRotation,
 			startScale)
 	{
-		mRotationSpeed = 1;
-		mTranslationSpeed = 0.05;
+		mRotationSpeed = 3;
+		mTranslationSpeed = 0.15;
 
 		mIsSelectedDiffuseMap = "Content\\Textures\\SoldierSelectedDiffuseMap.jpg";
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";

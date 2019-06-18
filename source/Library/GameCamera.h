@@ -66,7 +66,7 @@ namespace Library
 		XMFLOAT2 mMinimalPointAtMap = XMFLOAT2(-100,-1200); // First value must be -100
 		XMFLOAT2 mMaximalPointAtMap = XMFLOAT2(1200, 1200);
 
-		const float mMoveCameraFactor = 2; //0.12;
+		const float mMoveCameraFactor = 3; //0.12;
 		const float mStartYPosition = 70;
 		float mCurrentYPosition = mStartYPosition;
 		const float mMinYPosition = 30;

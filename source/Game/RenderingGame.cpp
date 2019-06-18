@@ -610,8 +610,8 @@ namespace Rendering
 		mSpriteBatch->Begin(SpriteSortMode_Deferred, m_states->NonPremultiplied());
 		int posOffset = 0;
 		std::wostringstream mouseLabel;
-		mouseLabel << L"Mouse Position: " << mMouse->X() << ", "
-			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
+		//mouseLabel << L"Mouse Position: " << mMouse->X() << ", "
+			//<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition, Colors::White);
 		if (mapLevel == true) {
 			mSpriteBatch->Draw(mTacticalMap, SimpleMath::Rectangle(0, 0, 1028.0f, 780.0f));

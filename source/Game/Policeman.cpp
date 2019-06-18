@@ -16,8 +16,8 @@ namespace Rendering
 			startScale)
 	{
 		SetAnimations();
-		mRotationSpeed = 1;
-		mTranslationSpeed = 0.05;
+		mRotationSpeed = 3;
+		mTranslationSpeed = 0.25;
 
 		mSpotLight = new SpotLight(game);
 		mPointLight = new PointLight(game);
