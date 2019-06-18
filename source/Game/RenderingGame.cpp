@@ -211,7 +211,7 @@ namespace Rendering
 		mOptionButtonNOtexture << L"content\\Textures\\menuNO.png";
 		
 		std::wostringstream mTacticalMapTexture;
-		mTacticalMapTexture << L"content\\Textures\\TacticalMap.png";
+		mTacticalMapTexture << L"content\\Textures\\MapaDesperacja.png";
 
 		std::wostringstream mTacticalButton1NOtexture;
 		mTacticalButton1NOtexture << L"content\\Textures\\TacticalButton1NO.png";
@@ -264,6 +264,15 @@ namespace Rendering
 
 		std::wostringstream mcloud1texture;
 		mcloud1texture << L"content\\Textures\\cloud1.png";
+
+		std::wostringstream mcloud2texture;
+		mcloud2texture << L"content\\Textures\\cloud2.png";
+
+		std::wostringstream mcloud3texture;
+		mcloud3texture << L"content\\Textures\\cloud3.png";
+
+		std::wostringstream mcloud4texture;
+		mcloud4texture << L"content\\Textures\\cloud4.png";
 		
 
 		HRESULT hr = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierNOtexture.str().c_str(), nullptr, &mGreenSoldierNO);
@@ -326,6 +335,9 @@ namespace Rendering
 		HRESULT hr55 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mbuttonXMAYBEtex.str().c_str(), nullptr, &mbuttonXMAYBE);
 		HRESULT hr56 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mbuttonXCLICKEDtex.str().c_str(), nullptr, &mbuttonXCLICKED);
 		HRESULT hr57 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud1texture.str().c_str(), nullptr, &mcloud1);
+		HRESULT hr58 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud2texture.str().c_str(), nullptr, &mcloud2);
+		HRESULT hr59 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud3texture.str().c_str(), nullptr, &mcloud3);
+		HRESULT hr60 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud4texture.str().c_str(), nullptr, &mcloud4);
 
 		if (FAILED(hr))
 			throw GameException("CreateWICTextureFromFile1() failed.", hr);
@@ -618,11 +630,12 @@ namespace Rendering
 			
 			if (cutSceneId == 3) {
 				mSpriteBatch->Draw(mPaintCutsceenPortrait4, SimpleMath::Rectangle(700.0f, 150.0f, 350.0f, 300.0f));
-			
+				mSpriteBatch->Draw(mcloud4, SimpleMath::Rectangle(700.0f, 15.0f, 300.0f, 200.0f));
 			}
 
 			if (cutSceneId == 2) {
 				mSpriteBatch->Draw(mPaintCutsceenPortrait3, SimpleMath::Rectangle(700.0f, 150.0f, 350.0f, 300.0f));
+				mSpriteBatch->Draw(mcloud3, SimpleMath::Rectangle(700.0f, 15.0f, 300.0f, 200.0f));
 				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
 				if (mMouse->X() > 700.0f && mMouse->X() < 730.0f  && mMouse->Y() > 150.0f  && mMouse->Y() < 180.0f) {
 					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
@@ -635,6 +648,7 @@ namespace Rendering
 
 			if (cutSceneId == 1) {
 				mSpriteBatch->Draw(mPaintCutsceenPortrait1, SimpleMath::Rectangle(700.0f, 150.0f, 350.0f, 300.0f));
+				mSpriteBatch->Draw(mcloud2, SimpleMath::Rectangle(700.0f, 15.0f, 300.0f, 200.0f));
 				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
 				if (mMouse->X() > 700.0f && mMouse->X() < 730.0f  && mMouse->Y() > 150.0f  && mMouse->Y() < 180.0f) {
 					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
