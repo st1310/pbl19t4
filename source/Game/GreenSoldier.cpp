@@ -43,7 +43,10 @@ namespace Rendering
 	{
 		AnimatedGameObject::Initialize();
 		AnimatedGameObject::BuildSphere(4.5f);
-		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 15.f, 12.f, 15.f });
+
+		//if (!this->silent)
+		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 22.f, 12.f, 22.f });
+		//else this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 11.f, 12.f, 11.f });
 
 		mPointLight->SetRadius(30.0f);
 		mPointLight->SetPosition(mPosition);

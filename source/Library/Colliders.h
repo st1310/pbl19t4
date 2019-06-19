@@ -9,6 +9,7 @@ namespace Library
 	{
 		POLICE_CATCHING,
 		POLICE_ALLIES,
+		POLICE_DETECTION,
 		POLICE_STATION,
 		PLAYER_UNIT,
 		PAINT,
@@ -42,7 +43,7 @@ namespace Library
 
 		bool CheckCollision(std::vector<Colliders*>& CollidableObjects);
 
-		bool CheckTriggerCollision(Colliders& TriggerCollider);
+		bool CheckTriggerCollision(int idOfTrigger, Colliders* TriggerCollider);
 		bool CheckTriggerCollisionPaintingPosition(XMFLOAT3 position);
 
 		bool CheckColliderIntersecteByRay(XMVECTOR origin, XMVECTOR direct, float distance);

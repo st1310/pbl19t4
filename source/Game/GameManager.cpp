@@ -157,9 +157,29 @@ namespace Rendering
 				if (mKeyboard->WasKeyPressedThisFrame(DIK_E) && frbMn->mAllowPainting)
 				{
 					frbMn->StartPainting();
-					if (frbMn->destroyPaintedPosition)
+				}
+				if (frbMn->destroyPaintedPosition)
+				{
+					GetCurrentListOfNodes().at(0)->DestroyPaintedPosition(frbMn->getPosition());
+				}
+			}
+			else
+			{
+				Policeman* plcMn = trgObj->As<Policeman>();
+				if (plcMn != nullptr)
+				{
+					if (plcMn->IsAlerted())
 					{
-						GetCurrentListOfNodes().at(0)->DestroyPaintedPosition(frbMn->getPosition());
+						for (DrawableGameComponent* gmCmp : mScenes.at(mCurrentScene)->GetUnitList())
+						{
+							GreenSoldier* green = gmCmp->As<GreenSoldier>();
+							XMFLOAT3 targetPosition = XMFLOAT3 (0, 0, 0);
+							if (plcMn->getCollider()->CheckTriggerCollision(2, green->getCollider()))
+							{
+								plcMn->SetTargetPosition(green->getPosition().x, green->getPosition().z);
+								plcMn->SetRunAndCath(true);
+							}
+						}
 					}
 				}
 			}

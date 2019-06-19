@@ -182,6 +182,7 @@ namespace Library
 			if (cld->CheckTriggerCollisionPaintingPosition(positionOfPainter))
 			{
 				RemoveTriggerCollider(cld);
+				return;
 			}
 		}
 	}

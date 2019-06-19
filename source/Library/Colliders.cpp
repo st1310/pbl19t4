@@ -300,7 +300,7 @@ namespace Library
 	{
 		for (int i = 0; i < TriggerBoxes.size(); i++)
 		{
-			if ((TriggerBoxes[i].second->Intersects(XMLoadFloat3(&position)) != DISJOINT) || (TriggerBoxes[i].first == PAINTING_POSITION))
+			if ((TriggerBoxes[i].second->Intersects(XMLoadFloat3(&position)) != DISJOINT) && (TriggerBoxes[i].first == PAINTING_POSITION))
 			{
 				return true;
 			}
@@ -308,33 +308,26 @@ namespace Library
 		return false;
 	}
 
-	//All trigers must be given to TriggerBoxes during OnTriggerEnter and taken during OnTriggerExit 
-	bool Colliders::CheckTriggerCollision(Colliders& TriggerCollider)
-	{
-		bool colided = false;
 
-		if (BoundingBoxes.empty() && BoundingSpheres.empty())
+	bool Colliders::CheckTriggerCollision(int idOfTrigger, Colliders* TriggerCollider)
+	{
+
+		if (this->TriggerBoxes.empty() || idOfTrigger + 1 > this->TriggerBoxes.size())
 			return false;
 
-		for (BoundingBox* bbox : BoundingBoxes)
+		for (BoundingBox* bbox : TriggerCollider->BoundingBoxes)
 		{
-			for (BoundingBox* trigger : TriggerCollider.BoundingBoxes)
-				if (bbox->Intersects(*trigger))
-					colided = true;
-			
+			if (TriggerBoxes[idOfTrigger].second->Intersects(XMLoadFloat3(&bbox->Center)) != DISJOINT)
+				return true;
 		}
 
-		if (colided) return true;
-		
-		for (BoundingSphere* bSph : BoundingSpheres)
+		for (BoundingSphere* bSph : TriggerCollider->BoundingSpheres)
 		{
-			for (BoundingBox* trigger : TriggerCollider.BoundingBoxes)
-				if (bSph->Intersects(*trigger))
-					colided = true;
-
+			if (TriggerBoxes[idOfTrigger].second->Intersects(XMLoadFloat3(&bSph->Center)) != DISJOINT)
+				return true;
 		}
 
-		return colided;
+		return false;
 	}
 
 	bool Colliders::CheckColliderIntersecteByRay(XMVECTOR origin, XMVECTOR direct, float distance)

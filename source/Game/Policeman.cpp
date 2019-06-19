@@ -38,6 +38,7 @@ namespace Rendering
 		AnimatedGameObject::BuildSphere(4.5f);
 		this->mCollider->setTriggerReaction(POLICE_CATCHING, mPosition, { 8.f, 12.f, 8.f });
 		this->mCollider->setTriggerReaction(POLICE_ALLIES, mPosition, { 15.f, 12.f, 15.f });
+		this->mCollider->setTriggerReaction(POLICE_DETECTION, mPosition, { 22.f, 12.f, 22.f });
 		//patrolPath.clear();
 		//patrolPath.push_back(XMFLOAT2(10.0f, 10.0f));
 	//	this->StartFollow();
@@ -50,16 +51,43 @@ namespace Rendering
 
 		mPointLight->SetPosition(pointLightPosition);
 
-		int time = (int)gameTime.TotalGameTime();
-		time = time % 2;
-
-		if (time == 1)
-			mPointLight->SetColor(Colors::Blue - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
-
-		else 
-			mPointLight->SetColor(Colors::DarkRed - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
-
 		mSpotLight->SetPosition(mPosition);
+
+		if (mRunAndCatchUnit)
+		{
+			if ((mPosition.x != mTargetPosition.x) && (mPosition.z != mTargetPosition.y))
+			{
+			//set him moving towards mTargetPosition
+			mPointLight->SetColor(Colors::DarkRed - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
+			} 
+			else if (alerted)
+			{
+				if (alertedTimeOnTargetPlace = -1.f)
+				{
+					//start walking/searching around
+					alertedTimeOnTargetPlace = gameTime.TotalGameTime();
+				}
+				else if (gameTime.TotalGameTime() - alertedTimeOnTargetPlace >= 15.f)
+				{
+					alerted = false;
+					mRunAndCatchUnit = false;
+					alertedTimeOnTargetPlace = -1.f;
+					//Stop walking around and go back to patroling
+					this->StartFollow();
+				}
+			}
+		}
+		else
+		{
+			int time = (int)gameTime.TotalGameTime();
+			time = time % 2;
+
+			if (time == 1)
+				mPointLight->SetColor(Colors::Blue - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
+
+			else
+				mPointLight->SetColor(Colors::DarkRed - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
+		}
 	}
 
 	void Policeman::addPointToPatrolPath(XMFLOAT2 point) {
@@ -125,6 +153,11 @@ namespace Rendering
 				break;
 			case Library::PLAYER_UNIT:
 				playerNearby++;
+				if ((playerNearby <= (policeNearby + 1) * 2))
+				{
+					alertedTimeOnTargetPlace = -1.f;
+					alerted = true;
+				}
 				//If policeNearby > playerNearby - provoke to attack player?
 				break;
 			case Library::PAINT:
@@ -148,6 +181,22 @@ namespace Rendering
 		mAnimations.insert(std::pair<std::string, int>("StopAttack", 6));
 		//mAnimations.insert(std::pair<std::string, int>("Patrol", 7));
 		mAnimations.insert(std::pair<std::string, int>("Run", 7));
+	}
+
+	bool Policeman::IsAlerted()
+	{
+		return alerted;
+	}
+
+	void Policeman::SetRunAndCath(bool value)
+	{
+		mRunAndCatchUnit = value;
+	}
+
+	void Policeman::SetTargetPosition(float posX, float posZ)
+	{
+		mTargetPosition.x = posX;
+		mTargetPosition.y = posZ;
 	}
 
 	PointLight* Policeman::GetPointLight()

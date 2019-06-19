@@ -38,7 +38,7 @@ namespace Rendering
 	{
 		AnimatedGameObject::Initialize();
 		AnimatedGameObject::BuildSphere(4.5f);
-		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 9.f, 12.f, 9.f });
+		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 22.f, 12.f, 22.f });
 	}
 
 	void FarbaMan::setSelection(bool selection)
@@ -78,13 +78,17 @@ namespace Rendering
 			}
 			else if (gameTime.TotalGameTime() - paintingTime >= 25.f)
 			{
-				//You win, zog off
+				//You win, log off
 				painting = false;
 				destroyPaintedPosition = true;
 				AnimatedGameObject::ChangeAnimation("Idle");
 				paintingTime = -1.f;
 				mIsBusy = false;
 			}
+		}
+		else if (destroyPaintedPosition)
+		{
+			destroyPaintedPosition = false;
 		}
 
 		if (this->getPosition().x > 570.0f && this->getPosition().x <590.0f &&  this->getPosition().z > -230.0f && this->getPosition().z < -190.0f) {
