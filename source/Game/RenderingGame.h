@@ -49,7 +49,7 @@ namespace Rendering
 		virtual void Shutdown() override;
 
 	private:
-
+		void LoadGuiTextures();
 
 		static const XMVECTORF32 BackgroundColor;
 

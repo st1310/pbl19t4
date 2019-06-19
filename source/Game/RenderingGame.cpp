@@ -84,372 +84,7 @@ namespace Rendering
 		mSpriteBatch = new SpriteBatch(mDirect3DDeviceContext);
 		mSpriteFont = new SpriteFont(mDirect3DDevice, L"Content\\Fonts\\Arial_14_Regular.spritefont");
 
-
-
-
-		std::wostringstream mGreenSoldierNOtexture;
-		mGreenSoldierNOtexture << L"content\\Textures\\GreenSoldierNO.png";
-
-		std::wostringstream mGreenSoldierYEStexture;
-		mGreenSoldierYEStexture << L"content\\Textures\\GreenSoldierYES.png";
-
-		std::wostringstream mGreenSoldierMAYBEtexture;
-		mGreenSoldierMAYBEtexture << L"content\\Textures\\GreenSoldierMAYBE.png";
-
-		std::wostringstream mGreenSoldierCLICKEDtexture;
-		mGreenSoldierCLICKEDtexture << L"content\\Textures\\GreenSoldierCLICKED.png";
-
-		std::wostringstream mPaintSoldierNOtexture;
-		mPaintSoldierNOtexture << L"content\\Textures\\PaintSoldierNO.png";
-		
-		std::wostringstream mPaintSoldierYEStexture;
-		mPaintSoldierYEStexture << L"content\\Textures\\PaintSoldierYES.png";
-
-		std::wostringstream mPaintSoldierMAYBEtexture;
-		mPaintSoldierMAYBEtexture << L"content\\Textures\\PaintSoldierMAYBE.png";
-
-		std::wostringstream mPaintSoldierCLICKEDtexture;
-		mPaintSoldierCLICKEDtexture << L"content\\Textures\\PaintSoldierCLICKED.png";
-
-		std::wostringstream textureForRactangle;
-		textureForRactangle << L"content\\Textures\\whiteRect75.png";
-
-		std::wostringstream textureOptionActionsBanner;
-		textureOptionActionsBanner << L"content\\Textures\\optionsFrame.png";
-
-		std::wostringstream texturePortraitBanner;
-		texturePortraitBanner << L"content\\Textures\\characterPortraitFrame.png";
-
-		std::wostringstream textureUnitsBanner;
-		textureUnitsBanner << L"content\\Textures\\UnitsBanner.png";
-
-		std::wostringstream mPaintIconYEStexture;
-		mPaintIconYEStexture << L"content\\Textures\\sprayYES.png";
-
-		std::wostringstream mPaintIconMAYBEtexture;
-		mPaintIconMAYBEtexture << L"content\\Textures\\sprayMAYBE.png";
-
-		std::wostringstream mPaintIconCLICKEDtexture;
-		mPaintIconCLICKEDtexture << L"content\\Textures\\sprayCLICKED.png";
-
-		std::wostringstream mPaintIconNOtexture;
-		mPaintIconNOtexture << L"content\\Textures\\sprayNO.png";
-
-		std::wostringstream mCleanIconYEStexture;
-		mCleanIconYEStexture << L"content\\Textures\\cleanYES.png";
-
-		std::wostringstream mCleanIconMAYBEtexture;
-		mCleanIconMAYBEtexture << L"content\\Textures\\cleanMAYBE.png";
-
-		std::wostringstream mCleanIconCLICKEDtexture;
-		mCleanIconCLICKEDtexture << L"content\\Textures\\cleanCLICKED.png";
-
-		std::wostringstream mCleanIconNOtexture;
-		mCleanIconNOtexture << L"content\\Textures\\cleanNO.png";
-
-		std::wostringstream mPatrolIconMAYBEtexture;
-		mPatrolIconMAYBEtexture << L"content\\Textures\\patrolMAYBE.png";
-
-		std::wostringstream mPatrolIconCLICKEDtexture;
-		mPatrolIconCLICKEDtexture << L"content\\Textures\\patrolCLICKED.png";
-
-		std::wostringstream mPatrolIconYEStexture;
-		mPatrolIconYEStexture << L"content\\Textures\\patrolYES.png";
-
-		std::wostringstream mPatrolIconNOtexture;
-		mPatrolIconNOtexture << L"content\\Textures\\patrolNO.png";
-
-		std::wostringstream mStopIconMAYBEtexture;
-		mStopIconMAYBEtexture << L"content\\Textures\\stopMAYBE.png";
-
-		std::wostringstream mStopIconCLICKEDtexture;
-		mStopIconCLICKEDtexture << L"content\\Textures\\stopCLICKED.png";
-
-		std::wostringstream mStopIconNOtexture;
-		mStopIconNOtexture << L"content\\Textures\\stopNO.png";
-
-		std::wostringstream mStopIconYEStexture;
-		mStopIconYEStexture << L"content\\Textures\\stopYES.png";
-
-		std::wostringstream mHideIconNOtexture;
-		mHideIconNOtexture << L"content\\Textures\\hideNO.png";
-
-		std::wostringstream mHideIconCLICKEDtexture;
-		mHideIconCLICKEDtexture << L"content\\Textures\\hideCLICKED.png";
-
-		std::wostringstream mHideIconMAYBEtexture;
-		mHideIconMAYBEtexture << L"content\\Textures\\hideMAYBE.png";
-
-		std::wostringstream mHideIconYEStexture;
-		mHideIconYEStexture << L"content\\Textures\\hideYES.png";
-
-		std::wostringstream mNoiseIconYEStexture;
-		mNoiseIconYEStexture << L"content\\Textures\\noiseYES.png";
-
-		std::wostringstream mNoiseIconCLICKEDtexture;
-		mNoiseIconCLICKEDtexture << L"content\\Textures\\noiseCLICKED.png";
-
-		std::wostringstream mNoiseIconMAYBEtexture;
-		mNoiseIconMAYBEtexture << L"content\\Textures\\noiseMAYBE.png";
-
-		std::wostringstream mNoiseIconNOtexture;
-		mNoiseIconNOtexture << L"content\\Textures\\noiseNO.png";
-
-		std::wostringstream mMultiSelectionPortraittexture;
-		mMultiSelectionPortraittexture << L"content\\Textures\\multiSelectionPortrait.png";
-
-		std::wostringstream mOptionButtonYEStexture;
-		mOptionButtonYEStexture << L"content\\Textures\\menuYES.png";
-
-		std::wostringstream mOptionButtonMAYBEtexture;
-		mOptionButtonMAYBEtexture << L"content\\Textures\\menuMAYBE.png";
-
-		std::wostringstream mOptionButtonCLICKEDtexture;
-		mOptionButtonCLICKEDtexture << L"content\\Textures\\menuCLICKED.png";
-
-		std::wostringstream mOptionButtonNOtexture;
-		mOptionButtonNOtexture << L"content\\Textures\\menuNO.png";
-		
-		std::wostringstream mTacticalMapTexture;
-		mTacticalMapTexture << L"content\\Textures\\MapaDesperacja.png";
-
-		std::wostringstream mTacticalButton1NOtexture;
-		mTacticalButton1NOtexture << L"content\\Textures\\TacticalButton1NO.png";
-
-		std::wostringstream mTacticalButton1YEStexture;
-		mTacticalButton1YEStexture << L"content\\Textures\\TacticalButton1YES.png";
-
-		std::wostringstream mTacticalButton1MAYBEtexture;
-		mTacticalButton1MAYBEtexture << L"content\\Textures\\TacticalButton1MAYBE.png";
-
-		std::wostringstream mTacticalButton1CLICKEDtexture;
-		mTacticalButton1CLICKEDtexture << L"content\\Textures\\TacticalButton1CLICKED.png";
-
-		std::wostringstream mTacticalButton2NOtexture;
-		mTacticalButton2NOtexture << L"content\\Textures\\TacticalButton2NO.png";
-
-		std::wostringstream mTacticalButton3NOtexture;
-		mTacticalButton3NOtexture << L"content\\Textures\\TacticalButton3NO.png";
-
-		std::wostringstream mStartButtonNOtexture;
-		mStartButtonNOtexture << L"content\\Textures\\StartButtonNO.png";
-
-		std::wostringstream mStartButtonMAYBEtexture;
-		mStartButtonMAYBEtexture << L"content\\Textures\\StartButtonMAYBE.png";
-
-		std::wostringstream mStartButtonCLICKEDtexture;
-		mStartButtonCLICKEDtexture << L"content\\Textures\\StartButtonCLICKED.png";
-
-
-		std::wostringstream mshowPainter;
-		mshowPainter << L"content\\Textures\\showPainter.png";
-
-		std::wostringstream mshowPainter1;
-		mshowPainter1 << L"content\\Textures\\showPainter1.png";
-
-		std::wostringstream mshowPainter2;
-		mshowPainter2 << L"content\\Textures\\showPainter2.png";
-
-		std::wostringstream mshowPainter3;
-		mshowPainter3 << L"content\\Textures\\showPainter3.png";
-
-		std::wostringstream mbuttonXNOtex;
-		mbuttonXNOtex << L"content\\Textures\\buttonXNO.png";
-
-		std::wostringstream mbuttonXMAYBEtex;
-		mbuttonXMAYBEtex << L"content\\Textures\\buttonXMAYBE.png";
-
-		std::wostringstream mbuttonXCLICKEDtex;
-		mbuttonXCLICKEDtex << L"content\\Textures\\buttonXCLICKED.png";
-
-		std::wostringstream mcloud1texture;
-		mcloud1texture << L"content\\Textures\\cloud1.png";
-
-		std::wostringstream mcloud2texture;
-		mcloud2texture << L"content\\Textures\\cloud2.png";
-
-		std::wostringstream mcloud3texture;
-		mcloud3texture << L"content\\Textures\\cloud3.png";
-
-		std::wostringstream mcloud4texture;
-		mcloud4texture << L"content\\Textures\\cloud4.png";
-
-		std::wostringstream mcloud5texture;
-		mcloud5texture << L"content\\Textures\\cloud5.png";
-
-		std::wostringstream mcloud6texture;
-		mcloud6texture << L"content\\Textures\\cloud6.png";
-
-		std::wostringstream mcloud7texture;
-		mcloud7texture << L"content\\Textures\\cloud7.png";
-		
-
-		HRESULT hr = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierNOtexture.str().c_str(), nullptr, &mGreenSoldierNO);
-		HRESULT hr1 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierYEStexture.str().c_str(), nullptr, &mGreenSoldierYES);
-		HRESULT hr01 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierMAYBEtexture.str().c_str(), nullptr, &mGreenSoldierMAYBE);
-		HRESULT hr00 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierCLICKEDtexture.str().c_str(), nullptr, &mGreenSoldierCLICKED);
-		HRESULT hr2 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureForRactangle.str().c_str(), nullptr, &mSelectionRectangleTexture);
-		HRESULT hr3 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureOptionActionsBanner.str().c_str(), nullptr, &mOptionActionsBanner);
-		HRESULT hr4 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), texturePortraitBanner.str().c_str(), nullptr, &mPortraitBanner);
-		HRESULT hr5 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureUnitsBanner.str().c_str(), nullptr, &mUnitsBanner);
-		HRESULT hr6 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintIconYEStexture.str().c_str(), nullptr, &mPaintIconYES);
-		HRESULT hr7 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintIconNOtexture.str().c_str(), nullptr, &mPaintIconNO);
-		HRESULT hr8 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mCleanIconYEStexture.str().c_str(), nullptr, &mCleanIconYES);
-		HRESULT hr9 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mCleanIconNOtexture.str().c_str(), nullptr, &mCleanIconNO);
-		HRESULT hr10 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolIconYEStexture.str().c_str(), nullptr, &mPatrolIconYES);
-		HRESULT hr11 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolIconNOtexture.str().c_str(), nullptr, &mPatrolIconNO);
-		HRESULT hr12 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStopIconNOtexture.str().c_str(), nullptr, &mStopIconNO);
-		HRESULT hr13 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStopIconYEStexture.str().c_str(), nullptr, &mStopIconYES);
-		HRESULT hr14 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mHideIconNOtexture.str().c_str(), nullptr, &mHideIconNO);
-		HRESULT hr15 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mHideIconYEStexture.str().c_str(), nullptr, &mHideIconYES);
-		HRESULT hr16 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconNOtexture.str().c_str(), nullptr, &mNoiseIconNO);
-		HRESULT hr17 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconYEStexture.str().c_str(), nullptr, &mNoiseIconYES);
-		HRESULT hr18 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mMultiSelectionPortraittexture.str().c_str(), nullptr, &mMultiSelectionPortrait);
-		HRESULT hr19 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconMAYBEtexture.str().c_str(), nullptr, &mNoiseIconMAYBE);
-		HRESULT hr20 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mHideIconMAYBEtexture.str().c_str(), nullptr, &mHideIconMAYBE);
-		HRESULT hr21 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStopIconMAYBEtexture.str().c_str(), nullptr, &mStopIconMAYBE);
-		HRESULT hr22 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolIconMAYBEtexture.str().c_str(), nullptr, &mPatrolIconMAYBE);
-		HRESULT hr23 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mCleanIconMAYBEtexture.str().c_str(), nullptr, &mCleanIconMAYBE);
-		HRESULT hr24 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintIconMAYBEtexture.str().c_str(), nullptr, &mPaintIconMAYBE);
-		HRESULT hr25 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintIconCLICKEDtexture.str().c_str(), nullptr, &mPaintIconCLICKED);
-		HRESULT hr26 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mCleanIconCLICKEDtexture.str().c_str(), nullptr, &mCleanIconCLICKED);
-		HRESULT hr27 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolIconCLICKEDtexture.str().c_str(), nullptr, &mPatrolIconCLICKED);
-		HRESULT hr28 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStopIconCLICKEDtexture.str().c_str(), nullptr, &mStopIconCLICKED);
-		HRESULT hr29 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mHideIconCLICKEDtexture.str().c_str(), nullptr, &mHideIconCLICKED);
-		HRESULT hr30 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconCLICKEDtexture.str().c_str(), nullptr, &mNoiseIconCLICKED);
-		HRESULT hr31 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonYEStexture.str().c_str(), nullptr, &mOptionButtonYES);
-		HRESULT hr32 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonMAYBEtexture.str().c_str(), nullptr, &mOptionButtonMAYBE);
-		HRESULT hr33 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonCLICKEDtexture.str().c_str(), nullptr, &mOptionButtonCLICKED);
-		HRESULT hr34 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonNOtexture.str().c_str(), nullptr, &mOptionButtonNO);
-		HRESULT hr35 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalMapTexture.str().c_str(), nullptr, &mTacticalMap);
-		HRESULT hr36 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton1NOtexture.str().c_str(), nullptr, &mTacticalButton1NO);
-		HRESULT hr37 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton1YEStexture.str().c_str(), nullptr, &mTacticalButton1YES);
-		HRESULT hr38 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton1MAYBEtexture.str().c_str(), nullptr, &mTacticalButton1MAYBE);
-		HRESULT hr39 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton1CLICKEDtexture.str().c_str(), nullptr, &mTacticalButton1CLICKED);
-		HRESULT hr40 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton2NOtexture.str().c_str(), nullptr, &mTacticalButton2NO);
-		HRESULT hr41 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton3NOtexture.str().c_str(), nullptr, &mTacticalButton3NO);
-		HRESULT hr42 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStartButtonNOtexture.str().c_str(), nullptr, &mStartButtonNO);
-		HRESULT hr43 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStartButtonMAYBEtexture.str().c_str(), nullptr, &mStartButtonMAYBE);
-		HRESULT hr44 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStartButtonCLICKEDtexture.str().c_str(), nullptr, &mStartButtonCLICKED);
-		HRESULT hr45 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintSoldierNOtexture.str().c_str(), nullptr, &mPaintSoldierNO);
-		HRESULT hr46 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintSoldierYEStexture.str().c_str(), nullptr, &mPaintSoldierYES);
-		HRESULT hr47 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintSoldierMAYBEtexture.str().c_str(), nullptr, &mPaintSoldierMAYBE);
-		HRESULT hr48 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintSoldierCLICKEDtexture.str().c_str(), nullptr, &mPaintSoldierCLICKED);
-		HRESULT hr49 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mshowPainter.str().c_str(), nullptr, &mPaintCutsceenPortrait1);
-		HRESULT hr50= DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mshowPainter1.str().c_str(), nullptr, &mPaintCutsceenPortrait2);
-		HRESULT hr51 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mshowPainter2.str().c_str(), nullptr, &mPaintCutsceenPortrait3);
-		HRESULT hr52 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mshowPainter3.str().c_str(), nullptr, &mPaintCutsceenPortrait4);
-		HRESULT hr53 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mshowPainter3.str().c_str(), nullptr, &mPaintCutsceenPortrait4);
-		HRESULT hr54 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mbuttonXNOtex.str().c_str(), nullptr, &mbuttonXNO);
-		HRESULT hr55 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mbuttonXMAYBEtex.str().c_str(), nullptr, &mbuttonXMAYBE);
-		HRESULT hr56 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mbuttonXCLICKEDtex.str().c_str(), nullptr, &mbuttonXCLICKED);
-		HRESULT hr57 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud1texture.str().c_str(), nullptr, &mcloud1);
-		HRESULT hr58 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud2texture.str().c_str(), nullptr, &mcloud2);
-		HRESULT hr59 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud3texture.str().c_str(), nullptr, &mcloud3);
-		HRESULT hr60 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud4texture.str().c_str(), nullptr, &mcloud4);
-		HRESULT hr61 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud5texture.str().c_str(), nullptr, &mcloud5);
-		HRESULT hr62 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud6texture.str().c_str(), nullptr, &mcloud6);
-		HRESULT hr63 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud7texture.str().c_str(), nullptr, &mcloud7);
-
-		if (FAILED(hr))
-			throw GameException("CreateWICTextureFromFile1() failed.", hr);
-
-		if (FAILED(hr2))
-			throw GameException("CreateWICTextureFromFile1(2) failed.", hr);
-
-		if (FAILED(hr3))
-			throw GameException("CreateWICTextureFromFile3() failed.", hr3);
-
-		if (FAILED(hr4))
-			throw GameException("CreateWICTextureFromFile4() failed.", hr);
-
-		if (FAILED(hr5))
-			throw GameException("CreateWICTextureFromFile5() failed.", hr);
-
-		if (FAILED(hr6))
-			throw GameException("CreateWICTextureFromFile6() failed.", hr);
-
-		if (FAILED(hr7))
-			throw GameException("CreateWICTextureFromFile7() failed.", hr);
-
-		if (FAILED(hr8))
-			throw GameException("CreateWICTextureFromFile8() failed.", hr8);
-
-		if (FAILED(hr9))
-			throw GameException("CreateWICTextureFromFile9() failed.", hr9);
-
-		if (FAILED(hr10))
-			throw GameException("CreateWICTextureFromFile01() failed.", hr);
-
-
-		if (FAILED(hr11))
-			throw GameException("CreateWICTextureFromFile11() failed.", hr);
-
-		if (FAILED(hr12))
-			throw GameException("CreateWICTextureFromFile12() failed.", hr);
-
-
-		if (FAILED(hr13))
-			throw GameException("CreateWICTextureFromFile13() failed.", hr);
-
-
-		if (FAILED(hr14))
-			throw GameException("CreateWICTextureFromFile14() failed.", hr);
-
-		if (FAILED(hr18))
-			throw GameException("CreateWICTextureFromFile18() failed.", hr);
-
-		if (FAILED(hr15))
-			throw GameException("CreateWICTextureFromFile15() failed.", hr);
-
-		if (FAILED(hr16))
-			throw GameException("CreateWICTextureFromFile16() failed.", hr);
-
-		if (FAILED(hr17))
-			throw GameException("CreateWICTextureFromFile17() failed.", hr);
-
-		if (FAILED(hr18))
-			throw GameException("CreateWICTextureFromFile18() failed.", hr18);
-
-		if (FAILED(hr19))
-			throw GameException("CreateWICTextureFromFile19() failed.", hr19);
-
-		if (FAILED(hr20))
-			throw GameException("CreateWICTextureFromFile20() failed.", hr20);
-
-		if (FAILED(hr21))
-			throw GameException("CreateWICTextureFromFile21() failed.", hr21);
-
-		if (FAILED(hr22))
-			throw GameException("CreateWICTextureFromFile22() failed.", hr22);
-
-		if (FAILED(hr23))
-			throw GameException("CreateWICTextureFromFile23() failed.", hr23);
-		
-		if (FAILED(hr35))
-			throw GameException("CreateWICTextureFromFile1() failed.", hr35);
-
-		if (FAILED(hr35))
-			throw GameException("CreateWICTextureFromFile1() failed.", hr35);
-
-		if (FAILED(hr35))
-			throw GameException("CreateWICTextureFromFile1() failed.", hr35);
-
-		if (FAILED(hr35))
-			throw GameException("CreateWICTextureFromFile1() failed.", hr35);
-
-		if (FAILED(hr45))
-			throw GameException("CreateWICTextureFromFile45() failed.", hr34);
-
-
-		if (FAILED(hr49))
-			throw GameException("CreateWICTextureFromFile49() failed.", hr49);
-		if (FAILED(hr50))
-			throw GameException("CreateWICTextureFromFile50() failed.", hr50);
-		if (FAILED(hr51))
-			throw GameException("CreateWICTextureFromFile51() failed.", hr51);
-		if (FAILED(hr52))
-			throw GameException("CreateWICTextureFromFile52() failed.", hr52);
+		LoadGuiTextures();
 
 		Game::Initialize();
 	}
@@ -588,8 +223,7 @@ namespace Rendering
 			if (mMouse->X() < 320.0f  || mMouse->X() > 750.0f || mMouse->Y() < 570.0f) {
 				showUnitsGui = false;
 			}
-		}
-		
+		}	
 		
 
 
@@ -1048,8 +682,7 @@ namespace Rendering
 				mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x1, y1, 1.5f, abs(y2 - y1)));
 				mSpriteBatch->Draw(mSelectionRectangleTexture, SimpleMath::Rectangle(x2, y1, 1.5f, abs(y2 - y1)));
 			}
-		}
-		
+		}		
 
 		mSpriteBatch->End();
 		mRenderStateHelper->RestoreAll();
@@ -1059,5 +692,372 @@ namespace Rendering
 		{
 			throw GameException("IDXGISwapChain::Present() failed.", hr);
 		}
+	}
+
+	void RenderingGame::LoadGuiTextures()
+	{
+		std::wostringstream mGreenSoldierNOtexture;
+		mGreenSoldierNOtexture << L"content\\Textures\\GreenSoldierNO.png";
+
+		std::wostringstream mGreenSoldierYEStexture;
+		mGreenSoldierYEStexture << L"content\\Textures\\GreenSoldierYES.png";
+
+		std::wostringstream mGreenSoldierMAYBEtexture;
+		mGreenSoldierMAYBEtexture << L"content\\Textures\\GreenSoldierMAYBE.png";
+
+		std::wostringstream mGreenSoldierCLICKEDtexture;
+		mGreenSoldierCLICKEDtexture << L"content\\Textures\\GreenSoldierCLICKED.png";
+
+		std::wostringstream mPaintSoldierNOtexture;
+		mPaintSoldierNOtexture << L"content\\Textures\\PaintSoldierNO.png";
+
+		std::wostringstream mPaintSoldierYEStexture;
+		mPaintSoldierYEStexture << L"content\\Textures\\PaintSoldierYES.png";
+
+		std::wostringstream mPaintSoldierMAYBEtexture;
+		mPaintSoldierMAYBEtexture << L"content\\Textures\\PaintSoldierMAYBE.png";
+
+		std::wostringstream mPaintSoldierCLICKEDtexture;
+		mPaintSoldierCLICKEDtexture << L"content\\Textures\\PaintSoldierCLICKED.png";
+
+		std::wostringstream textureForRactangle;
+		textureForRactangle << L"content\\Textures\\whiteRect75.png";
+
+		std::wostringstream textureOptionActionsBanner;
+		textureOptionActionsBanner << L"content\\Textures\\optionsFrame.png";
+
+		std::wostringstream texturePortraitBanner;
+		texturePortraitBanner << L"content\\Textures\\characterPortraitFrame.png";
+
+		std::wostringstream textureUnitsBanner;
+		textureUnitsBanner << L"content\\Textures\\UnitsBanner.png";
+
+		std::wostringstream mPaintIconYEStexture;
+		mPaintIconYEStexture << L"content\\Textures\\sprayYES.png";
+
+		std::wostringstream mPaintIconMAYBEtexture;
+		mPaintIconMAYBEtexture << L"content\\Textures\\sprayMAYBE.png";
+
+		std::wostringstream mPaintIconCLICKEDtexture;
+		mPaintIconCLICKEDtexture << L"content\\Textures\\sprayCLICKED.png";
+
+		std::wostringstream mPaintIconNOtexture;
+		mPaintIconNOtexture << L"content\\Textures\\sprayNO.png";
+
+		std::wostringstream mCleanIconYEStexture;
+		mCleanIconYEStexture << L"content\\Textures\\cleanYES.png";
+
+		std::wostringstream mCleanIconMAYBEtexture;
+		mCleanIconMAYBEtexture << L"content\\Textures\\cleanMAYBE.png";
+
+		std::wostringstream mCleanIconCLICKEDtexture;
+		mCleanIconCLICKEDtexture << L"content\\Textures\\cleanCLICKED.png";
+
+		std::wostringstream mCleanIconNOtexture;
+		mCleanIconNOtexture << L"content\\Textures\\cleanNO.png";
+
+		std::wostringstream mPatrolIconMAYBEtexture;
+		mPatrolIconMAYBEtexture << L"content\\Textures\\patrolMAYBE.png";
+
+		std::wostringstream mPatrolIconCLICKEDtexture;
+		mPatrolIconCLICKEDtexture << L"content\\Textures\\patrolCLICKED.png";
+
+		std::wostringstream mPatrolIconYEStexture;
+		mPatrolIconYEStexture << L"content\\Textures\\patrolYES.png";
+
+		std::wostringstream mPatrolIconNOtexture;
+		mPatrolIconNOtexture << L"content\\Textures\\patrolNO.png";
+
+		std::wostringstream mStopIconMAYBEtexture;
+		mStopIconMAYBEtexture << L"content\\Textures\\stopMAYBE.png";
+
+		std::wostringstream mStopIconCLICKEDtexture;
+		mStopIconCLICKEDtexture << L"content\\Textures\\stopCLICKED.png";
+
+		std::wostringstream mStopIconNOtexture;
+		mStopIconNOtexture << L"content\\Textures\\stopNO.png";
+
+		std::wostringstream mStopIconYEStexture;
+		mStopIconYEStexture << L"content\\Textures\\stopYES.png";
+
+		std::wostringstream mHideIconNOtexture;
+		mHideIconNOtexture << L"content\\Textures\\hideNO.png";
+
+		std::wostringstream mHideIconCLICKEDtexture;
+		mHideIconCLICKEDtexture << L"content\\Textures\\hideCLICKED.png";
+
+		std::wostringstream mHideIconMAYBEtexture;
+		mHideIconMAYBEtexture << L"content\\Textures\\hideMAYBE.png";
+
+		std::wostringstream mHideIconYEStexture;
+		mHideIconYEStexture << L"content\\Textures\\hideYES.png";
+
+		std::wostringstream mNoiseIconYEStexture;
+		mNoiseIconYEStexture << L"content\\Textures\\noiseYES.png";
+
+		std::wostringstream mNoiseIconCLICKEDtexture;
+		mNoiseIconCLICKEDtexture << L"content\\Textures\\noiseCLICKED.png";
+
+		std::wostringstream mNoiseIconMAYBEtexture;
+		mNoiseIconMAYBEtexture << L"content\\Textures\\noiseMAYBE.png";
+
+		std::wostringstream mNoiseIconNOtexture;
+		mNoiseIconNOtexture << L"content\\Textures\\noiseNO.png";
+
+		std::wostringstream mMultiSelectionPortraittexture;
+		mMultiSelectionPortraittexture << L"content\\Textures\\multiSelectionPortrait.png";
+
+		std::wostringstream mOptionButtonYEStexture;
+		mOptionButtonYEStexture << L"content\\Textures\\menuYES.png";
+
+		std::wostringstream mOptionButtonMAYBEtexture;
+		mOptionButtonMAYBEtexture << L"content\\Textures\\menuMAYBE.png";
+
+		std::wostringstream mOptionButtonCLICKEDtexture;
+		mOptionButtonCLICKEDtexture << L"content\\Textures\\menuCLICKED.png";
+
+		std::wostringstream mOptionButtonNOtexture;
+		mOptionButtonNOtexture << L"content\\Textures\\menuNO.png";
+
+		std::wostringstream mTacticalMapTexture;
+		mTacticalMapTexture << L"content\\Textures\\MapaDesperacja.png";
+
+		std::wostringstream mTacticalButton1NOtexture;
+		mTacticalButton1NOtexture << L"content\\Textures\\TacticalButton1NO.png";
+
+		std::wostringstream mTacticalButton1YEStexture;
+		mTacticalButton1YEStexture << L"content\\Textures\\TacticalButton1YES.png";
+
+		std::wostringstream mTacticalButton1MAYBEtexture;
+		mTacticalButton1MAYBEtexture << L"content\\Textures\\TacticalButton1MAYBE.png";
+
+		std::wostringstream mTacticalButton1CLICKEDtexture;
+		mTacticalButton1CLICKEDtexture << L"content\\Textures\\TacticalButton1CLICKED.png";
+
+		std::wostringstream mTacticalButton2NOtexture;
+		mTacticalButton2NOtexture << L"content\\Textures\\TacticalButton2NO.png";
+
+		std::wostringstream mTacticalButton3NOtexture;
+		mTacticalButton3NOtexture << L"content\\Textures\\TacticalButton3NO.png";
+
+		std::wostringstream mStartButtonNOtexture;
+		mStartButtonNOtexture << L"content\\Textures\\StartButtonNO.png";
+
+		std::wostringstream mStartButtonMAYBEtexture;
+		mStartButtonMAYBEtexture << L"content\\Textures\\StartButtonMAYBE.png";
+
+		std::wostringstream mStartButtonCLICKEDtexture;
+		mStartButtonCLICKEDtexture << L"content\\Textures\\StartButtonCLICKED.png";
+
+
+		std::wostringstream mshowPainter;
+		mshowPainter << L"content\\Textures\\showPainter.png";
+
+		std::wostringstream mshowPainter1;
+		mshowPainter1 << L"content\\Textures\\showPainter1.png";
+
+		std::wostringstream mshowPainter2;
+		mshowPainter2 << L"content\\Textures\\showPainter2.png";
+
+		std::wostringstream mshowPainter3;
+		mshowPainter3 << L"content\\Textures\\showPainter3.png";
+
+		std::wostringstream mbuttonXNOtex;
+		mbuttonXNOtex << L"content\\Textures\\buttonXNO.png";
+
+		std::wostringstream mbuttonXMAYBEtex;
+		mbuttonXMAYBEtex << L"content\\Textures\\buttonXMAYBE.png";
+
+		std::wostringstream mbuttonXCLICKEDtex;
+		mbuttonXCLICKEDtex << L"content\\Textures\\buttonXCLICKED.png";
+
+		std::wostringstream mcloud1texture;
+		mcloud1texture << L"content\\Textures\\cloud1.png";
+
+		std::wostringstream mcloud2texture;
+		mcloud2texture << L"content\\Textures\\cloud2.png";
+
+		std::wostringstream mcloud3texture;
+		mcloud3texture << L"content\\Textures\\cloud3.png";
+
+		std::wostringstream mcloud4texture;
+		mcloud4texture << L"content\\Textures\\cloud4.png";
+
+		std::wostringstream mcloud5texture;
+		mcloud5texture << L"content\\Textures\\cloud5.png";
+
+		std::wostringstream mcloud6texture;
+		mcloud6texture << L"content\\Textures\\cloud6.png";
+
+		std::wostringstream mcloud7texture;
+		mcloud7texture << L"content\\Textures\\cloud7.png";
+
+
+		HRESULT hr = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierNOtexture.str().c_str(), nullptr, &mGreenSoldierNO);
+		HRESULT hr1 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierYEStexture.str().c_str(), nullptr, &mGreenSoldierYES);
+		HRESULT hr01 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierMAYBEtexture.str().c_str(), nullptr, &mGreenSoldierMAYBE);
+		HRESULT hr00 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierCLICKEDtexture.str().c_str(), nullptr, &mGreenSoldierCLICKED);
+		HRESULT hr2 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureForRactangle.str().c_str(), nullptr, &mSelectionRectangleTexture);
+		HRESULT hr3 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureOptionActionsBanner.str().c_str(), nullptr, &mOptionActionsBanner);
+		HRESULT hr4 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), texturePortraitBanner.str().c_str(), nullptr, &mPortraitBanner);
+		HRESULT hr5 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureUnitsBanner.str().c_str(), nullptr, &mUnitsBanner);
+		HRESULT hr6 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintIconYEStexture.str().c_str(), nullptr, &mPaintIconYES);
+		HRESULT hr7 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintIconNOtexture.str().c_str(), nullptr, &mPaintIconNO);
+		HRESULT hr8 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mCleanIconYEStexture.str().c_str(), nullptr, &mCleanIconYES);
+		HRESULT hr9 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mCleanIconNOtexture.str().c_str(), nullptr, &mCleanIconNO);
+		HRESULT hr10 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolIconYEStexture.str().c_str(), nullptr, &mPatrolIconYES);
+		HRESULT hr11 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolIconNOtexture.str().c_str(), nullptr, &mPatrolIconNO);
+		HRESULT hr12 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStopIconNOtexture.str().c_str(), nullptr, &mStopIconNO);
+		HRESULT hr13 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStopIconYEStexture.str().c_str(), nullptr, &mStopIconYES);
+		HRESULT hr14 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mHideIconNOtexture.str().c_str(), nullptr, &mHideIconNO);
+		HRESULT hr15 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mHideIconYEStexture.str().c_str(), nullptr, &mHideIconYES);
+		HRESULT hr16 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconNOtexture.str().c_str(), nullptr, &mNoiseIconNO);
+		HRESULT hr17 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconYEStexture.str().c_str(), nullptr, &mNoiseIconYES);
+		HRESULT hr18 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mMultiSelectionPortraittexture.str().c_str(), nullptr, &mMultiSelectionPortrait);
+		HRESULT hr19 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconMAYBEtexture.str().c_str(), nullptr, &mNoiseIconMAYBE);
+		HRESULT hr20 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mHideIconMAYBEtexture.str().c_str(), nullptr, &mHideIconMAYBE);
+		HRESULT hr21 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStopIconMAYBEtexture.str().c_str(), nullptr, &mStopIconMAYBE);
+		HRESULT hr22 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolIconMAYBEtexture.str().c_str(), nullptr, &mPatrolIconMAYBE);
+		HRESULT hr23 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mCleanIconMAYBEtexture.str().c_str(), nullptr, &mCleanIconMAYBE);
+		HRESULT hr24 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintIconMAYBEtexture.str().c_str(), nullptr, &mPaintIconMAYBE);
+		HRESULT hr25 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintIconCLICKEDtexture.str().c_str(), nullptr, &mPaintIconCLICKED);
+		HRESULT hr26 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mCleanIconCLICKEDtexture.str().c_str(), nullptr, &mCleanIconCLICKED);
+		HRESULT hr27 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolIconCLICKEDtexture.str().c_str(), nullptr, &mPatrolIconCLICKED);
+		HRESULT hr28 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStopIconCLICKEDtexture.str().c_str(), nullptr, &mStopIconCLICKED);
+		HRESULT hr29 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mHideIconCLICKEDtexture.str().c_str(), nullptr, &mHideIconCLICKED);
+		HRESULT hr30 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mNoiseIconCLICKEDtexture.str().c_str(), nullptr, &mNoiseIconCLICKED);
+		HRESULT hr31 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonYEStexture.str().c_str(), nullptr, &mOptionButtonYES);
+		HRESULT hr32 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonMAYBEtexture.str().c_str(), nullptr, &mOptionButtonMAYBE);
+		HRESULT hr33 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonCLICKEDtexture.str().c_str(), nullptr, &mOptionButtonCLICKED);
+		HRESULT hr34 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mOptionButtonNOtexture.str().c_str(), nullptr, &mOptionButtonNO);
+		HRESULT hr35 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalMapTexture.str().c_str(), nullptr, &mTacticalMap);
+		HRESULT hr36 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton1NOtexture.str().c_str(), nullptr, &mTacticalButton1NO);
+		HRESULT hr37 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton1YEStexture.str().c_str(), nullptr, &mTacticalButton1YES);
+		HRESULT hr38 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton1MAYBEtexture.str().c_str(), nullptr, &mTacticalButton1MAYBE);
+		HRESULT hr39 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton1CLICKEDtexture.str().c_str(), nullptr, &mTacticalButton1CLICKED);
+		HRESULT hr40 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton2NOtexture.str().c_str(), nullptr, &mTacticalButton2NO);
+		HRESULT hr41 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton3NOtexture.str().c_str(), nullptr, &mTacticalButton3NO);
+		HRESULT hr42 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStartButtonNOtexture.str().c_str(), nullptr, &mStartButtonNO);
+		HRESULT hr43 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStartButtonMAYBEtexture.str().c_str(), nullptr, &mStartButtonMAYBE);
+		HRESULT hr44 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mStartButtonCLICKEDtexture.str().c_str(), nullptr, &mStartButtonCLICKED);
+		HRESULT hr45 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintSoldierNOtexture.str().c_str(), nullptr, &mPaintSoldierNO);
+		HRESULT hr46 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintSoldierYEStexture.str().c_str(), nullptr, &mPaintSoldierYES);
+		HRESULT hr47 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintSoldierMAYBEtexture.str().c_str(), nullptr, &mPaintSoldierMAYBE);
+		HRESULT hr48 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPaintSoldierCLICKEDtexture.str().c_str(), nullptr, &mPaintSoldierCLICKED);
+		HRESULT hr49 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mshowPainter.str().c_str(), nullptr, &mPaintCutsceenPortrait1);
+		HRESULT hr50 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mshowPainter1.str().c_str(), nullptr, &mPaintCutsceenPortrait2);
+		HRESULT hr51 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mshowPainter2.str().c_str(), nullptr, &mPaintCutsceenPortrait3);
+		HRESULT hr52 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mshowPainter3.str().c_str(), nullptr, &mPaintCutsceenPortrait4);
+		HRESULT hr53 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mshowPainter3.str().c_str(), nullptr, &mPaintCutsceenPortrait4);
+		HRESULT hr54 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mbuttonXNOtex.str().c_str(), nullptr, &mbuttonXNO);
+		HRESULT hr55 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mbuttonXMAYBEtex.str().c_str(), nullptr, &mbuttonXMAYBE);
+		HRESULT hr56 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mbuttonXCLICKEDtex.str().c_str(), nullptr, &mbuttonXCLICKED);
+		HRESULT hr57 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud1texture.str().c_str(), nullptr, &mcloud1);
+		HRESULT hr58 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud2texture.str().c_str(), nullptr, &mcloud2);
+		HRESULT hr59 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud3texture.str().c_str(), nullptr, &mcloud3);
+		HRESULT hr60 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud4texture.str().c_str(), nullptr, &mcloud4);
+		HRESULT hr61 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud5texture.str().c_str(), nullptr, &mcloud5);
+		HRESULT hr62 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud6texture.str().c_str(), nullptr, &mcloud6);
+		HRESULT hr63 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud7texture.str().c_str(), nullptr, &mcloud7);
+
+		if (FAILED(hr))
+			throw GameException("CreateWICTextureFromFile1() failed.", hr);
+
+		if (FAILED(hr2))
+			throw GameException("CreateWICTextureFromFile1(2) failed.", hr);
+
+		if (FAILED(hr3))
+			throw GameException("CreateWICTextureFromFile3() failed.", hr3);
+
+		if (FAILED(hr4))
+			throw GameException("CreateWICTextureFromFile4() failed.", hr);
+
+		if (FAILED(hr5))
+			throw GameException("CreateWICTextureFromFile5() failed.", hr);
+
+		if (FAILED(hr6))
+			throw GameException("CreateWICTextureFromFile6() failed.", hr);
+
+		if (FAILED(hr7))
+			throw GameException("CreateWICTextureFromFile7() failed.", hr);
+
+		if (FAILED(hr8))
+			throw GameException("CreateWICTextureFromFile8() failed.", hr8);
+
+		if (FAILED(hr9))
+			throw GameException("CreateWICTextureFromFile9() failed.", hr9);
+
+		if (FAILED(hr10))
+			throw GameException("CreateWICTextureFromFile01() failed.", hr);
+
+
+		if (FAILED(hr11))
+			throw GameException("CreateWICTextureFromFile11() failed.", hr);
+
+		if (FAILED(hr12))
+			throw GameException("CreateWICTextureFromFile12() failed.", hr);
+
+
+		if (FAILED(hr13))
+			throw GameException("CreateWICTextureFromFile13() failed.", hr);
+
+
+		if (FAILED(hr14))
+			throw GameException("CreateWICTextureFromFile14() failed.", hr);
+
+		if (FAILED(hr18))
+			throw GameException("CreateWICTextureFromFile18() failed.", hr);
+
+		if (FAILED(hr15))
+			throw GameException("CreateWICTextureFromFile15() failed.", hr);
+
+		if (FAILED(hr16))
+			throw GameException("CreateWICTextureFromFile16() failed.", hr);
+
+		if (FAILED(hr17))
+			throw GameException("CreateWICTextureFromFile17() failed.", hr);
+
+		if (FAILED(hr18))
+			throw GameException("CreateWICTextureFromFile18() failed.", hr18);
+
+		if (FAILED(hr19))
+			throw GameException("CreateWICTextureFromFile19() failed.", hr19);
+
+		if (FAILED(hr20))
+			throw GameException("CreateWICTextureFromFile20() failed.", hr20);
+
+		if (FAILED(hr21))
+			throw GameException("CreateWICTextureFromFile21() failed.", hr21);
+
+		if (FAILED(hr22))
+			throw GameException("CreateWICTextureFromFile22() failed.", hr22);
+
+		if (FAILED(hr23))
+			throw GameException("CreateWICTextureFromFile23() failed.", hr23);
+
+		if (FAILED(hr35))
+			throw GameException("CreateWICTextureFromFile1() failed.", hr35);
+
+		if (FAILED(hr35))
+			throw GameException("CreateWICTextureFromFile1() failed.", hr35);
+
+		if (FAILED(hr35))
+			throw GameException("CreateWICTextureFromFile1() failed.", hr35);
+
+		if (FAILED(hr35))
+			throw GameException("CreateWICTextureFromFile1() failed.", hr35);
+
+		if (FAILED(hr45))
+			throw GameException("CreateWICTextureFromFile45() failed.", hr34);
+
+
+		if (FAILED(hr49))
+			throw GameException("CreateWICTextureFromFile49() failed.", hr49);
+		if (FAILED(hr50))
+			throw GameException("CreateWICTextureFromFile50() failed.", hr50);
+		if (FAILED(hr51))
+			throw GameException("CreateWICTextureFromFile51() failed.", hr51);
+		if (FAILED(hr52))
+			throw GameException("CreateWICTextureFromFile52() failed.", hr52);
 	}
 }

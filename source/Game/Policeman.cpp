@@ -21,8 +21,8 @@ namespace Rendering
 
 		mSpotLight = new SpotLight(game);
 		mPointLight = new PointLight(game);
-		mPointLight->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
-		mPointLight->SetRadius(30.0f);
+		mPointLight->SetColor(Colors::Blue - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
+		mPointLight->SetRadius(40.0f);
 	}
 
 
@@ -49,6 +49,16 @@ namespace Rendering
 		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x + 10, mPosition.y + 5, mPosition.z - 10);
 
 		mPointLight->SetPosition(pointLightPosition);
+
+		int time = (int)gameTime.TotalGameTime();
+		time = time % 2;
+
+		if (time == 1)
+			mPointLight->SetColor(Colors::Blue - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
+
+		else 
+			mPointLight->SetColor(Colors::DarkRed - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
+
 		mSpotLight->SetPosition(mPosition);
 	}
 

@@ -42,11 +42,14 @@ namespace Rendering
 		virtual void SetAnimations();
 		void ChangeAnimation(std::string animationName);
 
+		PointLight* GetPointLight();
+
 		void RunInit();
 		void PatrolInit();
 
 	protected:
 		std::map<std::string, int> mAnimations;
+		PointLight* mPointLight;
 
 	private:
 		AnimatedGameObject();
@@ -55,10 +58,12 @@ namespace Rendering
 
 		void UpdateOptions();
 
+		XMFLOAT3 GetFollowPositionToCamera();
+
 		AnimationPlayer* mAnimationPlayer;
 		SkinnedModelMaterial* mMaterial;
+		bool mIsFolowable = false;
 
-		
 		//Animation sequence
 		AnimationSequence* mAnimationSequence;
 		std::string mCurrentAnimation = "Idle";

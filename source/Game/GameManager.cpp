@@ -131,24 +131,19 @@ namespace Rendering
 						achiveFarbaMan = true;
 					}
 				}
-				if (achiveFarbaMan) {
-
+				if (achiveFarbaMan) 
+				{
 					TrainLevel* trainLevel = mScenes[mCurrentScene]->As<TrainLevel>();
+
 					if (trainLevel->GetFarbaMan() == nullptr)
 						break;
 
 					trainLevel->GetFarbaMan()->SetVisible(true);
 					trainLevel->GetFarbaMan()->SetUnitID(100);
 					trainLevel->GetFarbaMan()->setSelection(false);
+					trainLevel->GetFarbaMan()->GetPointLight()->SetRadius(30.0f);
+					//trainLevel->GetPointLights().push_back(trainLevel->GetFarbaMan()->GetPointLight());
 					mScenes.at(mCurrentScene)->AddUnitToList(trainLevel->GetFarbaMan());
-					/*
-					FarbaMan *farbaMan1 = new FarbaMan(*game, *camera, XMFLOAT3(-96.00f, -9.75f, 0.00f), XMFLOAT3(-90.00, 0.00, 0.00), XMFLOAT3(0.05f, 0.05f, 0.05f));
-					farbaMan1->Initialize();
-					farbaMan1->setSelection(false);
-					farbaMan1->SetUnitID(100);
-					mScenes[mCurrentScene]->GameObjects.push_back(farbaMan1);
-					mScenes.at(mCurrentScene)->AddUnitToList(farbaMan1);
-					*/
 					
 					renderGameFarbaManSpawnFlag = true;
 				}

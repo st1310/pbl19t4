@@ -22,6 +22,7 @@
 #include "Shlwapi.h"
 #include "Colliders.h"
 #include "NodeLIst.h"
+#include "PointLight.h"
 
 namespace Rendering
 {
@@ -35,6 +36,8 @@ namespace Rendering
 	{		
 		mAnimations = std::map<std::string, int>();
 		mAnimationSequence = new AnimationSequence("Idle");
+
+		mPointLight = new PointLight(game);
 	}
 
 	AnimatedGameObject::~AnimatedGameObject()
@@ -129,6 +132,7 @@ namespace Rendering
 		{
 			Move();
 			mAnimationPlayer->Update(gameTime);
+			mPointLight->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
 		}
 		if (!mState->IsInActiveState() && mIsBusy == true)
 		{
@@ -136,6 +140,7 @@ namespace Rendering
 			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
 			mAnimationSequence->EndLoop();
 			ChangeTexture(modelName);
+			mPointLight->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
 		}
 
 		if (mCurrentAnimation != mAnimationSequence->GetCurrentAnimation(mAnimationPlayer->CurrentTime()))
@@ -143,6 +148,9 @@ namespace Rendering
 			mCurrentAnimation = mAnimationSequence->GetCurrentAnimation(mAnimationPlayer->CurrentTime());
 			ChangeAnimation(mCurrentAnimation);
 		}
+
+		if(mIsFolowable)
+			GetCamera()->SetPosition(GetFollowPositionToCamera());
 
 		mAnimationPlayer->Update(gameTime);
 	}
@@ -249,6 +257,13 @@ namespace Rendering
 				ChangeAnimation("Paint");
 			}
 
+			// Camera
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_X) && mIsSelected)
+				GetCamera()->SetPosition(GetFollowPositionToCamera());
+
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_Z) && mIsSelected)
+				mIsFolowable = !mIsFolowable;
+
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_RETURN))
 			{
 				// Enable/disable manual advance mode
@@ -311,5 +326,29 @@ namespace Rendering
 	void AnimatedGameObject::PatrolInit()
 	{
 		mAnimationSequence->InitLoopAnimationSequence("Patrol", "Patrol", "Patrol");
+	}
+
+	PointLight* AnimatedGameObject::GetPointLight()
+	{
+		return mPointLight;
+	}
+
+	XMFLOAT3 AnimatedGameObject::GetFollowPositionToCamera()
+	{
+		float zPosition = mPosition.z + 50;
+
+		if (GetCamera()->Position().y > 50)
+			zPosition += GetCamera()->Position().y * 0.2;
+
+		if (GetCamera()->Position().y > 80)
+			zPosition += GetCamera()->Position().y * 0.4;
+
+		XMFLOAT3 newCameraPosition = XMFLOAT3(
+			mPosition.x,
+			GetCamera()->Position().y,
+			zPosition
+		);
+
+		return newCameraPosition;
 	}
 }

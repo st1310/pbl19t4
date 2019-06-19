@@ -138,7 +138,6 @@ namespace Rendering
 
 				farbaMan->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				triggerableObjects.push_back(farbaMan);
-				//listOfSoldiers.push_back(farbaMan);
 				assets.push_back(farbaMan);
 			}
 

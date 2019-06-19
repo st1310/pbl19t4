@@ -61,7 +61,7 @@ namespace Rendering
 				FarbaMan* farbaMan = gameObjects.at(i)->As<FarbaMan>();
 				mFarbaMan = farbaMan;
 				
-				//mPointLights.push_back(farbaMan->GetPointLight());
+				mPointLights.push_back(farbaMan->GetPointLight());
 			}
 
 			if (className == "Policeman")

@@ -1,4 +1,6 @@
 #include "FarbaMan.h"
+#include "PointLight.h"
+#include "AssetList.h"
 
 namespace Rendering
 {
@@ -21,6 +23,9 @@ namespace Rendering
 		SetVisible(false);
 
 		SetAnimations();
+
+		mPointLight->SetColor(Colors::Purple - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
+		mPointLight->SetRadius(0.0f);
 	}
 
 
@@ -41,16 +46,24 @@ namespace Rendering
 		isSelected = selection;
 
 		if (isSelected)
+		{
 			ChangeTexture(mIsSelectedDiffuseMap);
+			mPointLight->SetColor(Colors::Yellow - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
+		}
+
 
 		else if (!isSelected && !mIsBusy)
 		{
 			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
 			ChangeTexture(modelName);
+			mPointLight->SetColor(Colors::Purple - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
 		}
 
 		else if (!isSelected && mIsBusy)
+		{
 			ChangeTexture(mIsBusyDiffuseMap);
+			mPointLight->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
+		}
 	}
 
 	void FarbaMan::Update(const GameTime& gameTime)
@@ -79,6 +92,9 @@ namespace Rendering
 		}
 
 		AnimatedGameObject::Update(gameTime);
+		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x, mPosition.y + 5, mPosition.z - 10);
+
+		mPointLight->SetPosition(pointLightPosition);
 	}
 
 	bool FarbaMan::getIsSelected()

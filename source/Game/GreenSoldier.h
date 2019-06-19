@@ -24,13 +24,9 @@ namespace Rendering
 		virtual void CheckTriggers() override;
 		virtual void SetAnimations() override;
 
-
-		PointLight* GetPointLight();
 		SpotLight* GetSpotLight();
 
 	private:
-		bool isSelected = false;
-		PointLight* mPointLight;
 		SpotLight* mSpotLight;
 		bool achiveFarbaManPoint = false;
 	};

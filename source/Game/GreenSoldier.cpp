@@ -2,6 +2,7 @@
 #include "SpotLight.h"
 #include "PointLight.h"
 #include "AssetList.h"
+#include "GameCamera.h"
 
 namespace Rendering
 {
@@ -22,7 +23,6 @@ namespace Rendering
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
 
 		mSpotLight = new SpotLight(game);
-		mPointLight = new PointLight(game);
 		mPointLight->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
 		mPointLight->SetRadius(30.0f);
 
@@ -59,24 +59,33 @@ namespace Rendering
 
 	void GreenSoldier::setSelection(bool selection)
 	{
-		isSelected = selection;
+		mIsSelected = selection;
 
-		if(isSelected)
+		if (mIsSelected)
+		{
 			ChangeTexture(mIsSelectedDiffuseMap);
+			mPointLight->SetColor(Colors::Yellow - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
+		}
+			
 
-		else if (!isSelected && !mIsBusy)
+		else if (!mIsSelected && !mIsBusy)
 		{
 			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
 			ChangeTexture(modelName);
+			mPointLight->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
 		}
 
-		else if (!isSelected && mIsBusy)
+		else if (!mIsSelected && mIsBusy)
+		{
 			ChangeTexture(mIsBusyDiffuseMap);
+			mPointLight->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
+		}
+			
 	}
 
 	bool GreenSoldier::getIsSelected()
 	{
-		return isSelected;
+		return mIsSelected;
 	}
 
 
@@ -117,11 +126,6 @@ namespace Rendering
 		mAnimations.insert(std::pair<std::string, int>("StartRunning", 1));
 		mAnimations.insert(std::pair<std::string, int>("Run", 2));
 		mAnimations.insert(std::pair<std::string, int>("StopRunning", 3));
-	}
-
-	PointLight* GreenSoldier::GetPointLight()
-	{
-		return mPointLight;
 	}
 
 	SpotLight* GreenSoldier::GetSpotLight()
