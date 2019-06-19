@@ -20,8 +20,10 @@ namespace Rendering
 
 		void setSelection(bool selection);
 		bool getIsSelected();
+		bool getArchiveFarbaManPoint();
 		virtual void CheckTriggers() override;
 		virtual void SetAnimations() override;
+
 
 		PointLight* GetPointLight();
 		SpotLight* GetSpotLight();
@@ -30,5 +32,6 @@ namespace Rendering
 		bool isSelected = false;
 		PointLight* mPointLight;
 		SpotLight* mSpotLight;
+		bool achiveFarbaManPoint = false;
 	};
 }

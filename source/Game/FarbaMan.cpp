@@ -18,6 +18,8 @@ namespace Rendering
 		mIsSelectedDiffuseMap = "Content\\Textures\\SoldierSelectedDiffuseMap.jpg";
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
 
+		SetVisible(false);
+
 		SetAnimations();
 	}
 
@@ -70,6 +72,10 @@ namespace Rendering
 				paintingTime = -1.f;
 				mIsBusy = false;
 			}
+		}
+
+		if (this->getPosition().x > 570.0f && this->getPosition().x <590.0f &&  this->getPosition().z > -230.0f && this->getPosition().z < -190.0f) {
+			inPaintArea = true;
 		}
 
 		AnimatedGameObject::Update(gameTime);

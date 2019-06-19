@@ -50,16 +50,10 @@ namespace Rendering
 		mPointLight->SetPosition(pointLightPosition);
 		mSpotLight->SetPosition(mPosition);
 
-		// ENDGAME
-		float minZ = -286;
-		float maxZ = -132;
-		float maxX = 642;
-		float minX = 533;
-
-		if (mPosition.x > minX && mPosition.x < maxX &&
-			mPosition.z > minZ && mPosition.z < maxZ)
+		if (this->getPosition().x > -102.0f && this->getPosition().x <-44.0f &&  
+			this->getPosition().z > -25.0f && this->getPosition().z<23.0f) 
 		{
-			mGame->Exit();
+			achiveFarbaManPoint = true;//zespawnuj farbamana!!!
 		}
 	}
 
@@ -133,6 +127,10 @@ namespace Rendering
 	SpotLight* GreenSoldier::GetSpotLight()
 	{
 		return mSpotLight;
+	}
+
+	bool GreenSoldier::getArchiveFarbaManPoint() {
+		return achiveFarbaManPoint;
 	}
 }
 

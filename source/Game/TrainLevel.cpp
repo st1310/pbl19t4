@@ -56,19 +56,19 @@ namespace Rendering
 				mPointLights.push_back(soldier->GetPointLight());
 			}
 
+			if (className == "FarbaMan")
+			{
+				FarbaMan* farbaMan = gameObjects.at(i)->As<FarbaMan>();
+				mFarbaMan = farbaMan;
+				
+				//mPointLights.push_back(farbaMan->GetPointLight());
+			}
+
 			if (className == "Policeman")
 			{
 				Policeman* policeman = gameObjects.at(i)->As<Policeman>();
 				GetPolicemans().push_back(policeman);
-				/*
-				std::vector<XMFLOAT2> patrolPoints = std::vector<XMFLOAT2>();
-				patrolPoints.push_back(XMFLOAT2(-62, -178));
-				patrolPoints.push_back(XMFLOAT2(182, -178));
-				patrolPoints.push_back(XMFLOAT2(182, -326));
-				patrolPoints.push_back(XMFLOAT2(-62, -326));
 
-				policeman->Patrol(patrolPoints);
-				*/
 				SetPatrol(policeman, policemanSize);
 				policemanSize++;
 
@@ -89,9 +89,13 @@ namespace Rendering
 				mPointLights.push_back(doubleStreetLampPostWithMegaphone->GetPointLight());
 			}
  		}		
-
+		
 		for (int i = 0; i < GameObjects.size(); i++)
 		{
+			if (i == GameObjects.size() - 1)
+			{
+
+			}
 			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
 			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());
 			//gameObject->Initialize();
@@ -134,5 +138,10 @@ namespace Rendering
 
 		if (index == 8 || index == 9)
 			policeman->Patrol(patrolPoints3);
+	}
+
+	FarbaMan* TrainLevel::GetFarbaMan()
+	{
+		return mFarbaMan;
 	}
 }
