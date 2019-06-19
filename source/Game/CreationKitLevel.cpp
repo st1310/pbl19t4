@@ -76,6 +76,7 @@ namespace Rendering
 	void CreationKitLevel::Start(Game& game, Camera& camera)
 	{
 		Initialize();
+		InitializeLights();
 		GameObjectPusher pusher = GameObjectPusher();
 
 		camera.SetPosition(0.0f, 70.0f, 20.0f);
@@ -115,6 +116,32 @@ namespace Rendering
 		{
 			GameObject* gmObj = drwGm->As<GameObject>();
 			this->getListOfNode().at(0)->AddTriggerCollider(gmObj->getCollider());
+		}
+
+		// Add point Lights to soldiers
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
+			std::string className = gameObject->GetName();
+
+			if (className == "Soldier")
+			{
+				GreenSoldier* soldier = gameObjects.at(i)->As<GreenSoldier>();
+				mPointLights.push_back(soldier->GetPointLight());
+			}
+		}
+
+		// Add spot Lights to lamps
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
+			std::string className = gameObject->GetName();
+
+			if (className == "SingleStreetLampPost")
+			{
+				SingleStreetLampPost* singleStreetLampPost = gameObjects.at(i)->As<SingleStreetLampPost>();
+				mSpotLights.push_back(singleStreetLampPost->GetSpotLight());
+			}
 		}
 	}
 }

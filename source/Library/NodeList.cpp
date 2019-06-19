@@ -12,6 +12,9 @@ namespace Library
 		if (coll->IsEmpty())
 			return true;
 
+		if (abs(targetPosition.m128_f32[1] - originalPosition.m128_f32[1]) > 1.f)
+			return false;
+
 		coll->Transform(rotation, targetPosition);
 
 		XMFLOAT3 checkPos;
@@ -23,7 +26,9 @@ namespace Library
 				return true;
 			else
 			{
-				coll->Transform(-rotation, originalPosition);
+				if (IsMatrixZero(rotation))
+					coll->Transform(rotation, originalPosition);
+				else coll->Transform(InverseRotation(rotation), originalPosition);
 				return false;
 			}
 		}
@@ -148,5 +153,25 @@ namespace Library
 		if (std::find(listOfNode.begin(), listOfNode.end(), checkedNode) != listOfNode.end())
 			return true;
 		else return false;
+	}
+
+	bool NodeList::IsMatrixZero(XMMATRIX checkedMatr)
+	{
+		if ((checkedMatr.r[0].m128_f32[0] == 1.f && checkedMatr.r[0].m128_f32[1] == 0.f && checkedMatr.r[0].m128_f32[2] == 0.f && checkedMatr.r[0].m128_f32[3] == 0.f)
+			&& (checkedMatr.r[1].m128_f32[0] == 0.f && checkedMatr.r[1].m128_f32[1] == 1.f && checkedMatr.r[1].m128_f32[2] == 0.f && checkedMatr.r[1].m128_f32[3] == 0.f)
+			&& (checkedMatr.r[2].m128_f32[0] == 0.f && checkedMatr.r[2].m128_f32[1] == 0.f && checkedMatr.r[2].m128_f32[2] == 1.f && checkedMatr.r[2].m128_f32[3] == 0.f)
+			&& (checkedMatr.r[3].m128_f32[0] == 0.f && checkedMatr.r[3].m128_f32[1] == 0.f && checkedMatr.r[3].m128_f32[2] == 0.f && checkedMatr.r[3].m128_f32[3] == 1.f))
+			return true;
+		else return false;
+	}
+
+
+	//Since we rotate only by Y - we need invert in matrix only 4 values.
+	XMMATRIX NodeList::InverseRotation(XMMATRIX checkedMatr)
+	{
+		return XMMATRIX({ -checkedMatr.r[0].m128_f32[0],  checkedMatr.r[0].m128_f32[1], -checkedMatr.r[0].m128_f32[2], checkedMatr.r[0].m128_f32[3],
+			checkedMatr.r[1].m128_f32[0],  checkedMatr.r[1].m128_f32[1], checkedMatr.r[1].m128_f32[2], checkedMatr.r[1].m128_f32[3],
+			-checkedMatr.r[2].m128_f32[0],  checkedMatr.r[2].m128_f32[1], -checkedMatr.r[2].m128_f32[2], checkedMatr.r[2].m128_f32[3],
+			checkedMatr.r[3].m128_f32[0],  checkedMatr.r[3].m128_f32[1], checkedMatr.r[3].m128_f32[2], checkedMatr.r[3].m128_f32[3] });
 	}
 }
