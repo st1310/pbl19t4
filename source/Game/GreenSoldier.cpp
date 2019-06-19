@@ -53,15 +53,6 @@ namespace Rendering
 	void GreenSoldier::Update(const GameTime& gameTime)
 	{
 		AnimatedGameObject::Update(gameTime);
-		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x, mPosition.y + 5, mPosition.z - 10);
-
-		mPointLight->SetPosition(pointLightPosition);
-		mSpotLight->SetPosition(mPosition);
-	}
-
-	void GreenSoldier::Update(const GameTime& gameTime)
-	{
-		AnimatedGameObject::Update(gameTime);
 		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x , mPosition.y + 5, mPosition.z - 10);
 
 		mPointLight->SetPosition(pointLightPosition);
