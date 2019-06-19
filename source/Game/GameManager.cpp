@@ -177,7 +177,18 @@ namespace Rendering
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
 
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
+			{
+				/*
+				if(drawableGameComponent->getNode() == nullptr)
+					drawableGameComponent->Draw(gameTime);				
+				
+				else if(NodeList::IsNodeInsideList(drawableGameComponent->getNode(), this->game->GetNodesInFructum()))
 					drawableGameComponent->Draw(gameTime);
+					*/
+
+				drawableGameComponent->Draw(gameTime);
+			}
+					
 		}
 
 		mScenes[mCurrentScene]->Draw(gameTime);

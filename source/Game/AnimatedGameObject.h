@@ -63,7 +63,7 @@ namespace Rendering
 		XMFLOAT3 GetFollowPositionToCamera();
 
 		AnimationPlayer* mAnimationPlayer;
-		SkinnedModelMaterial* mMaterial;
+		MultipleLightsBonesMaterial* mMaterial;
 		bool mIsFolowable = false;
 
 		//Animation sequence
