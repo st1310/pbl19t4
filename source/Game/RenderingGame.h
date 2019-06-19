@@ -147,6 +147,9 @@ namespace Rendering
 		ID3D11ShaderResourceView* mcloud2;
 		ID3D11ShaderResourceView* mcloud3;
 		ID3D11ShaderResourceView* mcloud4;
+		ID3D11ShaderResourceView* mcloud5;
+		ID3D11ShaderResourceView* mcloud6;
+		ID3D11ShaderResourceView* mcloud7;
 
 		XMFLOAT2 mMouseTextPosition;
 
@@ -163,7 +166,13 @@ namespace Rendering
 		bool showUnitsGui = false;
 		bool showUnitDetail = false;
 		bool mapLevel = true;
+		bool gameLevel = false;
+		bool showMapVal = true;
 		bool buttonWasHold = false;
+		bool showFarbaManGUI = false;
+		bool FarbaManGUISelected = false;
+		bool FarbaManAddFlagGUI = false;
+		bool farbaManCutScene4Flag = true;
 		int whichUnitButtonIsClicking = -1;
 		int whichTacticalMapButtonIsClicking = -1;
 		int keybordButtonSelectUnit = -1;

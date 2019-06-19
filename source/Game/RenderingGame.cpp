@@ -273,6 +273,15 @@ namespace Rendering
 
 		std::wostringstream mcloud4texture;
 		mcloud4texture << L"content\\Textures\\cloud4.png";
+
+		std::wostringstream mcloud5texture;
+		mcloud5texture << L"content\\Textures\\cloud5.png";
+
+		std::wostringstream mcloud6texture;
+		mcloud6texture << L"content\\Textures\\cloud6.png";
+
+		std::wostringstream mcloud7texture;
+		mcloud7texture << L"content\\Textures\\cloud7.png";
 		
 
 		HRESULT hr = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mGreenSoldierNOtexture.str().c_str(), nullptr, &mGreenSoldierNO);
@@ -338,6 +347,9 @@ namespace Rendering
 		HRESULT hr58 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud2texture.str().c_str(), nullptr, &mcloud2);
 		HRESULT hr59 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud3texture.str().c_str(), nullptr, &mcloud3);
 		HRESULT hr60 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud4texture.str().c_str(), nullptr, &mcloud4);
+		HRESULT hr61 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud5texture.str().c_str(), nullptr, &mcloud5);
+		HRESULT hr62 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud6texture.str().c_str(), nullptr, &mcloud6);
+		HRESULT hr63 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mcloud7texture.str().c_str(), nullptr, &mcloud7);
 
 		if (FAILED(hr))
 			throw GameException("CreateWICTextureFromFile1() failed.", hr);
@@ -425,6 +437,10 @@ namespace Rendering
 
 		if (FAILED(hr35))
 			throw GameException("CreateWICTextureFromFile1() failed.", hr35);
+
+		if (FAILED(hr45))
+			throw GameException("CreateWICTextureFromFile45() failed.", hr34);
+
 
 		if (FAILED(hr49))
 			throw GameException("CreateWICTextureFromFile49() failed.", hr49);
@@ -539,6 +555,27 @@ namespace Rendering
 			}
 		}
 
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_TAB)) {
+			if (showFarbaManGUI) {
+				if (FarbaManGUISelected) {
+					FarbaManGUISelected = false;
+					keybordButtonSelectUnit = 100;
+				}
+					
+
+				else{
+					FarbaManGUISelected = true;
+					keybordButtonSelectUnit = 100;
+				}
+			}
+		}
+
+		if (!showFarbaManGUI) {
+			if (mGameManager->GetrenderGameFarbaManSpawnFlag()) {
+				showFarbaManGUI = true;
+			}
+		}
+		
 		float diffBetweenUnitsIcons = (250.0f / mGameManager->GetListOfUnits().size());
 		
 	
@@ -622,12 +659,31 @@ namespace Rendering
 		mSpriteBatch->Begin(SpriteSortMode_Deferred, m_states->NonPremultiplied());
 		int posOffset = 0;
 		std::wostringstream mouseLabel;
-		//mouseLabel << L"Mouse Position: " << mMouse->X() << ", "
-			//<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
+		mouseLabel << L"Mouse Position: " << mMouse->X() << ", "
+			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition, Colors::White);
 		if (mapLevel == true) {
-			mSpriteBatch->Draw(mTacticalMap, SimpleMath::Rectangle(0, 0, 1028.0f, 780.0f));
+
+			if (showMapVal) {
+				mSpriteBatch->Draw(mTacticalMap, SimpleMath::Rectangle(0, 0, 1028.0f, 780.0f));
+				
+			}
 			
+			
+			if (cutSceneId == 4) {
+				mSpriteBatch->Draw(mPaintCutsceenPortrait3, SimpleMath::Rectangle(700.0f, 150.0f, 350.0f, 300.0f));
+				mSpriteBatch->Draw(mcloud5, SimpleMath::Rectangle(700.0f, 15.0f, 300.0f, 200.0f));
+				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
+				if (mMouse->X() > 700.0f && mMouse->X() < 730.0f  && mMouse->Y() > 150.0f  && mMouse->Y() < 180.0f) {
+					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
+					if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
+						mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
+						cutSceneId = -1;
+						mapLevel = false;
+					}
+				}
+			}
+
 			if (cutSceneId == 3) {
 				mSpriteBatch->Draw(mPaintCutsceenPortrait4, SimpleMath::Rectangle(700.0f, 150.0f, 350.0f, 300.0f));
 				mSpriteBatch->Draw(mcloud4, SimpleMath::Rectangle(700.0f, 15.0f, 300.0f, 200.0f));
@@ -674,7 +730,7 @@ namespace Rendering
 
 			
 			
-
+			if(showMapVal)
 			mSpriteBatch->Draw(mTacticalButton1NO, SimpleMath::Rectangle(500.0f, 650.0f, 80.0f, 80.0f));
 
 			if (mMouse->X() > 515.0f && mMouse->X() < 570.0f  && mMouse->Y() > 665.0f  && mMouse->Y() < 720.0f) {
@@ -686,10 +742,13 @@ namespace Rendering
 				
 			}
 
-			mSpriteBatch->Draw(mTacticalButton2NO, SimpleMath::Rectangle(60.0f, 300.0f, 80.0f, 80.0f));
-			mSpriteBatch->Draw(mTacticalButton3NO, SimpleMath::Rectangle(400.0f, 40.0f, 80.0f, 80.0f));
+			if (showMapVal) {
+				mSpriteBatch->Draw(mTacticalButton2NO, SimpleMath::Rectangle(60.0f, 300.0f, 80.0f, 80.0f));
+				mSpriteBatch->Draw(mTacticalButton3NO, SimpleMath::Rectangle(400.0f, 40.0f, 80.0f, 80.0f));
+			}
+			
 
-			if (whichTacticalMapButtonIsClicking == 1) {
+			if (whichTacticalMapButtonIsClicking == 1 && showMapVal) {
 				mSpriteBatch->Draw(mTacticalButton1YES, SimpleMath::Rectangle(500.0f, 650.0f, 80.0f, 80.0f));
 				mSpriteBatch->Draw(mStartButtonNO, SimpleMath::Rectangle(700.0f, 640.0f, 300.0f, 100.0f));
 				if (mMouse->X() > 700.0f && mMouse->X() < 1000.0f  && mMouse->Y() > 645.0f  && mMouse->Y() < 725.0f) {
@@ -702,13 +761,15 @@ namespace Rendering
 						mapLevel = false;
 						buttonWasHold = false;
 						cutSceneId = -1;
+						showMapVal = false;
+						gameLevel = true;
 					}
 				}
 			}
 		}
 	
 
-		else {
+		if(gameLevel) {
 			if (showUnitsGui || !(indexSelectedGuiButtons.empty())) {
 				//mSpriteBatch->Draw(mUnitsBanner, SimpleMath::Rectangle(320.0f, 570.0f, 400.0f, 220.0f));
 				posOffset = 1;
@@ -718,6 +779,25 @@ namespace Rendering
 			{
 				//mSpriteBatch->Draw(mUnitsBanner, SimpleMath::Rectangle(320.0f, 650.0f, 400.0f, 220.0f));
 				posOffset = 0;
+			}
+
+			if (showFarbaManGUI) {
+				mSpriteBatch->Draw(mPaintSoldierNO, SimpleMath::Rectangle(300.f, 710.0f - posOffset * 60, 150.0f, 110.0f));
+				if (FarbaManGUISelected || (mMouse->X()>340 && mMouse->X()<395 && mMouse->Y()>650 && mMouse->Y()<760)) {
+					mSpriteBatch->Draw(mPaintSoldierMAYBE, SimpleMath::Rectangle(300.f, 710.0f - posOffset * 60, 150.0f, 110.0f));
+					if (FarbaManGUISelected || mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
+							
+						
+						
+						mSpriteBatch->Draw(mPaintSoldierYES, SimpleMath::Rectangle(300.f, 710.0f - posOffset * 60, 150.0f, 110.0f));
+					}
+				}
+				if (farbaManCutScene4Flag) {
+					cutSceneId = 4;
+					mapLevel = true;
+					farbaManCutScene4Flag = false;
+				}
+				
 			}
 
 			if (true)
@@ -732,42 +812,53 @@ namespace Rendering
 
 					else
 					{
-						if (mMouse->X() > (360 + i * 60) && (mMouse->X() < (360 + i * 60 + 60) && mMouse->Y() > 680) || keybordButtonSelectUnit == i)
+						if (mMouse->X() > (395 + i * 40) && (mMouse->X() < (395 + i * 40 + 40) && mMouse->Y() > 625) || keybordButtonSelectUnit == i || keybordButtonSelectUnit==100)		//uzywane dla zaznaczenie farbamana, on jest zawsze tylko jeden wiec nie ma problemu z nadaniem mu stalej wartosci, a mniej roboty
 						{
 							
 							mSpriteBatch->Draw(mGreenSoldierMAYBE, SimpleMath::Rectangle(360.f + 40 * i, 700.0f - posOffset *60, 150.0f, 120.0f));
+				
 
-							if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft) || keybordButtonSelectUnit == i) {
+							if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft) || keybordButtonSelectUnit == i || keybordButtonSelectUnit == 100) {
 								showUnitDetail = true;
 								bool checkCopy = false;
 
-								keybordButtonSelectUnit = -1;
 
-								for (int x = 0; x < indexSelectedGuiButtons.size(); x++) {	//sprawdzanie czy juz raz kliknieto na ikone, jesli tak to nie zapisuj do wektora indeksow zaznaczonych drugi raz
-									if (indexSelectedGuiButtons.at(x) == i) {
-										checkCopy = true;
-									}
-								}
-								if (!checkCopy) {
-									indexSelectedGuiButtons.push_back(i);
-									GreenSoldier* greenSold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
-									greenSold->setSelection(true);
-									greenSold->setIsSelected(true);								//zaznaczanie jednostek w grze przez gui
-								}
-								else {
-									std::vector<int> buffor;
-									buffor.clear();
-									for (int z = 0; z < indexSelectedGuiButtons.size(); z++) {
-										if (indexSelectedGuiButtons.at(z) != i) {
-											buffor.push_back(indexSelectedGuiButtons.at(z));
+								if(keybordButtonSelectUnit!=100){
+									keybordButtonSelectUnit = -1;
+									for (int x = 0; x < indexSelectedGuiButtons.size(); x++) {	//sprawdzanie czy juz raz kliknieto na ikone, jesli tak to nie zapisuj do wektora indeksow zaznaczonych drugi raz
+										if (indexSelectedGuiButtons.at(x) == i) {
+											checkCopy = true;
 										}
 									}
-									indexSelectedGuiButtons.clear();
-									indexSelectedGuiButtons = buffor;
-									GreenSoldier* greenSold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
-									greenSold->setSelection(false);
-									greenSold->setIsSelected(false);
+									if (!checkCopy) {
+										indexSelectedGuiButtons.push_back(i);
+										GreenSoldier* greenSold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
+										greenSold->setSelection(true);
+										greenSold->setIsSelected(true);								//zaznaczanie jednostek w grze przez gui
+									}
+									else {
+										std::vector<int> buffor;
+										buffor.clear();
+										for (int z = 0; z < indexSelectedGuiButtons.size(); z++) {
+											if (indexSelectedGuiButtons.at(z) != i) {
+												buffor.push_back(indexSelectedGuiButtons.at(z));
+											}
+										}
+										indexSelectedGuiButtons.clear();
+										indexSelectedGuiButtons = buffor;
+										GreenSoldier* greenSold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
+										greenSold->setSelection(false);
+										greenSold->setIsSelected(false);
+									}
 								}
+								
+								else {
+									keybordButtonSelectUnit = -1;
+									FarbaMan* farbaM = mGameManager->GetListOfUnits().at(5)->As<FarbaMan>();
+									farbaM->setSelection(true);
+									farbaM->setIsSelected(true);
+								}
+								
 							}
 						}
 

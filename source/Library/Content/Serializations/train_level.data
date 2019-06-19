@@ -3432,23 +3432,6 @@
       <z= 0.85/>
    </Scale>
 </PlatformNumber1>
-<FarbaMan>
-   <Position>
-      <x= -96.00/>
-      <y= -9.75/>
-      <z= 0.00/>
-   </Position>
-   <Rotation>
-      <x= -90.00/>
-      <y= 0.00/>
-      <z= 0.00/>
-   </Rotation>
-   <Scale>
-      <x= 0.05/>
-      <y= 0.05/>
-      <z= 0.05/>
-   </Scale>
-</FarbaMan>
 <ConcreteWall>
    <Position>
       <x= 126.50/>

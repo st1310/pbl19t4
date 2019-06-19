@@ -82,8 +82,9 @@ namespace Rendering
 		game->ClearAndSetNodes(mScenes.at(sceneId)->getListOfNode());
 
 		for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
-			mScenes.at(mCurrentScene)->GetUnitList().at(i)->SetUnitID(i);
-			guiButtons.push_back(new Button(*game, *camera, XMFLOAT2(0 + 50 * i, 660.0f), XMFLOAT2(120.f, 120.f), "cos"));
+
+				mScenes.at(mCurrentScene)->GetUnitList().at(i)->SetUnitID(i);
+				guiButtons.push_back(new Button(*game, *camera, XMFLOAT2(0 + 50 * i, 660.0f), XMFLOAT2(120.f, 120.f), "cos"));
 		}
 
 		GameCamera* gmCam = camera->As<GameCamera>();
@@ -123,7 +124,23 @@ namespace Rendering
 				remCmp->~GameComponent();
 			}
 
-			//if(trgObj)
+			if (!achiveFarbaMan) {
+				for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
+					GreenSoldier* green = mScenes.at(mCurrentScene)->GetUnitList().at(i)->As<GreenSoldier>();
+					if (green->getArchiveFarbaManPoint()) {
+						achiveFarbaMan = true;
+					}
+				}
+				if (achiveFarbaMan) {
+					FarbaMan *farbaMan1 = new FarbaMan(*game, *camera, XMFLOAT3(-96.00f, -9.75f, 0.00f), XMFLOAT3(-90.00, 0.00, 0.00), XMFLOAT3(0.05f, 0.05f, 0.05f));
+					farbaMan1->Initialize();
+					farbaMan1->setSelection(false);
+					farbaMan1->SetUnitID(100);
+					mScenes[mCurrentScene]->GameObjects.push_back(farbaMan1);
+					mScenes.at(mCurrentScene)->AddUnitToList(farbaMan1);
+					renderGameFarbaManSpawnFlag = true;
+				}
+			}
 
 			FarbaMan* frbMn = trgObj->As<FarbaMan>();
 
@@ -363,6 +380,10 @@ namespace Rendering
 		mKeyboard = newKeyboard;
 	}
 	
+	bool GameManager::GetrenderGameFarbaManSpawnFlag() {
+		return renderGameFarbaManSpawnFlag;
+	}
+
 }
 
 	

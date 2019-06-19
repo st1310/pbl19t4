@@ -49,6 +49,10 @@ namespace Rendering
 
 		mPointLight->SetPosition(pointLightPosition);
 		mSpotLight->SetPosition(mPosition);
+
+		if (this->getPosition().x > -102.0f && this->getPosition().x <-44.0f &&  this->getPosition().z > -25.0f && this->getPosition().z<23.0f) {
+			achiveFarbaManPoint = true;//zespawnuj farbamana!!!
+		}
 	}
 
 	void GreenSoldier::setSelection(bool selection)
@@ -121,6 +125,10 @@ namespace Rendering
 	SpotLight* GreenSoldier::GetSpotLight()
 	{
 		return mSpotLight;
+	}
+
+	bool GreenSoldier::getArchiveFarbaManPoint() {
+		return achiveFarbaManPoint;
 	}
 }
 

@@ -32,5 +32,6 @@ namespace Rendering
 		bool isSelected = false;
 		bool painting;
 		float paintingTime = -1.f;
+		bool inPaintArea = false;
 	};
 }
