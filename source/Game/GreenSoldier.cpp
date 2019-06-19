@@ -15,8 +15,8 @@ namespace Rendering
 			startRotation,
 			startScale)
 	{
-		mRotationSpeed = 3;
-		mTranslationSpeed = 0.15;
+		mRotationSpeed = 6;
+		mTranslationSpeed = 0.7;
 
 		mIsSelectedDiffuseMap = "Content\\Textures\\SoldierSelectedDiffuseMap.jpg";
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
@@ -49,6 +49,18 @@ namespace Rendering
 
 		mPointLight->SetPosition(pointLightPosition);
 		mSpotLight->SetPosition(mPosition);
+
+		// ENDGAME
+		float minZ = -286;
+		float maxZ = -132;
+		float maxX = 642;
+		float minX = 533;
+
+		if (mPosition.x > minX && mPosition.x < maxX &&
+			mPosition.z > minZ && mPosition.z < maxZ)
+		{
+			mGame->Exit();
+		}
 	}
 
 	void GreenSoldier::setSelection(bool selection)

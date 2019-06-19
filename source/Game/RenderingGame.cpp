@@ -604,6 +604,15 @@ namespace Rendering
 			}
 		}
 
+
+		// ENDGAME
+		float maxY = -286;
+		float minY = -132;
+		float maxX = 642;
+		float minX = 533;
+
+
+
 		Game::Update(gameTime);
 	}
 

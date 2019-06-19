@@ -190,7 +190,7 @@ namespace Library
 
 			mLastWheelPosition = mMouse->Wheel();
 		}
-		/*
+		
 		// left
 		if (mMouse->X() < 100)
 		{
@@ -209,7 +209,7 @@ namespace Library
 		}
 
 		// Right
-		if (mMouse->X() > 900)
+		if (mMouse->X() > 900 && mMouse->Y() < 300)
 		{
 			XMFLOAT3 cameraPositon = Position();
 			if (cameraPositon.x < mMaximalPointAtMap.x)
@@ -243,7 +243,7 @@ namespace Library
 		}
 
 		// Down
-		if (mMouse->Y() > 650 && (mMouse->X() < 300 || mMouse->X() > 700))
+		if (mMouse->Y() > 650 && mMouse->X() < 300) //mMouse->X() < 300 || mMouse->X() > 700)
 		{
 			XMFLOAT3 cameraPositon = Position();
 			if (cameraPositon.z < mMaximalPointAtMap.y)
@@ -258,7 +258,7 @@ namespace Library
 				moved = true;
 			}
 		}
-		*/
+		
 		XMFLOAT2 rotationAmount = Vector2Helper::Zero;
 		/*
 		if ((mMouse != nullptr) && (mMouse->IsButtonHeldDown(MouseButtonsLeft) && cameraMode))
