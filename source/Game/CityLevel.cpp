@@ -31,7 +31,7 @@ namespace Rendering
 
 		for (int i = 0; i < gameObjects.size(); i++)
 		{
-			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
+			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
 			std::string className = gameObject->GetName();
 
 			if (className == "Soldier")
@@ -43,7 +43,6 @@ namespace Rendering
 			if (className == "SingleStreetLampPost")
 			{
 				SingleStreetLampPost* singleStreetLampPost = gameObjects.at(i)->As<SingleStreetLampPost>();
-				//mSpotLights.push_back(singleStreetLampPost->GetSpotLight());
 				mPointLights.push_back(singleStreetLampPost->GetPointLight());
 			}
 

@@ -21,7 +21,14 @@
 #include <iomanip>
 #include "Shlwapi.h"
 #include "Colliders.h"
-#include "NodeLIst.h"
+#include "MultipleLightsMaterial.h"
+#include "SpotLight.h"
+#include "ProxyModel.h"
+#include "DirectionalLight.h"
+#include "FullScreenRenderTarget.h"
+#include "ColorFilterMaterial.h"
+#include "FullScreenQuad.h"
+#include <DDSTextureLoader.h>
 
 namespace Rendering
 {
@@ -72,16 +79,19 @@ namespace Rendering
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
-		mEffect->LoadCompiledEffect(L"Content\\Effects\\SkinnedModel.cso");
+		mEffect->LoadCompiledEffect(L"Content\\Effects\\MultipleLights.cso");
 
-		mMaterial = new SkinnedModelMaterial();
+		mMaterial = new MultipleLightsBonesMaterial();
 		mMaterial->Initialize(mEffect);
+		mMaterial->SetCurrentTechnique(mEffect->TechniquesByName().at("BonesLights"));
 
 		// Create the vertex and index buffers
 		mVertexBuffers.resize(mModel->Meshes().size());
 		mIndexBuffers.resize(mModel->Meshes().size());
 		mIndexCounts.resize(mModel->Meshes().size());
 		mColorTextures.resize(mModel->Meshes().size());
+		mNormalTextures.resize(mModel->Meshes().size());
+		mSpecularTextures.resize(mModel->Meshes().size());
 
 		for (UINT i = 0; i < mModel->Meshes().size(); i++)
 		{
@@ -98,14 +108,43 @@ namespace Rendering
 			mIndexCounts[i] = mesh->Indices().size();
 
 			ID3D11ShaderResourceView* colorTexture = nullptr;
+			ID3D11ShaderResourceView* normalTexture = nullptr;
+			ID3D11ShaderResourceView* specularTexture = nullptr;
 			ModelMaterial* material = mesh->GetMaterial();
 
 			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
 			ChangeTexture(modelName);
+
+			std::string textureName = "Content\\Textures\\checker.dds";
+			std::wostringstream specular;
+			specular << textureName.c_str();
+			HRESULT hr = DirectX::CreateDDSTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), specular.str().c_str(), nullptr, &specularTexture);
+			if (FAILED(hr))
+			{
+				throw GameException("CreateDDSTextureFromFile() failed.", hr);
+			}
+
+			mNormalTextures[i] = normalTexture;
+			mSpecularTextures[i] = specularTexture;
 		}
+
+		XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(0.06f, 0.06f, 0.06f));
 
 		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
 		assert(mKeyboard != nullptr);
+
+		// Blend state
+		D3D11_BLEND_DESC blendStateDesc{ 0 };
+		blendStateDesc.RenderTarget[0].BlendEnable = true;
+		blendStateDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		blendStateDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+		blendStateDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		blendStateDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO; // or _ONE
+		blendStateDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+		blendStateDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		blendStateDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+		mGame->Direct3DDevice()->CreateBlendState(&blendStateDesc, &mBlendState);
 
 		mAnimationPlayer = new AnimationPlayer(*mGame, *mModel, false);
 		mAnimationPlayer->StartClip(*(mModel->Animations().at(0)));
@@ -158,6 +197,8 @@ namespace Rendering
 
 		XMMATRIX worldMatrix = XMLoadFloat4x4(&mWorldMatrix);
 		XMMATRIX wvp = worldMatrix * mCamera->ViewMatrix() * mCamera->ProjectionMatrix();
+		XMVECTOR ambientColor = XMLoadColor(&mAmbientColor);
+		XMVECTOR specularColor = XMLoadColor(&mSpecularColor);
 
 		UINT stride = mMaterial->VertexSize();
 		UINT offset = 0;
@@ -168,13 +209,52 @@ namespace Rendering
 			ID3D11Buffer* indexBuffer = mIndexBuffers[i];
 			UINT indexCount = mIndexCounts[i];
 			ID3D11ShaderResourceView* colorTexture = mColorTextures[i];
+			ID3D11ShaderResourceView* normalTexture = mNormalTextures[i];
+			ID3D11ShaderResourceView* specularTexture = mSpecularTextures[i];
 
 			direct3DDeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 			direct3DDeviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
 			mMaterial->WorldViewProjection() << wvp;
+			mMaterial->World() << worldMatrix;
+			mMaterial->SpecularColor() << specularColor;
+			mMaterial->SpecularPower() << mSpecularPower;
+			mMaterial->AmbientColor() << ambientColor;
 			mMaterial->ColorTexture() << colorTexture;
+			mMaterial->NormalTexture() << normalTexture;
+			mMaterial->SpecularTexture() << specularTexture;
+			mMaterial->CameraPosition() << mCamera->PositionVector();
 			mMaterial->BoneTransforms() << mAnimationPlayer->BoneTransforms();
+
+			for (size_t i = 0; i < mDirectLights.size(); i++)
+			{
+				ID3DX11EffectVariable* variable = mMaterial->DirectLights().GetVariable()->GetElement(i);
+				variable->GetMemberByName("Direction")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mDirectLights.at(i)->DirectionVector()));
+				variable->GetMemberByName("Color")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mDirectLights.at(i)->ColorVector()));
+				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
+			}
+
+			for (size_t i = 0; i < mPointLights.size(); i++)
+			{
+				ID3DX11EffectVariable* variable = mMaterial->PointLights().GetVariable()->GetElement(i);
+				variable->GetMemberByName("Position")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mPointLights.at(i)->PositionVector()));
+				variable->GetMemberByName("LightRadius")->AsScalar()->SetFloat(mPointLights.at(i)->Radius());
+				variable->GetMemberByName("Color")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mPointLights.at(i)->ColorVector()));
+				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
+			}
+
+
+			for (size_t i = 0; i < mSpotLights.size(); i++)
+			{
+				ID3DX11EffectVariable* variable = mMaterial->SpotLights().GetVariable()->GetElement(i);
+				variable->GetMemberByName("Position")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mSpotLights.at(i)->PositionVector()));
+				variable->GetMemberByName("Direction")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mSpotLights.at(i)->DirectionVector()));
+				variable->GetMemberByName("OuterAngle")->AsScalar()->SetFloat(mSpotLights.at(i)->OuterAngle());
+				variable->GetMemberByName("InnerAngle")->AsScalar()->SetFloat(mSpotLights.at(i)->InnerAngle());
+				variable->GetMemberByName("LightRadius")->AsScalar()->SetFloat(mSpotLights.at(i)->Radius());
+				variable->GetMemberByName("Color")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mSpotLights.at(i)->ColorVector()));
+				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
+			}
 
 			pass->Apply(0, direct3DDeviceContext);
 
@@ -288,6 +368,13 @@ namespace Rendering
 			mCollider->BuildBoundingBox(mPosition, radius);
 			if (inNode != nullptr)
 				inNode->AddDynamicCollider(mCollider);
+	}
+
+	void AnimatedGameObject::BuildSphere(float radius)
+	{
+		mCollider->BuildSphere(mPosition, radius);
+		if (inNode != nullptr)
+			inNode->AddDynamicCollider(mCollider);
 	}
 
 	void AnimatedGameObject::ChangeAnimation(std::string animationName)

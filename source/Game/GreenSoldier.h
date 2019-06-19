@@ -24,7 +24,6 @@ namespace Rendering
 		virtual void CheckTriggers() override;
 		virtual void SetAnimations() override;
 
-
 		PointLight* GetPointLight();
 		SpotLight* GetSpotLight();
 

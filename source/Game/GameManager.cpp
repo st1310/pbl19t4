@@ -75,11 +75,12 @@ namespace Rendering
 
 		mCurrentScene = sceneId;
 
-		mScenes.at(sceneId)->ResetLights();
-		mScenes.at(sceneId)->Start(*game, *camera);
-		mScenes.at(sceneId)->SetGroudndCollider(pathfinding->collider);
+		mScenes.at(mCurrentScene)->ResetLights();
+		mScenes.at(mCurrentScene)->Start(*game, *camera);
+		Colliders* colliders = pathfinding->collider;
+		mScenes.at(mCurrentScene)->SetGroudndCollider(colliders);
 
-		game->ClearAndSetNodes(mScenes.at(sceneId)->getListOfNode());
+		game->ClearAndSetNodes(mScenes.at(mCurrentScene)->getListOfNode());
 
 		for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
 

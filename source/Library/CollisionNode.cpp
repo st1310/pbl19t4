@@ -128,7 +128,7 @@ namespace Library
 		collided = movingCollider->CheckCollision(vct);
 
 		if (collided)
-			return false;
+			return true;
 
 		vct.clear();
 		for (unsigned int i = 0; i < mStaticObjects.size(); i++)

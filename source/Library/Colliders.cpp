@@ -36,6 +36,11 @@ namespace Library
 		OrrBoundingBox.push_back(obbox);
 	}
 
+	void Colliders::PushNewSphere(BoundingSphere* bbSph)
+	{
+		BoundingSpheres.push_back(bbSph);
+	}
+
 
 	//Internal method - it is used in 2 others for building (oriented)boundingboxes
 	void Colliders::FindMax(Mesh* meshes, XMFLOAT3* minVec, XMFLOAT3* maxVec)
@@ -124,6 +129,12 @@ namespace Library
 		PushNewOrientedBoundingBox(newBox);
 	}
 
+	void Colliders::BuildSphere(XMFLOAT3 position, float radius)
+	{
+		BoundingSphere* newBox = new BoundingSphere(position, radius);
+		PushNewSphere(newBox);
+	}
+
 	bool Colliders::IsEmpty()
 	{
 		if (BoundingBoxes.empty() && TriggerBoxes.empty() && OrrBoundingBox.empty())
@@ -182,6 +193,19 @@ namespace Library
 			obbox->Transform(*obbox, trMatr);
 		}
 
+		for (BoundingSphere* bsph : BoundingSpheres)
+		{
+			XMStoreFloat3(&movm, destination);
+			movm.x = movm.x - bsph->Center.x;
+			movm.y = movm.y - bsph->Center.y;
+			movm.z = movm.z - bsph->Center.z;
+
+			trMatr.r[3] = XMLoadFloat3(&movm);
+			trMatr.r[3].m128_f32[3] = 1.0f;
+
+			bsph->Transform(*bsph, trMatr);
+		}
+
 		if (!TriggerBoxes.empty())
 		{
 			for (std::pair<TypesTriggerReactions, BoundingBox*> tbox : TriggerBoxes)
@@ -200,29 +224,70 @@ namespace Library
 		}
 	}
 
+	void Colliders::Rotate(XMMATRIX rotation)
+	{
+		XMMATRIX trMatr = XMMATRIX({ 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 });
+		XMFLOAT3 movm;
+
+		for (BoundingBox* bbox : BoundingBoxes)
+		{
+			trMatr.r[3] = XMLoadFloat3(&bbox->Center);
+			trMatr.r[3].m128_f32[3] = 1.0f;
+			trMatr = XMMatrixMultiply(rotation, trMatr);
+
+			bbox->Transform(*bbox, trMatr);
+		}
+
+		for (BoundingOrientedBox* obbox : OrrBoundingBox)
+		{
+			trMatr.r[3] = XMLoadFloat3(&obbox->Center);
+			trMatr.r[3].m128_f32[3] = 1.0f;
+			trMatr = XMMatrixMultiply(rotation, trMatr);
+
+			obbox->Transform(*obbox, trMatr);
+		}
+
+		if (!TriggerBoxes.empty())
+		{
+			for (std::pair<TypesTriggerReactions, BoundingBox*> tbox : TriggerBoxes)
+			{
+				trMatr.r[3] = XMLoadFloat3(&tbox.second->Center);
+				trMatr.r[3].m128_f32[3] = 1.0f;
+				trMatr = XMMatrixMultiply(rotation, trMatr);
+
+				tbox.second->Transform(*tbox.second, trMatr);
+			}
+		}
+	}
 
 	//Check collision of this MOVABLE collider with list of static colliders
 	bool Colliders::CheckCollision(std::vector<Colliders*>& CollidableObjects)
 	{
 		bool colidable = false;
-		if ( (BoundingBoxes.empty() && OrrBoundingBox.empty() ) || CollidableObjects.empty())
+		if ( (BoundingBoxes.empty() && OrrBoundingBox.empty() && BoundingSpheres.empty()) || CollidableObjects.empty())
 			return false;
 
 		for (Colliders* coll : CollidableObjects)
 		{
 			if (this != coll)
 			{
-				for (BoundingBox* bbox : BoundingBoxes)
+				for (BoundingSphere* bsph : BoundingSpheres)
 				{
 					for (BoundingBox* tbbox : coll->BoundingBoxes)
 					{
-						if (bbox->Intersects(*tbbox))
+						if (bsph->Intersects(*tbbox))
 							return true;
 					}
 
 					for (BoundingOrientedBox* tbbox : coll->OrrBoundingBox)
 					{
-						if (bbox->Intersects(*tbbox))
+						if (bsph->Intersects(*tbbox))
+							return true;
+					}
+
+					for (BoundingSphere* bshpr : coll->BoundingSpheres)
+					{
+						if (bsph->Intersects(*bshpr))
 							return true;
 					}
 				}		
@@ -248,7 +313,7 @@ namespace Library
 	{
 		bool colided = false;
 
-		if (BoundingBoxes.empty())
+		if (BoundingBoxes.empty() && BoundingSpheres.empty())
 			return false;
 
 		for (BoundingBox* bbox : BoundingBoxes)
@@ -257,6 +322,16 @@ namespace Library
 				if (bbox->Intersects(*trigger))
 					colided = true;
 			
+		}
+
+		if (colided) return true;
+		
+		for (BoundingSphere* bSph : BoundingSpheres)
+		{
+			for (BoundingBox* trigger : TriggerCollider.BoundingBoxes)
+				if (bSph->Intersects(*trigger))
+					colided = true;
+
 		}
 
 		return colided;
@@ -277,6 +352,12 @@ namespace Library
 					return true;
 			}
 		}
+		if (!BoundingSpheres.empty())
+			for (BoundingSphere* bbsph : BoundingSpheres)
+			{
+				if (bbsph->Intersects(origin, direct, distance))
+					return true;
+			}
 		return false;
 	}
 
@@ -350,6 +431,14 @@ namespace Library
 			for (BoundingOrientedBox* obbox : OrrBoundingBox)
 			{
 				if (obbox->ContainedBy(planes[0], planes[1], planes[2], planes[3], planes[4], planes[5]) != DISJOINT)
+					return true;
+			}
+		}
+		if (!BoundingSpheres.empty())
+		{
+			for (BoundingSphere* bbsph : BoundingSpheres)
+			{
+				if (bbsph->ContainedBy(planes[0], planes[1], planes[2], planes[3], planes[4], planes[5]) != DISJOINT)
 					return true;
 			}
 		}

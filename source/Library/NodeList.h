@@ -14,6 +14,9 @@ namespace Library
 		static CollisionNode* MovedToNode(XMFLOAT3 ObjectPosition, std::vector<CollisionNode*> nodeList);
 		static std::vector<CollisionNode*> CheckNodesInsideCamera(std::vector<XMVECTOR> planes, std::vector<CollisionNode*> listOfNode);
 		static bool IsNodeInsideList(CollisionNode* checkedNode, std::vector<CollisionNode*> listOfNode);
+
+		static bool IsMatrixZero(XMMATRIX checkedMatr);
+		static XMMATRIX InverseRotation(XMMATRIX checkedMatr);
 	private:
 		NodeList();
 	};

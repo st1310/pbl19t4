@@ -27,19 +27,36 @@ namespace Rendering
 		mPointLight->SetRadius(30.0f);
 
 		SetAnimations();
+
+		mSpotLight = new SpotLight(game);
+		mPointLight = new PointLight(game);
 	}
 
 
 	GreenSoldier::~GreenSoldier()
 	{
-	
+		DeleteObject(mSpotLight);
+		DeleteObject(mPointLight);
 	}
 
 	void GreenSoldier::Initialize()
 	{
 		AnimatedGameObject::Initialize();
-		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.f, 12.f, 3.f));
+		AnimatedGameObject::BuildSphere(4.5f);
 		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 15.f, 12.f, 15.f });
+
+		mPointLight->SetRadius(30.0f);
+		mPointLight->SetPosition(mPosition);
+		mPointLight->SetColor(Colors::White - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
+	}
+
+	void GreenSoldier::Update(const GameTime& gameTime)
+	{
+		AnimatedGameObject::Update(gameTime);
+		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x, mPosition.y + 5, mPosition.z - 10);
+
+		mPointLight->SetPosition(pointLightPosition);
+		mSpotLight->SetPosition(mPosition);
 	}
 
 	void GreenSoldier::Update(const GameTime& gameTime)

@@ -472,11 +472,6 @@ namespace Library
 		return center;
 	}
 
-	void Game::ChangeCameraMovementStatus(bool newStat)
-	{
-		cameraHasMoved = newStat;
-	}
-
 	void Game::RemoveComponent(GameComponent* removableGM)
 	{
 		auto itrGmGO = std::find(mComponents.begin(), mComponents.end(), removableGM);

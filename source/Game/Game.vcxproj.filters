@@ -311,7 +311,6 @@
     <ClInclude Include="PoliceStation.h">
       <Filter>Assets\Header</Filter>
     </ClInclude>
-
     <ClInclude Include="PlatformGroundPlain.h">
       <Filter>Assets\Header</Filter>
     </ClInclude>

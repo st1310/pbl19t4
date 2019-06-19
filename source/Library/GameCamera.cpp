@@ -293,8 +293,12 @@ namespace Library
 		XMStoreFloat3(&mPosition, position);
 		Camera::Update(gameTime);
 
+		
+
 		if (moved || !firstTime)
 		{
+			float extender = 50.f + mCurrentYPosition * 1.5f;
+
 			// 0 - right; 1 -left; 2 - up; 3 - down; 4 - near; 5 - far 
 			std::vector<XMVECTOR> planes;
 			XMVECTOR dirHelp = XMVECTOR();
@@ -310,21 +314,21 @@ namespace Library
 				: (mDirection.z > -0.08f ? -0.08f : mDirection.z > -0.984f ? mDirection.z : -0.984f);
 
 			//right slope
-			planes.push_back(XMVectorSet(1.0f, 0.f, -(mPosition.x + 100.f), 0.f));
+			planes.push_back(XMVectorSet(1.0f, 0.f, -(mPosition.x + extender), 0.f));
 			planes[0] = DirectX::Internal::XMPlaneTransform(planes[0], dirHelp, position);
 			planes[0] = XMPlaneNormalize(planes[0]);
 
 			//left slope
-			planes.push_back(XMVectorSet(-1.0f, 0.f, (mPosition.x - 100.f), 0.f));
+			planes.push_back(XMVectorSet(-1.0f, 0.f, (mPosition.x - extender), 0.f));
 			planes[1] = DirectX::Internal::XMPlaneTransform(planes[1], dirHelp, position);
 			planes[1] = XMPlaneNormalize(planes[1]);
 
 			//upper slope
-			planes.push_back(XMVectorSet(0.0f, 1.f, -(mPosition.y + 100.f), 0.f));
+			planes.push_back(XMVectorSet(0.0f, 1.f, -(mPosition.y + extender), 0.f));
 			planes[2] = DirectX::Internal::XMPlaneTransform(planes[2], dirHelp, position);
 			planes[2] = XMPlaneNormalize(planes[2]);
 			//lower slope
-			planes.push_back(XMVectorSet(0.0f, -1.f, (mPosition.y - 100.f), 0.f));
+			planes.push_back(XMVectorSet(0.0f, -1.f, (mPosition.y - extender), 0.f));
 			planes[3] = DirectX::Internal::XMPlaneTransform(planes[3], dirHelp, position);
 			planes[3] = XMPlaneNormalize(planes[3]);
 
