@@ -161,6 +161,11 @@ namespace Rendering
 				//If policeNearby > playerNearby - provoke to attack player?
 				break;
 			case Library::PAINT:
+				if (!alerted)
+				{
+					alertedTimeOnTargetPlace = -1.f;
+					alerted = true;
+				}
 				//Follow the path of paint
 				break;
 			default:

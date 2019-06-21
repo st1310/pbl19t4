@@ -689,4 +689,9 @@ namespace Rendering
 	{
 		return mClassName;
 	}
+
+	void GameObject::SetModel(Model* settedModel)
+	{
+		mModel = settedModel;
+	}
 }

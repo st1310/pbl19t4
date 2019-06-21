@@ -183,6 +183,12 @@
     <ClCompile Include="Barrier.cpp">
       <Filter>Assets\Source</Filter>
     </ClCompile>
+    <ClCompile Include="TrainStationMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelList.cpp">
+      <Filter>Assets\Abstract\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PassengerTrain.h">
@@ -322,6 +328,12 @@
     </ClInclude>
     <ClInclude Include="Barrier.h">
       <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TrainStationMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelList.h">
+      <Filter>Assets\Abstract\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

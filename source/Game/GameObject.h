@@ -127,7 +127,8 @@ namespace Rendering
 
 		void SetLightsReferences(std::vector<DirectionalLight*>& directionalLights, std::vector<PointLight*>& pointLights, std::vector<SpotLight*>& spotLights);
 		const char* GetName();
-
+		
+		void SetModel(Model* settedModel);
 	protected:
 		GameObject();
 		GameObject(const GameObject& rhs);
