@@ -161,8 +161,7 @@ namespace Rendering
 				}
 				else  
 					mGameManager->SelectingUnits(mouse1Pos.x, mouse1Pos.y);
-			}
-			
+			}		
 		}
 
 		if (mMouse->WasButtonPressedThisFrame(MouseButtonsRight))
