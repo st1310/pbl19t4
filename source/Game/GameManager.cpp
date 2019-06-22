@@ -83,9 +83,8 @@ namespace Rendering
 		game->ClearAndSetNodes(mScenes.at(mCurrentScene)->getListOfNode());
 
 		for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
-
-				mScenes.at(mCurrentScene)->GetUnitList().at(i)->SetUnitID(i);
-				guiButtons.push_back(new Button(*game, *camera, XMFLOAT2(0 + 50 * i, 660.0f), XMFLOAT2(120.f, 120.f), "cos"));
+			mScenes.at(mCurrentScene)->GetUnitList().at(i)->SetUnitID(i);
+			guiButtons.push_back(new Button(*game, *camera, XMFLOAT2(0 + 50 * i, 660.0f), XMFLOAT2(120.f, 120.f), "cos"));
 		}
 
 		GameCamera* gmCam = camera->As<GameCamera>();
@@ -125,6 +124,7 @@ namespace Rendering
 				remCmp->~GameComponent();
 			}
 
+<<<<<<< HEAD
 			if (!achiveFarbaMan) {
 				for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
 					GreenSoldier* green = mScenes.at(mCurrentScene)->GetUnitList().at(i)->As<GreenSoldier>();
@@ -149,6 +149,9 @@ namespace Rendering
 					renderGameFarbaManSpawnFlag = true;
 				}
 			}
+=======
+			//if(trgObj)
+>>>>>>> parent of 5425e12... Trigger, Enter TrainStation to unlock FarbaMan
 
 			FarbaMan* frbMn = trgObj->As<FarbaMan>();
 
@@ -417,10 +420,6 @@ namespace Rendering
 		mKeyboard = newKeyboard;
 	}
 	
-	bool GameManager::GetrenderGameFarbaManSpawnFlag() {
-		return renderGameFarbaManSpawnFlag;
-	}
-
 }
 
 	

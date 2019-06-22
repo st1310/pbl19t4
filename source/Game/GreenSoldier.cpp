@@ -59,6 +59,7 @@ namespace Rendering
 		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x , mPosition.y + 5, mPosition.z - 10);
 
 		mPointLight->SetPosition(pointLightPosition);
+<<<<<<< HEAD
 		//mSpotLight->SetPosition(mPosition);
 
 		if (this->getPosition().x > -102.0f && this->getPosition().x <-44.0f &&  
@@ -66,6 +67,9 @@ namespace Rendering
 		{
 			achiveFarbaManPoint = true;//zespawnuj farbamana!!!
 		}
+=======
+		mSpotLight->SetPosition(mPosition);
+>>>>>>> parent of 5425e12... Trigger, Enter TrainStation to unlock FarbaMan
 	}
 
 	void GreenSoldier::setSelection(bool selection)
@@ -142,10 +146,6 @@ namespace Rendering
 	SpotLight* GreenSoldier::GetSpotLight()
 	{
 		return mSpotLight;
-	}
-
-	bool GreenSoldier::getArchiveFarbaManPoint() {
-		return achiveFarbaManPoint;
 	}
 }
 
