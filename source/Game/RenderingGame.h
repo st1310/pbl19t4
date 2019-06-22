@@ -48,8 +48,12 @@ namespace Rendering
 	protected:
 		virtual void Shutdown() override;
 
-	private:
+	private:		
+		void KeyboardUpdate();
+
+		//GUI
 		void LoadGuiTextures();
+		void GameGuiUpdate();
 
 		static const XMVECTORF32 BackgroundColor;
 
@@ -59,7 +63,6 @@ namespace Rendering
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
 		GameCamera* mCamera;
-		//FirstPersonCamera* mCamera;
 		FpsComponent* mFpsComponent;
 		SkyboxComponent* mSkybox;
 

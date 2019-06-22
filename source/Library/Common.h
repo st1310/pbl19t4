@@ -26,11 +26,7 @@
 #define Z_AXIS_NUMBER 3
 #define ALL_AXIS_NUMBER 4
 
-// Class names in serialization
-#define GREEN_SOLDIER "GreenSoldier"
-#define CARGO_TRAIN "CargoTrain"
-#define PASSENGER_TRAIN "PassengerTrain"
-#define TRACK "Track"
+#define  FARBA_MAN_ID 100
 
 #define NOMINMAX // This define fixes assimp std::min/max error
 //#define UNICODE

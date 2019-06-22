@@ -59,7 +59,7 @@ namespace Rendering
 		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x , mPosition.y + 5, mPosition.z - 10);
 
 		mPointLight->SetPosition(pointLightPosition);
-		mSpotLight->SetPosition(mPosition);
+		//mSpotLight->SetPosition(mPosition);
 
 		if (this->getPosition().x > -102.0f && this->getPosition().x <-44.0f &&  
 			this->getPosition().z > -25.0f && this->getPosition().z<23.0f) 

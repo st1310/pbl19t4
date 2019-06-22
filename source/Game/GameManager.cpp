@@ -326,7 +326,7 @@ namespace Rendering
 
 		bool wasSelected = false;
 
-			//For now - this is the prototype of checking if mouse clicked in right position
+		//For now - this is the prototype of checking if mouse clicked in right position
 		for (GameComponent* gmCm : mScenes.at(mCurrentScene)->GetUnitList())
 		{
 			GreenSoldier* greenSold = gmCm->As<GreenSoldier>();
@@ -334,7 +334,6 @@ namespace Rendering
 			if (greenSold->getCollider()->CheckColliderIntersecteByRay(camera->PositionVector(), TrF, camera->FarPlaneDistance()) && (!wasSelected))
 			{
 				greenSold->setSelection(true);
-				greenSold->setIsSelected(true);
 				//Will remove this later
 				wasSelected = true;
 				unitsReadyToMove = true;
@@ -394,7 +393,6 @@ namespace Rendering
 					if (greenSold->getCollider()->CheckColliderIntersecteByRay(gmCam->PositionVector(), TrF, gmCam->FarPlaneDistance()))
 					{
 						greenSold->setSelection(true);
-						greenSold->setIsSelected(true);
 						unitsReadyToMove = true;
 					}
 				}
