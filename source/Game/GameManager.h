@@ -35,6 +35,7 @@ namespace Rendering
 			int GetCurrentSceneId();
 			bool GetunitsReadyToMove();
 			bool GetShowMousePosition();
+			bool GetrenderGameFarbaManSpawnFlag();
 
 			void SelectingUnits(float mouseX, float mouseY);
 			void SelectingUnits(float mouse1X, float mouse1Y, float mouse2X, float mouse2Y);
@@ -64,7 +65,8 @@ namespace Rendering
 			//int Painted;
 
 			std::vector<Button*> guiButtons;
-			
+			bool achiveFarbaMan = false;
+			bool renderGameFarbaManSpawnFlag = false;
 		};
 }
 

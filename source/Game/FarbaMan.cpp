@@ -14,13 +14,8 @@ namespace Rendering
 			startRotation,
 			startScale)
 	{
-<<<<<<< HEAD
 		mRotationSpeed = 6;
 		mTranslationSpeed = 0.3;
-=======
-		mRotationSpeed = 1;
-		mTranslationSpeed = 0.05;
->>>>>>> parent of 5425e12... Trigger, Enter TrainStation to unlock FarbaMan
 
 		mIsSelectedDiffuseMap = "Content\\Textures\\SoldierSelectedDiffuseMap.jpg";
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
@@ -94,6 +89,10 @@ namespace Rendering
 		else if (destroyPaintedPosition)
 		{
 			destroyPaintedPosition = false;
+		}
+
+		if (this->getPosition().x > 570.0f && this->getPosition().x <590.0f &&  this->getPosition().z > -230.0f && this->getPosition().z < -190.0f) {
+			inPaintArea = true;
 		}
 
 		AnimatedGameObject::Update(gameTime);

@@ -20,16 +20,14 @@ namespace Rendering
 
 		void setSelection(bool selection);
 		bool getIsSelected();
+		bool getArchiveFarbaManPoint();
 		virtual void CheckTriggers() override;
 		virtual void SetAnimations() override;
 
-<<<<<<< HEAD
-=======
-		PointLight* GetPointLight();
->>>>>>> parent of 5425e12... Trigger, Enter TrainStation to unlock FarbaMan
 		SpotLight* GetSpotLight();
 
 	private:
 		SpotLight* mSpotLight;
+		bool achiveFarbaManPoint = false;
 	};
 }
