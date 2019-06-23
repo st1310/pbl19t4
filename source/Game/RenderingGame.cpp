@@ -198,8 +198,8 @@ namespace Rendering
 
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition, Colors::White);
 
-		if (mapLevel == true) {
-
+		if (mapLevel == true) 
+		{
 			if (showMapVal)
 				mSpriteBatch->Draw(mTacticalMap, SimpleMath::Rectangle(0, 0, 1028.0f, 780.0f));
 				

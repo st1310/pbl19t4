@@ -265,7 +265,7 @@ namespace Rendering
 										gameObject->StartMoving(nextPositions);
 										gameObject->RunInit();
 
-										gameObject->setIsSelected(false);
+										gameObject->setSelection(false);
 									}
 								}
 
@@ -302,7 +302,7 @@ namespace Rendering
 							gameObject->StartMoving(nextPositions);
 							gameObject->RunInit();
 
-							gameObject->setIsSelected(false);
+							gameObject->setSelection(false);
 						}
 					}
 
@@ -342,7 +342,6 @@ namespace Rendering
 			else
 			{
 				greenSold->setSelection(false);
-				greenSold->setIsSelected(false);
 				unitsReadyToMove = false;
 			}
 		}

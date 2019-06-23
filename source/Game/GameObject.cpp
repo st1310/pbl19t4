@@ -627,7 +627,7 @@ namespace Rendering
 		return inNode;
 	}
 
-	void GameObject::setIsSelected(bool value) {
+	void GameObject::setSelection(bool value) {
 		mIsSelected = value;
 	}
 

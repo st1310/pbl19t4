@@ -114,7 +114,7 @@ namespace Rendering
 		void BuildOrientedBoundingBox(XMFLOAT3 radius, XMFLOAT4 orientation);
 
 		virtual void CheckTriggers();
-		void setIsSelected(bool value);
+		void setSelection(bool selection);
 		bool getIsSelected();
 
 
