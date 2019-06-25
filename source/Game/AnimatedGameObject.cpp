@@ -151,6 +151,9 @@ namespace Rendering
 			ChangeAnimation(mCurrentAnimation);
 		}
 
+		if (mIsFolowable)
+			GetCamera()->SetPosition(GetFollowPositionToCamera());
+
 		mAnimationPlayer->Update(gameTime);
 	}
 
@@ -206,73 +209,12 @@ namespace Rendering
 	{
 		if (mKeyboard != nullptr)
 		{
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_P))
-			{
-				if (mAnimationPlayer->IsPlayingClip())
-					mAnimationPlayer->PauseClip();
+			// Camera
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_X) && mIsSelected)
+				GetCamera()->SetPosition(GetFollowPositionToCamera());
 
-				else
-					mAnimationPlayer->ResumeClip();
-			}
-
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_B))
-			{
-				// Reset the animation clip to the bind pose
-				mAnimationPlayer->StartClip(*(mModel->Animations().at(0)));
-			}
-
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_I))
-			{
-				// Enable/disabled interpolation
-				mAnimationPlayer->SetInterpolationEnabled(!mAnimationPlayer->InterpolationEnabled());
-			}
-
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_F))
-			{
-				//mStartAnimation = true;
-				/*
-				mAnimationSequence->InitLoopAnimationSequence()
-				mAnimationSequence.push_back("Paint");
-				mAnimationSequence.push_back("Paint");
-				mAnimationSequence.push_back("Paint");
-				mAnimationSequence.push_back("Reload");
-				mAnimationSequence.push_back("Paint");
-				*/
-			}
-
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_G))
-			{
-				//mStartAnimation = true;
-				mAnimationSequence->InitLoopAnimationSequence("StartRunning", "Run", "StopRunning");
-			}
-
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_B))
-			{
-				ChangeAnimation("Run");				
-			}
-
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_V))
-			{
-				ChangeAnimation("Paint");
-			}
-
-			if (mKeyboard->WasKeyPressedThisFrame(DIK_RETURN))
-			{
-				// Enable/disable manual advance mode
-				mManualAdvanceMode = !mManualAdvanceMode;
-				mAnimationPlayer->SetCurrentKeyFrame(0);
-			}
-
-			if (mManualAdvanceMode && mKeyboard->WasKeyPressedThisFrame(DIK_SPACE))
-			{
-				UINT currentKeyFrame = mAnimationPlayer->CurrentKeyframe();
-				currentKeyFrame++;
-
-				if (currentKeyFrame >= mAnimationPlayer->CurrentClip()->KeyframeCount())
-					currentKeyFrame = 0;
-
-				mAnimationPlayer->SetCurrentKeyFrame(currentKeyFrame);
-			}
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_Z) && mIsSelected)
+				mIsFolowable = !mIsFolowable;
 
 			if(mIsSelected && mIsEdited)
 				EditModel();
@@ -318,5 +260,24 @@ namespace Rendering
 	void AnimatedGameObject::PatrolInit()
 	{
 		mAnimationSequence->InitLoopAnimationSequence("Patrol", "Patrol", "Patrol");
+	}
+
+	XMFLOAT3 AnimatedGameObject::GetFollowPositionToCamera()
+	{
+		float zPosition = mPosition.z + 50;
+
+		if (GetCamera()->Position().y > 50)
+			zPosition += GetCamera()->Position().y * 0.2;
+
+		if (GetCamera()->Position().y > 80)
+			zPosition += GetCamera()->Position().y * 0.4;
+
+		XMFLOAT3 newCameraPosition = XMFLOAT3(
+			mPosition.x,
+			GetCamera()->Position().y,
+			zPosition
+		);
+
+		return newCameraPosition;
 	}
 }

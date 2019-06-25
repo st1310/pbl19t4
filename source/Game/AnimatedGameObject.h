@@ -54,11 +54,13 @@ namespace Rendering
 		AnimatedGameObject& operator=(const AnimatedGameObject& rhs);
 
 		void UpdateOptions();
+		XMFLOAT3 GetFollowPositionToCamera();
 
 		AnimationPlayer* mAnimationPlayer;
 		SkinnedModelMaterial* mMaterial;
 
-		
+		bool mIsFolowable = false;		
+
 		//Animation sequence
 		AnimationSequence* mAnimationSequence;
 		std::string mCurrentAnimation = "Idle";

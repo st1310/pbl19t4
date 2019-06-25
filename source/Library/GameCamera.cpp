@@ -110,164 +110,9 @@ namespace Library
 
 	void GameCamera::Update(const GameTime& gameTime)
 	{
-		bool moved = false;
-		XMFLOAT2 movementAmount = Vector2Helper::Zero;
-		if (mKeyboard->IsKeyDown(DIK_W))
-		{
-			XMFLOAT3 cameraPositon = Position();
-			if (cameraPositon.z > mMinimalPointAtMap.y)
-			{
-				cameraPositon.z -= mMoveCameraFactor;
-				SetPosition(cameraPositon);
-				moved = true;
-			}
-		}
-		if (mKeyboard->IsKeyDown(DIK_S))
-		{
-			XMFLOAT3 cameraPositon = Position();
-			if (cameraPositon.z < mMaximalPointAtMap.y)
-			{
-				cameraPositon.z += mMoveCameraFactor;
-				SetPosition(cameraPositon);
-				moved = true;
-			}
-		}
-		if (mKeyboard->IsKeyDown(DIK_A))
-		{
-			XMFLOAT3 cameraPositon = Position();
-			if (cameraPositon.x > mMinimalPointAtMap.x)
-			{
-				cameraPositon.x -= mMoveCameraFactor;
-				SetPosition(cameraPositon);
-				moved = true;
-			}
-		}
-		if (mKeyboard->IsKeyDown(DIK_D))
-		{
-			XMFLOAT3 cameraPositon = Position();
-			if (cameraPositon.x < mMaximalPointAtMap.x)
-			{
-				cameraPositon.x += mMoveCameraFactor;
-				SetPosition(cameraPositon);
-				moved = true;
-			}
-		}
-		if (mMouse->WasButtonPressedThisFrame(MouseButtonsMiddle))
-		{
-			// reset Y Position
-			XMFLOAT3 cameraPositon = Position();
-			mCurrentYPosition = mStartYPosition;
-			cameraPositon.y = mCurrentYPosition;
-			SetPosition(cameraPositon);
-			moved = true;
-		}
-		if (mMouse->Wheel() > mLastWheelPosition)
-		{
-			XMFLOAT3 cameraPositon = Position();
-
-			if (mCurrentYPosition > mMinYPosition)
-			{
-				mCurrentYPosition -= mYMoveCameraFactor;
-				cameraPositon.y = mCurrentYPosition;
-				SetPosition(cameraPositon);		
-				moved = true;
-			}
-
-			mLastWheelPosition = mMouse->Wheel();
-		}
-
-		if (mMouse->Wheel() < mLastWheelPosition)
-		{
-			XMFLOAT3 cameraPositon = Position();
-
-			if (mCurrentYPosition < mMaxYPosition)
-			{
-				mCurrentYPosition += mYMoveCameraFactor;
-				cameraPositon.y = mCurrentYPosition;
-				SetPosition(cameraPositon);
-				moved = true;
-			}
-
-			mLastWheelPosition = mMouse->Wheel();
-		}
-		/*
-		// left
-		if (mMouse->X() < 100)
-		{
-			XMFLOAT3 cameraPositon = Position();
-			if (cameraPositon.x > mMinimalPointAtMap.x)
-			{
-				if (mMouse->X() < 50)
-					cameraPositon.x -= 2 * mMoveCameraFactor;
-
-				else
-					cameraPositon.x -= mMoveCameraFactor;
-
-				SetPosition(cameraPositon);
-				moved = true;
-			}
-		}
-
-		// Right
-		if (mMouse->X() > 900)
-		{
-			XMFLOAT3 cameraPositon = Position();
-			if (cameraPositon.x < mMaximalPointAtMap.x)
-			{
-				if (mMouse->X() > 950)
-					cameraPositon.x += 2 * mMoveCameraFactor;
-
-				else
-					cameraPositon.x += mMoveCameraFactor;
-
-				SetPosition(cameraPositon);
-				moved = true;
-			}
-		}
-
-		// Up
-		if (mMouse->Y() < 100)
-		{
-			XMFLOAT3 cameraPositon = Position();
-			if (cameraPositon.z > mMinimalPointAtMap.y)
-			{
-				if (mMouse->Y() < 50)
-					cameraPositon.z -= 2 * mMoveCameraFactor;
-
-				else
-					cameraPositon.z -= mMoveCameraFactor;
-
-				SetPosition(cameraPositon);
-				moved = true;
-			}
-		}
-
-		// Down
-		if (mMouse->Y() > 650 && (mMouse->X() < 300 || mMouse->X() > 700))
-		{
-			XMFLOAT3 cameraPositon = Position();
-			if (cameraPositon.z < mMaximalPointAtMap.y)
-			{
-				if (mMouse->Y() > 700)
-					cameraPositon.z += 2 * mMoveCameraFactor;
-
-				else
-					cameraPositon.z += mMoveCameraFactor;
-
-				SetPosition(cameraPositon);
-				moved = true;
-			}
-		}
-		*/
+		bool moved = MoveCamera();
+		XMFLOAT2 movementAmount = Vector2Helper::Zero;	
 		XMFLOAT2 rotationAmount = Vector2Helper::Zero;
-		/*
-		if ((mMouse != nullptr) && (mMouse->IsButtonHeldDown(MouseButtonsLeft) && cameraMode))
-		{
-			LPDIMOUSESTATE mouseState = mMouse->CurrentState();
-			rotationAmount.x = -mouseState->lX * mMouseSensitivity;
-			rotationAmount.y = -mouseState->lY * mMouseSensitivity;
-			moved = true;
-		}*/
 
 		float elapsedTime = (float)gameTime.ElapsedGameTime();
 		XMVECTOR rotationVector = XMLoadFloat2(&rotationAmount) * mRotationRate * elapsedTime;
@@ -350,5 +195,186 @@ namespace Library
 			mGame->SetNodesInFructum(NodeList::CheckNodesInsideCamera(planes, mGame->NodeList()));
 		}
 
+	}
+
+	bool GameCamera::MoveCamera()
+	{
+		bool moved = UpdateCameraPositionByKeyboard();
+		//moved = UpdateCameraPositionByMouse() ? true : moved;
+		moved = UpdateCameraZoomByMouse() ? true : moved;
+
+		return moved;
+	}
+
+	bool GameCamera::UpdateCameraPositionByMouse()
+	{
+		bool moved = false;
+
+		// left
+		if (mMouse->X() < mGame->ScreenWidth() * mNormalSpeedCameraDistancePercent && mMouse->X() >= 0)
+		{
+			XMFLOAT3 cameraPositon = Position();
+			if (cameraPositon.x > mMinimalPointAtMap.x)
+			{
+				if (mMouse->X() < mGame->ScreenWidth() * mSuperUltraSpeedCameraDistancePercent)
+					cameraPositon.x -= 2 * mMoveCameraFactor;
+
+				else
+					cameraPositon.x -= mMoveCameraFactor;
+
+				SetPosition(cameraPositon);
+				moved = true;
+			}
+		}
+
+		// Right
+		if (mMouse->X() > mGame->ScreenWidth() * (1.f - mNormalSpeedCameraDistancePercent) && mMouse->X() <= mGame->ScreenWidth()) //&& mMouse->Y() < 300
+		{
+			XMFLOAT3 cameraPositon = Position();
+			if (cameraPositon.x < mMaximalPointAtMap.x)
+			{
+				if (mMouse->X() > mGame->ScreenWidth() * (1.f - mSuperUltraSpeedCameraDistancePercent))
+					cameraPositon.x += 2 * mMoveCameraFactor;
+
+				else
+					cameraPositon.x += mMoveCameraFactor;
+
+				SetPosition(cameraPositon);
+				moved = true;
+			}
+		}
+
+		// Up
+		if (mMouse->Y() < mGame->ScreenHeight() * mNormalSpeedCameraDistancePercent && mMouse->Y() >= 0)
+		{
+			XMFLOAT3 cameraPositon = Position();
+			if (cameraPositon.z > mMinimalPointAtMap.y)
+			{
+				if (mMouse->Y() < mGame->ScreenHeight() * mSuperUltraSpeedCameraDistancePercent)
+					cameraPositon.z -= 2 * mMoveCameraFactor;
+
+				else
+					cameraPositon.z -= mMoveCameraFactor;
+
+				SetPosition(cameraPositon);
+				moved = true;
+			}
+		}
+
+		// Down
+		if (mMouse->Y() > mGame->ScreenHeight() * (1.f - mNormalSpeedCameraDistancePercent && mMouse->Y() <= mGame->ScreenHeight())
+			&& (mMouse->X() < 300 || mMouse->X() > 700)) //mMouse->X() < 300 || mMouse->X() > 700)
+		{
+			XMFLOAT3 cameraPositon = Position();
+			if (cameraPositon.z < mMaximalPointAtMap.y)
+			{
+				if (mMouse->Y() > mGame->ScreenHeight() * (1.f - mSuperUltraSpeedCameraDistancePercent))
+					cameraPositon.z += 2 * mMoveCameraFactor;
+
+				else
+					cameraPositon.z += mMoveCameraFactor;
+
+				SetPosition(cameraPositon);
+				moved = true;
+			}
+		}
+
+		return moved;
+	}
+	bool GameCamera::UpdateCameraPositionByKeyboard()
+	{
+		bool moved = false;
+
+		if (mKeyboard->IsKeyDown(DIK_W))
+		{
+			XMFLOAT3 cameraPositon = Position();
+			if (cameraPositon.z > mMinimalPointAtMap.y)
+			{
+				cameraPositon.z -= mMoveCameraFactor;
+				SetPosition(cameraPositon);
+				moved = true;
+			}
+		}
+
+		if (mKeyboard->IsKeyDown(DIK_S))
+		{
+			XMFLOAT3 cameraPositon = Position();
+			if (cameraPositon.z < mMaximalPointAtMap.y)
+			{
+				cameraPositon.z += mMoveCameraFactor;
+				SetPosition(cameraPositon);
+				moved = true;
+			}
+		}
+
+		if (mKeyboard->IsKeyDown(DIK_A))
+		{
+			XMFLOAT3 cameraPositon = Position();
+			if (cameraPositon.x > mMinimalPointAtMap.x)
+			{
+				cameraPositon.x -= mMoveCameraFactor;
+				SetPosition(cameraPositon);
+				moved = true;
+			}
+		}
+
+		if (mKeyboard->IsKeyDown(DIK_D))
+		{
+			XMFLOAT3 cameraPositon = Position();
+			if (cameraPositon.x < mMaximalPointAtMap.x)
+			{
+				cameraPositon.x += mMoveCameraFactor;
+				SetPosition(cameraPositon);
+				moved = true;
+			}
+		}
+
+		return moved;
+	}
+	bool GameCamera::UpdateCameraZoomByMouse()
+	{
+		bool moved = false;
+
+		if (mMouse->WasButtonPressedThisFrame(MouseButtonsMiddle))
+		{
+			// reset Y Position
+			XMFLOAT3 cameraPositon = Position();
+			mCurrentYPosition = mStartYPosition;
+			cameraPositon.y = mCurrentYPosition;
+			SetPosition(cameraPositon);
+			moved = true;
+		}
+
+		if (mMouse->Wheel() > mLastWheelPosition)
+		{
+			XMFLOAT3 cameraPositon = Position();
+
+			if (mCurrentYPosition > mMinYPosition)
+			{
+				mCurrentYPosition -= mYMoveCameraFactor;
+				cameraPositon.y = mCurrentYPosition;
+				SetPosition(cameraPositon);
+				moved = true;
+			}
+
+			mLastWheelPosition = mMouse->Wheel();
+		}
+
+		if (mMouse->Wheel() < mLastWheelPosition)
+		{
+			XMFLOAT3 cameraPositon = Position();
+
+			if (mCurrentYPosition < mMaxYPosition)
+			{
+				mCurrentYPosition += mYMoveCameraFactor;
+				cameraPositon.y = mCurrentYPosition;
+				SetPosition(cameraPositon);
+				moved = true;
+			}
+
+			mLastWheelPosition = mMouse->Wheel();
+		}
+
+		return moved;
 	}
 }
