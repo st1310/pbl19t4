@@ -298,7 +298,7 @@ namespace Rendering
 		XMMATRIX viewProj = camera->ViewProjectionMatrix();
 		XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);
 		
-		
+		bool getOut = false;
 
 		float x = (((2.0f * mouseX) / (float)game->ScreenWidth()) - 1.0f);
 		float y = (((2.0f * mouseY) / (float)game->ScreenHeight()) - 1.0f) * (-1.0f);
@@ -318,16 +318,31 @@ namespace Rendering
 						if (gameObject->getIsSelected()) {
 							
 							patrolPositions.push_back(XMFLOAT2(targetPos.x, targetPos.z));
-							//gameObject->StartMoving(nextPositions);
-							//gameObject->RunInit();
-
+							getOut = true;
 							gameObject->setIsSelected(true);
 
 						}
+						if (getOut)
+							break;
 					}
 
 				}
 			}
+	}
+
+	void GameManager::ExecutePatrolMode() {
+		
+		for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
+			AnimatedGameObject* gameObject = (AnimatedGameObject*)(mScenes.at(mCurrentScene)->GetUnitList().at(i));
+			if (gameObject->getIsSelected()) {
+				
+				gameObject->StartMoving(patrolPositions);
+				gameObject->RunInit();
+
+				gameObject->setIsSelected(true);
+
+			}
+		}
 	}
 
 	void GameManager::SelectingUnits(float mouseX, float mouseY)
@@ -445,6 +460,14 @@ namespace Rendering
 
 	bool GameManager::GetPaintButtonFlag() {
 		return PaintButtonFlag;
+	}
+
+	std::vector<Trace1*> GameManager::GetSplashes() {
+		return splashes;
+	}
+
+	void GameManager::ClearSplashes() {
+		splashes.clear();
 	}
 }
 

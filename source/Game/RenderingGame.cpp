@@ -661,6 +661,8 @@ namespace Rendering
 					mGameManager->SelectingGroundsFakePatrolMode(mMouse->X(), mMouse->Y());
 				}
 			}
+
+		
 		}
 
 
@@ -1114,6 +1116,9 @@ namespace Rendering
 								if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
 									mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(620.0f, 15.0f, 30.0f, 30.0f));
 									patrolMode = false;
+									
+									mGameManager->ExecutePatrolMode();
+									mGameManager->ClearSplashes();
 								}
 							}
 						}
