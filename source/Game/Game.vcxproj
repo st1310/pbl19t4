@@ -192,6 +192,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="InformationBoard.cpp" />
     <ClCompile Include="LongBuilding.cpp" />
     <ClCompile Include="MenuLevel.cpp" />
+    <ClCompile Include="ModelList.cpp" />
     <ClCompile Include="OldBuilding.cpp" />
     <ClCompile Include="OverheadLines.cpp" />
     <ClCompile Include="PassengerTrain.cpp" />
@@ -245,6 +246,7 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClInclude Include="InformationBoard.h" />
     <ClInclude Include="LongBuilding.h" />
     <ClInclude Include="MenuLevel.h" />
+    <ClInclude Include="ModelList.h" />
     <ClInclude Include="OldBuilding.h" />
     <ClInclude Include="OverheadLines.h" />
     <ClInclude Include="PassengerTrain.h" />

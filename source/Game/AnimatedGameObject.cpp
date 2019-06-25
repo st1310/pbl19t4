@@ -67,8 +67,11 @@ namespace Rendering
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
 		// Load the model
-		std::string modelName = "Content\\Models\\" + (std::string)mClassName + ".fbx";
-		mModel = new Model(*mGame, modelName, true);
+		if (mModel == nullptr)
+		{
+			std::string modelName = "Content\\Models\\" + (std::string)mClassName + ".fbx";
+			mModel = new Model(*mGame, modelName, true);
+		}
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
@@ -237,6 +240,13 @@ namespace Rendering
 			mCollider->BuildBoundingBox(mPosition, radius);
 			if (inNode != nullptr)
 				inNode->AddDynamicCollider(mCollider);
+	}
+
+	void AnimatedGameObject::BuildSphere(float radius)
+	{
+		mCollider->BuildSphere(mPosition, radius);
+		if (inNode != nullptr)
+			inNode->AddDynamicCollider(mCollider);
 	}
 
 	void AnimatedGameObject::ChangeAnimation(std::string animationName)

@@ -26,8 +26,8 @@ namespace Library
 
 			XMMATRIX matrixRotation = XMMATRIX({ 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f });
 
-			if (NodeList::TryToMoveInNode(mCollider, XMVECTOR({ mCurrentXPosition, -7.0f, mCurrentYPosition, 1.0f }), matrixRotation, 
-				XMVECTOR({ mCurrentXPosition + mXDistancePerFrame, -7.0f, mCurrentYPosition + mYDistancePerFrame, 1.0f }), mCollNode))
+			if (NodeList::TryToMoveInNode(mCollider, XMVECTOR({ mCurrentXPosition, height, mCurrentYPosition, 1.0f }), matrixRotation, 
+				XMVECTOR({ mCurrentXPosition + mXDistancePerFrame, height, mCurrentYPosition + mYDistancePerFrame, 1.0f }), mCollNode))
 			{
 				mCurrentFrameNumber++;
 				mCurrentXPosition += mXDistancePerFrame;
@@ -74,14 +74,14 @@ namespace Library
 		return result;
 	}
 
-	void State::MoveInit(XMFLOAT2 currentPosition,  std::vector<XMFLOAT2> positions, float rotation, float translationSpeed, float rotationSpeed, 
+	void State::MoveInit(XMFLOAT2 currentPosition,  std::vector<XMFLOAT2> positions, float mHeight, float rotation, float translationSpeed, float rotationSpeed,
 		Colliders* collider, CollisionNode* collNode, bool isLoopable)
 	{
 		mCollider = collider;
 		mCollNode = collNode;
 		mIsInActiveState = true;
 		mIsLoopable = isLoopable;
-
+		height = mHeight;
 		mCurrentXPosition = currentPosition.x;
 		mCurrentYPosition = currentPosition.y;
 

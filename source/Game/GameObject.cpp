@@ -664,7 +664,7 @@ namespace Rendering
 	{
 		XMFLOAT2 currentPosition = XMFLOAT2(mPosition.x, mPosition.z);
 
-		mState->MoveInit(currentPosition, positions, mRotation.y, mTranslationSpeed*2, mRotationSpeed, mCollider, inNode, isLoopable);
+		mState->MoveInit(currentPosition, positions, mPosition.y, mRotation.y, mTranslationSpeed*2, mRotationSpeed, mCollider, inNode, isLoopable);
 
 		ChangeTexture(mIsBusyDiffuseMap);
 		mIsBusy = true;
@@ -688,5 +688,10 @@ namespace Rendering
 	const char* GameObject::GetName()
 	{
 		return mClassName;
+	}
+
+	void GameObject::SetModel(Model* settedModel)
+	{
+		mModel = settedModel;
 	}
 }

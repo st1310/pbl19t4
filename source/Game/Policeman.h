@@ -30,6 +30,9 @@ namespace Rendering
 		PointLight* GetPointLight();
 		SpotLight* GetSpotLight();
 
+		bool IsAlerted();
+		void SetRunAndCath(bool value);
+		void SetTargetPosition(float x, float z);
 	private:
 		int policeNearby;
 		int playerNearby;
@@ -37,5 +40,9 @@ namespace Rendering
 		PointLight* mPointLight;
 		SpotLight* mSpotLight;
 		bool mRunAndCatchUnit = false;
+		//Saw unit, decides where to run to catch
+		XMFLOAT2 mTargetPosition;
+		bool alerted = false;
+		float alertedTimeOnTargetPlace = -1.f;
 	};
 }
