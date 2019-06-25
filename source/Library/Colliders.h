@@ -12,7 +12,9 @@ namespace Library
 		POLICE_STATION,
 		PLAYER_UNIT,
 		PAINT,
-		PAINTING_POSITION
+		PAINTING_POSITION,
+		POLICE_DETECTION,
+		PLAYER_CLEANER
 	};
 
 	class Colliders
@@ -28,6 +30,7 @@ namespace Library
 
 		void BuildOBB(Mesh* meshes, XMFLOAT4 orientation);
 		void BuildOBB(XMFLOAT3 position, XMFLOAT3 radius, XMFLOAT4 orientation);
+		void BuildSphere(XMFLOAT3 position, float radius);
 
 		bool IsEmpty();
 		void setTriggerReaction(TypesTriggerReactions trg, XMFLOAT3 centerOf, XMFLOAT3 radOfTrig);
@@ -37,9 +40,10 @@ namespace Library
 
 		void PushNewBoundingBox(BoundingBox* bbox);
 		void PushNewOrientedBoundingBox(BoundingOrientedBox* obbox);
+		void PushNewSphere(BoundingSphere* bbSph);
 
 		bool CheckCollision(std::vector<Colliders*>& CollidableObjects);
-		bool CheckTriggerCollision(Colliders& TriggerCollider);
+		bool CheckTriggerCollision(int idOfTrigger, Colliders* TriggerCollider);
 		bool CheckTriggerCollisionPaintingPosition(XMFLOAT3 position);
 
 		bool CheckColliderIntersecteByRay(XMVECTOR origin, XMVECTOR direct, float distance);
@@ -58,5 +62,6 @@ namespace Library
 		std::vector<BoundingOrientedBox*> OrrBoundingBox;
 		std::vector<BoundingBox*> BoundingBoxes;
 		std::vector< std::pair<TypesTriggerReactions, BoundingBox*> > TriggerBoxes;
+		std::vector<BoundingSphere*> BoundingSpheres;
 	};
 }

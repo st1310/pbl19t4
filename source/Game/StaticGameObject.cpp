@@ -71,8 +71,11 @@ namespace Rendering
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
 		// Load the model
-		std::string modelName = "Content\\Models\\" + (std::string)mClassName + ".fbx";
-		mModel = new Model(*mGame, modelName, true);
+		if (mModel == nullptr)
+		{
+			std::string modelName = "Content\\Models\\" + (std::string)mClassName + ".fbx";
+			mModel = new Model(*mGame, modelName, true);
+		}
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);

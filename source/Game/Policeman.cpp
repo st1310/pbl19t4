@@ -35,9 +35,10 @@ namespace Rendering
 	void Policeman::Initialize()
 	{
 		AnimatedGameObject::Initialize();
-		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.f, 12.f, 3.f));
+		AnimatedGameObject::BuildSphere(4.5f);
 		this->mCollider->setTriggerReaction(POLICE_CATCHING, mPosition, { 8.f, 12.f, 8.f });
 		this->mCollider->setTriggerReaction(POLICE_ALLIES, mPosition, { 15.f, 12.f, 15.f });
+		this->mCollider->setTriggerReaction(POLICE_DETECTION, mPosition, { 22.f, 12.f, 22.f });
 		//patrolPath.clear();
 		//patrolPath.push_back(XMFLOAT2(10.0f, 10.0f));
 	//	this->StartFollow();
@@ -48,8 +49,30 @@ namespace Rendering
 		AnimatedGameObject::Update(gameTime);
 		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x + 10, mPosition.y + 5, mPosition.z - 10);
 
-		mPointLight->SetPosition(pointLightPosition);
-		mSpotLight->SetPosition(mPosition);
+		if (mRunAndCatchUnit)
+		{
+			if ((mPosition.x != mTargetPosition.x) && (mPosition.z != mTargetPosition.y))
+			{
+				//set him moving towards mTargetPosition
+				mPointLight->SetColor(Colors::DarkRed - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
+			}
+			else if (alerted)
+			{
+				if (alertedTimeOnTargetPlace = -1.f)
+				{
+					//start walking/searching around
+					alertedTimeOnTargetPlace = gameTime.TotalGameTime();
+				}
+				else if (gameTime.TotalGameTime() - alertedTimeOnTargetPlace >= 15.f)
+				{
+					alerted = false;
+					mRunAndCatchUnit = false;
+					alertedTimeOnTargetPlace = -1.f;
+					//Stop walking around and go back to patroling
+					this->StartFollow();
+				}
+			}
+		}
 	}
 
 	void Policeman::addPointToPatrolPath(XMFLOAT2 point) {
@@ -115,10 +138,18 @@ namespace Rendering
 				break;
 			case Library::PLAYER_UNIT:
 				playerNearby++;
-				//If policeNearby > playerNearby - provoke to attack player?
+				if ((playerNearby <= (policeNearby + 1) * 2))
+				{
+					alertedTimeOnTargetPlace = -1.f;
+					alerted = true;
+				}
 				break;
 			case Library::PAINT:
-				//Follow the path of paint
+				if (!alerted)
+				{
+					alertedTimeOnTargetPlace = -1.f;
+					alerted = true;
+				}
 				break;
 			default:
 				break;
@@ -148,5 +179,21 @@ namespace Rendering
 	SpotLight* Policeman::GetSpotLight()
 	{
 		return mSpotLight;
+	}
+
+	bool Policeman::IsAlerted()
+	{
+		return alerted;
+	}
+
+	void Policeman::SetRunAndCath(bool value)
+	{
+		mRunAndCatchUnit = value;
+	}
+
+	void Policeman::SetTargetPosition(float posX, float posZ)
+	{
+		mTargetPosition.x = posX;
+		mTargetPosition.y = posZ;
 	}
 }

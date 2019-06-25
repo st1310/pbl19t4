@@ -80,7 +80,7 @@ namespace Rendering
 		mScenes.at(sceneId)->Start(*game, *camera);
 		mScenes.at(sceneId)->SetGroudndCollider(pathfinding->collider);
 
-		game->ClearAndSetNodes(mScenes.at(sceneId)->getListOfNode());
+		game->ClearAndSetNodes(mScenes.at(mCurrentScene)->getListOfNode());
 
 		for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
 
@@ -146,8 +146,26 @@ namespace Rendering
 					renderGameFarbaManSpawnFlag = true;
 				
 				}
-			}
-			
+
+				Policeman* plcMn = trgObj->As<Policeman>();
+				if (plcMn != nullptr)
+				{
+					if (plcMn->IsAlerted())
+					{
+						for (DrawableGameComponent* gmCmp : mScenes.at(mCurrentScene)->GetUnitList())
+						{
+							GreenSoldier* green = gmCmp->As<GreenSoldier>();
+							XMFLOAT3 targetPosition = XMFLOAT3(0, 0, 0);
+							if (plcMn->getCollider()->CheckTriggerCollision(2, green->getCollider()))
+							{
+								plcMn->SetTargetPosition(green->getPosition().x, green->getPosition().z);
+								plcMn->SetRunAndCath(true);
+							}
+						}
+						
+					}
+				}
+			}	
 		}
 
 
@@ -175,6 +193,7 @@ namespace Rendering
 
 			if (farb->GetdestroyPaintedPosition()) {
 				PaintFinishedFlag = true;
+				GetCurrentListOfNodes().at(0)->DestroyPaintedPosition(farb->getPosition());
 			}
 		}
 

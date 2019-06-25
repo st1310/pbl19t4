@@ -38,17 +38,13 @@ namespace Rendering
 	void GreenSoldier::Initialize()
 	{
 		AnimatedGameObject::Initialize();
-		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.f, 12.f, 3.f));
-		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 15.f, 12.f, 15.f });
+		AnimatedGameObject::BuildSphere(4.5f);
+		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 22.f, 12.f, 22.f });
 	}
 
 	void GreenSoldier::Update(const GameTime& gameTime)
 	{
 		AnimatedGameObject::Update(gameTime);
-		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x , mPosition.y + 5, mPosition.z - 10);
-
-		mPointLight->SetPosition(pointLightPosition);
-		mSpotLight->SetPosition(mPosition);
 
 		if (this->getPosition().x > -102.0f && this->getPosition().x <-44.0f &&  this->getPosition().z > -25.0f && this->getPosition().z<23.0f) {
 			achiveFarbaManPoint = true;//zespawnuj farbamana!!!

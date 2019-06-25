@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "AssetList.h"
 #include "CollisionNode.h"
+#include "ModelList.h"
 
 namespace Rendering
 {
@@ -31,7 +32,7 @@ namespace Rendering
 		XMFLOAT3 PosA;
 		//x - min, y i z - max
 		XMFLOAT3 PosC;
-		
+		ModelList* mModList;
 	};
 }
 
