@@ -975,14 +975,35 @@ namespace Rendering
 
 					if (mMouse->X() > 870.0f && mMouse->X() < 970.0f  && mMouse->Y() > 600.0f  && mMouse->Y() < 685.0f) {
 						mSpriteBatch->Draw(mPatrolIconMAYBE, SimpleMath::Rectangle(870.0f, 592.0f, 100.0f, 100.0f));
-						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-							mSpriteBatch->Draw(mPatrolIconCLICKED, SimpleMath::Rectangle(870.0f, 592.0f, 100.0f, 100.0f));
+						if (mMouse->WasButtonPressedThisFrame(MouseButtonsLeft)) {
+							if (!patrolMode) {
+								patrolMode = true;
+							}
+							else {
+								patrolMode = false;
+							}
+							
 						}
 					}
 
 					else
 						mSpriteBatch->Draw(mPatrolIconYES, SimpleMath::Rectangle(870.0f, 592.0f, 100.0f, 100.0f));
 
+					if (patrolMode) {
+						mSpriteBatch->Draw(mPatrolIconCLICKED, SimpleMath::Rectangle(870.0f, 592.0f, 100.0f, 100.0f));
+						mSpriteBatch->Draw(mPatrolModeBannerPaint, SimpleMath::Rectangle(375.0f, 0.0f, 300.0f, 150.0f));
+						mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(620.0f, 15.0f, 30.0f, 30.0f));
+						if (mMouse->X() > 620.0f && mMouse->X() < 650.0f  && mMouse->Y() > 15.0f  && mMouse->Y() < 45.0f) {
+							mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(620.0f, 15.0f, 30.0f, 30.0f));
+							if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
+								mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(620.0f, 15.0f, 30.0f, 30.0f));
+								patrolMode = false;
+
+								mGameManager->ExecutePatrolMode();
+							}
+						}
+					}
+					
 
 					if (mMouse->X() > 750.0f && mMouse->X() < 850.0f  && mMouse->Y() > 690.0f  && mMouse->Y() < 790.0f) {
 						mSpriteBatch->Draw(mStopIconMAYBE, SimpleMath::Rectangle(750.0f, 690.0f, 100.0f, 100.0f));
@@ -1118,7 +1139,7 @@ namespace Rendering
 									patrolMode = false;
 									
 									mGameManager->ExecutePatrolMode();
-									mGameManager->ClearSplashes();
+									
 								}
 							}
 						}

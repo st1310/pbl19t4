@@ -362,6 +362,7 @@ namespace Rendering
 
 			}
 		}
+		patrolPositions.clear();
 	}
 
 	void GameManager::SelectingUnits(float mouseX, float mouseY)
@@ -477,6 +478,10 @@ namespace Rendering
 		return renderGameFarbaManSpawnFlag;
 	}
 
+	void GameManager::ClearSplashes() {
+		splashes.clear();
+	}
+
 	bool GameManager::GetPaintButtonFlag() {
 		return PaintButtonFlag;
 	}
@@ -485,9 +490,7 @@ namespace Rendering
 		return splashes;
 	}
 
-	void GameManager::ClearSplashes() {
-		splashes.clear();
-	}
+	
 }
 
 	
