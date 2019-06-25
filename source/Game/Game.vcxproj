@@ -192,7 +192,6 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="InformationBoard.cpp" />
     <ClCompile Include="LongBuilding.cpp" />
     <ClCompile Include="MenuLevel.cpp" />
-    <ClCompile Include="ModelList.cpp" />
     <ClCompile Include="OldBuilding.cpp" />
     <ClCompile Include="OverheadLines.cpp" />
     <ClCompile Include="PassengerTrain.cpp" />
@@ -216,6 +215,9 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClCompile Include="StaticGameObject.cpp" />
     <ClCompile Include="StoneGround.cpp" />
     <ClCompile Include="TexturedModelMaterialDemo.cpp" />
+    <ClCompile Include="Trace1.cpp" />
+    <ClCompile Include="Trace2.cpp" />
+    <ClCompile Include="Trace3.cpp" />
     <ClCompile Include="Track.cpp" />
     <ClCompile Include="TrainLevel.cpp" />
     <ClCompile Include="TrainStationMap.cpp" />
@@ -243,7 +245,6 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClInclude Include="InformationBoard.h" />
     <ClInclude Include="LongBuilding.h" />
     <ClInclude Include="MenuLevel.h" />
-    <ClInclude Include="ModelList.h" />
     <ClInclude Include="OldBuilding.h" />
     <ClInclude Include="OverheadLines.h" />
     <ClInclude Include="PassengerTrain.h" />
@@ -266,6 +267,9 @@ IF EXIST "$(ProjectDir)Content" xcopy /E /Y "$(ProjectDir)Content" "$(OutDir)Con
     <ClInclude Include="StaticGameObject.h" />
     <ClInclude Include="StoneGround.h" />
     <ClInclude Include="TexturedModelMaterialDemo.h" />
+    <ClInclude Include="Trace1.h" />
+    <ClInclude Include="Trace2.h" />
+    <ClInclude Include="Trace3.h" />
     <ClInclude Include="Track.h" />
     <ClInclude Include="TrainLevel.h" />
     <ClInclude Include="TrainStationMap.h" />

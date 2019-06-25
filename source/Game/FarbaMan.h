@@ -23,6 +23,12 @@ namespace Rendering
 		bool getIsSelected();
 		virtual void CheckTriggers() override;
 		virtual void SetAnimations() override;
+		bool GetinPaintArea();
+		bool GetSpawnSpash();
+		bool GetdestroyPaintedPosition();
+		void SetSpawnSplash(bool value);
+		void SetisMoving(bool value);
+
 
 		void StartPainting();
 
@@ -33,5 +39,8 @@ namespace Rendering
 		bool painting;
 		float paintingTime = -1.f;
 		bool inPaintArea = false;
+		bool isMoving = false;
+		float PaintSplashTimer = -1.0f;
+		bool spawnSpash = false;
 	};
 }

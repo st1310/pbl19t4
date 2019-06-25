@@ -27,9 +27,6 @@ namespace Rendering
 		void addPointToPatrolPath(XMFLOAT2 point);
 		void StartFollow();
 
-		bool IsAlerted();
-		void SetRunAndCath(bool value);
-		void SetTargetPosition(float x, float z);
 		PointLight* GetPointLight();
 		SpotLight* GetSpotLight();
 
@@ -39,11 +36,6 @@ namespace Rendering
 		std::vector<XMFLOAT2> patrolPath;
 		PointLight* mPointLight;
 		SpotLight* mSpotLight;
-		//Already know, where to run and run towards this position
 		bool mRunAndCatchUnit = false;
-		//Saw unit, decides where to run to catch
-		XMFLOAT2 mTargetPosition;
-		bool alerted = false;
-		float alertedTimeOnTargetPlace = -1.f;
 	};
 }

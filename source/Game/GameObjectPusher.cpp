@@ -1,14 +1,12 @@
 #include "GameObjectPusher.h"
 #include "NodeList.h"
 #include "Pathcircles.h"
-#include "ModelList.h"
 
 namespace Rendering
 {
 	GameObjectPusher::GameObjectPusher() :
 		listNode(), listOfSoldiers(), triggerableObjects()
 	{
-		mModList = nullptr;
 	}
 
 
@@ -21,10 +19,6 @@ namespace Rendering
 
 	std::vector<GameComponent*> GameObjectPusher::CreateAssets(Game& game, Camera& camera, std::vector<SerializableGameObject> gameObjects, bool needToFindCoord)
 	{
-		if (mModList == nullptr)
-		{
-			mModList = new ModelList(game);
-		}
 		std::vector<GameComponent*> assets = std::vector<GameComponent*>();
 
 		for (int i = 0; i < gameObjects.size(); i++)
@@ -63,7 +57,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				barrier->SetModel(mModList->FindModel("Barrier"));
 				barrier->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(barrier);
 			}
@@ -75,7 +68,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				bench->SetModel(mModList->FindModel("Bench"));
 				bench->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(bench);
 			}
@@ -87,7 +79,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				cargoTrain->SetModel(mModList->FindModel("CargoTrain"));
 				cargoTrain->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(cargoTrain);
 			}
@@ -99,7 +90,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				concreteWall->SetModel(mModList->FindModel("ConcreteWall"));
 				concreteWall->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 
 				assets.push_back(concreteWall);
@@ -124,7 +114,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				doubleStreetLampPost->SetModel(mModList->FindModel("DoubleStreetLampPost"));
 				doubleStreetLampPost->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(doubleStreetLampPost);
 			}
@@ -136,7 +125,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				doubleStreetLampPostWithMegaphone->SetModel(mModList->FindModel("DoubleStreetLampPostWithMegaphone"));
 				doubleStreetLampPostWithMegaphone->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(doubleStreetLampPostWithMegaphone);
 			}
@@ -148,7 +136,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				farbaMan->SetModel(mModList->FindModel("FarbaMan"));
 				farbaMan->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				triggerableObjects.push_back(farbaMan);
 				assets.push_back(farbaMan);
@@ -161,7 +148,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				fence->SetModel(mModList->FindModel("Fence"));
 				fence->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(fence);
 			}
@@ -173,7 +159,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				grassGround->SetModel(mModList->FindModel("GrassGround"));
 				grassGround->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(grassGround);
 			}
@@ -185,7 +170,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				grassGroundNew->SetModel(mModList->FindModel("GrassGroundNew"));
 				grassGroundNew->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(grassGroundNew);
 			}
@@ -197,7 +181,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				greenSoldier->SetModel(mModList->FindModel("Soldier"));
 				greenSoldier->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(greenSoldier);
 				triggerableObjects.push_back(greenSoldier);
@@ -211,7 +194,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				information->SetModel(mModList->FindModel("Information"));
 				information->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(information);
 			}
@@ -223,7 +205,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				informationBoard->SetModel(mModList->FindModel("InformationBoard"));
 				informationBoard->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(informationBoard);
 			}
@@ -235,7 +216,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				longBuilding->SetModel(mModList->FindModel("LongBuilding"));
 				longBuilding->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(longBuilding);
 			}
@@ -247,7 +227,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				oldBuilding->SetModel(mModList->FindModel("OldBuilding"));
 				oldBuilding->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(oldBuilding);
 			}
@@ -259,7 +238,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				overheadLines->SetModel(mModList->FindModel("OverheadLines"));
 				overheadLines->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(overheadLines);
 			}
@@ -271,7 +249,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				passengerTrain->SetModel(mModList->FindModel("PassengerTrain"));
 				passengerTrain->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(passengerTrain);
 			}
@@ -283,7 +260,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				pathcircles->SetModel(mModList->FindModel("Pathcircles"));
 				pathcircles->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(pathcircles);
 			}
@@ -295,7 +271,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				platformGround1->SetModel(mModList->FindModel("PlatformGround1"));
 				platformGround1->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(platformGround1);
 			}
@@ -307,7 +282,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				platformGround2->SetModel(mModList->FindModel("PlatformGround2"));
 				platformGround2->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(platformGround2);
 			}
@@ -319,7 +293,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				platformGroundPlain->SetModel(mModList->FindModel("PlatformGroundPlain"));
 				platformGroundPlain->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(platformGroundPlain);
 			}
@@ -331,7 +304,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				platformNumber1->SetModel(mModList->FindModel("PlatformNumber1"));
 				platformNumber1->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(platformNumber1);
 			}
@@ -343,7 +315,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				platformNumber2And3->SetModel(mModList->FindModel("PlatformNumber2And3"));
 				platformNumber2And3->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(platformNumber2And3);
 			}
@@ -355,7 +326,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				platformNumber4->SetModel(mModList->FindModel("PlatformNumber4"));
 				platformNumber4->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(platformNumber4);
 			}
@@ -367,7 +337,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				policeCar->SetModel(mModList->FindModel("PoliceCar"));
 				policeCar->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(policeCar);
 			}
@@ -379,7 +348,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				policeman->SetModel(mModList->FindModel("Policeman"));
 				policeman->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				triggerableObjects.push_back(policeman);
 				assets.push_back(policeman);
@@ -392,7 +360,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				policeStation->SetModel(mModList->FindModel("PoliceStation"));
 				policeStation->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(policeStation);
 			}
@@ -404,7 +371,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				simpleBuilding->SetModel(mModList->FindModel("SimpleBuilding"));
 				simpleBuilding->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(simpleBuilding);
 			}
@@ -416,7 +382,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				singleStreetLampPost->SetModel(mModList->FindModel("SingleStreetLampPost"));
 				singleStreetLampPost->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(singleStreetLampPost);
 			}
@@ -428,7 +393,6 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				stoneGround->SetModel(mModList->FindModel("StoneGround"));
 				stoneGround->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(stoneGround);
 			}
@@ -440,9 +404,41 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
-				track->SetModel(mModList->FindModel("Track"));
 				track->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(track);
+			}
+
+			if (className == "Trace1")
+			{
+				Trace1* trace1 = new Trace1(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				trace1->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(trace1);
+			}
+
+			if (className == "Trace2")
+			{
+				Trace2* trace2 = new Trace2(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				trace2->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(trace2);
+			}
+
+			if (className == "Trace3")
+			{
+				Trace3* trace3 = new Trace3(game, camera,
+					gameObjects.at(i).GetPosition(),
+					gameObjects.at(i).GetRotation(),
+					gameObjects.at(i).GetScale());
+
+				trace3->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
+				assets.push_back(trace3);
 			}
 		}
 
@@ -643,6 +639,24 @@ namespace Rendering
 			return track;
 		}
 
+		if (className == "Trace1")
+		{
+			Trace1* trace1 = new Trace1(game, camera);
+			return trace1;
+		}
+
+		if (className == "Trace2")
+		{
+			Trace2* trace2 = new Trace2(game, camera);
+			return trace2;
+		}
+
+		if (className == "Trace3")
+		{
+			Trace3* trace3 = new Trace3(game, camera);
+			return trace3;
+		}
+
 		else
 		{
 			Bench* bench = new Bench(game, camera);
@@ -659,4 +673,6 @@ namespace Rendering
 	{
 		return PosC;
 	}
+
+
 }

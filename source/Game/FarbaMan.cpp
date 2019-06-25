@@ -1,6 +1,4 @@
 #include "FarbaMan.h"
-#include "PointLight.h"
-#include "AssetList.h"
 
 namespace Rendering
 {
@@ -14,18 +12,14 @@ namespace Rendering
 			startRotation,
 			startScale)
 	{
-		mRotationSpeed = 6;
+		mRotationSpeed = 1;
 		mTranslationSpeed = 0.3;
 
 		mIsSelectedDiffuseMap = "Content\\Textures\\SoldierSelectedDiffuseMap.jpg";
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
 
-		SetVisible(false);
-
 		SetAnimations();
-
-		mPointLight->SetColor(Colors::Purple - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
-		mPointLight->SetRadius(0.0f);
+		this->SetVisible(false);
 	}
 
 
@@ -37,8 +31,8 @@ namespace Rendering
 	void FarbaMan::Initialize()
 	{
 		AnimatedGameObject::Initialize();
-		AnimatedGameObject::BuildSphere(4.5f);
-		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 22.f, 12.f, 22.f });
+		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.f, 12.f, 3.f));
+		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 9.f, 12.f, 9.f });
 	}
 
 	void FarbaMan::setSelection(bool selection)
@@ -46,24 +40,16 @@ namespace Rendering
 		isSelected = selection;
 
 		if (isSelected)
-		{
 			ChangeTexture(mIsSelectedDiffuseMap);
-			mPointLight->SetColor(Colors::Yellow - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
-		}
-
 
 		else if (!isSelected && !mIsBusy)
 		{
 			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
 			ChangeTexture(modelName);
-			mPointLight->SetColor(Colors::Purple - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
 		}
 
 		else if (!isSelected && mIsBusy)
-		{
 			ChangeTexture(mIsBusyDiffuseMap);
-			mPointLight->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
-		}
 	}
 
 	void FarbaMan::Update(const GameTime& gameTime)
@@ -78,7 +64,7 @@ namespace Rendering
 			}
 			else if (gameTime.TotalGameTime() - paintingTime >= 25.f)
 			{
-				//You win, log off
+				//You win, zog off
 				painting = false;
 				destroyPaintedPosition = true;
 				AnimatedGameObject::ChangeAnimation("Idle");
@@ -86,19 +72,27 @@ namespace Rendering
 				mIsBusy = false;
 			}
 		}
-		else if (destroyPaintedPosition)
-		{
-			destroyPaintedPosition = false;
+
+		if (this->getPosition().x > 570.0f && this->getPosition().x <590.0f &&  this->getPosition().z > -230.0f && this->getPosition().z < -190.0f ) {
+			inPaintArea = true;
+		}
+		else {
+			inPaintArea = false;
 		}
 
-		if (this->getPosition().x > 570.0f && this->getPosition().x <590.0f &&  this->getPosition().z > -230.0f && this->getPosition().z < -190.0f) {
-			inPaintArea = true;
+		if (this->mState->IsInActiveState()) {
+			if (PaintSplashTimer == -1.0f) {
+				PaintSplashTimer = gameTime.TotalGameTime();
+			}
+			else if (gameTime.TotalGameTime() - PaintSplashTimer >= 5.0f) {
+				spawnSpash = true;
+				PaintSplashTimer = -1.0f;
+			}
 		}
 
 		AnimatedGameObject::Update(gameTime);
-		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x, mPosition.y + 5, mPosition.z - 10);
 
-		mPointLight->SetPosition(pointLightPosition);
+		
 	}
 
 	bool FarbaMan::getIsSelected()
@@ -149,5 +143,25 @@ namespace Rendering
 		mAnimations.insert(std::pair<std::string, int>("StopRunning", 3));
 		mAnimations.insert(std::pair<std::string, int>("Reload", 4));
 		mAnimations.insert(std::pair<std::string, int>("Paint", 5));
+	}
+
+	bool FarbaMan::GetinPaintArea() {
+		return inPaintArea;
+	}
+
+	bool FarbaMan::GetSpawnSpash() {
+		return spawnSpash;
+	}
+
+	void FarbaMan::SetSpawnSplash(bool value) {
+		spawnSpash = value;
+	}
+
+	void FarbaMan::SetisMoving(bool value) {
+		isMoving = value;
+	}
+
+	bool FarbaMan::GetdestroyPaintedPosition() {
+		return destroyPaintedPosition;
 	}
 }

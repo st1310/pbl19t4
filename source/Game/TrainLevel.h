@@ -13,7 +13,6 @@ namespace Rendering
 		
 		virtual void Start(Game& game, Camera& camera) override;
 		FarbaMan* GetFarbaMan();
-
 	private:
 		void SetPatrol(Policeman* policeman, int index);
 		FarbaMan* mFarbaMan;

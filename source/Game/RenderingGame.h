@@ -48,12 +48,8 @@ namespace Rendering
 	protected:
 		virtual void Shutdown() override;
 
-	private:		
-		void KeyboardUpdate();
+	private:
 
-		//GUI
-		void LoadGuiTextures();
-		void GameGuiUpdate();
 
 		static const XMVECTORF32 BackgroundColor;
 
@@ -63,6 +59,7 @@ namespace Rendering
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
 		GameCamera* mCamera;
+		//FirstPersonCamera* mCamera;
 		FpsComponent* mFpsComponent;
 		SkyboxComponent* mSkybox;
 
@@ -85,8 +82,13 @@ namespace Rendering
 
 		ID3D11ShaderResourceView* mOptionActionsBanner;
 		ID3D11ShaderResourceView* mPortraitBanner;
+		ID3D11ShaderResourceView* mOptionActionsBanner1;
 		ID3D11ShaderResourceView* mUnitsBanner;
 		ID3D11ShaderResourceView* mMultiSelectionPortrait;
+
+		ID3D11ShaderResourceView* mPatrolModeBannerSoldier;
+		ID3D11ShaderResourceView* mPatrolModeBannerPaint;
+
 
 		ID3D11ShaderResourceView* mOptionButtonYES;
 		ID3D11ShaderResourceView* mOptionButtonMAYBE;
@@ -174,13 +176,21 @@ namespace Rendering
 		bool buttonWasHold = false;
 		bool showFarbaManGUI = false;
 		bool FarbaManGUISelected = false;
+		bool FarbaManSelectedFlagOnce = false;
 		bool FarbaManAddFlagGUI = false;
 		bool farbaManCutScene4Flag = true;
+		bool soldierGuiActiveClearButton = false;
 		int whichUnitButtonIsClicking = -1;
 		int whichTacticalMapButtonIsClicking = -1;
 		int keybordButtonSelectUnit = -1;
 		std::vector<int> indexSelectedGuiButtons;
 		int cutSceneId=0;
 		
+
+		bool patrolMode = false;
+		bool paintMode = false;
+		bool paintMode1flag = true;
+
+		void PaintMode1();
 	};
 }

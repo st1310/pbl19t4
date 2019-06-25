@@ -34,4 +34,7 @@
 #include "SingleStreetLampPost.h"
 #include "StoneGround.h"
 #include "Track.h"
+#include "Trace1.h"
+#include "Trace2.h"
+#include "Trace3.h"
 #include "TrainStationMap.h"

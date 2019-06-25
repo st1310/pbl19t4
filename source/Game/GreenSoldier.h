@@ -24,10 +24,17 @@ namespace Rendering
 		virtual void CheckTriggers() override;
 		virtual void SetAnimations() override;
 
+		void SetfootprintsInAreaFlag(bool value);
+		bool GetfootprintsInAreaFlag();
+
+		PointLight* GetPointLight();
 		SpotLight* GetSpotLight();
 
 	private:
+		bool isSelected = false;
+		PointLight* mPointLight;
 		SpotLight* mSpotLight;
 		bool achiveFarbaManPoint = false;
+		bool footprintsInAreaFlag = false;
 	};
 }

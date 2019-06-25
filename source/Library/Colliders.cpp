@@ -36,11 +36,6 @@ namespace Library
 		OrrBoundingBox.push_back(obbox);
 	}
 
-	void Colliders::PushNewSphere(BoundingSphere* bbSph)
-	{
-		BoundingSpheres.push_back(bbSph);
-	}
-
 
 	//Internal method - it is used in 2 others for building (oriented)boundingboxes
 	void Colliders::FindMax(Mesh* meshes, XMFLOAT3* minVec, XMFLOAT3* maxVec)
@@ -129,12 +124,6 @@ namespace Library
 		PushNewOrientedBoundingBox(newBox);
 	}
 
-	void Colliders::BuildSphere(XMFLOAT3 position, float radius)
-	{
-		BoundingSphere* newBox = new BoundingSphere(position, radius);
-		PushNewSphere(newBox);
-	}
-
 	bool Colliders::IsEmpty()
 	{
 		if (BoundingBoxes.empty() && TriggerBoxes.empty() && OrrBoundingBox.empty())
@@ -193,19 +182,6 @@ namespace Library
 			obbox->Transform(*obbox, trMatr);
 		}
 
-		for (BoundingSphere* bsph : BoundingSpheres)
-		{
-			XMStoreFloat3(&movm, destination);
-			movm.x = movm.x - bsph->Center.x;
-			movm.y = movm.y - bsph->Center.y;
-			movm.z = movm.z - bsph->Center.z;
-
-			trMatr.r[3] = XMLoadFloat3(&movm);
-			trMatr.r[3].m128_f32[3] = 1.0f;
-
-			bsph->Transform(*bsph, trMatr);
-		}
-
 		if (!TriggerBoxes.empty())
 		{
 			for (std::pair<TypesTriggerReactions, BoundingBox*> tbox : TriggerBoxes)
@@ -224,70 +200,29 @@ namespace Library
 		}
 	}
 
-	void Colliders::Rotate(XMMATRIX rotation)
-	{
-		XMMATRIX trMatr = XMMATRIX({ 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 });
-		XMFLOAT3 movm;
-
-		for (BoundingBox* bbox : BoundingBoxes)
-		{
-			trMatr.r[3] = XMLoadFloat3(&bbox->Center);
-			trMatr.r[3].m128_f32[3] = 1.0f;
-			trMatr = XMMatrixMultiply(rotation, trMatr);
-
-			bbox->Transform(*bbox, trMatr);
-		}
-
-		for (BoundingOrientedBox* obbox : OrrBoundingBox)
-		{
-			trMatr.r[3] = XMLoadFloat3(&obbox->Center);
-			trMatr.r[3].m128_f32[3] = 1.0f;
-			trMatr = XMMatrixMultiply(rotation, trMatr);
-
-			obbox->Transform(*obbox, trMatr);
-		}
-
-		if (!TriggerBoxes.empty())
-		{
-			for (std::pair<TypesTriggerReactions, BoundingBox*> tbox : TriggerBoxes)
-			{
-				trMatr.r[3] = XMLoadFloat3(&tbox.second->Center);
-				trMatr.r[3].m128_f32[3] = 1.0f;
-				trMatr = XMMatrixMultiply(rotation, trMatr);
-
-				tbox.second->Transform(*tbox.second, trMatr);
-			}
-		}
-	}
 
 	//Check collision of this MOVABLE collider with list of static colliders
 	bool Colliders::CheckCollision(std::vector<Colliders*>& CollidableObjects)
 	{
 		bool colidable = false;
-		if ( (BoundingBoxes.empty() && OrrBoundingBox.empty() && BoundingSpheres.empty()) || CollidableObjects.empty())
+		if ( (BoundingBoxes.empty() && OrrBoundingBox.empty() ) || CollidableObjects.empty())
 			return false;
 
 		for (Colliders* coll : CollidableObjects)
 		{
 			if (this != coll)
 			{
-				for (BoundingSphere* bsph : BoundingSpheres)
+				for (BoundingBox* bbox : BoundingBoxes)
 				{
 					for (BoundingBox* tbbox : coll->BoundingBoxes)
 					{
-						if (bsph->Intersects(*tbbox))
+						if (bbox->Intersects(*tbbox))
 							return true;
 					}
 
 					for (BoundingOrientedBox* tbbox : coll->OrrBoundingBox)
 					{
-						if (bsph->Intersects(*tbbox))
-							return true;
-					}
-
-					for (BoundingSphere* bshpr : coll->BoundingSpheres)
-					{
-						if (bsph->Intersects(*bshpr))
+						if (bbox->Intersects(*tbbox))
 							return true;
 					}
 				}		
@@ -300,7 +235,7 @@ namespace Library
 	{
 		for (int i = 0; i < TriggerBoxes.size(); i++)
 		{
-			if ((TriggerBoxes[i].second->Intersects(XMLoadFloat3(&position)) != DISJOINT) && (TriggerBoxes[i].first == PAINTING_POSITION))
+			if ((TriggerBoxes[i].second->Intersects(XMLoadFloat3(&position)) != DISJOINT) || (TriggerBoxes[i].first == PAINTING_POSITION))
 			{
 				return true;
 			}
@@ -308,26 +243,23 @@ namespace Library
 		return false;
 	}
 
-
-	bool Colliders::CheckTriggerCollision(int idOfTrigger, Colliders* TriggerCollider)
+	//All trigers must be given to TriggerBoxes during OnTriggerEnter and taken during OnTriggerExit 
+	bool Colliders::CheckTriggerCollision(Colliders& TriggerCollider)
 	{
+		bool colided = false;
 
-		if (this->TriggerBoxes.empty() || idOfTrigger + 1 > this->TriggerBoxes.size())
+		if (BoundingBoxes.empty())
 			return false;
 
-		for (BoundingBox* bbox : TriggerCollider->BoundingBoxes)
+		for (BoundingBox* bbox : BoundingBoxes)
 		{
-			if (TriggerBoxes[idOfTrigger].second->Intersects(XMLoadFloat3(&bbox->Center)) != DISJOINT)
-				return true;
+			for (BoundingBox* trigger : TriggerCollider.BoundingBoxes)
+				if (bbox->Intersects(*trigger))
+					colided = true;
+			
 		}
 
-		for (BoundingSphere* bSph : TriggerCollider->BoundingSpheres)
-		{
-			if (TriggerBoxes[idOfTrigger].second->Intersects(XMLoadFloat3(&bSph->Center)) != DISJOINT)
-				return true;
-		}
-
-		return false;
+		return colided;
 	}
 
 	bool Colliders::CheckColliderIntersecteByRay(XMVECTOR origin, XMVECTOR direct, float distance)
@@ -345,12 +277,6 @@ namespace Library
 					return true;
 			}
 		}
-		if (!BoundingSpheres.empty())
-			for (BoundingSphere* bbsph : BoundingSpheres)
-			{
-				if (bbsph->Intersects(origin, direct, distance))
-					return true;
-			}
 		return false;
 	}
 
@@ -424,14 +350,6 @@ namespace Library
 			for (BoundingOrientedBox* obbox : OrrBoundingBox)
 			{
 				if (obbox->ContainedBy(planes[0], planes[1], planes[2], planes[3], planes[4], planes[5]) != DISJOINT)
-					return true;
-			}
-		}
-		if (!BoundingSpheres.empty())
-		{
-			for (BoundingSphere* bbsph : BoundingSpheres)
-			{
-				if (bbsph->ContainedBy(planes[0], planes[1], planes[2], planes[3], planes[4], planes[5]) != DISJOINT)
 					return true;
 			}
 		}

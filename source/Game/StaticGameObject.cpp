@@ -71,11 +71,8 @@ namespace Rendering
 		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
 
 		// Load the model
-		if (mModel == nullptr)
-		{
-			std::string modelName = "Content\\Models\\" + (std::string)mClassName + ".fbx";
-			mModel = new Model(*mGame, modelName, true);
-		}
+		std::string modelName = "Content\\Models\\" + (std::string)mClassName + ".fbx";
+		mModel = new Model(*mGame, modelName, true);
 
 		// Initialize the material
 		mEffect = new Effect(*mGame);
@@ -114,23 +111,28 @@ namespace Rendering
 
 			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
 			ChangeTexture(modelName);
-
-			std::string textureName = "Content\\Textures\\checker.dds";
-			std::wostringstream specular;
-			specular << textureName.c_str();
-			HRESULT hr = DirectX::CreateDDSTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), specular.str().c_str(), nullptr, &specularTexture);
-			if (FAILED(hr))
-			{
-				throw GameException("CreateDDSTextureFromFile() failed.", hr);
-			}
-
-			mSpecularTextures[i] = specularTexture;
 		}
 
-		XMStoreFloat4x4(&mWorldMatrix, XMMatrixScaling(0.06f, 0.06f, 0.06f));
+		// Load specular map
 
+		/*
+		ID3D11ShaderResourceView* specularTexture = nullptr;
+		std::string textureName = "Content\\Textures\\" + (std::string)mClassName + "SpecularMap.jpg";
+		std::wostringstream specular; 
+		specular  << textureName.c_str();
+
+		HRESULT hr = DirectX::CreateDDSTextureFromFile(mGame->Direct3DDevice(), mGame->Direct3DDeviceContext(), specular.str().c_str(), nullptr, &specularTexture);
+
+		if (FAILED(hr))
+			throw GameException("CreateWICTextureFromFile() failed.", hr);
+
+		mSpecularTextures[0] = specularTexture;
+		*/
 		mKeyboard = (KeyboardComponent*)mGame->Services().GetService(KeyboardComponent::TypeIdClass());
 		assert(mKeyboard != nullptr);
+
+		mSpriteBatch = new SpriteBatch(mGame->Direct3DDeviceContext());
+		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
 
 		// Blend state
 		D3D11_BLEND_DESC blendStateDesc{ 0 };
@@ -145,10 +147,22 @@ namespace Rendering
 
 		mGame->Direct3DDevice()->CreateBlendState(&blendStateDesc, &mBlendState);
 
-		mSpriteBatch = new SpriteBatch(mGame->Direct3DDeviceContext());
-		mSpriteFont = new SpriteFont(mGame->Direct3DDevice(), L"Content\\Fonts\\Arial_14_Regular.spritefont");
+		for (ProxyModel* proxy : mProxyModels)
+		{
+			proxy->Initialize();
+		}
 
-		// Initial transform	
+		// Initialize post-process
+		mRenderTarget = new FullScreenRenderTarget(*mGame);
+
+		SetCurrentDirectory(Utility::ExecutableDirectory().c_str());
+		mColorFilterEffect = new Effect(*mGame);
+		mColorFilterEffect->LoadCompiledEffect(L"Content\\Effects\\ColorFilter.cso");
+
+		mColorFilterMaterial = new ColorFilterMaterial();
+		mColorFilterMaterial->Initialize(mColorFilterEffect);
+
+		// Initial transform
 		Scale(0, 0, 0);
 		FirstRotation();
 		FirstTranslation(mPosition);
@@ -168,6 +182,11 @@ namespace Rendering
 
 	void StaticGameObject::Draw(const GameTime& gameTime)
 	{
+		//mRenderTarget->Begin();
+
+		//mGame->Direct3DDeviceContext()->ClearRenderTargetView(mRenderTarget->RenderTargetView(), reinterpret_cast<const float*>(&Colors::CornflowerBlue));
+		//mGame->Direct3DDeviceContext()->ClearDepthStencilView(mRenderTarget->DepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
 		ID3D11DeviceContext* direct3DDeviceContext = mGame->Direct3DDeviceContext();
 		direct3DDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -190,7 +209,6 @@ namespace Rendering
 			UINT indexCount = mIndexCounts[i];
 			ID3D11ShaderResourceView* colorTexture = mColorTextures[i];
 			ID3D11ShaderResourceView* normalTexture = mNormalTextures[i];
-			ID3D11ShaderResourceView* specularTexture = mSpecularTextures[i];
 
 			direct3DDeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 			direct3DDeviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
@@ -202,9 +220,8 @@ namespace Rendering
 			mMaterial->AmbientColor() << ambientColor;
 			mMaterial->ColorTexture() << colorTexture;
 			mMaterial->NormalTexture() << normalTexture;
-			mMaterial->SpecularTexture() << specularTexture;
 			mMaterial->CameraPosition() << mCamera->PositionVector();
-
+			
 			for (size_t i = 0; i < mDirectLights.size(); i++)
 			{
 				ID3DX11EffectVariable* variable = mMaterial->DirectLights().GetVariable()->GetElement(i);
@@ -212,7 +229,7 @@ namespace Rendering
 				variable->GetMemberByName("Color")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mDirectLights.at(i)->ColorVector()));
 				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
 			}
-
+			
 			for (size_t i = 0; i < mPointLights.size(); i++)
 			{
 				ID3DX11EffectVariable* variable = mMaterial->PointLights().GetVariable()->GetElement(i);
@@ -221,8 +238,8 @@ namespace Rendering
 				variable->GetMemberByName("Color")->AsVector()->SetFloatVector(reinterpret_cast<const float*>(&mPointLights.at(i)->ColorVector()));
 				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
 			}
-
-
+			
+			
 			for (size_t i = 0; i < mSpotLights.size(); i++)
 			{
 				ID3DX11EffectVariable* variable = mMaterial->SpotLights().GetVariable()->GetElement(i);
@@ -235,9 +252,15 @@ namespace Rendering
 				variable->GetMemberByName("Enabled")->AsScalar()->SetBool(true);
 			}
 
+			//mRenderStateHelper.SaveAll();
+
+			//direct3DDeviceContext->OMSetBlendState(mBlendState, 0, 0xffffffff);
+
 			pass->Apply(0, direct3DDeviceContext);
 
 			direct3DDeviceContext->DrawIndexed(indexCount, 0, 0);
+
+			//mRenderStateHelper.RestoreAll();
 		}
 
 		for (ProxyModel* proxy : mProxyModels)

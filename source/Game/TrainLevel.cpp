@@ -47,7 +47,7 @@ namespace Rendering
 		// Add point Lights to soldiers
 		for (int i = 0; i < gameObjects.size(); i++)
 		{
-			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
+			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
 			std::string className = gameObject->GetName();
 
 			if (className == "Soldier")
@@ -56,26 +56,24 @@ namespace Rendering
 				mPointLights.push_back(soldier->GetPointLight());
 			}
 
-
-			if (className == "SingleStreetLampPost")
-			{
-				SingleStreetLampPost* singleStreetLampPost = gameObjects.at(i)->As<SingleStreetLampPost>();
-				mPointLights.push_back(singleStreetLampPost->GetPointLight());
-			}
-
-			if (className == "FarbaMan")
-			{
+			if (className == "FarbaMan") {
 				FarbaMan* farbaMan = gameObjects.at(i)->As<FarbaMan>();
 				mFarbaMan = farbaMan;
-				
-				mPointLights.push_back(farbaMan->GetPointLight());
 			}
 
 			if (className == "Policeman")
 			{
 				Policeman* policeman = gameObjects.at(i)->As<Policeman>();
 				GetPolicemans().push_back(policeman);
+				/*
+				std::vector<XMFLOAT2> patrolPoints = std::vector<XMFLOAT2>();
+				patrolPoints.push_back(XMFLOAT2(-62, -178));
+				patrolPoints.push_back(XMFLOAT2(182, -178));
+				patrolPoints.push_back(XMFLOAT2(182, -326));
+				patrolPoints.push_back(XMFLOAT2(-62, -326));
 
+				policeman->Patrol(patrolPoints);
+				*/
 				SetPatrol(policeman, policemanSize);
 				policemanSize++;
 
@@ -96,13 +94,9 @@ namespace Rendering
 				mPointLights.push_back(doubleStreetLampPostWithMegaphone->GetPointLight());
 			}
  		}		
-		
+
 		for (int i = 0; i < GameObjects.size(); i++)
 		{
-			if (i == GameObjects.size() - 1)
-			{
-
-			}
 			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
 			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());
 			//gameObject->Initialize();
@@ -116,39 +110,25 @@ namespace Rendering
 	void TrainLevel::SetPatrol(Policeman* policeman, int index)
 	{
 		std::vector<XMFLOAT2> patrolPoints1 = std::vector<XMFLOAT2>();
-		patrolPoints1.push_back(XMFLOAT2(183, -205));
-		patrolPoints1.push_back(XMFLOAT2(183, -321));
-		patrolPoints1.push_back(XMFLOAT2(6, -321));
-		patrolPoints1.push_back(XMFLOAT2(6, -282));
-		patrolPoints1.push_back(XMFLOAT2(-51, -282));
-		patrolPoints1.push_back(XMFLOAT2(-51, -183));
-		patrolPoints1.push_back(XMFLOAT2(91, -183));
-		patrolPoints1.push_back(XMFLOAT2(91, -205));
+		patrolPoints1.push_back(XMFLOAT2(-62, -178));
+		patrolPoints1.push_back(XMFLOAT2(182, -178));
+		patrolPoints1.push_back(XMFLOAT2(182, -326));
+		patrolPoints1.push_back(XMFLOAT2(-62, -326));
 
 		std::vector<XMFLOAT2> patrolPoints2 = std::vector<XMFLOAT2>();
 		patrolPoints2.push_back(XMFLOAT2(215, -220));
 		patrolPoints2.push_back(XMFLOAT2(215, 231));
 		patrolPoints2.push_back(XMFLOAT2(231, 231));
 		patrolPoints2.push_back(XMFLOAT2(231, -220));
-
-		std::vector<XMFLOAT2> patrolPoints3 = std::vector<XMFLOAT2>();
-		patrolPoints3.push_back(XMFLOAT2(760, -424));
-		patrolPoints3.push_back(XMFLOAT2(760, 20));
-		patrolPoints3.push_back(XMFLOAT2(804, 20));
-		patrolPoints3.push_back(XMFLOAT2(804, -424));
-
+		
 		if (index == 2 || index == 3 || index == 4 || index == 5)
 			policeman->Patrol(patrolPoints1);
 
 		if (index == 6 || index == 7)
 			policeman->Patrol(patrolPoints2);
-
-		if (index == 8 || index == 9)
-			policeman->Patrol(patrolPoints3);
 	}
 
-	FarbaMan* TrainLevel::GetFarbaMan()
-	{
+	FarbaMan* TrainLevel::GetFarbaMan() {
 		return mFarbaMan;
 	}
 }

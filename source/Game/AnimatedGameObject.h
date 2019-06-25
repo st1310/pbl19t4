@@ -11,7 +11,6 @@ namespace Library
 	class KeyboardComponent;
 	class Effect;
 	class SkinnedModelMaterial;
-	class MultipleLightsBonesMaterial;
 	class Model;
 	class AnimationPlayer;
 	class AnimationSequence;
@@ -39,19 +38,15 @@ namespace Rendering
 		virtual void Draw(const GameTime& gameTime) override;
 
 		virtual void BuildBoundingBox(XMFLOAT3 radius) override;
-		void BuildSphere(float radius);
 
 		virtual void SetAnimations();
 		void ChangeAnimation(std::string animationName);
-
-		PointLight* GetPointLight();
 
 		void RunInit();
 		void PatrolInit();
 
 	protected:
 		std::map<std::string, int> mAnimations;
-		PointLight* mPointLight;
 
 	private:
 		AnimatedGameObject();
@@ -60,12 +55,10 @@ namespace Rendering
 
 		void UpdateOptions();
 
-		XMFLOAT3 GetFollowPositionToCamera();
-
 		AnimationPlayer* mAnimationPlayer;
-		MultipleLightsBonesMaterial* mMaterial;
-		bool mIsFolowable = false;
+		SkinnedModelMaterial* mMaterial;
 
+		
 		//Animation sequence
 		AnimationSequence* mAnimationSequence;
 		std::string mCurrentAnimation = "Idle";

@@ -86,7 +86,7 @@ namespace Library
 		Camera::Initialize();
 		firstTime = false;
 
-		XMVECTOR rotationVector = XMLoadFloat2(new XMFLOAT2(mCameraRotationAngle, mCameraRotationAngle)) * mRotationRate;
+		XMVECTOR rotationVector = XMLoadFloat2(new XMFLOAT2(-50,-50)) * mRotationRate;
 		XMVECTOR right = XMLoadFloat3(&mRight);
 
 		XMMATRIX pitchMatrix = XMMatrixRotationAxis(right, XMVectorGetY(rotationVector));
@@ -110,118 +110,8 @@ namespace Library
 
 	void GameCamera::Update(const GameTime& gameTime)
 	{
-		bool moved = MoveCamera();
-		XMFLOAT2 movementAmount = Vector2Helper::Zero;
-		
-		
-		XMFLOAT2 rotationAmount = Vector2Helper::Zero;
-		/*
-		if ((mMouse != nullptr) && (mMouse->IsButtonHeldDown(MouseButtonsLeft) && cameraMode))
-		{
-			LPDIMOUSESTATE mouseState = mMouse->CurrentState();
-			rotationAmount.x = -mouseState->lX * mMouseSensitivity;
-			rotationAmount.y = -mouseState->lY * mMouseSensitivity;
-			moved = true;
-		}*/
-
-		float elapsedTime = (float)gameTime.ElapsedGameTime();
-		XMVECTOR rotationVector = XMLoadFloat2(&rotationAmount) * mRotationRate * elapsedTime;
-		XMVECTOR right = XMLoadFloat3(&mRight);
-
-		XMMATRIX pitchMatrix = XMMatrixRotationAxis(right, XMVectorGetY(rotationVector));
-		XMMATRIX yawMatrix = XMMatrixRotationY(XMVectorGetX(rotationVector));
-
-		ApplyRotation(XMMatrixMultiply(pitchMatrix, yawMatrix));
-
-		XMVECTOR position = XMLoadFloat3(&mPosition);
-		XMVECTOR movement = XMLoadFloat2(&movementAmount) * mMovementRate * elapsedTime;
-
-		XMVECTOR strafe = right * XMVectorGetX(movement);
-		position += strafe;
-
-		XMVECTOR forward = XMLoadFloat3(&mDirection) * XMVectorGetY(movement);
-		position += forward;
-
-		XMFLOAT3 checkPos;
-		XMStoreFloat3(&checkPos, position);
-
-		XMStoreFloat3(&mPosition, position);	
-
-		if (moved || !firstTime)
-		{
-			Camera::Update(gameTime);
-			float extender = 120.f + mCurrentYPosition * 1.75f;
-
-			if (mPosition.y < 70)
-				extender = mPosition.y + 10.f;
-
-			else if(mPosition.y < 110)
-				extender = 120.f + mCurrentYPosition * 1.75f;
-
-			else
-				extender = 250.f + mCurrentYPosition * 3.f;
-
-			// 0 - right; 1 -left; 2 - up; 3 - down; 4 - near; 5 - far 
-			std::vector<XMVECTOR> planes;
-			XMVECTOR dirHelp = XMVECTOR();
-
-			//Try to "smooth" border values
-			dirHelp.m128_f32[0] = mDirection.x > 0.f ? (mDirection.x < 0.08f ? 0.08f : mDirection.x < 0.984f ? mDirection.x : 0.984f)
-				: (mDirection.x > -0.08f ? -0.08f : mDirection.x > -0.9f ? mDirection.x : -0.9f);
-
-			dirHelp.m128_f32[1] = mDirection.y > 0.f ? (mDirection.y < 0.08f ? 0.08f : mDirection.y < 0.984f ? mDirection.y : 0.984f)
-				: (mDirection.y > -0.08f ? -0.08f : mDirection.y > -0.984f ? mDirection.y : -0.984f);
-
-			dirHelp.m128_f32[2] = mDirection.z > 0.f ? (mDirection.z < 0.08f ? 0.08f : mDirection.z < 0.984f ? mDirection.z : 0.984f)
-				: (mDirection.z > -0.08f ? -0.08f : mDirection.z > -0.984f ? mDirection.z : -0.984f);
-
-			//right slope
-			planes.push_back(XMVectorSet(1.0f, 0.f, -(mPosition.x + extender), 0.f));
-			planes[0] = DirectX::Internal::XMPlaneTransform(planes[0], dirHelp, position);
-			planes[0] = XMPlaneNormalize(planes[0]);
-
-			//left slope
-			planes.push_back(XMVectorSet(-1.0f, 0.f, (mPosition.x - extender), 0.f));
-			planes[1] = DirectX::Internal::XMPlaneTransform(planes[1], dirHelp, position);
-			planes[1] = XMPlaneNormalize(planes[1]);
-
-			//upper slope
-			planes.push_back(XMVectorSet(0.0f, 1.f, -(mPosition.y + extender), 0.f));
-			planes[2] = DirectX::Internal::XMPlaneTransform(planes[2], dirHelp, position);
-			planes[2] = XMPlaneNormalize(planes[2]);
-			//lower slope
-			planes.push_back(XMVectorSet(0.0f, -1.f, (mPosition.y - extender), 0.f));
-			planes[3] = DirectX::Internal::XMPlaneTransform(planes[3], dirHelp, position);
-			planes[3] = XMPlaneNormalize(planes[3]);
-
-			//near and far slope
-			if (mDirection.z > 0.f)
-			{
-				planes.push_back(XMVectorSet(0.0f, 0.f, -1.0f, (mPosition.z - 1.f)));
-				planes.push_back(XMVectorSet(0.0f, 0.f, 1.0f, -(mPosition.z + FarPlaneDistance())));
-			}
-			else
-			{
-				planes.push_back(XMVectorSet(0.0f, 0.f, 1.0f, -(mPosition.z + 1.f)));
-				planes.push_back(XMVectorSet(0.0f, 0.f, -1.0f, (mPosition.z - FarPlaneDistance() - extender)));
-			}
-
-			planes[4] = DirectX::Internal::XMPlaneTransform(planes[4], dirHelp, position);
-			planes[4] = XMPlaneNormalize(planes[4]);
-
-			planes[5] = DirectX::Internal::XMPlaneTransform(planes[5], dirHelp, position);
-			planes[5] = XMPlaneNormalize(planes[5]);
-
-			firstTime = true;
-			mGame->SetNodesInFructum(NodeList::CheckNodesInsideCamera(planes, mGame->NodeList()));
-		}
-
-	}
-
-	bool GameCamera::MoveCamera()
-	{
 		bool moved = false;
-
+		XMFLOAT2 movementAmount = Vector2Helper::Zero;
 		if (mKeyboard->IsKeyDown(DIK_W))
 		{
 			XMFLOAT3 cameraPositon = Position();
@@ -279,7 +169,7 @@ namespace Library
 			{
 				mCurrentYPosition -= mYMoveCameraFactor;
 				cameraPositon.y = mCurrentYPosition;
-				SetPosition(cameraPositon);
+				SetPosition(cameraPositon);		
 				moved = true;
 			}
 
@@ -300,7 +190,7 @@ namespace Library
 
 			mLastWheelPosition = mMouse->Wheel();
 		}
-
+		/*
 		// left
 		if (mMouse->X() < 100)
 		{
@@ -319,7 +209,7 @@ namespace Library
 		}
 
 		// Right
-		if (mMouse->X() > 900 ) //&& mMouse->Y() < 300
+		if (mMouse->X() > 900)
 		{
 			XMFLOAT3 cameraPositon = Position();
 			if (cameraPositon.x < mMaximalPointAtMap.x)
@@ -353,7 +243,7 @@ namespace Library
 		}
 
 		// Down
-		if (mMouse->Y() > 650 && ( mMouse->X() < 300 || mMouse->X() > 700)) //mMouse->X() < 300 || mMouse->X() > 700)
+		if (mMouse->Y() > 650 && (mMouse->X() < 300 || mMouse->X() > 700))
 		{
 			XMFLOAT3 cameraPositon = Position();
 			if (cameraPositon.z < mMaximalPointAtMap.y)
@@ -368,7 +258,97 @@ namespace Library
 				moved = true;
 			}
 		}
+		*/
+		XMFLOAT2 rotationAmount = Vector2Helper::Zero;
+		/*
+		if ((mMouse != nullptr) && (mMouse->IsButtonHeldDown(MouseButtonsLeft) && cameraMode))
+		{
+			LPDIMOUSESTATE mouseState = mMouse->CurrentState();
+			rotationAmount.x = -mouseState->lX * mMouseSensitivity;
+			rotationAmount.y = -mouseState->lY * mMouseSensitivity;
+			moved = true;
+		}*/
 
-		return moved;
+		float elapsedTime = (float)gameTime.ElapsedGameTime();
+		XMVECTOR rotationVector = XMLoadFloat2(&rotationAmount) * mRotationRate * elapsedTime;
+		XMVECTOR right = XMLoadFloat3(&mRight);
+
+		XMMATRIX pitchMatrix = XMMatrixRotationAxis(right, XMVectorGetY(rotationVector));
+		XMMATRIX yawMatrix = XMMatrixRotationY(XMVectorGetX(rotationVector));
+
+		ApplyRotation(XMMatrixMultiply(pitchMatrix, yawMatrix));
+
+		XMVECTOR position = XMLoadFloat3(&mPosition);
+		XMVECTOR movement = XMLoadFloat2(&movementAmount) * mMovementRate * elapsedTime;
+
+		XMVECTOR strafe = right * XMVectorGetX(movement);
+		position += strafe;
+
+		XMVECTOR forward = XMLoadFloat3(&mDirection) * XMVectorGetY(movement);
+		position += forward;
+
+		XMFLOAT3 checkPos;
+		XMStoreFloat3(&checkPos, position);
+
+		XMStoreFloat3(&mPosition, position);
+		Camera::Update(gameTime);
+
+		if (moved || !firstTime)
+		{
+			// 0 - right; 1 -left; 2 - up; 3 - down; 4 - near; 5 - far 
+			std::vector<XMVECTOR> planes;
+			XMVECTOR dirHelp = XMVECTOR();
+
+			//Try to "smooth" border values
+			dirHelp.m128_f32[0] = mDirection.x > 0.f ? (mDirection.x < 0.08f ? 0.08f : mDirection.x < 0.984f ? mDirection.x : 0.984f)
+				: (mDirection.x > -0.08f ? -0.08f : mDirection.x > -0.9f ? mDirection.x : -0.9f);
+
+			dirHelp.m128_f32[1] = mDirection.y > 0.f ? (mDirection.y < 0.08f ? 0.08f : mDirection.y < 0.984f ? mDirection.y : 0.984f)
+				: (mDirection.y > -0.08f ? -0.08f : mDirection.y > -0.984f ? mDirection.y : -0.984f);
+
+			dirHelp.m128_f32[2] = mDirection.z > 0.f ? (mDirection.z < 0.08f ? 0.08f : mDirection.z < 0.984f ? mDirection.z : 0.984f)
+				: (mDirection.z > -0.08f ? -0.08f : mDirection.z > -0.984f ? mDirection.z : -0.984f);
+
+			//right slope
+			planes.push_back(XMVectorSet(1.0f, 0.f, -(mPosition.x + 100.f), 0.f));
+			planes[0] = DirectX::Internal::XMPlaneTransform(planes[0], dirHelp, position);
+			planes[0] = XMPlaneNormalize(planes[0]);
+
+			//left slope
+			planes.push_back(XMVectorSet(-1.0f, 0.f, (mPosition.x - 100.f), 0.f));
+			planes[1] = DirectX::Internal::XMPlaneTransform(planes[1], dirHelp, position);
+			planes[1] = XMPlaneNormalize(planes[1]);
+
+			//upper slope
+			planes.push_back(XMVectorSet(0.0f, 1.f, -(mPosition.y + 100.f), 0.f));
+			planes[2] = DirectX::Internal::XMPlaneTransform(planes[2], dirHelp, position);
+			planes[2] = XMPlaneNormalize(planes[2]);
+			//lower slope
+			planes.push_back(XMVectorSet(0.0f, -1.f, (mPosition.y - 100.f), 0.f));
+			planes[3] = DirectX::Internal::XMPlaneTransform(planes[3], dirHelp, position);
+			planes[3] = XMPlaneNormalize(planes[3]);
+
+			//near and far slope
+			if (mDirection.z > 0.f)
+			{
+				planes.push_back(XMVectorSet(0.0f, 0.f, -1.0f, (mPosition.z - 1.f)));
+				planes.push_back(XMVectorSet(0.0f, 0.f, 1.0f, -(mPosition.z + FarPlaneDistance())));
+			}
+			else
+			{
+				planes.push_back(XMVectorSet(0.0f, 0.f, 1.0f, -(mPosition.z + 1.f)));
+				planes.push_back(XMVectorSet(0.0f, 0.f, -1.0f, (mPosition.z - FarPlaneDistance())));
+			}
+
+			planes[4] = DirectX::Internal::XMPlaneTransform(planes[4], dirHelp, position);
+			planes[4] = XMPlaneNormalize(planes[4]);
+
+			planes[5] = DirectX::Internal::XMPlaneTransform(planes[5], dirHelp, position);
+			planes[5] = XMPlaneNormalize(planes[5]);
+
+			firstTime = true;
+			mGame->SetNodesInFructum(NodeList::CheckNodesInsideCamera(planes, mGame->NodeList()));
+		}
+
 	}
 }

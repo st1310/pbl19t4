@@ -32,26 +32,16 @@ namespace Rendering
 		// Add point Lights to soldiers
 		for (int i = 0; i < gameObjects.size(); i++)
 		{
-			GameObject* gameObject = gameObjects.at(i)->As<GameObject>();
-			std::string className = gameObject->GetName();
-
-			if (className == "Soldier")
-			{
-				GreenSoldier* soldier = gameObjects.at(i)->As<GreenSoldier>();
-				mPointLights.push_back(soldier->GetPointLight());
-			}
-		}
-
-		// Add spot Lights to lamps
-		for (int i = 0; i < gameObjects.size(); i++)
-		{
 			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
 			std::string className = gameObject->GetName();
 
 			if (className == "SingleStreetLampPost")
 			{
-				SingleStreetLampPost* singleStreetLampPost = gameObjects.at(i)->As<SingleStreetLampPost>();
-				mSpotLights.push_back(singleStreetLampPost->GetSpotLight());
+				// Point Lights
+				mPointLights.push_back(new PointLight(*mGame));
+				mPointLights.at(0)->SetRadius(30.0f);
+				mPointLights.at(0)->SetPosition(gameObject->getPosition().x, gameObject->getPosition().y + 5, gameObject->getPosition().z);
+				mPointLights.at(0)->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
 			}
 		}
 

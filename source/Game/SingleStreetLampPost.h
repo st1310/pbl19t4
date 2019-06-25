@@ -19,7 +19,6 @@ namespace Rendering
 		virtual void Update(const GameTime& gameTime) override;
 
 		SpotLight* GetSpotLight();
-
 		PointLight* GetPointLight();
 	private:
 		SpotLight* mSpotLight;

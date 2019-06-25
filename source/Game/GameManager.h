@@ -32,10 +32,12 @@ namespace Rendering
 			std::vector<CollisionNode*> GetCurrentListOfNodes();
 			void SelectingGrounds(long mouseX, long mouseY);
 			void SelectingGroundsFake(long mouseX, long mouseY);
+			void SelectingGroundsFakePatrolMode(long mouseX, long mouseY);
 			int GetCurrentSceneId();
 			bool GetunitsReadyToMove();
 			bool GetShowMousePosition();
 			bool GetrenderGameFarbaManSpawnFlag();
+			bool GetPaintButtonFlag();
 
 			void SelectingUnits(float mouseX, float mouseY);
 			void SelectingUnits(float mouse1X, float mouse1Y, float mouse2X, float mouse2Y);
@@ -65,8 +67,12 @@ namespace Rendering
 			//int Painted;
 
 			std::vector<Button*> guiButtons;
+			std::vector<XMFLOAT2> patrolPositions;
+			std::vector<Trace1*> splashes;
 			bool achiveFarbaMan = false;
 			bool renderGameFarbaManSpawnFlag = false;
+			bool PaintButtonFlag = false;
+			bool PaintFinishedFlag = false;
 		};
 }
 

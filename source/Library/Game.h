@@ -104,6 +104,8 @@ namespace Library
 		ID3D11RenderTargetView* mRenderTargetView;
 		ID3D11DepthStencilView* mDepthStencilView;
 		D3D11_VIEWPORT mViewport;
+
+		bool cameraHasMoved;
 	private:
 		Game(const Game& rhs);
 		Game& operator=(const Game& rhs);

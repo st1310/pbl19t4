@@ -2,7 +2,6 @@
 #include "SpotLight.h"
 #include "PointLight.h"
 #include "AssetList.h"
-#include "GameCamera.h"
 
 namespace Rendering
 {
@@ -16,41 +15,31 @@ namespace Rendering
 			startRotation,
 			startScale)
 	{
-		mRotationSpeed = 6;
-		mTranslationSpeed = 0.7;
+		mRotationSpeed = 3;
+		mTranslationSpeed = 0.15;
 
 		mIsSelectedDiffuseMap = "Content\\Textures\\SoldierSelectedDiffuseMap.jpg";
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
 
 		mSpotLight = new SpotLight(game);
+		mPointLight = new PointLight(game);
 		mPointLight->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
 		mPointLight->SetRadius(30.0f);
 
 		SetAnimations();
-
-		mSpotLight = new SpotLight(game);
-		mPointLight = new PointLight(game);
 	}
 
 
 	GreenSoldier::~GreenSoldier()
 	{
-		DeleteObject(mSpotLight);
-		DeleteObject(mPointLight);
+	
 	}
 
 	void GreenSoldier::Initialize()
 	{
 		AnimatedGameObject::Initialize();
-		AnimatedGameObject::BuildSphere(4.5f);
-
-		//if (!this->silent)
-		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 22.f, 12.f, 22.f });
-		//else this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 11.f, 12.f, 11.f });
-
-		mPointLight->SetRadius(30.0f);
-		mPointLight->SetPosition(mPosition);
-		mPointLight->SetColor(Colors::White - SimpleMath::Vector3(0.0f, 0.0f, 0.5f));
+		AnimatedGameObject::BuildBoundingBox(XMFLOAT3(3.f, 12.f, 3.f));
+		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 15.f, 12.f, 15.f });
 	}
 
 	void GreenSoldier::Update(const GameTime& gameTime)
@@ -59,44 +48,33 @@ namespace Rendering
 		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x , mPosition.y + 5, mPosition.z - 10);
 
 		mPointLight->SetPosition(pointLightPosition);
-		//mSpotLight->SetPosition(mPosition);
+		mSpotLight->SetPosition(mPosition);
 
-		if (this->getPosition().x > -102.0f && this->getPosition().x <-44.0f &&  
-			this->getPosition().z > -25.0f && this->getPosition().z<23.0f) 
-		{
+		if (this->getPosition().x > -102.0f && this->getPosition().x <-44.0f &&  this->getPosition().z > -25.0f && this->getPosition().z<23.0f) {
 			achiveFarbaManPoint = true;//zespawnuj farbamana!!!
 		}
 	}
 
 	void GreenSoldier::setSelection(bool selection)
 	{
-		mIsSelected = selection;
+		isSelected = selection;
 
-		if (mIsSelected)
-		{
+		if(isSelected)
 			ChangeTexture(mIsSelectedDiffuseMap);
-			mPointLight->SetColor(Colors::Yellow - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
-		}
-			
 
-		else if (!mIsSelected && !mIsBusy)
+		else if (!isSelected && !mIsBusy)
 		{
 			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
 			ChangeTexture(modelName);
-			mPointLight->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
 		}
 
-		else if (!mIsSelected && mIsBusy)
-		{
+		else if (!isSelected && mIsBusy)
 			ChangeTexture(mIsBusyDiffuseMap);
-			mPointLight->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
-		}
-			
 	}
 
 	bool GreenSoldier::getIsSelected()
 	{
-		return mIsSelected;
+		return isSelected;
 	}
 
 
@@ -139,6 +117,11 @@ namespace Rendering
 		mAnimations.insert(std::pair<std::string, int>("StopRunning", 3));
 	}
 
+	PointLight* GreenSoldier::GetPointLight()
+	{
+		return mPointLight;
+	}
+
 	SpotLight* GreenSoldier::GetSpotLight()
 	{
 		return mSpotLight;
@@ -146,6 +129,15 @@ namespace Rendering
 
 	bool GreenSoldier::getArchiveFarbaManPoint() {
 		return achiveFarbaManPoint;
+	}
+
+
+	bool GreenSoldier::GetfootprintsInAreaFlag() {
+		return footprintsInAreaFlag;
+	}
+
+	void GreenSoldier::SetfootprintsInAreaFlag(bool value) {
+		footprintsInAreaFlag = value;
 	}
 }
 

@@ -16,13 +16,14 @@ namespace Rendering
 		this->camera = &camera;
 		Initialize();
 
-		mCurrentScene = TRAIN_LEVEL;
+		mCurrentScene = MENU_LEVEL;
 		StartScene(mCurrentScene);
 		unitsReadyToMove = false;
 		ShowMousePosition = false;
 		targetPos = XMFLOAT3(0, 0, 0);
 		
-		
+		patrolPositions.clear();
+		splashes.clear();
 	}
 
 	GameManager::~GameManager()
@@ -75,12 +76,11 @@ namespace Rendering
 
 		mCurrentScene = sceneId;
 
-		mScenes.at(mCurrentScene)->ResetLights();
-		mScenes.at(mCurrentScene)->Start(*game, *camera);
-		Colliders* colliders = pathfinding->collider;
-		mScenes.at(mCurrentScene)->SetGroudndCollider(colliders);
+		mScenes.at(sceneId)->ResetLights();
+		mScenes.at(sceneId)->Start(*game, *camera);
+		mScenes.at(sceneId)->SetGroudndCollider(pathfinding->collider);
 
-		game->ClearAndSetNodes(mScenes.at(mCurrentScene)->getListOfNode());
+		game->ClearAndSetNodes(mScenes.at(sceneId)->getListOfNode());
 
 		for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
 
@@ -132,8 +132,7 @@ namespace Rendering
 						achiveFarbaMan = true;
 					}
 				}
-				if (achiveFarbaMan) 
-				{
+				if (achiveFarbaMan) {
 					TrainLevel* trainLevel = mScenes[mCurrentScene]->As<TrainLevel>();
 
 					if (trainLevel->GetFarbaMan() == nullptr)
@@ -142,49 +141,44 @@ namespace Rendering
 					trainLevel->GetFarbaMan()->SetVisible(true);
 					trainLevel->GetFarbaMan()->SetUnitID(100);
 					trainLevel->GetFarbaMan()->setSelection(false);
-					trainLevel->GetFarbaMan()->GetPointLight()->SetRadius(30.0f);
-					//trainLevel->GetPointLights().push_back(trainLevel->GetFarbaMan()->GetPointLight());
-					mScenes.at(mCurrentScene)->AddUnitToList(trainLevel->GetFarbaMan());
 					
+					mScenes.at(mCurrentScene)->AddUnitToList(trainLevel->GetFarbaMan());
 					renderGameFarbaManSpawnFlag = true;
-				}
-			}
-
-			FarbaMan* frbMn = trgObj->As<FarbaMan>();
-
-			if (frbMn != nullptr)
-			{
-				if (mKeyboard->WasKeyPressedThisFrame(DIK_E) && frbMn->mAllowPainting)
-				{
-					frbMn->StartPainting();
-				}
-				if (frbMn->destroyPaintedPosition)
-				{
-					GetCurrentListOfNodes().at(0)->DestroyPaintedPosition(frbMn->getPosition());
-				}
-			}
-			else
-			{
-				Policeman* plcMn = trgObj->As<Policeman>();
-				if (plcMn != nullptr)
-				{
-					if (plcMn->IsAlerted())
-					{
-						for (DrawableGameComponent* gmCmp : mScenes.at(mCurrentScene)->GetUnitList())
-						{
-							GreenSoldier* green = gmCmp->As<GreenSoldier>();
-							XMFLOAT3 targetPosition = XMFLOAT3 (0, 0, 0);
-							if (plcMn->getCollider()->CheckTriggerCollision(2, green->getCollider()))
-							{
-								plcMn->SetTargetPosition(green->getPosition().x, green->getPosition().z);
-								plcMn->SetRunAndCath(true);
-							}
-						}
-					}
+				
 				}
 			}
 			
 		}
+
+
+		if (achiveFarbaMan) {
+			int id = mScenes.at(mCurrentScene)->GetUnitList().size() - 1;
+			FarbaMan* farb = mScenes.at(mCurrentScene)->GetUnitList().at(id)->As<FarbaMan>();
+			
+			if (farb->GetinPaintArea()) {
+				PaintButtonFlag = true;
+			}
+
+			if (!farb->GetinPaintArea()) {
+				PaintButtonFlag = false;
+			}
+
+			if (farb->GetSpawnSpash()) {
+				farb->SetSpawnSplash(false);
+				XMFLOAT3 pos = farb->getPosition();
+				Trace1* trace1 = new Trace1(*game, *camera, pos, XMFLOAT3(-90.0f, 0, 0), XMFLOAT3(0.50f, 0.50f, 0.50f));
+				trace1->Initialize();
+				trace1->SetVisible(true);
+				mScenes[mCurrentScene]->GameObjects.push_back(trace1);
+				splashes.push_back(trace1);
+			}
+
+			if (farb->GetdestroyPaintedPosition()) {
+				PaintFinishedFlag = true;
+			}
+		}
+
+
 
 		for(int i =0; i <  GetSizeOfCurrentScene(); i++)
 			mScenes[mCurrentScene]->GameObjects[i]->Update(gameTime);
@@ -197,18 +191,7 @@ namespace Rendering
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
 
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
-			{
-				/*
-				if(drawableGameComponent->getNode() == nullptr)
-					drawableGameComponent->Draw(gameTime);				
-				
-				else if(NodeList::IsNodeInsideList(drawableGameComponent->getNode(), this->game->GetNodesInFructum()))
 					drawableGameComponent->Draw(gameTime);
-					*/
-
-				drawableGameComponent->Draw(gameTime);
-			}
-					
 		}
 
 		mScenes[mCurrentScene]->Draw(gameTime);
@@ -302,7 +285,44 @@ namespace Rendering
 							gameObject->StartMoving(nextPositions);
 							gameObject->RunInit();
 
-							gameObject->setIsSelected(false);
+							gameObject->setIsSelected(true);
+							
+						}
+					}
+
+				}
+			}
+	}
+
+	void GameManager::SelectingGroundsFakePatrolMode(long mouseX, long mouseY) {
+		XMMATRIX viewProj = camera->ViewProjectionMatrix();
+		XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);
+		
+		
+
+		float x = (((2.0f * mouseX) / (float)game->ScreenWidth()) - 1.0f);
+		float y = (((2.0f * mouseY) / (float)game->ScreenHeight()) - 1.0f) * (-1.0f);
+
+		XMVECTOR farPoint = XMVECTOR({ x, y, 1.0f, 0.0f });
+		XMVECTOR TrF = XMVector3Transform(farPoint, invProjectionView);
+		TrF = XMVector3Normalize(TrF);
+
+		if (mScenes.at(mCurrentScene) != nullptr)
+			for (BoundingBox* bbx : mScenes.at(mCurrentScene)->GetGroundCollider()->GetBoundingBox()) {
+				float farPlaneDistance = camera->FarPlaneDistance();
+				if (bbx->Intersects(camera->PositionVector(), TrF, farPlaneDistance)) {
+
+					targetPos = bbx->Center;
+					for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
+						AnimatedGameObject* gameObject = (AnimatedGameObject*)(mScenes.at(mCurrentScene)->GetUnitList().at(i));
+						if (gameObject->getIsSelected()) {
+							
+							patrolPositions.push_back(XMFLOAT2(targetPos.x, targetPos.z));
+							//gameObject->StartMoving(nextPositions);
+							//gameObject->RunInit();
+
+							gameObject->setIsSelected(true);
+
 						}
 					}
 
@@ -326,7 +346,7 @@ namespace Rendering
 
 		bool wasSelected = false;
 
-		//For now - this is the prototype of checking if mouse clicked in right position
+			//For now - this is the prototype of checking if mouse clicked in right position
 		for (GameComponent* gmCm : mScenes.at(mCurrentScene)->GetUnitList())
 		{
 			GreenSoldier* greenSold = gmCm->As<GreenSoldier>();
@@ -334,6 +354,7 @@ namespace Rendering
 			if (greenSold->getCollider()->CheckColliderIntersecteByRay(camera->PositionVector(), TrF, camera->FarPlaneDistance()) && (!wasSelected))
 			{
 				greenSold->setSelection(true);
+				greenSold->setIsSelected(true);
 				//Will remove this later
 				wasSelected = true;
 				unitsReadyToMove = true;
@@ -393,6 +414,7 @@ namespace Rendering
 					if (greenSold->getCollider()->CheckColliderIntersecteByRay(gmCam->PositionVector(), TrF, gmCam->FarPlaneDistance()))
 					{
 						greenSold->setSelection(true);
+						greenSold->setIsSelected(true);
 						unitsReadyToMove = true;
 					}
 				}
@@ -421,6 +443,9 @@ namespace Rendering
 		return renderGameFarbaManSpawnFlag;
 	}
 
+	bool GameManager::GetPaintButtonFlag() {
+		return PaintButtonFlag;
+	}
 }
 
 	

@@ -61,22 +61,16 @@ namespace Library
 		GameCamera(const GameCamera& rhs);
 		GameCamera& operator=(const GameCamera& rhs);
 
-		bool MoveCamera();
 
-		const int mLeftMapStart = -70;
-		const int mRightMapEnd = 750;
-		
 
-		XMFLOAT2 mMinimalPointAtMap = XMFLOAT2(mLeftMapStart,-300); 
-		XMFLOAT2 mMaximalPointAtMap = XMFLOAT2(mRightMapEnd, 550);
-		
-		float mCameraRotationAngle = -50.f; // 0.f for freeMOde
-		
+		XMFLOAT2 mMinimalPointAtMap = XMFLOAT2(-100,-1200); // First value must be -100
+		XMFLOAT2 mMaximalPointAtMap = XMFLOAT2(1200, 1200);
+
 		const float mMoveCameraFactor = 3; //0.12;
 		const float mStartYPosition = 70;
 		float mCurrentYPosition = mStartYPosition;
 		const float mMinYPosition = 30;
-		const float mMaxYPosition = 130;
+		const float mMaxYPosition = 150;
 		const float mYMoveCameraFactor = 5;
 
 		long mLastWheelPosition = 0;

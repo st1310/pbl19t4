@@ -128,7 +128,7 @@ namespace Library
 		collided = movingCollider->CheckCollision(vct);
 
 		if (collided)
-			return true;
+			return false;
 
 		vct.clear();
 		for (unsigned int i = 0; i < mStaticObjects.size(); i++)
@@ -182,7 +182,6 @@ namespace Library
 			if (cld->CheckTriggerCollisionPaintingPosition(positionOfPainter))
 			{
 				RemoveTriggerCollider(cld);
-				return;
 			}
 		}
 	}
