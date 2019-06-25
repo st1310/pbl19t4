@@ -33,14 +33,18 @@ namespace Rendering
 			void SelectingGrounds(long mouseX, long mouseY);
 			void SelectingGroundsFake(long mouseX, long mouseY);
 			void SelectingGroundsFakePatrolMode(long mouseX, long mouseY);
+			void ExecutePatrolMode();
 			int GetCurrentSceneId();
 			bool GetunitsReadyToMove();
 			bool GetShowMousePosition();
 			bool GetrenderGameFarbaManSpawnFlag();
 			bool GetPaintButtonFlag();
+			std::vector<Trace1*> GetSplashes();
 
 			void SelectingUnits(float mouseX, float mouseY);
 			void SelectingUnits(float mouse1X, float mouse1Y, float mouse2X, float mouse2Y);
+			void ClearSplashes();
+
 
 			void SetKeyboard(KeyboardComponent* newKeyboard);
 
