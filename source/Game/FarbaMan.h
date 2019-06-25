@@ -29,11 +29,11 @@ namespace Rendering
 		void SetSpawnSplash(bool value);
 		void SetisMoving(bool value);
 
-
 		void StartPainting();
 
 		bool mAllowPainting;
 		bool destroyPaintedPosition;
+
 	private:
 		bool isSelected = false;
 		bool painting;

@@ -1,4 +1,6 @@
 #include "FarbaMan.h"
+#include "PointLight.h"
+#include "AssetList.h"
 
 namespace Rendering
 {
@@ -20,6 +22,9 @@ namespace Rendering
 
 		SetAnimations();
 		this->SetVisible(false);
+
+		mPointLight->SetColor(Colors::Purple - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
+		mPointLight->SetRadius(0.0f);
 	}
 
 
@@ -33,6 +38,10 @@ namespace Rendering
 		AnimatedGameObject::Initialize();
 		AnimatedGameObject::BuildSphere(4.5f);
 		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 22.f, 12.f, 22.f });
+
+		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x, mPosition.y + 5, mPosition.z - 10);
+
+		mPointLight->SetPosition(pointLightPosition);
 	}
 
 	void FarbaMan::setSelection(bool selection)

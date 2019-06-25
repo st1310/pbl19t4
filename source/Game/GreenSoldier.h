@@ -27,13 +27,8 @@ namespace Rendering
 		void SetfootprintsInAreaFlag(bool value);
 		bool GetfootprintsInAreaFlag();
 
-		PointLight* GetPointLight();
-		SpotLight* GetSpotLight();
-
 	private:
 		bool isSelected = false;
-		PointLight* mPointLight;
-		SpotLight* mSpotLight;
 		bool achiveFarbaManPoint = false;
 		bool footprintsInAreaFlag = false;
 	};

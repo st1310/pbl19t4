@@ -21,8 +21,6 @@ namespace Rendering
 		mIsSelectedDiffuseMap = "Content\\Textures\\SoldierSelectedDiffuseMap.jpg";
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
 
-		mSpotLight = new SpotLight(game);
-		mPointLight = new PointLight(game);
 		mPointLight->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
 		mPointLight->SetRadius(30.0f);
 
@@ -31,8 +29,7 @@ namespace Rendering
 
 
 	GreenSoldier::~GreenSoldier()
-	{
-	
+	{	
 	}
 
 	void GreenSoldier::Initialize()
@@ -111,16 +108,6 @@ namespace Rendering
 		mAnimations.insert(std::pair<std::string, int>("StartRunning", 1));
 		mAnimations.insert(std::pair<std::string, int>("Run", 2));
 		mAnimations.insert(std::pair<std::string, int>("StopRunning", 3));
-	}
-
-	PointLight* GreenSoldier::GetPointLight()
-	{
-		return mPointLight;
-	}
-
-	SpotLight* GreenSoldier::GetSpotLight()
-	{
-		return mSpotLight;
 	}
 
 	bool GreenSoldier::getArchiveFarbaManPoint() {

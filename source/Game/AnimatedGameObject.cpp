@@ -22,6 +22,7 @@
 #include "Shlwapi.h"
 #include "Colliders.h"
 #include "NodeLIst.h"
+#include "PointLight.h"
 
 namespace Rendering
 {
@@ -35,6 +36,8 @@ namespace Rendering
 	{		
 		mAnimations = std::map<std::string, int>();
 		mAnimationSequence = new AnimationSequence("Idle");
+
+		mPointLight = new PointLight(game);
 	}
 
 	AnimatedGameObject::~AnimatedGameObject()
@@ -127,6 +130,9 @@ namespace Rendering
 	void AnimatedGameObject::Update(const GameTime& gameTime)
 	{
 		UpdateOptions();
+
+		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x, mPosition.y + 5, mPosition.z - 10);
+		mPointLight->SetPosition(pointLightPosition);
 
 		if (mState->IsInActiveState())
 		{
@@ -289,5 +295,10 @@ namespace Rendering
 		);
 
 		return newCameraPosition;
+	}
+
+	PointLight* AnimatedGameObject::GetPointLight()
+	{
+		return mPointLight;
 	}
 }

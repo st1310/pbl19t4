@@ -46,8 +46,12 @@ namespace Rendering
 		void RunInit();
 		void PatrolInit();
 
+		PointLight* GetPointLight();
+
 	protected:
 		std::map<std::string, int> mAnimations;
+
+		PointLight* mPointLight;
 
 	private:
 		AnimatedGameObject();
