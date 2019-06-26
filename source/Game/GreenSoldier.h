@@ -34,10 +34,10 @@ namespace Rendering
 		bool isDestroyingPaint();
 	private:
 		bool isSelected = false;
-		PointLight* mPointLight;
-		SpotLight* mSpotLight;
 		bool achiveFarbaManPoint = false;
 		bool footprintsInAreaFlag = false;
+		PointLight* mPointLight;
+		SpotLight* mSpotLight;
 
 		bool mCleaning;
 		float mCleaningTime = -1.f;

@@ -65,15 +65,7 @@ namespace Rendering
 			{
 				Policeman* policeman = gameObjects.at(i)->As<Policeman>();
 				GetPolicemans().push_back(policeman);
-				/*
-				std::vector<XMFLOAT2> patrolPoints = std::vector<XMFLOAT2>();
-				patrolPoints.push_back(XMFLOAT2(-62, -178));
-				patrolPoints.push_back(XMFLOAT2(182, -178));
-				patrolPoints.push_back(XMFLOAT2(182, -326));
-				patrolPoints.push_back(XMFLOAT2(-62, -326));
 
-				policeman->Patrol(patrolPoints);
-				*/
 				SetPatrol(policeman, policemanSize);
 				policemanSize++;
 
@@ -83,14 +75,12 @@ namespace Rendering
 			if (className == "SingleStreetLampPost")
 			{
 				SingleStreetLampPost* singleStreetLampPost = gameObjects.at(i)->As<SingleStreetLampPost>();
-				//mSpotLights.push_back(singleStreetLampPost->GetSpotLight());
 				mPointLights.push_back(singleStreetLampPost->GetPointLight());
 			}
 
 			if (className == "DoubleStreetLampPostWithMegaphone")
 			{
 				DoubleStreetLampPostWithMegaphone* doubleStreetLampPostWithMegaphone = gameObjects.at(i)->As<DoubleStreetLampPostWithMegaphone>();
-				//mSpotLights.push_back(doubleStreetLampPostWithMegaphone->GetSpotLight());
 				mPointLights.push_back(doubleStreetLampPostWithMegaphone->GetPointLight());
 			}
  		}		
@@ -99,7 +89,6 @@ namespace Rendering
 		{
 			GameObject* gameObject = GameObjects.at(i)->As<GameObject>();
 			gameObject->SetLightsReferences(GetDirectionalLights(), GetPointLights(), GetSpotLights());
-			//gameObject->Initialize();
 		}
 
 		Colliders* collD = new Colliders();

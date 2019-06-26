@@ -61,7 +61,13 @@ namespace Library
 		GameCamera(const GameCamera& rhs);
 		GameCamera& operator=(const GameCamera& rhs);
 
+		bool MoveCamera();
+		bool UpdateCameraPositionByMouse();
+		bool UpdateCameraPositionByKeyboard();
+		bool UpdateCameraZoomByMouse();
 
+		const float mNormalSpeedCameraDistancePercent = 0.2;
+		const float mSuperUltraSpeedCameraDistancePercent = 0.1;
 
 		XMFLOAT2 mMinimalPointAtMap = XMFLOAT2(-100,-1200); // First value must be -100
 		XMFLOAT2 mMaximalPointAtMap = XMFLOAT2(1200, 1200);

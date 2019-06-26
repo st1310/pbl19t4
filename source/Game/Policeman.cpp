@@ -1,6 +1,5 @@
 #include "Policeman.h"
 #include "PointLight.h"
-#include "SpotLight.h"
 #include "AssetList.h"
 
 namespace Rendering
@@ -21,7 +20,6 @@ namespace Rendering
 		mSuspiciousPaint = false;
 		mSuspiciousPaintToDestroy = false;
 
-		mSpotLight = new SpotLight(game);
 		mPointLight = new PointLight(game);
 		mPointLight->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
 		mPointLight->SetRadius(30.0f);
@@ -49,7 +47,9 @@ namespace Rendering
 	void Policeman::Update(const GameTime& gameTime)
 	{
 		AnimatedGameObject::Update(gameTime);
+
 		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x + 10, mPosition.y + 5, mPosition.z - 10);
+		mPointLight->SetPosition(pointLightPosition);
 
 		if (mRunAndCatchUnit)
 		{
@@ -58,6 +58,7 @@ namespace Rendering
 				//set him moving towards mTargetPosition
 				mPointLight->SetColor(Colors::DarkRed - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
 			}
+
 			else if (alerted)
 			{
 				if (alertedTimeOnTargetPlace = -1.f)
@@ -65,6 +66,7 @@ namespace Rendering
 					//start walking/searching around
 					alertedTimeOnTargetPlace = gameTime.TotalGameTime();
 				}
+
 				else if (gameTime.TotalGameTime() - alertedTimeOnTargetPlace >= 15.f)
 				{
 					alerted = false;
