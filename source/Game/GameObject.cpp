@@ -662,7 +662,6 @@ namespace Rendering
 	{
 		Translate(mState->Move());
 		Rotate(mState->Rotate());
-
 	}
 
 	void GameObject::StartMoving(std::vector<XMFLOAT2> positions, bool isLoopable)

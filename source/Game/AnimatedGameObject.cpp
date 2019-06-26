@@ -221,6 +221,9 @@ namespace Rendering
 			if (mKeyboard->WasKeyPressedThisFrame(DIK_Z) && mIsSelected)
 				mIsFolowable = !mIsFolowable;
 
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_H) && mIsSelected)
+				SetIsHidden(!mIsHidden);
+
 			if(mIsSelected && mIsEdited)
 				EditModel();
 		}
@@ -274,6 +277,16 @@ namespace Rendering
 		mAnimationSequence->InitLoopAnimationSequence("Patrol", "Patrol", "Patrol");
 	}
 
+	void AnimatedGameObject::StartHidingInit()
+	{
+		mAnimationSequence->InitLoopAnimationSequence("StartHiding", "HideIdle", "HideIdle");
+	}
+
+	void AnimatedGameObject::EndHidingInit()
+	{
+		mAnimationSequence->InitLoopAnimationSequence("EndHiding", "Idle", "Idle");
+	}
+
 	XMFLOAT3 AnimatedGameObject::GetFollowPositionToCamera()
 	{
 		float zPosition = mPosition.z + 50;
@@ -296,5 +309,38 @@ namespace Rendering
 	PointLight* AnimatedGameObject::GetPointLight()
 	{
 		return mPointLight;
+	}
+
+	void AnimatedGameObject::SetIsHidden(bool isHidden)
+	{
+		if (isHidden == mIsHidden || mClassName == "Policeman")
+			return;
+
+		mIsHidden = isHidden;
+
+		if (mIsHidden)
+		{
+			StartHidingInit();
+			GetPointLight()->SetRadius(0.0f);
+		}			
+
+		else
+		{
+			EndHidingInit();
+			GetPointLight()->SetRadius(30.0f);
+		}		
+	}
+
+	bool AnimatedGameObject::GetIsHidden()
+	{
+		return mIsHidden;
+	}
+
+	void AnimatedGameObject::StartMoving(std::vector<XMFLOAT2> positions, bool isLoopable)
+	{
+		GameObject::StartMoving(positions, isLoopable);
+
+		mIsHidden = false;
+		GetPointLight()->SetRadius(30.0f);
 	}
 }

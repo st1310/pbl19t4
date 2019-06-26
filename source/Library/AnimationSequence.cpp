@@ -63,6 +63,21 @@ namespace Library
 		mStartSequence = false;
 	}
 
+	void AnimationSequence::InitLoopAnimationSequence(std::string initAnimation, std::string loopAnimation)
+	{
+		mInitAnimation = initAnimation;
+		mLoopAnimation = loopAnimation;
+
+		mCurrentAnimation = mInitAnimation;
+		mAnimationTimeInLastFrame = 0;
+
+		mIsIdle = false;
+		mIsInit = true;
+		mIsInLoop = false;
+		mIsEnd = false;
+		mStartSequence = false;
+	}
+
 	void AnimationSequence::EndLoop()
 	{
 		mIsInLoop = false;

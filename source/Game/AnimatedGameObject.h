@@ -43,8 +43,16 @@ namespace Rendering
 		virtual void SetAnimations();
 		void ChangeAnimation(std::string animationName);
 
+		void StartMoving(std::vector<XMFLOAT2> positions, bool isLoopable);
+
 		void RunInit();
 		void PatrolInit();
+
+		void StartHidingInit();
+		void EndHidingInit();
+
+		void SetIsHidden(bool isHidden);
+		bool GetIsHidden();
 
 		PointLight* GetPointLight();
 
@@ -64,7 +72,8 @@ namespace Rendering
 		AnimationPlayer* mAnimationPlayer;
 		SkinnedModelMaterial* mMaterial;
 
-		bool mIsFolowable = false;		
+		bool mIsFolowable = false;
+		bool mIsHidden = false;
 
 		//Animation sequence
 		AnimationSequence* mAnimationSequence;

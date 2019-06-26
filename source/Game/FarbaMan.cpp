@@ -156,6 +156,9 @@ namespace Rendering
 		mAnimations.insert(std::pair<std::string, int>("StopRunning", 3));
 		mAnimations.insert(std::pair<std::string, int>("Reload", 4));
 		mAnimations.insert(std::pair<std::string, int>("Paint", 5));
+		mAnimations.insert(std::pair<std::string, int>("StartHiding", 6));
+		mAnimations.insert(std::pair<std::string, int>("HideIdle", 7));
+		mAnimations.insert(std::pair<std::string, int>("EndHiding", 8));
 	}
 
 	bool FarbaMan::GetinPaintArea() {

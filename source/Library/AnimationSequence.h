@@ -13,6 +13,7 @@ namespace Library
 		~AnimationSequence();
 
 		void InitLoopAnimationSequence(std::string initAnimation, std::string loopAnimation, std::string endAnimation);
+		void InitLoopAnimationSequence(std::string initAnimation, std::string loopAnimation);
 		std::string GetCurrentAnimation(float currentAnimationTime);
 		void EndLoop();
 
