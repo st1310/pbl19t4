@@ -70,7 +70,7 @@ namespace Rendering
 					alerted = false;
 					timeHasBeenSet = false;
 					mRunAndCatchUnit = false;
-					alertedTimeOnTargetPlace = -1.f;
+					
 
 					if(mSuspiciousPaint)
 					{
@@ -79,6 +79,7 @@ namespace Rendering
 					}
 					//Stop walking around and go back to patroling
 					this->StartFollow();
+					alertedTimeOnTargetPlace = -1.f;
 				}
 			}
 		}

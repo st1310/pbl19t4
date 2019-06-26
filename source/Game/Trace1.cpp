@@ -17,4 +17,10 @@ namespace Rendering
 	Trace1::~Trace1()
 	{
 	}
+
+	void Trace1::Initialize()
+	{
+		StaticGameObject::Initialize();
+		this->mCollider->setTriggerReaction(PAINT, mPosition, { 22.f, 12.f, 22.f });
+	}
 }

@@ -15,5 +15,7 @@ namespace Rendering
 			XMFLOAT3 startScale = XMFLOAT3(0.2, 0.2, 0.2));
 		~Trace1();
 
+		void Initialize();
+
 	};
 }

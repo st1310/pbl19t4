@@ -181,8 +181,8 @@ namespace Rendering
 								plcMn->SetRunAndCath(true);
 							}
 						}
-						if (!plcMn->IsMovingToCatch())
-						{
+						
+
 							for (Trace1* splash : splashes)
 							{
 								if (plcMn->getCollider()->CheckTriggerCollision(POLICE_DETECTION, splash->getPosition()))
@@ -191,7 +191,7 @@ namespace Rendering
 									plcMn->SetRunAndCath(true);
 								}
 							}
-						}
+
 					}
 					else if (plcMn->IsPaintToDestroy())
 					{
@@ -227,6 +227,8 @@ namespace Rendering
 				trace1->SetVisible(true);
 				mScenes[mCurrentScene]->GameObjects.push_back(trace1);
 				splashes.push_back(trace1);
+				mScenes[mCurrentScene]->AddTriggerableObjectToList(trace1);
+				mScenes[mCurrentScene]->getListOfNode().at(0)->AddTriggerCollider(trace1->getCollider());
 			}
 
 			if (farb->GetdestroyPaintedPosition()) {
@@ -415,10 +417,12 @@ namespace Rendering
 
 		XMVECTOR nearPoint = XMVECTOR({ x, y, 0.f, 1.0f });
 		XMVECTOR TrF = XMVector3Transform(nearPoint, invProjectionView);
+		TrF = XMVector3Normalize(TrF);
 
 		XMVECTOR cameraOrigin = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewMatr), viewMatr).r[3];
+		cameraOrigin = XMVector3Normalize(cameraOrigin);
 		XMVECTOR rayDirection = TrF - cameraOrigin;
-		
+		rayDirection = XMVector3Normalize(rayDirection);
 
 		bool wasSelected = false;
 
