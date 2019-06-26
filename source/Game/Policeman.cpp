@@ -39,6 +39,7 @@ namespace Rendering
 		this->mCollider->setTriggerReaction(POLICE_CATCHING, mPosition, { 8.f, 12.f, 8.f });
 		this->mCollider->setTriggerReaction(POLICE_ALLIES, mPosition, { 15.f, 12.f, 15.f });
 		this->mCollider->setTriggerReaction(POLICE_DETECTION, mPosition, { 22.f, 12.f, 22.f });
+		timeHasBeenSet = false;
 		//patrolPath.clear();
 		//patrolPath.push_back(XMFLOAT2(10.0f, 10.0f));
 	//	this->StartFollow();
@@ -53,25 +54,24 @@ namespace Rendering
 
 		if (mRunAndCatchUnit)
 		{
-			if ((mPosition.x != mTargetPosition.x) && (mPosition.z != mTargetPosition.y))
-			{
-				//set him moving towards mTargetPosition
-				mPointLight->SetColor(Colors::DarkRed - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
-			}
+			
 
-			else if (alerted)
+			 if (alerted)
 			{
-				if (alertedTimeOnTargetPlace = -1.f)
+				if (!timeHasBeenSet)
 				{
 					//start walking/searching around
+					timeHasBeenSet = true;
 					alertedTimeOnTargetPlace = gameTime.TotalGameTime();
 				}
 
-				else if (gameTime.TotalGameTime() - alertedTimeOnTargetPlace >= 15.f)
+				else if (gameTime.TotalGameTime() - alertedTimeOnTargetPlace >= 5.f)
 				{
 					alerted = false;
+					timeHasBeenSet = false;
 					mRunAndCatchUnit = false;
-					alertedTimeOnTargetPlace = -1.f;
+					
+
 					if(mSuspiciousPaint)
 					{
 						mSuspiciousPaint = false;
@@ -79,6 +79,7 @@ namespace Rendering
 					}
 					//Stop walking around and go back to patroling
 					this->StartFollow();
+					alertedTimeOnTargetPlace = -1.f;
 				}
 			}
 		}
@@ -139,8 +140,10 @@ namespace Rendering
 
 		//It sees it's own triggers, so consider it
 		policeNearby = -1;
+		playerNearby = 0;
 		for (TypesTriggerReactions chck : helper)
 		{
+
 			switch (chck)
 			{
 			case Library::POLICE_ALLIES:
@@ -150,15 +153,18 @@ namespace Rendering
 				//If triggered - activate it
 				break;
 			case Library::PLAYER_UNIT:
-				playerNearby++;
-				if ((playerNearby <= (policeNearby + 1) * 2))
-				{
-					alertedTimeOnTargetPlace = -1.f;
+				
+				
+				if (!mRunAndCatchUnit) {
 					alerted = true;
+					alertedTimeOnTargetPlace = -1.f;
 				}
+				
 				break;
+			
+
 			case Library::PAINT:
-				if (!alerted)
+				if (!mRunAndCatchUnit)
 				{
 					alertedTimeOnTargetPlace = -1.f;
 					alerted = true;

@@ -142,66 +142,69 @@ namespace Rendering
 					trainLevel->GetFarbaMan()->SetVisible(true);
 					trainLevel->GetFarbaMan()->SetUnitID(100);
 					trainLevel->GetFarbaMan()->setSelection(false);
-					
+
 					mScenes.at(mCurrentScene)->AddUnitToList(trainLevel->GetFarbaMan());
 					renderGameFarbaManSpawnFlag = true;
-				
+
 				}
 
+			}
+			
+			if (trgObj->GetName() == "Soldier")
+			{
 				GreenSoldier* grnSld = trgObj->As<GreenSoldier>();
-				if (grnSld != nullptr)
+				if(grnSld!=nullptr)
+				if (grnSld->isDestroyingPaint())
 				{
-					if (grnSld->isDestroyingPaint())
+					for (Trace1* splash : splashes)
 					{
-						for (Trace1* splash : splashes)
+						if (grnSld->getCollider()->CheckTriggerCollision(PLAYER_CLEANER, splash->getPosition()))
 						{
-							if (grnSld->getCollider()->CheckTriggerCollision(PLAYER_CLEANER, splash->getPosition()))
-							{
-								splash->SetToDestroy();
-							}
+							splash->SetToDestroy();
 						}
 					}
 				}
-				else
+			}
+			else if (trgObj->GetName() == "Policeman")
+			{
+				Policeman* plcMn = trgObj->As<Policeman>();
+				if (plcMn != nullptr)
 				{
-					Policeman* plcMn = trgObj->As<Policeman>();
-					if (plcMn != nullptr)
+					if (plcMn->IsAlerted() && !plcMn->IsMovingToCatch())
 					{
-						if (plcMn->IsAlerted())
+						for (DrawableGameComponent* gmCmp : mScenes.at(mCurrentScene)->GetUnitList())
 						{
-							for (DrawableGameComponent* gmCmp : mScenes.at(mCurrentScene)->GetUnitList())
+							GreenSoldier* green = gmCmp->As<GreenSoldier>();
+							if (plcMn->getCollider()->CheckTriggerCollision(2, green->getCollider()))
 							{
-								GreenSoldier* green = gmCmp->As<GreenSoldier>();
-								if (plcMn->getCollider()->CheckTriggerCollision(2, green->getCollider()))
+								plcMn->SetTargetPosition(green->getPosition().x, green->getPosition().z);
+								plcMn->SetRunAndCath(true);
+							}
+						}
+						
+
+							for (Trace1* splash : splashes)
+							{
+								if (plcMn->getCollider()->CheckTriggerCollision(POLICE_DETECTION, splash->getPosition()))
 								{
-									plcMn->SetTargetPosition(green->getPosition().x, green->getPosition().z);
+									plcMn->SetTargetPosition(splash->getPosition().x, splash->getPosition().z, true);
 									plcMn->SetRunAndCath(true);
 								}
 							}
-							if (!plcMn->IsMovingToCatch())
-							{
-								for (Trace1* splash : splashes)
-								{
-									if (plcMn->getCollider()->CheckTriggerCollision(POLICE_DETECTION, splash->getPosition()))
-									{
-										plcMn->SetTargetPosition(splash->getPosition().x, splash->getPosition().z, true);
-										plcMn->SetRunAndCath(true);
-									}
-								}
-							}
-						}
-						else if (plcMn->IsPaintToDestroy())
+
+					}
+					else if (plcMn->IsPaintToDestroy())
+					{
+						for (Trace1* splash : splashes)
 						{
-							for (Trace1* splash : splashes)
-							{
-								if ((splash->getPosition().x == plcMn->GetTargetPosition().x) && (splash->getPosition().z == plcMn->GetTargetPosition().y))
-									splash->SetToDestroy();
-							}
+							if ((splash->getPosition().x == plcMn->GetTargetPosition().x) && (splash->getPosition().z == plcMn->GetTargetPosition().y))
+								splash->SetToDestroy();
 						}
 					}
 				}
-			}	
+			}
 		}
+	
 
 
 		if (achiveFarbaMan) {
@@ -224,6 +227,8 @@ namespace Rendering
 				trace1->SetVisible(true);
 				mScenes[mCurrentScene]->GameObjects.push_back(trace1);
 				splashes.push_back(trace1);
+				mScenes[mCurrentScene]->AddTriggerableObjectToList(trace1);
+				mScenes[mCurrentScene]->getListOfNode().at(0)->AddTriggerCollider(trace1->getCollider());
 			}
 
 			if (farb->GetdestroyPaintedPosition()) {
@@ -412,10 +417,12 @@ namespace Rendering
 
 		XMVECTOR nearPoint = XMVECTOR({ x, y, 0.f, 1.0f });
 		XMVECTOR TrF = XMVector3Transform(nearPoint, invProjectionView);
+		TrF = XMVector3Normalize(TrF);
 
 		XMVECTOR cameraOrigin = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewMatr), viewMatr).r[3];
+		cameraOrigin = XMVector3Normalize(cameraOrigin);
 		XMVECTOR rayDirection = TrF - cameraOrigin;
-		
+		rayDirection = XMVector3Normalize(rayDirection);
 
 		bool wasSelected = false;
 
