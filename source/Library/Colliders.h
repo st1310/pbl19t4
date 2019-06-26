@@ -47,6 +47,7 @@ namespace Library
 		bool CheckTriggerCollision(TypesTriggerReactions requiredReaction, XMFLOAT3 position);
 
 		bool CheckColliderIntersecteByRay(XMVECTOR origin, XMVECTOR direct, float distance);
+		bool CheckColliderIntersecteByRay(XMVECTOR rayDirection);
 		bool CheckColliderIntersectsByPlanes(XMVECTOR ray1, XMVECTOR ray2, XMVECTOR camPos, XMVECTOR camDir);
 
 		std::vector<BoundingBox*> GetBoundingBox();

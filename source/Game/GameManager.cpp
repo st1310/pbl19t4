@@ -403,16 +403,19 @@ namespace Rendering
 	void GameManager::SelectingUnits(float mouseX, float mouseY)
 	{
 		unitID = -1;
-
+		XMMATRIX viewMatr = camera->ViewMatrix();
 		XMMATRIX viewProj = camera->ViewProjectionMatrix();
 		XMMATRIX invProjectionView = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewProj), viewProj);
 
 		float x = (((2.0f * mouseX) / (float)game->ScreenWidth()) - 1.0f);
-		float y = (((2.0f * mouseY) / (float)game->ScreenHeight()) - 1.0f) * (-1.0f);
+		float y = (1.0f - ((2.0f * mouseY) / (float)game->ScreenHeight()));
 
-		XMVECTOR farPoint = XMVECTOR({ x, y, 1.0f, 0.0f });
-		XMVECTOR TrF = XMVector3Transform(farPoint, invProjectionView);
-		TrF = XMVector3Normalize(TrF);
+		XMVECTOR nearPoint = XMVECTOR({ x, y, 0.f, 1.0f });
+		XMVECTOR TrF = XMVector3Transform(nearPoint, invProjectionView);
+
+		XMVECTOR cameraOrigin = DirectX::XMMatrixInverse(&DirectX::XMMatrixDeterminant(viewMatr), viewMatr).r[3];
+		XMVECTOR rayDirection = TrF - cameraOrigin;
+		
 
 		bool wasSelected = false;
 
@@ -421,7 +424,7 @@ namespace Rendering
 		{
 			GreenSoldier* greenSold = gmCm->As<GreenSoldier>();
 
-			if (greenSold->getCollider()->CheckColliderIntersecteByRay(camera->PositionVector(), TrF, camera->FarPlaneDistance()) && (!wasSelected))
+			if (greenSold->getCollider()->CheckColliderIntersecteByRay(rayDirection) && (!wasSelected))
 			{
 				greenSold->setSelection(true);
 				greenSold->setIsSelected(true);

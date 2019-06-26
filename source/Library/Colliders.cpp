@@ -318,6 +318,32 @@ namespace Library
 		return false;
 	}
 
+	bool Colliders::CheckColliderIntersecteByRay(XMVECTOR rayDirection)
+	{
+		for (BoundingBox* bbox : BoundingBoxes)
+		{
+			if (bbox->Intersects(rayDirection))
+				return true;
+		}
+		if (!OrrBoundingBox.empty())
+		{
+			for (BoundingOrientedBox* obbox : OrrBoundingBox)
+			{
+				if (obbox->Intersects(rayDirection))
+					return true;
+			}
+		}
+		if (!BoundingSpheres.empty())
+		{
+			for (BoundingSphere* bbsph : BoundingSpheres)
+			{
+				if (bbsph->Intersects(rayDirection))
+					return true;
+			}
+		}
+		return false;
+	}
+
 	bool Colliders::CheckColliderIntersectsByPlanes(XMVECTOR ray1, XMVECTOR ray2, XMVECTOR camPos, XMVECTOR camDir)
 	{
 		std::vector<XMVECTOR> planes;
