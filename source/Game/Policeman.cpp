@@ -1,6 +1,5 @@
 #include "Policeman.h"
 #include "PointLight.h"
-#include "SpotLight.h"
 #include "AssetList.h"
 
 namespace Rendering
@@ -19,6 +18,7 @@ namespace Rendering
 		mRotationSpeed = 3;
 		mTranslationSpeed = 0.25;
 
+		mPointLight = new PointLight(game);
 		mPointLight->SetColor(Colors::Red - SimpleMath::Vector3(0.0f, 0.0f, 0.2f));
 		mPointLight->SetRadius(30.0f);
 	}
@@ -45,6 +45,9 @@ namespace Rendering
 	void Policeman::Update(const GameTime& gameTime)
 	{
 		AnimatedGameObject::Update(gameTime);
+
+		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x + 10, mPosition.y + 5, mPosition.z - 10);
+		mPointLight->SetPosition(pointLightPosition);
 
 		if (mRunAndCatchUnit)
 		{

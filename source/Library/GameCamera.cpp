@@ -296,15 +296,16 @@ namespace Library
 			}
 		}
 
-		if (moved || !firstTime)
+		if (mKeyboard->IsKeyDown(DIK_S))
 		{
-			// 0 - right; 1 -left; 2 - up; 3 - down; 4 - near; 5 - far 
-			std::vector<XMVECTOR> planes;
-			XMVECTOR dirHelp = XMVECTOR();
-
-			//Try to "smooth" border values
-			dirHelp.m128_f32[0] = mDirection.x > 0.f ? (mDirection.x < 0.08f ? 0.08f : mDirection.x < 0.984f ? mDirection.x : 0.984f)
-				: (mDirection.x > -0.08f ? -0.08f : mDirection.x > -0.9f ? mDirection.x : -0.9f);
+			XMFLOAT3 cameraPositon = Position();
+			if (cameraPositon.z < mMaximalPointAtMap.y)
+			{
+				cameraPositon.z += mMoveCameraFactor;
+				SetPosition(cameraPositon);
+				moved = true;
+			}
+		}
 
 		if (mKeyboard->IsKeyDown(DIK_A))
 		{
@@ -328,24 +329,25 @@ namespace Library
 			}
 		}
 
-			//right slope
-			planes.push_back(XMVectorSet(1.0f, 0.f, -(mPosition.x + 100.f), 0.f));
-			planes[0] = DirectX::Internal::XMPlaneTransform(planes[0], dirHelp, position);
-			planes[0] = XMPlaneNormalize(planes[0]);
+		return moved;
+	}
+	bool GameCamera::UpdateCameraZoomByMouse()
+	{
+		bool moved = false;
 
-			//left slope
-			planes.push_back(XMVectorSet(-1.0f, 0.f, (mPosition.x - 100.f), 0.f));
-			planes[1] = DirectX::Internal::XMPlaneTransform(planes[1], dirHelp, position);
-			planes[1] = XMPlaneNormalize(planes[1]);
+		if (mMouse->WasButtonPressedThisFrame(MouseButtonsMiddle))
+		{
+			// reset Y Position
+			XMFLOAT3 cameraPositon = Position();
+			mCurrentYPosition = mStartYPosition;
+			cameraPositon.y = mCurrentYPosition;
+			SetPosition(cameraPositon);
+			moved = true;
+		}
 
-			//upper slope
-			planes.push_back(XMVectorSet(0.0f, 1.f, -(mPosition.y + 100.f), 0.f));
-			planes[2] = DirectX::Internal::XMPlaneTransform(planes[2], dirHelp, position);
-			planes[2] = XMPlaneNormalize(planes[2]);
-			//lower slope
-			planes.push_back(XMVectorSet(0.0f, -1.f, (mPosition.y - 100.f), 0.f));
-			planes[3] = DirectX::Internal::XMPlaneTransform(planes[3], dirHelp, position);
-			planes[3] = XMPlaneNormalize(planes[3]);
+		if (mMouse->Wheel() > mLastWheelPosition)
+		{
+			XMFLOAT3 cameraPositon = Position();
 
 			if (mCurrentYPosition > mMinYPosition)
 			{

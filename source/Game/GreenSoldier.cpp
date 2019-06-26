@@ -21,6 +21,7 @@ namespace Rendering
 		mIsSelectedDiffuseMap = "Content\\Textures\\SoldierSelectedDiffuseMap.jpg";
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
 
+		mPointLight = new PointLight(game);
 		mPointLight->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
 		mPointLight->SetRadius(30.0f);
 
@@ -42,6 +43,9 @@ namespace Rendering
 	void GreenSoldier::Update(const GameTime& gameTime)
 	{
 		AnimatedGameObject::Update(gameTime);
+
+		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x + 10, mPosition.y + 5, mPosition.z - 10);
+		mPointLight->SetPosition(pointLightPosition);
 
 		if (this->getPosition().x > -102.0f && this->getPosition().x <-44.0f &&  this->getPosition().z > -25.0f && this->getPosition().z<23.0f) {
 			achiveFarbaManPoint = true;//zespawnuj farbamana!!!

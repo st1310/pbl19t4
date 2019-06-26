@@ -36,8 +36,6 @@ namespace Rendering
 	{		
 		mAnimations = std::map<std::string, int>();
 		mAnimationSequence = new AnimationSequence("Idle");
-
-		mPointLight = new PointLight(game);
 	}
 
 	AnimatedGameObject::~AnimatedGameObject()
@@ -131,15 +129,13 @@ namespace Rendering
 	{
 		UpdateOptions();
 
-		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x, mPosition.y + 5, mPosition.z - 10);
-		mPointLight->SetPosition(pointLightPosition);
-
 		if (mState->IsInActiveState())
 		{
 			Move();
 			mAnimationPlayer->Update(gameTime);
 		}
-		if (!mState->IsInActiveState() && mIsBusy == true && this->getIsSelected()==false)
+
+		if (!mState->IsInActiveState() && mIsBusy && !getIsSelected())
 		{
 			mIsBusy = false;
 			std::string modelName = "Content\\Textures\\" + (std::string)mClassName + "DiffuseMap.jpg";
@@ -147,7 +143,7 @@ namespace Rendering
 			ChangeTexture(modelName);
 		}
 
-		if (!mState->IsInActiveState() && mIsBusy == true && this->getIsSelected() == true)
+		if (!mState->IsInActiveState() && mIsBusy && !getIsSelected())
 		{
 			mIsBusy = false;
 			mAnimationSequence->EndLoop();
