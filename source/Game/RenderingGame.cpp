@@ -231,8 +231,26 @@ namespace Rendering
 		std::wostringstream mTacticalButton2NOtexture;
 		mTacticalButton2NOtexture << L"content\\Textures\\TacticalButton2NO.png";
 
+		std::wostringstream mTacticalButton2YEStexture;
+		mTacticalButton2YEStexture << L"content\\Textures\\TacticalButton2YES.png";
+
+		std::wostringstream mTacticalButton2MAYBEtexture;
+		mTacticalButton2MAYBEtexture << L"content\\Textures\\TacticalButton2MAYBE.png";
+
+		std::wostringstream mTacticalButton2CLICKEDtexture;
+		mTacticalButton2CLICKEDtexture << L"content\\Textures\\TacticalButton2CLICKED.png";
+
 		std::wostringstream mTacticalButton3NOtexture;
 		mTacticalButton3NOtexture << L"content\\Textures\\TacticalButton3NO.png";
+
+		std::wostringstream mTacticalButton3YEStexture;
+		mTacticalButton3YEStexture << L"content\\Textures\\TacticalButton3YES.png";
+
+		std::wostringstream mTacticalButton3MAYBEtexture;
+		mTacticalButton3MAYBEtexture << L"content\\Textures\\TacticalButton3MAYBE.png";
+
+		std::wostringstream mTacticalButton3CLICKEDtexture;
+		mTacticalButton3CLICKEDtexture << L"content\\Textures\\TacticalButton3CLICKED.png";
 
 		std::wostringstream mStartButtonNOtexture;
 		mStartButtonNOtexture << L"content\\Textures\\StartButtonNO.png";
@@ -361,7 +379,12 @@ namespace Rendering
 		HRESULT hr64 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), textureOptionActionsBanner1.str().c_str(), nullptr, &mOptionActionsBanner1);
 		HRESULT hr65 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolModeBannerSoldiertexture.str().c_str(), nullptr, &mPatrolModeBannerSoldier);
 		HRESULT hr66 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mPatrolModeBannerPainttexture.str().c_str(), nullptr, &mPatrolModeBannerPaint);
-
+		HRESULT hr67 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton2YEStexture.str().c_str(), nullptr, &mTacticalButton2YES);
+		HRESULT hr68 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton2MAYBEtexture.str().c_str(), nullptr, &mTacticalButton2MAYBE);
+		HRESULT hr69 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton2CLICKEDtexture.str().c_str(), nullptr, &mTacticalButton2CLICKED);
+		HRESULT hr70 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton3CLICKEDtexture.str().c_str(), nullptr, &mTacticalButton3CLICKED);
+		HRESULT hr71 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton3MAYBEtexture.str().c_str(), nullptr, &mTacticalButton3MAYBE);
+		HRESULT hr72 = DirectX::CreateWICTextureFromFile(this->Direct3DDevice(), this->Direct3DDeviceContext(), mTacticalButton3YEStexture.str().c_str(), nullptr, &mTacticalButton3YES);
 
 		if (FAILED(hr))
 			throw GameException("CreateWICTextureFromFile1() failed.", hr);
@@ -466,6 +489,18 @@ namespace Rendering
 			throw GameException("CreateWICTextureFromFile65() failed.", hr65);
 		if (FAILED(hr66))
 			throw GameException("CreateWICTextureFromFile66() failed.", hr66);
+		if (FAILED(hr67))
+			throw GameException("CreateWICTextureFromFile67() failed.", hr67);
+		if (FAILED(hr68))
+			throw GameException("CreateWICTextureFromFile68() failed.", hr68);
+		if (FAILED(hr69))
+			throw GameException("CreateWICTextureFromFile69() failed.", hr69);
+		if (FAILED(hr70))
+			throw GameException("CreateWICTextureFromFile70() failed.", hr70);
+		if (FAILED(hr71))
+			throw GameException("CreateWICTextureFromFile71() failed.", hr71);
+		if (FAILED(hr72))
+			throw GameException("CreateWICTextureFromFile72() failed.", hr72);
 
 		Game::Initialize();
 	}
@@ -798,12 +833,37 @@ namespace Rendering
 
 			if (showMapVal) {
 				mSpriteBatch->Draw(mTacticalButton2NO, SimpleMath::Rectangle(60.0f, 300.0f, 80.0f, 80.0f));
+
+				if (mMouse->X() > 60.0f && mMouse->X() < 130.0f  && mMouse->Y() > 305.0f  && mMouse->Y() < 370.0f) {
+					mSpriteBatch->Draw(mTacticalButton2CLICKED, SimpleMath::Rectangle(60.0f, 300.0f, 80.0f, 80.0f));
+					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+						mSpriteBatch->Draw(mTacticalButton2MAYBE, SimpleMath::Rectangle(60.0f, 300.0f, 80.0f, 80.0f));
+						whichTacticalMapButtonIsClicking = 2;
+					}
+				}
+
 				mSpriteBatch->Draw(mTacticalButton3NO, SimpleMath::Rectangle(400.0f, 40.0f, 80.0f, 80.0f));
+				if (mMouse->X() > 400.0f && mMouse->X() < 470.0f  && mMouse->Y() > 50.0f  && mMouse->Y() < 110.0f) {
+					mSpriteBatch->Draw(mTacticalButton3CLICKED, SimpleMath::Rectangle(400.0f, 40.0f, 80.0f, 80.0f));
+					if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
+						mSpriteBatch->Draw(mTacticalButton3MAYBE, SimpleMath::Rectangle(400.0f, 40.0f, 80.0f, 80.0f));
+						whichTacticalMapButtonIsClicking = 3;
+					}
+				}
+				
 			}
 			
 
-			if (whichTacticalMapButtonIsClicking == 1 && showMapVal) {
-				mSpriteBatch->Draw(mTacticalButton1YES, SimpleMath::Rectangle(500.0f, 650.0f, 80.0f, 80.0f));
+			if ((whichTacticalMapButtonIsClicking == 1  || whichTacticalMapButtonIsClicking == 2 || whichTacticalMapButtonIsClicking == 3) && showMapVal) {
+				if(whichTacticalMapButtonIsClicking == 1)
+					mSpriteBatch->Draw(mTacticalButton1YES, SimpleMath::Rectangle(500.0f, 650.0f, 80.0f, 80.0f));
+
+				if (whichTacticalMapButtonIsClicking == 2)
+					mSpriteBatch->Draw(mTacticalButton2YES, SimpleMath::Rectangle(60.0f, 300.0f, 80.0f, 80.0f));
+
+				if (whichTacticalMapButtonIsClicking == 3)
+					mSpriteBatch->Draw(mTacticalButton3YES, SimpleMath::Rectangle(400.0f, 40.0f, 80.0f, 80.0f));
+
 				mSpriteBatch->Draw(mStartButtonNO, SimpleMath::Rectangle(700.0f, 640.0f, 300.0f, 100.0f));
 				if (mMouse->X() > 700.0f && mMouse->X() < 1000.0f  && mMouse->Y() > 645.0f  && mMouse->Y() < 725.0f) {
 					mSpriteBatch->Draw(mStartButtonMAYBE, SimpleMath::Rectangle(700.0f, 640.0f, 300.0f, 100.0f));
@@ -1017,13 +1077,22 @@ namespace Rendering
 
 					if (mMouse->X() > 870.0f && mMouse->X() < 970.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 780.0f) {
 						mSpriteBatch->Draw(mHideIconMAYBE, SimpleMath::Rectangle(870.0f, 680.0f, 100.0f, 100.0f));
-						if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-							mSpriteBatch->Draw(mHideIconCLICKED, SimpleMath::Rectangle(870.0f, 680.0f, 100.0f, 100.0f));
+						if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
+							if (!hideMode) {
+								hideMode = true;
+							}
+							else {
+								hideMode = false;
+							}
 						}
 					}
 
 					else
 						mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(870.0f, 680.0f, 100.0f, 100.0f));
+
+					if (hideMode) {
+						mSpriteBatch->Draw(mHideIconCLICKED, SimpleMath::Rectangle(870.0f, 680.0f, 100.0f, 100.0f));
+					}
 				}
 			}
 
@@ -1156,13 +1225,22 @@ namespace Rendering
 
 						if (mMouse->X() > 870.0f && mMouse->X() < 970.0f  && mMouse->Y() > 680.0f  && mMouse->Y() < 780.0f) {
 							mSpriteBatch->Draw(mHideIconMAYBE, SimpleMath::Rectangle(870.0f, 680.0f, 100.0f, 100.0f));
-							if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-								mSpriteBatch->Draw(mHideIconCLICKED, SimpleMath::Rectangle(870.0f, 680.0f, 100.0f, 100.0f));
+							if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
+								if (!hideMode) {
+									hideMode = true;
+								}
+								else {
+									hideMode = false;
+								}
 							}
 						}
 
 						else
 							mSpriteBatch->Draw(mHideIconYES, SimpleMath::Rectangle(870.0f, 680.0f, 100.0f, 100.0f));
+
+						if (hideMode) {
+							mSpriteBatch->Draw(mHideIconCLICKED, SimpleMath::Rectangle(870.0f, 680.0f, 100.0f, 100.0f));
+						}
 
 					}
 

@@ -133,7 +133,14 @@ namespace Rendering
 		ID3D11ShaderResourceView* mTacticalButton1CLICKED;
 
 		ID3D11ShaderResourceView* mTacticalButton2NO;
+		ID3D11ShaderResourceView* mTacticalButton2MAYBE;
+		ID3D11ShaderResourceView* mTacticalButton2YES;
+		ID3D11ShaderResourceView* mTacticalButton2CLICKED;
+
 		ID3D11ShaderResourceView* mTacticalButton3NO;
+		ID3D11ShaderResourceView* mTacticalButton3MAYBE;
+		ID3D11ShaderResourceView* mTacticalButton3YES;
+		ID3D11ShaderResourceView* mTacticalButton3CLICKED;
 
 		ID3D11ShaderResourceView* mStartButtonNO;
 		ID3D11ShaderResourceView* mStartButtonMAYBE;
@@ -188,6 +195,7 @@ namespace Rendering
 		
 
 		bool patrolMode = false;
+		bool hideMode = false;
 		bool paintMode = false;
 		bool paintMode1flag = true;
 
