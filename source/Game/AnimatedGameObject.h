@@ -43,7 +43,7 @@ namespace Rendering
 		virtual void SetAnimations();
 		void ChangeAnimation(std::string animationName);
 
-		void StartMoving(std::vector<XMFLOAT2> positions, bool isLoopable);
+		void StartMoving(std::vector<XMFLOAT2> positions, bool isLoopable = false);
 
 		void RunInit();
 		void PatrolInit();

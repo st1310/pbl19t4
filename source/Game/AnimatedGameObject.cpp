@@ -339,8 +339,5 @@ namespace Rendering
 	void AnimatedGameObject::StartMoving(std::vector<XMFLOAT2> positions, bool isLoopable)
 	{
 		GameObject::StartMoving(positions, isLoopable);
-
-		mIsHidden = false;
-		GetPointLight()->SetRadius(30.0f);
 	}
 }
