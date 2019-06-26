@@ -260,11 +260,11 @@ namespace Library
 		return false;
 	}
 
-	bool Colliders::CheckTriggerCollisionPaintingPosition(XMFLOAT3 position)
+	bool Colliders::CheckTriggerCollision(TypesTriggerReactions requiredReaction, XMFLOAT3 position)
 	{
 		for (int i = 0; i < TriggerBoxes.size(); i++)
 		{
-			if ((TriggerBoxes[i].second->Intersects(XMLoadFloat3(&position)) != DISJOINT) && (TriggerBoxes[i].first == PAINTING_POSITION))
+			if ((TriggerBoxes[i].second->Intersects(XMLoadFloat3(&position)) != DISJOINT) && (TriggerBoxes[i].first == requiredReaction))
 			{
 				return true;
 			}

@@ -50,6 +50,11 @@ namespace Rendering
 		inNode = nullptr;
 	}
 
+	void GameObject::SetToDestroy()
+	{
+		mustBeDestroyed = true;
+	}
+
 	bool GameObject::IsMustBeDestroyed()
 	{
 		return mustBeDestroyed;

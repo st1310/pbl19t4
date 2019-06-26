@@ -18,6 +18,8 @@ namespace Rendering
 		SetAnimations();
 		mRotationSpeed = 3;
 		mTranslationSpeed = 0.25;
+		mSuspiciousPaint = false;
+		mSuspiciousPaintToDestroy = false;
 
 		mSpotLight = new SpotLight(game);
 		mPointLight = new PointLight(game);
@@ -68,10 +70,19 @@ namespace Rendering
 					alerted = false;
 					mRunAndCatchUnit = false;
 					alertedTimeOnTargetPlace = -1.f;
+					if(mSuspiciousPaint)
+					{
+						mSuspiciousPaint = false;
+						mSuspiciousPaintToDestroy = true;
+					}
 					//Stop walking around and go back to patroling
 					this->StartFollow();
 				}
 			}
+		}
+		else
+		{
+			mSuspiciousPaintToDestroy = false;
 		}
 	}
 
@@ -186,14 +197,34 @@ namespace Rendering
 		return alerted;
 	}
 
+	bool Policeman::IsMovingToCatch()
+	{
+		return mRunAndCatchUnit;
+	}
+
 	void Policeman::SetRunAndCath(bool value)
 	{
 		mRunAndCatchUnit = value;
 	}
 
-	void Policeman::SetTargetPosition(float posX, float posZ)
+	void Policeman::SetTargetPosition(float posX, float posZ, bool isPaint)
 	{
 		mTargetPosition.x = posX;
 		mTargetPosition.y = posZ;
+		if (isPaint)
+		{
+			mSuspiciousPaint = true;
+		}
+		else mSuspiciousPaint = false;
+	}
+
+	bool Policeman::IsPaintToDestroy()
+	{
+		return mSuspiciousPaintToDestroy;
+	}
+
+	XMFLOAT2 Policeman::GetTargetPosition()
+	{
+		return mTargetPosition;
 	}
 }

@@ -65,6 +65,7 @@ namespace Rendering
 			XMFLOAT3 startPosition, XMFLOAT3 startRotation, XMFLOAT3 startScale);
 		~GameObject();
 
+		void SetToDestroy();
 		bool IsMustBeDestroyed();
 
 		virtual void Initialize() override;

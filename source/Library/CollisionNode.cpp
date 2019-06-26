@@ -179,7 +179,7 @@ namespace Library
 	{
 		for (Colliders* cld : mTriggers)
 		{
-			if (cld->CheckTriggerCollisionPaintingPosition(positionOfPainter))
+			if (cld->CheckTriggerCollision(PAINTING_POSITION, positionOfPainter))
 			{
 				RemoveTriggerCollider(cld);
 			}

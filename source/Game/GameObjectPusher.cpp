@@ -451,6 +451,7 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
+				trace1->SetModel(mModList->FindModel("Trace1"));
 				trace1->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(trace1);
 			}
@@ -462,6 +463,7 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
+				trace2->SetModel(mModList->FindModel("Trace2"));
 				trace2->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(trace2);
 			}
@@ -473,6 +475,7 @@ namespace Rendering
 					gameObjects.at(i).GetRotation(),
 					gameObjects.at(i).GetScale());
 
+				trace3->SetModel(mModList->FindModel("Trace3"));
 				trace3->SetNode(NodeList::MovedToNode(gameObjects.at(i).GetPosition(), listNode));
 				assets.push_back(trace3);
 			}

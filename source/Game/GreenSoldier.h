@@ -30,11 +30,17 @@ namespace Rendering
 		PointLight* GetPointLight();
 		SpotLight* GetSpotLight();
 
+		void SetToClean();
+		bool isDestroyingPaint();
 	private:
 		bool isSelected = false;
 		PointLight* mPointLight;
 		SpotLight* mSpotLight;
 		bool achiveFarbaManPoint = false;
 		bool footprintsInAreaFlag = false;
+
+		bool mCleaning;
+		float mCleaningTime = -1.f;
+		bool mDestroyPaint;
 	};
 }
