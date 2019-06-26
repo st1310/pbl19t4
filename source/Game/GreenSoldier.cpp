@@ -17,10 +17,10 @@ namespace Rendering
 	{
 		mRotationSpeed = 3;
 		mTranslationSpeed = 0.15;
-
 		mIsSelectedDiffuseMap = "Content\\Textures\\SoldierSelectedDiffuseMap.jpg";
 		mIsBusyDiffuseMap = "Content\\Textures\\SoldierBusyDiffuseMap.jpg";
 
+		mDestroyPaint = false;
 		mPointLight = new PointLight(game);
 		mPointLight->SetColor(Colors::Green - SimpleMath::Vector3(0.0f, 0.0f, 0.1f));
 		mPointLight->SetRadius(30.0f);
@@ -38,11 +38,26 @@ namespace Rendering
 		AnimatedGameObject::Initialize();
 		AnimatedGameObject::BuildSphere(4.5f);
 		this->mCollider->setTriggerReaction(PLAYER_UNIT, mPosition, { 22.f, 12.f, 22.f });
+		this->mCollider->setTriggerReaction(PLAYER_CLEANER, mPosition, { 10.f, 12.f, 10.f });
 	}
 
 	void GreenSoldier::Update(const GameTime& gameTime)
 	{
 		AnimatedGameObject::Update(gameTime);
+
+		if (mCleaning)
+		{
+			if (mCleaningTime = -1.f)
+			{
+				mCleaningTime = gameTime.TotalGameTime();
+			}
+			else if (gameTime.TotalGameTime() - mCleaningTime >= 10.f)
+			{
+				mDestroyPaint = true;
+				mCleaningTime = -1.f;
+				mCleaning = false;
+			}
+		}
 
 		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x + 10, mPosition.y + 5, mPosition.z - 10);
 		mPointLight->SetPosition(pointLightPosition);
@@ -84,6 +99,7 @@ namespace Rendering
 		if (helper.empty())
 			return;
 
+		footprintsInAreaFlag = false;
 		for (TypesTriggerReactions chck : helper)
 		{
 			switch (chck)
@@ -95,10 +111,7 @@ namespace Rendering
 				break;
 
 			case Library::PAINT:
-				//It'll be sent to Paint object 
-				break;
-			case Library::PAINTING_POSITION:
-			
+				footprintsInAreaFlag = true;
 				break;
 			default:
 				break;
@@ -114,6 +127,16 @@ namespace Rendering
 		mAnimations.insert(std::pair<std::string, int>("StopRunning", 3));
 	}
 
+	PointLight* GreenSoldier::GetPointLight()
+	{
+		return mPointLight;
+	}
+
+	SpotLight* GreenSoldier::GetSpotLight()
+	{
+		return mSpotLight;
+	}
+
 	bool GreenSoldier::getArchiveFarbaManPoint() {
 		return achiveFarbaManPoint;
 	}
@@ -125,6 +148,16 @@ namespace Rendering
 
 	void GreenSoldier::SetfootprintsInAreaFlag(bool value) {
 		footprintsInAreaFlag = value;
+	}
+
+	bool GreenSoldier::isDestroyingPaint()
+	{
+		return mDestroyPaint;
+	}
+
+	void GreenSoldier::SetToClean()
+	{
+		mCleaning = true;
 	}
 }
 

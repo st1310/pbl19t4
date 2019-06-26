@@ -43,6 +43,7 @@ namespace Rendering
 
 			void SelectingUnits(float mouseX, float mouseY);
 			void SelectingUnits(float mouse1X, float mouse1Y, float mouse2X, float mouse2Y);
+			void ClearSplash(GameObject* gmObj);
 			void ClearSplashes();
 
 

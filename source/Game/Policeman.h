@@ -31,8 +31,11 @@ namespace Rendering
 		SpotLight* GetSpotLight();
 
 		bool IsAlerted();
+		bool IsMovingToCatch();
 		void SetRunAndCath(bool value);
-		void SetTargetPosition(float x, float z);
+		void SetTargetPosition(float x, float z, bool isPaint = false);
+		bool IsPaintToDestroy();
+		XMFLOAT2 GetTargetPosition();
 	private:
 		int policeNearby;
 		int playerNearby;
@@ -40,6 +43,9 @@ namespace Rendering
 		PointLight* mPointLight;
 		SpotLight* mSpotLight;
 		bool mRunAndCatchUnit = false;
+
+		bool mSuspiciousPaint;
+		bool mSuspiciousPaintToDestroy;
 		//Saw unit, decides where to run to catch
 		XMFLOAT2 mTargetPosition;
 		bool alerted = false;

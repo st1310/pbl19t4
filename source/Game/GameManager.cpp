@@ -122,6 +122,7 @@ namespace Rendering
 				//If it isn't soldier - it won't make exceptions
 				mScenes[mCurrentScene]->RemoveUnitFromList(trgObj);
 				mScenes[mCurrentScene]->RemoveTriggerableObjectFromList(trgObj);
+				ClearSplash(trgObj);
 				remCmp->~GameComponent();
 			}
 
@@ -147,22 +148,56 @@ namespace Rendering
 				
 				}
 
-				Policeman* plcMn = trgObj->As<Policeman>();
-				if (plcMn != nullptr)
+				GreenSoldier* grnSld = trgObj->As<GreenSoldier>();
+				if (grnSld != nullptr)
 				{
-					if (plcMn->IsAlerted())
+					if (grnSld->isDestroyingPaint())
 					{
-						for (DrawableGameComponent* gmCmp : mScenes.at(mCurrentScene)->GetUnitList())
+						for (Trace1* splash : splashes)
 						{
-							GreenSoldier* green = gmCmp->As<GreenSoldier>();
-							XMFLOAT3 targetPosition = XMFLOAT3(0, 0, 0);
-							if (plcMn->getCollider()->CheckTriggerCollision(2, green->getCollider()))
+							if (grnSld->getCollider()->CheckTriggerCollision(PLAYER_CLEANER, splash->getPosition()))
 							{
-								plcMn->SetTargetPosition(green->getPosition().x, green->getPosition().z);
-								plcMn->SetRunAndCath(true);
+								splash->SetToDestroy();
 							}
 						}
-						
+					}
+				}
+				else
+				{
+					Policeman* plcMn = trgObj->As<Policeman>();
+					if (plcMn != nullptr)
+					{
+						if (plcMn->IsAlerted())
+						{
+							for (DrawableGameComponent* gmCmp : mScenes.at(mCurrentScene)->GetUnitList())
+							{
+								GreenSoldier* green = gmCmp->As<GreenSoldier>();
+								if (plcMn->getCollider()->CheckTriggerCollision(2, green->getCollider()))
+								{
+									plcMn->SetTargetPosition(green->getPosition().x, green->getPosition().z);
+									plcMn->SetRunAndCath(true);
+								}
+							}
+							if (!plcMn->IsMovingToCatch())
+							{
+								for (Trace1* splash : splashes)
+								{
+									if (plcMn->getCollider()->CheckTriggerCollision(POLICE_DETECTION, splash->getPosition()))
+									{
+										plcMn->SetTargetPosition(splash->getPosition().x, splash->getPosition().z, true);
+										plcMn->SetRunAndCath(true);
+									}
+								}
+							}
+						}
+						else if (plcMn->IsPaintToDestroy())
+						{
+							for (Trace1* splash : splashes)
+							{
+								if ((splash->getPosition().x == plcMn->GetTargetPosition().x) && (splash->getPosition().z == plcMn->GetTargetPosition().y))
+									splash->SetToDestroy();
+							}
+						}
 					}
 				}
 			}	
@@ -476,6 +511,19 @@ namespace Rendering
 	
 	bool GameManager::GetrenderGameFarbaManSpawnFlag() {
 		return renderGameFarbaManSpawnFlag;
+	}
+
+	void GameManager::ClearSplash(GameObject* gmObj)
+	{
+		Trace1* trc = gmObj->As<Trace1>();
+
+		if (trc == nullptr)
+			return;
+
+		auto itrRemSpl = std::find(splashes.begin(), splashes.end(), trc);
+
+		if (itrRemSpl != splashes.end())
+			splashes.erase(itrRemSpl);
 	}
 
 	void GameManager::ClearSplashes() {

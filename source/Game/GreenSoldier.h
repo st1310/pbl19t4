@@ -27,9 +27,20 @@ namespace Rendering
 		void SetfootprintsInAreaFlag(bool value);
 		bool GetfootprintsInAreaFlag();
 
+		PointLight* GetPointLight();
+		SpotLight* GetSpotLight();
+
+		void SetToClean();
+		bool isDestroyingPaint();
 	private:
 		bool isSelected = false;
 		bool achiveFarbaManPoint = false;
 		bool footprintsInAreaFlag = false;
+		PointLight* mPointLight;
+		SpotLight* mSpotLight;
+
+		bool mCleaning;
+		float mCleaningTime = -1.f;
+		bool mDestroyPaint;
 	};
 }

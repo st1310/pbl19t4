@@ -44,7 +44,7 @@ namespace Library
 
 		bool CheckCollision(std::vector<Colliders*>& CollidableObjects);
 		bool CheckTriggerCollision(int idOfTrigger, Colliders* TriggerCollider);
-		bool CheckTriggerCollisionPaintingPosition(XMFLOAT3 position);
+		bool CheckTriggerCollision(TypesTriggerReactions requiredReaction, XMFLOAT3 position);
 
 		bool CheckColliderIntersecteByRay(XMVECTOR origin, XMVECTOR direct, float distance);
 		bool CheckColliderIntersectsByPlanes(XMVECTOR ray1, XMVECTOR ray2, XMVECTOR camPos, XMVECTOR camDir);

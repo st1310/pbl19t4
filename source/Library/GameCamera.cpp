@@ -140,6 +140,9 @@ namespace Library
 
 		if (moved || !firstTime)
 		{
+			float extenderX = mGame->ScreenWidth() * (mPosition.y / mMaxYPosition);
+			float extenderY = mGame->ScreenHeight() * (mPosition.y / mMaxYPosition);
+			float extenderZ = mPosition.z + 200.f * (mPosition.y / mMaxYPosition);
 			// 0 - right; 1 -left; 2 - up; 3 - down; 4 - near; 5 - far 
 			std::vector<XMVECTOR> planes;
 			XMVECTOR dirHelp = XMVECTOR();
@@ -155,34 +158,34 @@ namespace Library
 				: (mDirection.z > -0.08f ? -0.08f : mDirection.z > -0.984f ? mDirection.z : -0.984f);
 
 			//right slope
-			planes.push_back(XMVectorSet(1.0f, 0.f, -(mPosition.x + 100.f), 0.f));
+			planes.push_back(XMVectorSet(1.0f, 0.f, -(mPosition.x + extenderX), 0.f));
 			planes[0] = DirectX::Internal::XMPlaneTransform(planes[0], dirHelp, position);
 			planes[0] = XMPlaneNormalize(planes[0]);
 
 			//left slope
-			planes.push_back(XMVectorSet(-1.0f, 0.f, (mPosition.x - 100.f), 0.f));
+			planes.push_back(XMVectorSet(-1.0f, 0.f, (mPosition.x - extenderX), 0.f));
 			planes[1] = DirectX::Internal::XMPlaneTransform(planes[1], dirHelp, position);
 			planes[1] = XMPlaneNormalize(planes[1]);
 
 			//upper slope
-			planes.push_back(XMVectorSet(0.0f, 1.f, -(mPosition.y + 100.f), 0.f));
+			planes.push_back(XMVectorSet(0.0f, 1.f, -(mPosition.y + extenderY), 0.f));
 			planes[2] = DirectX::Internal::XMPlaneTransform(planes[2], dirHelp, position);
 			planes[2] = XMPlaneNormalize(planes[2]);
 			//lower slope
-			planes.push_back(XMVectorSet(0.0f, -1.f, (mPosition.y - 100.f), 0.f));
+			planes.push_back(XMVectorSet(0.0f, -1.f, (mPosition.y - extenderY), 0.f));
 			planes[3] = DirectX::Internal::XMPlaneTransform(planes[3], dirHelp, position);
 			planes[3] = XMPlaneNormalize(planes[3]);
 
 			//near and far slope
 			if (mDirection.z > 0.f)
 			{
-				planes.push_back(XMVectorSet(0.0f, 0.f, -1.0f, (mPosition.z - 1.f)));
-				planes.push_back(XMVectorSet(0.0f, 0.f, 1.0f, -(mPosition.z + FarPlaneDistance())));
+				planes.push_back(XMVectorSet(0.0f, 0.f, -1.0f, (extenderZ - 1.f)));
+				planes.push_back(XMVectorSet(0.0f, 0.f, 1.0f, -(extenderZ + FarPlaneDistance())));
 			}
 			else
 			{
-				planes.push_back(XMVectorSet(0.0f, 0.f, 1.0f, -(mPosition.z + 1.f)));
-				planes.push_back(XMVectorSet(0.0f, 0.f, -1.0f, (mPosition.z - FarPlaneDistance())));
+				planes.push_back(XMVectorSet(0.0f, 0.f, 1.0f, -(extenderZ + 1.f)));
+				planes.push_back(XMVectorSet(0.0f, 0.f, -1.0f, (extenderZ - FarPlaneDistance())));
 			}
 
 			planes[4] = DirectX::Internal::XMPlaneTransform(planes[4], dirHelp, position);
