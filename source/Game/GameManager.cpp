@@ -142,66 +142,69 @@ namespace Rendering
 					trainLevel->GetFarbaMan()->SetVisible(true);
 					trainLevel->GetFarbaMan()->SetUnitID(100);
 					trainLevel->GetFarbaMan()->setSelection(false);
-					
+
 					mScenes.at(mCurrentScene)->AddUnitToList(trainLevel->GetFarbaMan());
 					renderGameFarbaManSpawnFlag = true;
-				
+
 				}
 
+			}
+			
+			if (trgObj->GetName() == "Soldier")
+			{
 				GreenSoldier* grnSld = trgObj->As<GreenSoldier>();
-				if (grnSld != nullptr)
+				if(grnSld!=nullptr)
+				if (grnSld->isDestroyingPaint())
 				{
-					if (grnSld->isDestroyingPaint())
+					for (Trace1* splash : splashes)
 					{
-						for (Trace1* splash : splashes)
+						if (grnSld->getCollider()->CheckTriggerCollision(PLAYER_CLEANER, splash->getPosition()))
 						{
-							if (grnSld->getCollider()->CheckTriggerCollision(PLAYER_CLEANER, splash->getPosition()))
-							{
-								splash->SetToDestroy();
-							}
+							splash->SetToDestroy();
 						}
 					}
 				}
-				else
+			}
+			else if (trgObj->GetName() == "Policeman")
+			{
+				Policeman* plcMn = trgObj->As<Policeman>();
+				if (plcMn != nullptr)
 				{
-					Policeman* plcMn = trgObj->As<Policeman>();
-					if (plcMn != nullptr)
+					if (plcMn->IsAlerted() && !plcMn->IsMovingToCatch())
 					{
-						if (plcMn->IsAlerted())
+						for (DrawableGameComponent* gmCmp : mScenes.at(mCurrentScene)->GetUnitList())
 						{
-							for (DrawableGameComponent* gmCmp : mScenes.at(mCurrentScene)->GetUnitList())
+							GreenSoldier* green = gmCmp->As<GreenSoldier>();
+							if (plcMn->getCollider()->CheckTriggerCollision(2, green->getCollider()))
 							{
-								GreenSoldier* green = gmCmp->As<GreenSoldier>();
-								if (plcMn->getCollider()->CheckTriggerCollision(2, green->getCollider()))
-								{
-									plcMn->SetTargetPosition(green->getPosition().x, green->getPosition().z);
-									plcMn->SetRunAndCath(true);
-								}
-							}
-							if (!plcMn->IsMovingToCatch())
-							{
-								for (Trace1* splash : splashes)
-								{
-									if (plcMn->getCollider()->CheckTriggerCollision(POLICE_DETECTION, splash->getPosition()))
-									{
-										plcMn->SetTargetPosition(splash->getPosition().x, splash->getPosition().z, true);
-										plcMn->SetRunAndCath(true);
-									}
-								}
+								plcMn->SetTargetPosition(green->getPosition().x, green->getPosition().z);
+								plcMn->SetRunAndCath(true);
 							}
 						}
-						else if (plcMn->IsPaintToDestroy())
+						if (!plcMn->IsMovingToCatch())
 						{
 							for (Trace1* splash : splashes)
 							{
-								if ((splash->getPosition().x == plcMn->GetTargetPosition().x) && (splash->getPosition().z == plcMn->GetTargetPosition().y))
-									splash->SetToDestroy();
+								if (plcMn->getCollider()->CheckTriggerCollision(POLICE_DETECTION, splash->getPosition()))
+								{
+									plcMn->SetTargetPosition(splash->getPosition().x, splash->getPosition().z, true);
+									plcMn->SetRunAndCath(true);
+								}
 							}
 						}
 					}
+					else if (plcMn->IsPaintToDestroy())
+					{
+						for (Trace1* splash : splashes)
+						{
+							if ((splash->getPosition().x == plcMn->GetTargetPosition().x) && (splash->getPosition().z == plcMn->GetTargetPosition().y))
+								splash->SetToDestroy();
+						}
+					}
 				}
-			}	
+			}
 		}
+	
 
 
 		if (achiveFarbaMan) {

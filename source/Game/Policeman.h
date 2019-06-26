@@ -49,6 +49,7 @@ namespace Rendering
 		//Saw unit, decides where to run to catch
 		XMFLOAT2 mTargetPosition;
 		bool alerted = false;
-		float alertedTimeOnTargetPlace = -1.f;
+		float alertedTimeOnTargetPlace = 0.f;
+		bool timeHasBeenSet;
 	};
 }
