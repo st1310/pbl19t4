@@ -62,9 +62,8 @@ namespace Rendering
 		XMFLOAT3 pointLightPosition = XMFLOAT3(mPosition.x + 10, mPosition.y + 5, mPosition.z - 10);
 		mPointLight->SetPosition(pointLightPosition);
 
-		if (this->getPosition().x > -102.0f && this->getPosition().x <-44.0f &&  this->getPosition().z > -25.0f && this->getPosition().z<23.0f) {
+		if (this->getPosition().x > -102.0f && this->getPosition().x <-44.0f &&  this->getPosition().z > -25.0f && this->getPosition().z<23.0f)
 			achiveFarbaManPoint = true;//zespawnuj farbamana!!!
-		}
 	}
 
 	void GreenSoldier::setSelection(bool selection)
@@ -108,11 +107,11 @@ namespace Rendering
 				//Remove from corresponding tables - GameObjects and listOfSoldiers
 				mustBeDestroyed = true;
 				return;
-				break;
 
 			case Library::PAINT:
 				footprintsInAreaFlag = true;
 				break;
+
 			default:
 				break;
 			}
@@ -125,6 +124,11 @@ namespace Rendering
 		mAnimations.insert(std::pair<std::string, int>("StartRunning", 1));
 		mAnimations.insert(std::pair<std::string, int>("Run", 2));
 		mAnimations.insert(std::pair<std::string, int>("StopRunning", 3));
+		mAnimations.insert(std::pair<std::string, int>("Dance", 5));
+		mAnimations.insert(std::pair<std::string, int>("StartHiding", 6));
+		mAnimations.insert(std::pair<std::string, int>("Clear", 7));
+		mAnimations.insert(std::pair<std::string, int>("EndHiding", 9));
+		mAnimations.insert(std::pair<std::string, int>("HideIdle", 10));
 	}
 
 	PointLight* GreenSoldier::GetPointLight()
@@ -132,15 +136,9 @@ namespace Rendering
 		return mPointLight;
 	}
 
-	SpotLight* GreenSoldier::GetSpotLight()
-	{
-		return mSpotLight;
-	}
-
 	bool GreenSoldier::getArchiveFarbaManPoint() {
 		return achiveFarbaManPoint;
 	}
-
 
 	bool GreenSoldier::GetfootprintsInAreaFlag() {
 		return footprintsInAreaFlag;

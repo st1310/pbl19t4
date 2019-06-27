@@ -28,7 +28,6 @@ namespace Rendering
 		bool GetfootprintsInAreaFlag();
 
 		PointLight* GetPointLight();
-		SpotLight* GetSpotLight();
 
 		void SetToClean();
 		bool isDestroyingPaint();
@@ -36,8 +35,6 @@ namespace Rendering
 		bool isSelected = false;
 		bool achiveFarbaManPoint = false;
 		bool footprintsInAreaFlag = false;
-		PointLight* mPointLight;
-		SpotLight* mSpotLight;
 
 		bool mCleaning;
 		float mCleaningTime = -1.f;

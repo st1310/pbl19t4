@@ -99,22 +99,35 @@ namespace Rendering
 	void TrainLevel::SetPatrol(Policeman* policeman, int index)
 	{
 		std::vector<XMFLOAT2> patrolPoints1 = std::vector<XMFLOAT2>();
-		patrolPoints1.push_back(XMFLOAT2(-62, -178));
-		patrolPoints1.push_back(XMFLOAT2(182, -178));
-		patrolPoints1.push_back(XMFLOAT2(182, -326));
-		patrolPoints1.push_back(XMFLOAT2(-62, -326));
+		patrolPoints1.push_back(XMFLOAT2(183, -205));
+		patrolPoints1.push_back(XMFLOAT2(183, -321));
+		patrolPoints1.push_back(XMFLOAT2(6, -321));
+		patrolPoints1.push_back(XMFLOAT2(6, -282));
+		patrolPoints1.push_back(XMFLOAT2(-51, -282));
+		patrolPoints1.push_back(XMFLOAT2(-51, -183));
+		patrolPoints1.push_back(XMFLOAT2(91, -183));
+		patrolPoints1.push_back(XMFLOAT2(91, -205));
 
 		std::vector<XMFLOAT2> patrolPoints2 = std::vector<XMFLOAT2>();
 		patrolPoints2.push_back(XMFLOAT2(215, -220));
 		patrolPoints2.push_back(XMFLOAT2(215, 231));
 		patrolPoints2.push_back(XMFLOAT2(231, 231));
 		patrolPoints2.push_back(XMFLOAT2(231, -220));
-		
+
+		std::vector<XMFLOAT2> patrolPoints3 = std::vector<XMFLOAT2>();
+		patrolPoints3.push_back(XMFLOAT2(760, -424));
+		patrolPoints3.push_back(XMFLOAT2(760, 20));
+		patrolPoints3.push_back(XMFLOAT2(804, 20));
+		patrolPoints3.push_back(XMFLOAT2(804, -424));
+
 		if (index == 2 || index == 3 || index == 4 || index == 5)
 			policeman->Patrol(patrolPoints1);
 
 		if (index == 6 || index == 7)
 			policeman->Patrol(patrolPoints2);
+
+		if (index == 8 || index == 9)
+			policeman->Patrol(patrolPoints3);
 	}
 
 	FarbaMan* TrainLevel::GetFarbaMan() {
