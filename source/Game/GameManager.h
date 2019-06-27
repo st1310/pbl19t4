@@ -46,6 +46,9 @@ namespace Rendering
 			void ClearSplash(GameObject* gmObj);
 			void ClearSplashes();
 
+			void SetCleanFlag(bool value);
+			bool GetCleanFlag();
+			bool CheckClearFlag();
 
 			void SetKeyboard(KeyboardComponent* newKeyboard);
 
@@ -78,6 +81,7 @@ namespace Rendering
 			bool renderGameFarbaManSpawnFlag = false;
 			bool PaintButtonFlag = false;
 			bool PaintFinishedFlag = false;
+			bool CleanFlag = false;
 		};
 }
 

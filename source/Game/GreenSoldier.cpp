@@ -158,6 +158,8 @@ namespace Rendering
 	void GreenSoldier::SetToClean()
 	{
 		mCleaning = true;
+		if (mCleaningTime != -1.f)
+			mCleaningTime = -1.f;
 	}
 }
 

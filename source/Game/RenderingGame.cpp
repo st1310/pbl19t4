@@ -214,7 +214,7 @@ namespace Rendering
 		mOptionButtonNOtexture << L"content\\Textures\\menuNO.png";
 		
 		std::wostringstream mTacticalMapTexture;
-		mTacticalMapTexture << L"content\\Textures\\MapaDesperacja.png";
+		mTacticalMapTexture << L"content\\Textures\\Map2.png";
 
 		std::wostringstream mTacticalButton1NOtexture;
 		mTacticalButton1NOtexture << L"content\\Textures\\TacticalButton1NO.png";
@@ -774,44 +774,52 @@ namespace Rendering
 			}
 
 			if (cutSceneId == 3) {
-				mSpriteBatch->Draw(mPaintCutsceenPortrait4, SimpleMath::Rectangle(700.0f, 150.0f, 350.0f, 300.0f));
-				mSpriteBatch->Draw(mcloud4, SimpleMath::Rectangle(700.0f, 15.0f, 300.0f, 200.0f));
+				mSpriteBatch->Draw(mPaintCutsceenPortrait4, SimpleMath::Rectangle(700.0f, 470.0f, 350.0f, 300.0f));
+				mSpriteBatch->Draw(mcloud4, SimpleMath::Rectangle(600.0f, 335.0f, 300.0f, 200.0f));
+				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
+				if (mMouse->X() > 580.0f && mMouse->X() < 610.0f  && mMouse->Y() > 490.0f  && mMouse->Y() < 520.0f) {
+					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
+					if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
+						mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
+						cutSceneId = -1;
+					}
+				}
 			}
 
 			if (cutSceneId == 2) {
-				mSpriteBatch->Draw(mPaintCutsceenPortrait3, SimpleMath::Rectangle(700.0f, 150.0f, 350.0f, 300.0f));
-				mSpriteBatch->Draw(mcloud3, SimpleMath::Rectangle(700.0f, 15.0f, 300.0f, 200.0f));
-				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
-				if (mMouse->X() > 700.0f && mMouse->X() < 730.0f  && mMouse->Y() > 150.0f  && mMouse->Y() < 180.0f) {
-					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
+				mSpriteBatch->Draw(mPaintCutsceenPortrait3, SimpleMath::Rectangle(700.0f, 470.0f, 350.0f, 300.0f));
+				mSpriteBatch->Draw(mcloud3, SimpleMath::Rectangle(700.0f, 335.0f, 300.0f, 200.0f));
+				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
+				if (mMouse->X() > 700.0f && mMouse->X() < 730.0f  && mMouse->Y() > 470.0f  && mMouse->Y() < 500.0f) {
+					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
 					if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
+						mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
 						cutSceneId = 3;
 					}
 				}
 			}
 
 			if (cutSceneId == 1) {
-				mSpriteBatch->Draw(mPaintCutsceenPortrait1, SimpleMath::Rectangle(700.0f, 150.0f, 350.0f, 300.0f));
-				mSpriteBatch->Draw(mcloud2, SimpleMath::Rectangle(700.0f, 15.0f, 300.0f, 200.0f));
-				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
-				if (mMouse->X() > 700.0f && mMouse->X() < 730.0f  && mMouse->Y() > 150.0f  && mMouse->Y() < 180.0f) {
-					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
+				mSpriteBatch->Draw(mPaintCutsceenPortrait1, SimpleMath::Rectangle(700.0f, 470.0f, 350.0f, 300.0f));
+				mSpriteBatch->Draw(mcloud2, SimpleMath::Rectangle(600.0f, 335.0f, 300.0f, 200.0f));
+				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
+				if (mMouse->X() > 580.0f && mMouse->X() < 610.0f  && mMouse->Y() > 490.0f  && mMouse->Y() < 520.0f) {
+					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
 					if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
+						mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
 						cutSceneId = 2;
 					}
 				}
 			}
 
 			if (cutSceneId == 0) {
-				mSpriteBatch->Draw(mPaintCutsceenPortrait2, SimpleMath::Rectangle(700.0f, 150.0f, 350.0f, 300.0f));
-				mSpriteBatch->Draw(mcloud1, SimpleMath::Rectangle(700.0f, 15.0f, 300.0f, 200.0f));
-				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
-				if (mMouse->X() > 700.0f && mMouse->X() < 730.0f  && mMouse->Y() > 150.0f  && mMouse->Y() < 180.0f) {
-					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
+				mSpriteBatch->Draw(mPaintCutsceenPortrait2, SimpleMath::Rectangle(700.0f, 470.0f, 350.0f, 300.0f));
+				mSpriteBatch->Draw(mcloud1, SimpleMath::Rectangle(700.0f, 335.0f, 300.0f, 200.0f));
+				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
+				if (mMouse->X() > 700.0f && mMouse->X() < 730.0f  && mMouse->Y() > 470.0f  && mMouse->Y() < 500.0f) {
+					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
 					if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(700.0f, 150.0f, 30.0f, 30.0f));
+						mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
 						cutSceneId = 1;
 					}
 				}
@@ -1165,19 +1173,28 @@ namespace Rendering
 
 						if (mMouse->X() > 750.0f && mMouse->X() < 850.0f  && mMouse->Y() > 600.0f  && mMouse->Y() < 685.0f) {
 							mSpriteBatch->Draw(mCleanIconMAYBE, SimpleMath::Rectangle(750.0f, 595.0f, 100.0f, 100.0f));
-							if (mMouse->IsButtonHeldDown(MouseButtonsLeft)) {
-								if (soldierGuiActiveClearButton) {
-									mSpriteBatch->Draw(mCleanIconCLICKED, SimpleMath::Rectangle(750.0f, 595.0f, 100.0f, 100.0f));
+							if (mMouse->WasButtonPressedThisFrame(MouseButtonsLeft)) {
+								if (mGameManager->CheckClearFlag()) {
+									clearMode = true;
 								}
+								else {
+									clearMode = false;
+								}
+							}
 								else {
 									mSpriteBatch->Draw(mCleanIconNO, SimpleMath::Rectangle(750.0f, 595.0f, 100.0f, 100.0f));
 								}
-							}
+							
 						}
 						else {
 							mSpriteBatch->Draw(mCleanIconYES, SimpleMath::Rectangle(750.0f, 595.0f, 100.0f, 100.0f));
 						}
 
+						if (clearMode) {
+							mSpriteBatch->Draw(mCleanIconCLICKED, SimpleMath::Rectangle(750.0f, 595.0f, 100.0f, 100.0f));
+							ClearMode1();
+							clearMode = false;
+						}
 
 
 						if (mMouse->X() > 870.0f && mMouse->X() < 970.0f  && mMouse->Y() > 600.0f  && mMouse->Y() < 685.0f) {
@@ -1320,6 +1337,15 @@ namespace Rendering
 								tmp.clear();
 							}
 					}
+		}
+	}
+
+	void RenderingGame::ClearMode1() {
+		for (int i = 0; i < mGameManager->GetListOfUnits().size(); i++) {
+			GreenSoldier* sold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
+			if (sold->getIsSelected()) {
+				sold->ChangeAnimation("StopRunning");
+			}
 		}
 	}
 }

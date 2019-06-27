@@ -198,7 +198,9 @@ namespace Rendering
 		bool hideMode = false;
 		bool paintMode = false;
 		bool paintMode1flag = true;
+		bool clearMode = false;
 
 		void PaintMode1();
+		void ClearMode1();
 	};
 }

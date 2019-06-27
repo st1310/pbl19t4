@@ -33,7 +33,7 @@ namespace Rendering
 
 		bool mAllowPainting;
 		bool destroyPaintedPosition;
-
+		bool IsPaintNearby();
 	private:
 		bool isSelected = false;
 		bool painting;
@@ -42,5 +42,6 @@ namespace Rendering
 		bool isMoving = false;
 		float PaintSplashTimer = -1.0f;
 		bool spawnSpash = false;
+		bool paintNearby;
 	};
 }
