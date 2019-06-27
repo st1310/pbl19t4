@@ -61,6 +61,8 @@ namespace Rendering
 
 		PointLight* mPointLight;
 
+		AnimationSequence* mAnimationSequence;
+
 	private:
 		AnimatedGameObject();
 		AnimatedGameObject(const AnimatedGameObject& rhs);
@@ -76,7 +78,6 @@ namespace Rendering
 		bool mIsHidden = false;
 
 		//Animation sequence
-		AnimationSequence* mAnimationSequence;
 		std::string mCurrentAnimation = "Idle";
 	};
 }

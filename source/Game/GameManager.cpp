@@ -16,7 +16,7 @@ namespace Rendering
 		this->camera = &camera;
 		Initialize();
 
-		mCurrentScene = MENU_LEVEL;
+		mCurrentScene = TRAIN_LEVEL;
 		StartScene(mCurrentScene);
 		unitsReadyToMove = false;
 		ShowMousePosition = false;

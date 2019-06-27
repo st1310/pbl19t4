@@ -30,8 +30,12 @@ namespace Rendering
 		PointLight* GetPointLight();
 
 		void SetToClean();
+
 		bool isDestroyingPaint();
 	private:
+		void InitCleaning();
+		void UpdateOptions();
+
 		bool isSelected = false;
 		bool achiveFarbaManPoint = false;
 		bool footprintsInAreaFlag = false;

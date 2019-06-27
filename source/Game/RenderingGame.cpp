@@ -546,80 +546,41 @@ namespace Rendering
 		if(mKeyboard->WasKeyPressedThisFrame(DIK_F6))
 			mGameManager->StartScene(PATHFINDER_TEST);	
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_1)) {
-			if (mGameManager->GetListOfUnits().size() >= 1) {
-				keybordButtonSelectUnit = 0;
-			}
-		}
+		// Units
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_1) && mGameManager->GetListOfUnits().size() >= 1)
+			keybordButtonSelectUnit = 0;
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_2)) {
-			if (mGameManager->GetListOfUnits().size() >= 2) {
-				keybordButtonSelectUnit = 1;
-			}
-		}
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_2) && mGameManager->GetListOfUnits().size() >= 2)
+			keybordButtonSelectUnit = 1;
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_3)) {
-			if (mGameManager->GetListOfUnits().size() >= 3) {
-				keybordButtonSelectUnit = 2;
-			}
-		}
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_3) && mGameManager->GetListOfUnits().size() >= 3)
+			keybordButtonSelectUnit = 2;
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_4)) {
-			if (mGameManager->GetListOfUnits().size() >= 4) {
-				keybordButtonSelectUnit = 3;
-			}
-		}
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_4) && mGameManager->GetListOfUnits().size() >= 4)
+			keybordButtonSelectUnit = 3;
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_5)) {
-			if (mGameManager->GetListOfUnits().size() >= 5) {
-				keybordButtonSelectUnit = 4;
-			}
-		}
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_5) && mGameManager->GetListOfUnits().size() >= 5)
+			keybordButtonSelectUnit = 4;
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_6)) {
-			if (mGameManager->GetListOfUnits().size() >= 6) {
-				keybordButtonSelectUnit = 5;
-			}
-		}
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_6) && mGameManager->GetListOfUnits().size() >= 6)
+			keybordButtonSelectUnit = 5;
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_7)) {
-			if (mGameManager->GetListOfUnits().size() >= 7) {
-				keybordButtonSelectUnit = 6;
-			}
-		}
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_7) && mGameManager->GetListOfUnits().size() >= 7)
+			keybordButtonSelectUnit = 6;
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_8)) {
-			if (mGameManager->GetListOfUnits().size() >= 8) {
-				keybordButtonSelectUnit = 7;
-			}
-		}
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_8) && mGameManager->GetListOfUnits().size() >= 8)
+			keybordButtonSelectUnit = 7;
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_9)) {
-			if (mGameManager->GetListOfUnits().size() >= 9) {
-				keybordButtonSelectUnit = 8;
-			}
-		}
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_9) && mGameManager->GetListOfUnits().size() >= 9)
+			keybordButtonSelectUnit = 8;
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_0)) {
-			if (mGameManager->GetListOfUnits().size() >= 10) {
-				keybordButtonSelectUnit = 9;
-			}
-		}
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_0) && mGameManager->GetListOfUnits().size() >= 10)
+			keybordButtonSelectUnit = 9;
 
-
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_TAB)) {
-			if (showFarbaManGUI) {
-				if (FarbaManGUISelected) {
-					FarbaManGUISelected = false;
-					keybordButtonSelectUnit = 100;
-				}
-					
-
-				else{
-					FarbaManGUISelected = true;
-					keybordButtonSelectUnit = 100;
-				}
-			}
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_TAB) && showFarbaManGUI)
+		{
+			FarbaManGUISelected = !FarbaManGUISelected;
+			keybordButtonSelectUnit = FARBA_MAN_ID;
 		}
 
 
@@ -720,8 +681,8 @@ namespace Rendering
 		mSpriteBatch->Begin(SpriteSortMode_Deferred, m_states->NonPremultiplied());
 		int posOffset = 0;
 		std::wostringstream mouseLabel;
-		mouseLabel << L"Mouse Position: " << mMouse->X() << ", "
-			<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
+		//mouseLabel << L"Mouse Position: " << mMouse->X() << ", "
+			//<< mMouse->Y() << " Mouse Wheel: " << mMouse->Wheel();
 		mSpriteFont->DrawString(mSpriteBatch, mouseLabel.str().c_str(), mMouseTextPosition, Colors::White);
 		if (mapLevel == true) {
 

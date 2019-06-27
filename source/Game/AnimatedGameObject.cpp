@@ -229,7 +229,6 @@ namespace Rendering
 		}
 	}
 
-
 	void AnimatedGameObject::BuildBoundingBox(XMFLOAT3 radius)
 	{
 			XMVECTOR helper;

@@ -2,6 +2,7 @@
 #include "SpotLight.h"
 #include "PointLight.h"
 #include "AssetList.h"
+#include "AnimationSequence.h"
 
 namespace Rendering
 {
@@ -44,6 +45,8 @@ namespace Rendering
 	void GreenSoldier::Update(const GameTime& gameTime)
 	{
 		AnimatedGameObject::Update(gameTime);
+
+		UpdateOptions();
 
 		if (mCleaning)
 		{
@@ -118,6 +121,14 @@ namespace Rendering
 		}
 	}
 
+	void GreenSoldier::InitCleaning()
+	{
+		mAnimationSequence->InitConstAnimationSequence("StartHiding", "Clear", "EndHiding", 4);
+
+		ChangeTexture(mIsBusyDiffuseMap);
+		mIsBusy = true;
+	}
+
 	void GreenSoldier::SetAnimations()
 	{
 		mAnimations.insert(std::pair<std::string, int>("Idle", 0));
@@ -156,6 +167,16 @@ namespace Rendering
 	void GreenSoldier::SetToClean()
 	{
 		mCleaning = true;
+		InitCleaning();
+	}
+
+	void GreenSoldier::UpdateOptions()
+	{
+		if (mKeyboard != nullptr)
+		{
+			if (mKeyboard->WasKeyPressedThisFrame(DIK_C) && mIsSelected)
+				SetToClean();
+		}
 	}
 }
 

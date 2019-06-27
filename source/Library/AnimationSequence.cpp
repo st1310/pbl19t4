@@ -17,32 +17,11 @@ namespace Library
 
 	std::string AnimationSequence::GetCurrentAnimation(float currentAnimationTime)
 	{
-		if (!mStartSequence && mIsInit && mAnimationTimeInLastFrame > currentAnimationTime)
-		{
-			mStartSequence = true;
-		}
+		if (mMaxRepeatSum == 0)
+			SetLoopableAnimation(currentAnimationTime);
 
-		else if (mIsInit && mAnimationTimeInLastFrame > currentAnimationTime)
-		{
-			mIsInit = false;
-			mIsInLoop = true;
-			mCurrentAnimation = mLoopAnimation;
-		}
-
-		else if (!mIsInLoop && !mIsEnd && !mIsIdle && mAnimationTimeInLastFrame > currentAnimationTime)
-		{
-			mIsEnd = true;
-			mCurrentAnimation = mEndAnimation;
-		}
-
-		else if (mIsEnd && !mIsIdle && mAnimationTimeInLastFrame > currentAnimationTime)
-		{
-			mIsEnd = false;
-			mIsIdle = true;
-			mCurrentAnimation = mIdleAnimation;
-		}
-
-		mAnimationTimeInLastFrame = currentAnimationTime;
+		else
+			SetConstAnimation(currentAnimationTime);
 
 		return mCurrentAnimation;
 	}
@@ -78,8 +57,66 @@ namespace Library
 		mStartSequence = false;
 	}
 
+	void AnimationSequence::InitConstAnimationSequence(std::string initAnimation, std::string loopAnimation, std::string endAnimation, int repeatSum)
+	{
+		mInitAnimation = initAnimation;
+		mLoopAnimation = loopAnimation;
+		mEndAnimation = endAnimation;
+
+		mCurrentAnimation = mInitAnimation;
+		mAnimationTimeInLastFrame = 0;
+
+		mIsIdle = false;
+		mIsInit = true;
+		mIsInLoop = false;
+		mIsEnd = false;
+		mStartSequence = false;
+
+		mCurrentRepeatSum = 0;
+		mMaxRepeatSum = repeatSum;
+	}
+
 	void AnimationSequence::EndLoop()
 	{
 		mIsInLoop = false;
+	}
+
+	void AnimationSequence::SetLoopableAnimation(float currentAnimationTime)
+	{
+		if (!mStartSequence && mIsInit && mAnimationTimeInLastFrame > currentAnimationTime)
+			mStartSequence = true;
+
+		else if (mIsInit && mAnimationTimeInLastFrame > currentAnimationTime)
+		{
+			mIsInit = false;
+			mIsInLoop = true;
+			mCurrentAnimation = mLoopAnimation;
+		}
+
+		else if (!mIsInLoop && !mIsEnd && !mIsIdle && mAnimationTimeInLastFrame > currentAnimationTime)
+		{
+			mIsEnd = true;
+			mCurrentAnimation = mEndAnimation;
+		}
+
+		else if (mIsEnd && !mIsIdle && mAnimationTimeInLastFrame > currentAnimationTime)
+		{
+			mIsEnd = false;
+			mIsIdle = true;
+			mCurrentAnimation = mIdleAnimation;
+		}
+
+		mAnimationTimeInLastFrame = currentAnimationTime;
+	}
+
+	void AnimationSequence::SetConstAnimation(float currentAnimationTime)
+	{
+		if (!mIsInit && mAnimationTimeInLastFrame > currentAnimationTime)
+			mCurrentRepeatSum++;
+
+		if (mCurrentRepeatSum == mMaxRepeatSum)
+			EndLoop();
+
+		SetLoopableAnimation(currentAnimationTime);
 	}
 }
