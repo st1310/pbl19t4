@@ -226,6 +226,11 @@ namespace Rendering
 		else mSuspiciousPaint = false;
 	}
 
+	void Policeman::PaintClean() {
+		mSuspiciousPaint = false;
+		mSuspiciousPaintToDestroy = false;
+	}
+
 	bool Policeman::IsPaintToDestroy()
 	{
 		return mSuspiciousPaintToDestroy;

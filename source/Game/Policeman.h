@@ -35,6 +35,9 @@ namespace Rendering
 		void SetRunAndCath(bool value);
 		void SetTargetPosition(float x, float z, bool isPaint = false);
 		bool IsPaintToDestroy();
+
+		void PaintClean();
+
 		XMFLOAT2 GetTargetPosition();
 	private:
 		int policeNearby;

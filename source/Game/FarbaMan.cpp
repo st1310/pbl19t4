@@ -128,7 +128,7 @@ namespace Rendering
 			return;
 
 		mAllowPainting = false;
-
+		paintNearby = false;
 		for (TypesTriggerReactions chck : helper)
 		{
 			switch (chck)
@@ -141,6 +141,9 @@ namespace Rendering
 				if (!painting)
 					mAllowPainting = true;
 				//Allow painting if right unit
+				break;
+			case Library::PAINT:
+				paintNearby = true;
 				break;
 			default:
 				break;
@@ -179,5 +182,10 @@ namespace Rendering
 
 	bool FarbaMan::GetdestroyPaintedPosition() {
 		return destroyPaintedPosition;
+	}
+
+	bool FarbaMan::IsPaintNearby()
+	{
+		return paintNearby;
 	}
 }

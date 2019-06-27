@@ -16,7 +16,7 @@ namespace Rendering
 		this->camera = &camera;
 		Initialize();
 
-		mCurrentScene = TRAIN_LEVEL;
+		mCurrentScene = MENU_LEVEL;
 		StartScene(mCurrentScene);
 		unitsReadyToMove = false;
 		ShowMousePosition = false;
@@ -185,7 +185,7 @@ namespace Rendering
 
 							for (Trace1* splash : splashes)
 							{
-								if (plcMn->getCollider()->CheckTriggerCollision(POLICE_DETECTION, splash->getPosition()))
+								if (plcMn->getCollider()->CheckTriggerCollision(2, splash->getPosition()))
 								{
 									plcMn->SetTargetPosition(splash->getPosition().x, splash->getPosition().z, true);
 									plcMn->SetRunAndCath(true);
@@ -197,16 +197,17 @@ namespace Rendering
 					{
 						for (Trace1* splash : splashes)
 						{
-							if ((splash->getPosition().x == plcMn->GetTargetPosition().x) && (splash->getPosition().z == plcMn->GetTargetPosition().y))
+							if ((splash->getPosition().x == plcMn->GetTargetPosition().x) && (splash->getPosition().z == plcMn->GetTargetPosition().y)) {
 								splash->SetToDestroy();
+								plcMn->PaintClean();
+							}
+								
 						}
 					}
 				}
 			}
 		}
 	
-
-
 		if (achiveFarbaMan) {
 			int id = mScenes.at(mCurrentScene)->GetUnitList().size() - 1;
 			FarbaMan* farb = mScenes.at(mCurrentScene)->GetUnitList().at(id)->As<FarbaMan>();
@@ -220,15 +221,18 @@ namespace Rendering
 			}
 
 			if (farb->GetSpawnSpash()) {
-				farb->SetSpawnSplash(false);
-				XMFLOAT3 pos = farb->getPosition();
-				Trace1* trace1 = new Trace1(*game, *camera, pos, XMFLOAT3(-90.0f, 0, 0), XMFLOAT3(0.50f, 0.50f, 0.50f));
-				trace1->Initialize();
-				trace1->SetVisible(true);
-				mScenes[mCurrentScene]->GameObjects.push_back(trace1);
-				splashes.push_back(trace1);
-				mScenes[mCurrentScene]->AddTriggerableObjectToList(trace1);
-				mScenes[mCurrentScene]->getListOfNode().at(0)->AddTriggerCollider(trace1->getCollider());
+				if (splashes.size() < 30 && !farb->IsPaintNearby()) {
+					farb->SetSpawnSplash(false);
+					XMFLOAT3 pos = farb->getPosition();
+					Trace1* trace1 = new Trace1(*game, *camera, pos, XMFLOAT3(-90.0f, 0, 0), XMFLOAT3(0.50f, 0.50f, 0.50f));
+					trace1->Initialize();
+					trace1->SetVisible(true);
+					mScenes[mCurrentScene]->GameObjects.push_back(trace1);
+					splashes.push_back(trace1);
+					mScenes[mCurrentScene]->AddTriggerableObjectToList(trace1);
+					mScenes[mCurrentScene]->getListOfNode().at(0)->AddTriggerCollider(trace1->getCollider());
+				}
+				
 			}
 
 			if (farb->GetdestroyPaintedPosition()) {
@@ -238,6 +242,16 @@ namespace Rendering
 		}
 
 
+
+		/*for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
+			GreenSoldier* sold = mScenes.at(mCurrentScene)->GetUnitList().at(i)->As<GreenSoldier>();
+			if (sold->GetfootprintsInAreaFlag()) {
+				CleanFlag = true;
+			}
+			else {
+				CleanFlag = false;
+			}
+		}*/
 
 		for(int i =0; i <  GetSizeOfCurrentScene(); i++)
 			mScenes[mCurrentScene]->GameObjects[i]->Update(gameTime);
@@ -548,7 +562,27 @@ namespace Rendering
 		return splashes;
 	}
 
-	
+	void GameManager::SetCleanFlag(bool value) {
+		CleanFlag = value;
+	}
+	bool GameManager::GetCleanFlag() {
+		return CleanFlag;
+	}
+
+	bool GameManager::CheckClearFlag() {
+		for (int i = 0; i < mScenes.at(mCurrentScene)->GetUnitList().size(); i++) {
+			GreenSoldier* sold = mScenes.at(mCurrentScene)->GetUnitList().at(i)->As<GreenSoldier>();
+			if (sold->GetfootprintsInAreaFlag()) {
+				CleanFlag = true;
+				return true;
+			}
+			else {
+				CleanFlag = false;
+			}
+		}
+		return false;
+
+	}
 }
 
 	
