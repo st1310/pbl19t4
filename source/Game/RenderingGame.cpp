@@ -885,6 +885,7 @@ namespace Rendering
 						cutSceneId = -1;
 						showMapVal = false;
 						gameLevel = true;
+						mGameManager->StartScene(TRAIN_LEVEL);
 					}
 				}
 			}
