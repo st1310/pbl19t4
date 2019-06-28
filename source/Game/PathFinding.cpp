@@ -20,16 +20,43 @@ bool PathFinding::OnUserCreate() {
 	//grid of nodes
 	for (int x = 0; x < nMapWidth; x++) {
 		for (int y = 0; y < nMapHeight; y++) {
-			nodes[y*nMapWidth + x].x = -180 + y;
-			nodes[y*nMapWidth + x].y = -500 + x;
+			nodes[y*nMapWidth + x].x = -180 + y*10;
+			nodes[y*nMapWidth + x].y = -500 + x*10;
 			nodes[y*nMapWidth + x].bObstacle = false;
 			nodes[y*nMapWidth + x].bVisited = false;
 			nodes[y*nMapWidth + x].parent = nullptr;
-			nodes[y*nMapWidth + x].bbox = new BoundingBox(XMFLOAT3(nodes[y*nMapWidth + x].x, 63.0f, nodes[y*nMapWidth + x].y), XMFLOAT3(1.f, 1.f, 1.f));
+			nodes[y*nMapWidth + x].bbox = new BoundingBox(XMFLOAT3(nodes[y*nMapWidth + x].x, 63.0f, nodes[y*nMapWidth + x].y), XMFLOAT3(10.f, 10.f, 10.f));
 			collider->PushNewBoundingBox(nodes[y*nMapWidth + x].bbox);
+
+			/*if (nodes[y*nMapWidth + x].x >= -180 && nodes[y*nMapWidth + x].x <= -10 && nodes[y*nMapWidth + x].y >= -450 && nodes[y*nMapWidth + x].y <= -320) {
+				nodes[y*nMapWidth + x].bObstacle = true;
+			}*/
 		}
+
+		
 	}
 
+	for (int x = 0; x < (nMapWidth*nMapHeight); x++) {
+		if (nodes[x].x >= -180 && nodes[x].x <= -10 && nodes[x].y >= -450 && nodes[x].y <= -320) {
+			nodes[x].bObstacle = true;
+		}
+		if (nodes[x].x >= -180 && nodes[x].x <= 170 && nodes[x].y >= -130 && nodes[x].y <= -20) {
+			nodes[x].bObstacle = true;
+		}
+		if (nodes[x].x >= -180 && nodes[x].x <= 170 && nodes[x].y >= 30 && nodes[x].y <= 140) {
+			nodes[x].bObstacle = true;
+		}
+		if (nodes[x].x >= -180 && nodes[x].x <= 170 && nodes[x].y >= 30 && nodes[x].y <= 140) {
+			nodes[x].bObstacle = true;
+		}
+		if (nodes[x].x >= 20 && nodes[x].x <= 170 && nodes[x].y >= -310 && nodes[x].y <= -20) {
+			nodes[x].bObstacle = true;
+		}
+		if (nodes[x].x >= -40 && nodes[x].x <= 80 && nodes[x].y >= -260 && nodes[x].y <= -190) {
+			nodes[x].bObstacle = true;
+		}
+
+	}
 
 	for (int x = 0; x < nMapWidth; x++) {
 		for (int y = 0; y < nMapHeight; y++) {
@@ -105,7 +132,7 @@ bool PathFinding::Solve_AStar() {
 		nodeCurrent->bVisited = true; 
 
 		for (auto nodeNeighbour : nodeCurrent->vecNeighbours) {
-			if (!nodeNeighbour->bVisited && nodeNeighbour->bObstacle == 0)
+			if (!nodeNeighbour->bVisited && nodeNeighbour->bObstacle == false)
 				listNotTestedNodes.push_back(nodeNeighbour);
 
 			float fPossiblyLowerGoal = nodeCurrent->fLocalGoal + distance(nodeCurrent, nodeNeighbour);

@@ -16,7 +16,7 @@ namespace Rendering
 	{
 		SetAnimations();
 		mRotationSpeed = 3;
-		mTranslationSpeed = 0.25;
+		mTranslationSpeed = 0.00;
 		mSuspiciousPaint = false;
 		mSuspiciousPaintToDestroy = false;
 

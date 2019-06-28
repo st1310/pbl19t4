@@ -70,8 +70,8 @@ namespace Rendering
 		mScenes.at(mCurrentScene)->Clear();
 
 		pathfinding = new PathFinding();
-		pathfinding->setMapWidth(1000);		//gora dol
-		pathfinding->setMapHeight(1000);		//prawo lewo
+		pathfinding->setMapWidth(100);		//gora dol
+		pathfinding->setMapHeight(100);		//prawo lewo
 		pathfinding->OnUserCreate();
 
 		mCurrentScene = sceneId;
@@ -310,7 +310,7 @@ namespace Rendering
 							if (gameObject->getIsSelected()) {
 
 								for (int x = 0; x < pathFindingMapSize; x++) {
-									if ((gameObject->getPosition().x == pathfinding->nodes[x].x || (gameObject->getPosition().x > pathfinding->nodes[x].x-0.05f && gameObject->getPosition().x < pathfinding->nodes[x].x + 0.05f)) && (gameObject->getPosition().z == pathfinding->nodes[x].y || (gameObject->getPosition().z > pathfinding->nodes[x].y - 0.05f && gameObject->getPosition().z < pathfinding->nodes[x].y + 0.05f))) {
+									if ((gameObject->getPosition().x == pathfinding->nodes[x].x || (gameObject->getPosition().x > pathfinding->nodes[x].x-4.49f && gameObject->getPosition().x < pathfinding->nodes[x].x + 4.49f)) && (gameObject->getPosition().z == pathfinding->nodes[x].y || (gameObject->getPosition().z > pathfinding->nodes[x].y - 4.49f && gameObject->getPosition().z < pathfinding->nodes[x].y + 4.49f))) {
 										pathfinding->nodeStart = &pathfinding->nodes[x];
 										pathfinding->nodeEnd = &pathfinding->nodes[j];
 										pathfinding->currentNode = pathfinding->nodeEnd;

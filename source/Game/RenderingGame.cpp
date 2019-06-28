@@ -652,7 +652,7 @@ namespace Rendering
 			}
 			else {
 				if(!patrolMode)
-					mGameManager->SelectingGroundsFake(mMouse->X(), mMouse->Y());
+					mGameManager->SelectingGrounds(mMouse->X(), mMouse->Y());
 				else {
 					mGameManager->SelectingGroundsFakePatrolMode(mMouse->X(), mMouse->Y());
 				}
@@ -1310,7 +1310,7 @@ namespace Rendering
 		for (int i = 0; i < mGameManager->GetListOfUnits().size(); i++) {
 			GreenSoldier* sold = mGameManager->GetListOfUnits().at(i)->As<GreenSoldier>();
 			if (sold->getIsSelected()) {
-				sold->ChangeAnimation("StopRunning");
+				sold->SetToClean();
 			}
 		}
 	}
