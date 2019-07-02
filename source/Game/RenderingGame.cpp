@@ -663,6 +663,26 @@ namespace Rendering
 
 
 
+		if (animateObj) {
+			
+			if (!animateObj1) {
+				timer = gameTime.TotalGameTime();
+				animateObj1 = true;
+			}
+			else if (gameTime.TotalGameTime() - timer >= 0.01f) {
+				animateObj1 = false;
+
+				if (animatePosY <= 470.0f) {
+					animateObj = false;
+					animateObj2 = true;
+				}
+				else {
+					animatePosY-=5;
+				}
+			}
+			
+		}
+
 		Game::Update(gameTime);
 	}
 
@@ -735,40 +755,55 @@ namespace Rendering
 			}
 
 			if (cutSceneId == 3) {
-				mSpriteBatch->Draw(mPaintCutsceenPortrait4, SimpleMath::Rectangle(700.0f, 470.0f, 350.0f, 300.0f));
-				mSpriteBatch->Draw(mcloud4, SimpleMath::Rectangle(600.0f, 335.0f, 300.0f, 200.0f));
-				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
-				if (mMouse->X() > 580.0f && mMouse->X() < 610.0f  && mMouse->Y() > 490.0f  && mMouse->Y() < 520.0f) {
-					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
-					if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
-						cutSceneId = -1;
+				mSpriteBatch->Draw(mPaintCutsceenPortrait4, SimpleMath::Rectangle(700.0f, animatePosY, 350.0f, 300.0f));
+				if (animateObj2) {
+					mSpriteBatch->Draw(mcloud4, SimpleMath::Rectangle(600.0f, 335.0f, 300.0f, 200.0f));
+					mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
+					if (mMouse->X() > 580.0f && mMouse->X() < 610.0f  && mMouse->Y() > 490.0f  && mMouse->Y() < 520.0f) {
+						mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
+						if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
+							cutSceneId = -1;
+							animateObj2 = false;
+						}
 					}
 				}
+				
 			}
 
 			if (cutSceneId == 2) {
-				mSpriteBatch->Draw(mPaintCutsceenPortrait3, SimpleMath::Rectangle(700.0f, 470.0f, 350.0f, 300.0f));
-				mSpriteBatch->Draw(mcloud3, SimpleMath::Rectangle(700.0f, 335.0f, 300.0f, 200.0f));
-				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
-				if (mMouse->X() > 700.0f && mMouse->X() < 730.0f  && mMouse->Y() > 470.0f  && mMouse->Y() < 500.0f) {
-					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
-					if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
-						cutSceneId = 3;
+				mSpriteBatch->Draw(mPaintCutsceenPortrait3, SimpleMath::Rectangle(700.0f, animatePosY, 350.0f, 300.0f));
+				if (animateObj2) {
+					mSpriteBatch->Draw(mcloud3, SimpleMath::Rectangle(700.0f, 335.0f, 300.0f, 200.0f));
+					mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
+					if (mMouse->X() > 700.0f && mMouse->X() < 730.0f  && mMouse->Y() > 470.0f  && mMouse->Y() < 500.0f) {
+						mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
+						if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
+							cutSceneId = 3;
+							animatePosY = 730.0f;
+							animateObj = true;
+							animateObj2 = false;
+						}
 					}
 				}
+				
 			}
 
 			if (cutSceneId == 1) {
-				mSpriteBatch->Draw(mPaintCutsceenPortrait1, SimpleMath::Rectangle(700.0f, 470.0f, 350.0f, 300.0f));
-				mSpriteBatch->Draw(mcloud2, SimpleMath::Rectangle(600.0f, 335.0f, 300.0f, 200.0f));
-				mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
-				if (mMouse->X() > 580.0f && mMouse->X() < 610.0f  && mMouse->Y() > 490.0f  && mMouse->Y() < 520.0f) {
-					mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
-					if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
-						mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
-						cutSceneId = 2;
+				mSpriteBatch->Draw(mPaintCutsceenPortrait1, SimpleMath::Rectangle(700.0f, animatePosY, 350.0f, 300.0f));
+				if (animateObj2) {
+					mSpriteBatch->Draw(mcloud2, SimpleMath::Rectangle(600.0f, 335.0f, 300.0f, 200.0f));
+					mSpriteBatch->Draw(mbuttonXNO, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
+					if (mMouse->X() > 580.0f && mMouse->X() < 610.0f  && mMouse->Y() > 490.0f  && mMouse->Y() < 520.0f) {
+						mSpriteBatch->Draw(mbuttonXMAYBE, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
+						if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
+							mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(580.0f, 490.0f, 30.0f, 30.0f));
+							cutSceneId = 2;
+							animatePosY = 730.0f;
+							animateObj = true;
+							animateObj2 = false;
+						}
 					}
 				}
 			}
@@ -782,6 +817,8 @@ namespace Rendering
 					if (mMouse->WasButtonReleasedThisFrame(MouseButtonsLeft)) {
 						mSpriteBatch->Draw(mbuttonXCLICKED, SimpleMath::Rectangle(700.0f, 470.0f, 30.0f, 30.0f));
 						cutSceneId = 1;
+						animatePosY = 730.0f;
+						animateObj = true;
 					}
 				}
 			}

@@ -168,6 +168,7 @@ namespace Rendering
 		XMFLOAT2 mouse1Pos;
 		XMFLOAT2 mouse2Pos;
 		GameTime timeFromPressed;
+		
 		bool selectedOnce;
 
 		Colliders* mCollC;
@@ -199,6 +200,11 @@ namespace Rendering
 		bool paintMode = false;
 		bool paintMode1flag = true;
 		bool clearMode = false;
+		bool animateObj = false;
+		bool animateObj1 = false;
+		bool animateObj2 = false;
+		float animatePosX, animatePosY;
+		float timer = 0.0f;
 
 		void PaintMode1();
 		void ClearMode1();
