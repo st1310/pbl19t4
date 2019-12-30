@@ -10,21 +10,28 @@
 #include "SkyboxComponent.h"
 #include "ColorHelper.h"
 #include "RenderStateHelper.h"
-#include "TexturedModelDemo.h"
 #include "TexturedModelMaterialDemo.h"
+#include "MultipleLightsDemo.h"
 #include "GameManager.h"
+#include "AnimatedGameObject.h"
 #include "Utility.h"
+#include "NodeList.h"
+#include "MultipleLightsMaterial.h"
+#include "FullScreenRenderTarget.h"
+#include "FullScreenQuad.h"
+#include "ColorFilterMaterial.h"
 
 namespace Rendering
 {
-	const XMVECTORF32 RenderingGame::BackgroundColor = ColorHelper::CornflowerBlue;
+	const XMVECTORF32 RenderingGame::BackgroundColor = Colors::CornflowerBlue;
 	
 	RenderingGame::RenderingGame(HINSTANCE instance, const std::wstring & windowClass, const std::wstring & windowTitle, int showCommand)
 		: Game(instance, windowClass, windowTitle, showCommand),
 		mFpsComponent(nullptr), mSkybox(nullptr),
-		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr),
+		mRenderStateHelper(nullptr),
+		mDirectInput(nullptr), mKeyboard(nullptr), mMouse(nullptr), mCamera(nullptr),
 		mSpriteBatch(nullptr), mSpriteFont(nullptr), mMouseTextPosition(0.0f, 20.0f),
-		mGameManager(nullptr)
+		mGameManager(nullptr), buttonClicked(false), mMLDemo(nullptr)
 	{
 		mDepthStencilBufferEnabled = true;
 		mMultiSamplingEnabled = true;
@@ -49,25 +56,30 @@ namespace Rendering
 		mComponents.push_back(mMouse);
 		mServices.AddService(MouseComponent::TypeIdClass(), mMouse);
 
+		mCollC = new Colliders();
 		mCamera = new FirstPersonCamera(*this);
+		CollisionNode* newNode = new CollisionNode({-5.f, -20.f, 0.f}, { 5.f, 20.f, 50.f });
+
 		mComponents.push_back(mCamera);
 		mServices.AddService(FirstPersonCamera::TypeIdClass(), mCamera);
 
+
+		BoundingBox* mDemoBox = new BoundingBox();
+		mCollTM = new Colliders(mDemoBox);
+//=======
 		mSkybox = new SkyboxComponent(*this, *mCamera, L"Content\\Textures\\Maskonaive2_1024.dds", 100.0f);
 		mComponents.push_back(mSkybox);
 		mServices.AddService(SkyboxComponent::TypeIdClass(), mSkybox);
 
-		mGameManager = new GameManager(*this, *mCamera);
-		mGameManager->StartScene(TRAIN_LEVEL);
+		/*mGameManager = new GameManager(*this, *mCamera);
+		mComponents.push_back(mGameManager);*/
 
-		
-		for(int i =0; i <  mGameManager->GetSizeOfCurrentScene(); i++)
-		{
-			mComponents.push_back(mGameManager->Scenes[mGameManager->currentScene]->GameObjects[i]);
-		}
+		mMLDemo = new MultipleLightsDemo(*this, *mCamera);
+		mComponents.push_back(mMLDemo);
 
 		mFpsComponent = new FpsComponent(*this); // Components using SpriteBach should perform Draw last
 		mComponents.push_back(mFpsComponent);
+		//mFpsComponent->SetAlwaysDrawn(true);
 
 		mRenderStateHelper = new RenderStateHelper(*this);
 
@@ -79,6 +91,12 @@ namespace Rendering
 		Game::Initialize();
 
 		mCamera->SetPosition(0.0f, 0.0f, 20.0f);
+
+		/*CollisionNode* additionalCheckNode = new CollisionNode({ -1000.f, -200.f, 0.f }, { 900.f, 190.f, 20.f });
+		newNode->AddDynamicCollider(mCollC);
+		newNode->AddStaticCollider(mCollTM);
+		additionalCheckNode->AddNewChild(newNode);
+		mNode.push_back(additionalCheckNode);*/
 	}
 
 	void RenderingGame::Shutdown()
@@ -91,6 +109,8 @@ namespace Rendering
 		DeleteObject(mSpriteBatch);
 		DeleteObject(mSpriteFont);
 		DeleteObject(mCamera);
+		DeleteObject(mRenderStateHelper);
+		DeleteObject(mMLDemo);
 
 		ReleaseObject(mDirectInput);
 
@@ -99,20 +119,26 @@ namespace Rendering
 
 	void RenderingGame::Update(const GameTime & gameTime)
 	{
+
 		if (mKeyboard->WasKeyPressedThisFrame(DIK_ESCAPE))
 		{
 			Exit();
 		}
 
-		/*if (mKeyboard->WasKeyPressedThisFrame(DIK_F))
-		{
-			mMDemo->SetVisible(!mMDemo->Visible());
-		}
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_1))
+			mGameManager->StartScene(MENU_LEVEL);
 
-		if (mKeyboard->WasKeyPressedThisFrame(DIK_G))
-		{
-			mMDemo->SetEnabled(!mMDemo->Enabled());
-		}*/
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_2))
+			mGameManager->StartScene(DAY_LEVEL);
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_3))
+			mGameManager->StartScene(TRAIN_LEVEL);
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_4))
+			mGameManager->StartScene(CITY_LEVEL);
+
+		if (mKeyboard->WasKeyPressedThisFrame(DIK_5))
+			mGameManager->StartScene(CREATION_KIT_LEVEL);
 
 		Game::Update(gameTime);
 	}
@@ -125,7 +151,7 @@ namespace Rendering
 			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 		Game::Draw(gameTime);
-
+		
 		mRenderStateHelper->SaveAll();
 		mSpriteBatch->Begin();
 

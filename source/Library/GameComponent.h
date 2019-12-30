@@ -23,6 +23,7 @@ namespace Library
 
 		virtual void Initialize();
 		virtual void Update(const GameTime& gameTime);
+		virtual std::vector<std::string> Serialize();
 
 	protected:
 		Game* mGame;

@@ -19,9 +19,6 @@
     <Filter Include="Assets\Source">
       <UniqueIdentifier>{e76d213d-9318-49ba-aad8-f88aa3750e34}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Header">
-      <UniqueIdentifier>{470fd8bd-5ef4-44fa-9edb-75acc387a429}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Abstract">
       <UniqueIdentifier>{199398f3-a67c-4e9a-b7e5-a43b81390572}</UniqueIdentifier>
     </Filter>
@@ -34,6 +31,15 @@
     <Filter Include="Scenes\Source">
       <UniqueIdentifier>{6c06956c-cc41-4ff8-800f-afca4f4a3d14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Header">
+      <UniqueIdentifier>{470fd8bd-5ef4-44fa-9edb-75acc387a429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Abstract\Source">
+      <UniqueIdentifier>{963d82e8-cebf-4aea-aeb4-9d008accf860}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Abstract\Header">
+      <UniqueIdentifier>{8c6a6254-9462-4baf-ac45-9a7f2245a9c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -44,15 +50,6 @@
     </ClCompile>
     <ClCompile Include="RenderingGame.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TexturedModelDemo.cpp">
-      <Filter>Assets\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="TexturedModelMaterialDemo.cpp">
-      <Filter>Assets\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="Earth.cpp">
-      <Filter>Assets\Source</Filter>
     </ClCompile>
     <ClCompile Include="PassengerTrain.cpp">
       <Filter>Assets\Source</Filter>
@@ -72,20 +69,74 @@
     <ClCompile Include="MenuLevel.cpp">
       <Filter>Scenes\Source</Filter>
     </ClCompile>
+    <ClCompile Include="GreenSoldier.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DayLevel.cpp">
+      <Filter>Scenes\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CityLevel.cpp">
+      <Filter>Scenes\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectPusher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bench.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CreationKitLevel.cpp">
+      <Filter>Scenes\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ConcreteWall.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="StoneGround.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GrassGround.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformGround1.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformGround2.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Policeman.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DoubleStreetLampPost.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DoubleStreetLampPostWithMegaphone.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleStreetLampPost.cpp">
+      <Filter>Assets\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Assets\Abstract\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="TexturedModelMaterialDemo.cpp">
+      <Filter>Assets\Abstract\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticGameObject.cpp">
+      <Filter>Assets\Abstract\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedGameObject.cpp">
+      <Filter>Assets\Abstract\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MultipleLightsDemo.cpp">
+      <Filter>Assets\Abstract\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinder_Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RenderingGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TexturedModelDemo.h">
-      <Filter>Assets\Abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="TexturedModelMaterialDemo.h">
-      <Filter>Assets\Abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="Earth.h">
-      <Filter>Assets\Header</Filter>
-    </ClInclude>
     <ClInclude Include="PassengerTrain.h">
       <Filter>Assets\Header</Filter>
     </ClInclude>
@@ -103,6 +154,78 @@
     </ClInclude>
     <ClInclude Include="MenuLevel.h">
       <Filter>Scenes\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenSoldier.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DayLevel.h">
+      <Filter>Scenes\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetList.h">
+      <Filter>Assets\Abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="CityLevel.h">
+      <Filter>Scenes\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectPusher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bench.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CreationKitLevel.h">
+      <Filter>Scenes\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcreteWall.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="StoneGround.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GrassGround.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformGround1.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformGround2.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Policeman.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DoubleStreetLampPost.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DoubleStreetLampPostWithMegaphone.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleStreetLampPost.h">
+      <Filter>Assets\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Assets\Abstract\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturedModelMaterialDemo.h">
+      <Filter>Assets\Abstract\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticGameObject.h">
+      <Filter>Assets\Abstract\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedGameObject.h">
+      <Filter>Assets\Abstract\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MultipleLightsDemo.h">
+      <Filter>Assets\Abstract\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinder_Test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

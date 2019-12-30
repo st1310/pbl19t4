@@ -40,6 +40,10 @@ namespace Rendering
 		ID3D11Buffer* mIndexBuffer;
 		UINT mIndexCount;
 
+		XMFLOAT3 mStartPosition;
+		XMFLOAT3 mStartRotation;
+		XMFLOAT3 mScale;
+
 		MouseComponent* mMouse;
 
 		XMFLOAT4X4 mWorldMatrix;

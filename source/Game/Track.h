@@ -1,19 +1,18 @@
 #pragma once
 
 #include "DrawableGameComponent.h"
-#include "TexturedModelDemo.h"
-
-using namespace Library;
-using namespace Rendering;
+#include "StaticGameObject.h"
 
 namespace Rendering
 {
 	class Track :
-		public TexturedModelDemo
+		public StaticGameObject
 	{
 	public:
-		Track(Game& game, Camera& camera, double x, double y);
+		Track(Game& game, Camera& camera,
+			XMFLOAT3 startPosition = XMFLOAT3(0, 0, 0),
+			XMFLOAT3 startRotation = XMFLOAT3(0, 0, 0),
+			XMFLOAT3 startScale = XMFLOAT3(1, 1, 1));
 		~Track();
 	};
 }
-

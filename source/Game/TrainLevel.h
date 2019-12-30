@@ -1,14 +1,6 @@
 #pragma once
 
-#include "DrawableGameComponent.h"
-#include "Scene.h"
-#include "Earth.h"
-#include "CargoTrain.h"
-#include "PassengerTrain.h"
-#include "Track.h"
-
-using namespace Library;
-
+#include "GameObjectPusher.h"
 
 namespace Rendering
 {
@@ -19,7 +11,7 @@ namespace Rendering
 		TrainLevel(Game& game, Camera& camera);
 		~TrainLevel();
 		
-		void Start(Game& game, Camera& camera);
+		virtual void Start(Game& game, Camera& camera) override;
 
 	private:
 		

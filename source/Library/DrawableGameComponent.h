@@ -1,6 +1,8 @@
 #pragma once
 
 #include "GameComponent.h"
+#include "CollisionNode.h"
+
 namespace Library
 {
 	class Camera;
@@ -22,8 +24,9 @@ namespace Library
 		void SetCamera(Camera* camera);
 
 		virtual void Draw(const GameTime& gameTime);
-
+		virtual CollisionNode* getNode();
 	protected:
+		CollisionNode* mNode;
 		bool mVisible;
 		Camera* mCamera;
 

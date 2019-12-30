@@ -4,12 +4,9 @@
 namespace Rendering
 {
 	TrainLevel::TrainLevel(Game& game, Camera& camera)
-		:Scene(TRAIN_LEVEL)
+		:Scene(game, camera, TRAIN_LEVEL, "Content\\Serializations\\train_level.data")
 	{
-		Size = 2;
-		Start(game, camera);
 	}
-
 
 	TrainLevel::~TrainLevel()
 	{
@@ -17,11 +14,14 @@ namespace Rendering
 
 	void TrainLevel::Start(Game& game, Camera& camera)
 	{
-		Earth* earth1 = new Earth(game, camera, 0, 0);
-		PassengerTrain* passegnerTrain1 = new PassengerTrain(game, camera, 0, 0);
-		this->GameObjects.push_back(earth1);
-		this->GameObjects.push_back(passegnerTrain1);		
+		Initialize();
+		GameObjectPusher pusher = GameObjectPusher();
+		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile());
+
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			this->GameObjects.push_back(gameObjects.at(i));
+			GameObjects.at(i)->Initialize();
+		}
 	}
 }
-
-

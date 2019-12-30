@@ -4,9 +4,10 @@ namespace Library
 {
 	RTTI_DEFINITIONS(DrawableGameComponent)
 
-	DrawableGameComponent::DrawableGameComponent()
-	: GameComponent(), mVisible(true), mCamera(nullptr)
-	{
+
+		DrawableGameComponent::DrawableGameComponent()
+		: GameComponent(), mVisible(true), mCamera(nullptr)
+	{	
 	}
 
 	DrawableGameComponent::DrawableGameComponent(Game& game)
@@ -28,6 +29,7 @@ namespace Library
 		return mVisible;
 	}
 
+
 	void DrawableGameComponent::SetVisible(bool visible)
 	{
 		mVisible = visible;
@@ -45,5 +47,10 @@ namespace Library
 
 	void DrawableGameComponent::Draw(const GameTime & gameTime)
 	{
+	}
+
+	CollisionNode* DrawableGameComponent::getNode()
+	{
+		return nullptr;
 	}
 }

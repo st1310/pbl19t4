@@ -2,16 +2,22 @@
 
 #include <Windows.h>
 #include <string>
+#include "RenderTarget.h"
+#include "Colliders.h"
 #include "Common.h"
 #include "GameClock.h"
 #include "GameTime.h"
 #include "GameComponent.h"
 #include "ServiceContainer.h"
+#include "CollisionNode.h"
 
 namespace Library
 {
-	class Game
+	class Game :
+		public RenderTarget
 	{
+		RTTI_DECLARATIONS(Game, RenderTarget)
+
 	public:
 		Game(HINSTANCE instance, const std::wstring& windowClass,
 			const std::wstring& windowTitle, int showCommand);
@@ -28,6 +34,8 @@ namespace Library
 		ID3D11Device1* Direct3DDevice() const;
 		ID3D11DeviceContext1* Direct3DDeviceContext() const;
 		bool DepthBufferEnabled() const;
+		ID3D11RenderTargetView* RenderTargetView() const;
+		ID3D11DepthStencilView* DepthStencilView() const;
 		float AspectRatio() const;
 		bool IsFullScreen() const;
 		const D3D11_TEXTURE2D_DESC& BackBufferDesc() const;
@@ -35,6 +43,11 @@ namespace Library
 
 		const std::vector<GameComponent*>& Components() const;
 		const ServiceContainer& Services() const;
+		const std::vector<CollisionNode*>& NodeList() const;
+
+		void SetNodesInFructum(std::vector<CollisionNode*> NodesInFructum);
+		const std::vector<CollisionNode*>& GetNodesInFructum() const;
+		void ChangeCameraMovementStatus(bool newStat);
 
 		virtual void Run();
 		virtual void Exit();
@@ -43,6 +56,8 @@ namespace Library
 		virtual void Draw(const GameTime& gameTime);
 
 	protected:
+		virtual void Begin() override;
+		virtual void End() override;
 		virtual void InitializeWindow();
 		virtual void InitializeDirectX();
 		virtual void Shutdown();
@@ -67,6 +82,8 @@ namespace Library
 		GameTime mGameTime;
 		std::vector<GameComponent*> mComponents;
 		ServiceContainer mServices;
+		std::vector<CollisionNode*> mNode;
+		std::vector<CollisionNode*> mNodesInFructum;
 
 		D3D_FEATURE_LEVEL mFeatureLevel;
 		ID3D11Device1* mDirect3DDevice;
@@ -85,6 +102,8 @@ namespace Library
 		ID3D11RenderTargetView* mRenderTargetView;
 		ID3D11DepthStencilView* mDepthStencilView;
 		D3D11_VIEWPORT mViewport;
+
+		bool cameraHasMoved;
 
 	private:
 		Game(const Game& rhs);

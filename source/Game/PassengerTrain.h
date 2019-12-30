@@ -1,20 +1,20 @@
 #pragma once
 
 #include "DrawableGameComponent.h"
-#include "TexturedModelDemo.h"
-
-using namespace Library;
-using namespace Rendering;
+#include "StaticGameObject.h"
 
 namespace Rendering
 {
 	class PassengerTrain :
-		public TexturedModelDemo
+		public StaticGameObject
 	{
 	public:
-		PassengerTrain(Game& game, Camera& camera, double x, double y);
+		PassengerTrain(Game& game, Camera& camera,
+			XMFLOAT3 startPosition = XMFLOAT3(0, 9.6, 0),
+			XMFLOAT3 startRotation = XMFLOAT3(180, -90, 0),
+			XMFLOAT3 startScale = XMFLOAT3(0.2, 0.2, 0.2));
 		~PassengerTrain();
+
+		virtual void Initialize() override;
 	};
 }
-
-

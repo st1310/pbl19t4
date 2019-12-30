@@ -17,7 +17,7 @@ namespace Library
 	{
 	}
 
-	Game * GameComponent::GetGame()
+	Game* GameComponent::GetGame()
 	{
 		return mGame;
 	}
@@ -43,6 +43,12 @@ namespace Library
 
 	void GameComponent::Update(const GameTime & gameTime)
 	{
+	}
+
+	std::vector<std::string> GameComponent::Serialize()
+	{
+		std::vector<std::string> result;
+		return result;
 	}
 
 }

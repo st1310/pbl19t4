@@ -2,6 +2,8 @@
 
 #include "Common.h"
 #include "Game.h"
+#include "Colliders.h"
+#include "RenderStateHelper.h"
 
 using namespace Library;
 
@@ -19,11 +21,19 @@ namespace Library
 	class FirstPersonCamera;
 	class RenderStateHelper;
 	class SkyboxComponent;
+	class Effect;
+	class FullScreenRenderTarget;
+	class FullScreenQuad;
+	class ColorFilterMaterial;
 }
 
 namespace Rendering
 {
 	class GameManager;
+	class TexturedModelDemo;
+	class TexturedModelMaterialDemo;
+	class AnimationDemo;
+	class MultipleLightsDemo;
 
 	class RenderingGame : public Game
 	{
@@ -41,6 +51,7 @@ namespace Rendering
 	private:
 		static const XMVECTORF32 BackgroundColor;
 
+		bool buttonClicked;
 		LPDIRECTINPUT8 mDirectInput;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
@@ -48,12 +59,16 @@ namespace Rendering
 		FpsComponent* mFpsComponent;
 		SkyboxComponent* mSkybox;
 
+		// TODO: Add to Services and change components to use this one
 		RenderStateHelper* mRenderStateHelper;
 
 		SpriteBatch* mSpriteBatch;
 		SpriteFont* mSpriteFont;
 		XMFLOAT2 mMouseTextPosition;
 
+		Colliders* mCollC;
+		Colliders* mCollTM;
+		MultipleLightsDemo* mMLDemo;
 		GameManager* mGameManager;
 	};
 }

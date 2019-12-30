@@ -9,6 +9,7 @@ namespace Library
 	public:
 		static std::string CurrentDirectory();
 		static std::wstring ExecutableDirectory();
+		static std::wstring LibraryDirectory();
 		static void GetFileName(const std::string& inputPath, std::string& filename);
 		static void GetDirectory(const std::string& inputPath, std::string& directory);
 		static void GetFileNameAndDirectory(const std::string& inputPath, std::string& directory, std::string& filename);

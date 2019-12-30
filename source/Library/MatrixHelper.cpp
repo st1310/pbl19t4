@@ -94,4 +94,9 @@ namespace Library
 
 		matrix.r[3] = XMLoadFloat4(&m4);
 	}
+
+	CXMMATRIX MatrixHelper::MatrixZero()
+	{
+		return XMMATRIX({ 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 });;
+	}
 }

@@ -2,18 +2,29 @@
 
 namespace Rendering
 {
-	CargoTrain::CargoTrain(Game& game, Camera& camera, double x, double y)
-		: TexturedModelDemo(game, camera,
-			"Content\\Models\\CargoTrain.obj",
-			L"Content\\Textures\\CargoTrain.jpg",
-			L"Content\\Effects\\TextureMapping.fx",
-			x,
-			y)
+	CargoTrain::CargoTrain(Game& game, Camera& camera,
+		XMFLOAT3 startPosition,
+		XMFLOAT3 startRotation,
+		XMFLOAT3 startScale)
+		: StaticGameObject(game, camera, 
+			"CargoTrain",
+			"Content\\Models\\CargoTrain.fbx",
+			L"Content\\Effects\\TextureMapping.cso",
+			"Content\\Textures\\CargoTrainDiffuseMap.jpg",
+			startPosition,
+			startRotation,
+			startScale, true)
 	{
 	}
 
 
 	CargoTrain::~CargoTrain()
 	{
+	}
+
+	void CargoTrain::Initialize()
+	{
+		StaticGameObject::Initialize();
+		StaticGameObject::BuildBoundingBox(XMFLOAT3(110.5f, 10.5f, 12.5f));
 	}
 }

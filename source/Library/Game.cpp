@@ -1,24 +1,27 @@
 #include "Game.h"
 #include "DrawableGameComponent.h"
 #include "GameException.h"
+#include "NodeList.h"
 
 namespace Library
 {
+	RTTI_DEFINITIONS(Game)
+
 	const UINT Game::DefaultScreenWidth = 1024;
 	const UINT Game::DefaultScreenHeight = 768;
 	const UINT Game::DefaultFrameRate = 60;
 	const UINT Game::DefaultMultiSamplingCount = 4;
 
 	Game::Game(HINSTANCE instance, const std::wstring& windowClass, const std::wstring& windowTitle, int showCommand)
-		: mInstance(instance), mWindowClass(windowClass), mWindowTitle(windowTitle), mShowCommand(showCommand),
+		: RenderTarget(), mInstance(instance), mWindowClass(windowClass), mWindowTitle(windowTitle), mShowCommand(showCommand),
 		mWindowHandle(), mWindow(),
 		mScreenWidth(DefaultScreenWidth), mScreenHeight(DefaultScreenHeight),
 		mGameClock(), mGameTime(),
-		mFeatureLevel(D3D_FEATURE_LEVEL_9_1), mDirect3DDevice(nullptr), mDirect3DDeviceContext(nullptr),
+		mFeatureLevel(D3D_FEATURE_LEVEL_9_1), mDirect3DDevice(nullptr), mDirect3DDeviceContext(nullptr), mSwapChain(nullptr),
 		mFrameRate(DefaultFrameRate), mIsFullScreen(false),
-		mDepthStencilBufferEnabled(false), mMultiSamplingEnabled(false), mMultiSamplingCount(DefaultMultiSamplingCount),
+		mDepthStencilBufferEnabled(false), mMultiSamplingEnabled(false), mMultiSamplingCount(DefaultMultiSamplingCount), mMultiSamplingQualityLevels(0),
 		mDepthStencilBuffer(nullptr), mRenderTargetView(nullptr), mDepthStencilView(nullptr), mViewport(),
-		mComponents(), mServices()
+		mComponents(), mServices(), mNode(), mNodesInFructum()
 	{
 	}
 
@@ -73,7 +76,17 @@ namespace Library
 
 	bool Game::DepthBufferEnabled() const
 	{
-		return mDepthStencilBufferEnabled; //
+		return mDepthStencilBufferEnabled; 
+	}
+
+	ID3D11RenderTargetView* Game::RenderTargetView() const
+	{
+		return mRenderTargetView;
+	}
+
+	ID3D11DepthStencilView* Game::DepthStencilView() const
+	{
+		return mDepthStencilView;
 	}
 
 	float Game::AspectRatio() const
@@ -104,6 +117,21 @@ namespace Library
 	const ServiceContainer& Game::Services() const
 	{
 		return mServices;
+	}
+
+	const std::vector<CollisionNode*>& Game::NodeList() const
+	{
+		return mNode;
+	}
+
+	void Game::SetNodesInFructum(std::vector<CollisionNode*> NodesInFructum)
+	{
+		mNodesInFructum = NodesInFructum;
+	}
+
+	const std::vector<CollisionNode*>& Game::GetNodesInFructum() const
+	{
+		return mNodesInFructum;
 	}
 
 	void Game::Run()
@@ -165,10 +193,23 @@ namespace Library
 		{
 			DrawableGameComponent* drawableGameComponent = component->As<DrawableGameComponent>();
 			if (drawableGameComponent != nullptr && drawableGameComponent->Visible())
-			{
-				drawableGameComponent->Draw(gameTime);
+			{		
+				//if(drawableGameComponent->getNode() == nullptr)
+				//	drawableGameComponent->Draw(gameTime);
+				//else if(NodeList::IsNodeInsideList(drawableGameComponent->getNode(), mNodesInFructum))
+					drawableGameComponent->Draw(gameTime);
 			}
 		}
+	}
+
+	void Game::Begin()
+	{
+		RenderTarget::Begin(mDirect3DDeviceContext, 1, &mRenderTargetView, mDepthStencilView, mViewport);
+	}
+
+	void Game::End()
+	{
+		RenderTarget::End(mDirect3DDeviceContext);
 	}
 
 	void Game::InitializeWindow()
@@ -200,7 +241,7 @@ namespace Library
 		HRESULT hr;
 		UINT createDeviceFlags = 0;
 
-#if defined(DEBUG) || (_DEBUG)
+#if defined(DEBUG) || defined(_DEBUG)
 		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
@@ -360,9 +401,6 @@ namespace Library
 			}
 		}
 
-		// Step 6: Bind the render target and depth-stencil views to OM stage
-		mDirect3DDeviceContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
-
 		mViewport.TopLeftX = 0.0f;
 		mViewport.TopLeftY = 0.0f;
 		mViewport.Width = static_cast<float>(mScreenWidth);
@@ -370,8 +408,8 @@ namespace Library
 		mViewport.MinDepth = 0.0f;
 		mViewport.MaxDepth = 1.0f;
 
-		// Step 7: Set the viewoprt
-		mDirect3DDeviceContext->RSSetViewports(1, &mViewport);
+		// Step 6: Set render targets and viewport through render target stack	
+		Begin();
 	}
 
 	void Game::Shutdown()
@@ -387,6 +425,22 @@ namespace Library
 		}
 
 		ReleaseObject(mDirect3DDeviceContext);
+
+#if defined(DEBUG) || defined(_DEBUG)
+		ID3D11Debug* mD3DDebug = nullptr;
+		HRESULT hr = this->Direct3DDevice()->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&mD3DDebug));
+		if (FAILED(hr))
+		{
+			throw GameException("Failed to create ID3D11Debug");
+		}
+
+		hr = mD3DDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+		if (FAILED(hr))
+		{
+			throw GameException("Failed to ReportLiveDeviceObjects");
+		}
+#endif // defined(DEBUG) || defined(_DEBUG)
+
 		ReleaseObject(mDirect3DDevice);
 
 		UnregisterClass(mWindowClass.c_str(), mWindow.hInstance);
@@ -414,5 +468,10 @@ namespace Library
 		center.y = (screenHeight - windowHeight) / 2;
 
 		return center;
+	}
+
+	void Game::ChangeCameraMovementStatus(bool newStat)
+	{
+		cameraHasMoved = newStat;
 	}
 }

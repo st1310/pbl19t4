@@ -1,12 +1,11 @@
 #include "MenuLevel.h"
+#include "TexturedModelMaterialDemo.h"
 
 namespace Rendering
 {
 	MenuLevel::MenuLevel(Game& game, Camera& camera)
-		:Scene(MENU_LEVEL)
+		:Scene(game, camera, MENU_LEVEL, "Content\\Serializations\\menu_level.data")
 	{
-		Size = 1;
-		Start(game, camera);
 	}
 
 
@@ -16,9 +15,14 @@ namespace Rendering
 
 	void MenuLevel::Start(Game& game, Camera& camera)
 	{
-		Earth* earth1 = new Earth(game, camera, 0, 0);
-		this->GameObjects.push_back(earth1);
+		Initialize();
+		GameObjectPusher pusher = GameObjectPusher();
+		std::vector<GameComponent*> gameObjects = pusher.CreateAssets(game, camera, LoadFromFile());
 
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			this->GameObjects.push_back(gameObjects.at(i));
+			GameObjects.at(i)->Initialize();
+		}
 	}
 }
-

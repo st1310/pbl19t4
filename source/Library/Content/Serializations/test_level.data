@@ -1,0 +1,68 @@
+<GrassGround>
+   <Position>
+      <x= 47.00/>
+      <y= 4.50/>
+      <z= 0.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</GrassGround>
+<GrassGround>
+   <Position>
+      <x= 95.88/>
+      <y= 4.50/>
+      <z= 0.00/>
+   </Position>
+   <Rotation>
+      <x= -90.00/>
+      <y= 0.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.50/>
+      <z= 0.50/>
+   </Scale>
+</GrassGround>
+<ConcreteWall>
+   <Position>
+      <x= 24.00/>
+      <y= 8.50/>
+      <z= 1.00/>
+   </Position>
+   <Rotation>
+      <x= 90.00/>
+      <y= 87.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.25/>
+      <z= 0.30/>
+   </Scale>
+</ConcreteWall>
+<ConcreteWall>
+   <Position>
+      <x= 64.00/>
+      <y= 8.50/>
+      <z= 0.00/>
+   </Position>
+   <Rotation>
+      <x= 90.00/>
+      <y= 65.00/>
+      <z= 0.00/>
+   </Rotation>
+   <Scale>
+      <x= 0.50/>
+      <y= 0.25/>
+      <z= 0.30/>
+   </Scale>
+</ConcreteWall>

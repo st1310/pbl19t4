@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Camera.h"
+#include "Colliders.h"
+#include "CollisionNode.h"
 
 namespace Library
 {
@@ -24,6 +26,13 @@ namespace Library
 		const MouseComponent& GetMouse() const;
 		void SetMouse(MouseComponent& mouse);
 
+		
+		void SetFrustrum(BoundingFrustum* collider);
+		BoundingFrustum* GetFrustrum();
+		void SetCollisionNode(CollisionNode* node);
+
+		void SendColliderList(std::vector<CollisionNode*> newNodeList);
+
 		float& MouseSensitivity();
 		float& RotationRate();
 		float& MovementRate();
@@ -40,10 +49,12 @@ namespace Library
 		float mRotationRate;
 		float mMovementRate;
 
+		CollisionNode* mNode;
 		KeyboardComponent* mKeyboard;
 		MouseComponent* mMouse;
 
 	private:
+		bool firstTime;
 		FirstPersonCamera(const FirstPersonCamera& rhs);
 		FirstPersonCamera& operator=(const FirstPersonCamera& rhs);
 	};

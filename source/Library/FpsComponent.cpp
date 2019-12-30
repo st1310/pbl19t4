@@ -21,6 +21,7 @@ namespace Library
 	{
 		DeleteObject(mSpriteFont);
 		DeleteObject(mSpriteBatch);
+		DeleteObject(mRenderStateHelper);
 	}
 
 	XMFLOAT2 & FpsComponent::TextPosition()
